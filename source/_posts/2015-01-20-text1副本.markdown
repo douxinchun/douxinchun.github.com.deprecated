@@ -1,7 +1,0 @@
----
-layout: post
-title: "text2"
-date: 2015-01-20 17:27:22 +0800
-comments: true
-categories: categories2
----
