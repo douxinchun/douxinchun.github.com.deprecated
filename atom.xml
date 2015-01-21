@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[冷雨之家]]></title>
+  <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
+  <link href="http://douxinchun.github.io/"/>
+  <updated>2015-01-21T15:29:17+08:00</updated>
+  <id>http://douxinchun.github.io/</id>
+  <author>
+    <name><![CDATA[NewSpring]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[post2]]></title>
+    <link href="http://douxinchun.github.io/blog/20150121/post2.html"/>
+    <updated>2015-01-21T15:14:19+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150121/post2</id>
+    <content type="html"><![CDATA[<p>asdfasdfsa</p>
+
+<p>asdfas
+df
+as
+dfa
+sdf
+as
+df
+asdf
+as</p>
+
+<!--more-->
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[text3]]></title>
+    <link href="http://douxinchun.github.io/blog/20150120/text1%E5%89%AF%E6%9C%AC%202.html"/>
+    <updated>2015-01-20T17:27:22+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150120/text1副本 2</id>
+    <content type="html"><![CDATA[<p>前言
+距离上一篇博文发布已经有一个月多的时间了，在这其间我一直忙于筹办婚礼以至于这篇博文一直拖到了现在。
+在之前一到六篇中我对iOS下的音频播放流程进行了阐述，在第七篇中介绍了如何播放iPod Lib中的歌曲，至此有关音频播放的话题就已经完结了，在这篇里我将会讲到的NowPlayingCenter和RemoteControl这两个玩意本身和整个播放流程并没有什么关系，但它们可以让音频播放在iOS系统上获得更加好的用户体验。</p>
+
+<!--more-->
+
+
+<p>NowPlayingCenter
+NowPlayingCenter能够显示当前正在播放的歌曲信息，它可以控制的范围包括：</p>
+]]></content>
+  </entry>
+  
+</feed>
