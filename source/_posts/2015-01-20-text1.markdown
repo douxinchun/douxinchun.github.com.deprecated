@@ -1,0 +1,36 @@
+---
+layout: post
+title: "text1"
+date: 2015-01-20 17:27:22 +0800
+comments: true
+categories: categories1
+---
+
+
+                    done.
+ Auto-regeneration: enabled for 'source'
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET / HTTP/1.1" 200 4672 0.0868
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /stylesheets/screen.css HTTP/1.1" 200 33643 0.0073
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /javascripts/md5.js HTTP/1.1" 200 3881 0.0006
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /javascripts/slash.js HTTP/1.1" 200 1786 0.0005
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /javascripts/jquery.fancybox.pack.js HTTP/1.1" 200 17638 0.0007
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /images/social/rss.png?1421743581 HTTP/1.1" 200 1250 0.0007
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /font/fontawesome-webfont.woff HTTP/1.1" 200 23416 0.0021
+                    done.
+ Auto-regeneration: enabled for 'source'
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET / HTTP/1.1" 200 4672 0.0868
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /stylesheets/screen.css HTTP/1.1" 200 33643 0.0073
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /javascripts/md5.js HTTP/1.1" 200 3881 0.0006
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /javascripts/slash.js HTTP/1.1" 200 1786 0.0005
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /javascripts/jquery.fancybox.pack.js HTTP/1.1" 200 17638 0.0007
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /images/social/rss.png?1421743581 HTTP/1.1" 200 1250 0.0007
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /font/fontawesome-webfont.woff HTTP/1.1" 200 23416 0.0021
+                    done.
+ Auto-regeneration: enabled for 'source'
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET / HTTP/1.1" 200 4672 0.0868
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /stylesheets/screen.css HTTP/1.1" 200 33643 0.0073
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /javascripts/md5.js HTTP/1.1" 200 3881 0.0006
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /javascripts/slash.js HTTP/1.1" 200 1786 0.0005
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /javascripts/jquery.fancybox.pack.js HTTP/1.1" 200 17638 0.0007
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /images/social/rss.png?1421743581 HTTP/1.1" 200 1250 0.0007
+::1 - - [20/Jan/2015:17:50:33 +0800] "GET /font/fontawesome-webfont.woff HTTP/1.1" 200 23416 0.0021
