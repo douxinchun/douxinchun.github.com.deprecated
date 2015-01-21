@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-01-21T14:52:13+08:00</updated>
+  <updated>2015-01-21T14:55:27+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -27,15 +27,6 @@
 
 <p>NowPlayingCenter
 NowPlayingCenter能够显示当前正在播放的歌曲信息，它可以控制的范围包括：</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Text1\345\211\257\346\234\254]]></title>
-    <link href="http://douxinchun.github.io/blog/20150120/text1%5C345%5C211%5C257%5C346%5C234%5C254.html"/>
-    <updated>2015-01-20T00:00:00+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150120/text1\345\211\257\346\234\254</id>
-    <content type="html"><![CDATA[<p>2015-01-20-text1\345\211\257\346\234\254.markdown</p>
 ]]></content>
   </entry>
   
