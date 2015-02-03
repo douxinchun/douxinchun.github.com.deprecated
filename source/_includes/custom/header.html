@@ -1,1 +1,6 @@
-<h3>{{ site.subtitle }}</h3>
+<hgroup>
+  <h1><a href="{{ root_url }}/">{{ site.title }}</a></h1>
+  {% if site.subtitle %}
+    <h2>{{ site.description }}</h2>
+  {% endif %}
+</hgroup>
