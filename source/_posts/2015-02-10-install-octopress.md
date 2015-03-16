@@ -7,7 +7,7 @@ categories: octopress
 
 ---
 
-#前言
+##前言
 GitHub果真是一个神奇的地方.以前在使用[Baidu](http://hi.baidu.com/douxinchun)空间和[CSDN](http://blog.csdn.net/douxinchun)来写博客的时候,就听前辈们说过GitHub可以写博客.经过一番Google后终于弄明白了原理.  
 首先是github中有一个功能叫做[Pages](https://pages.github.com/),这个功能具体的作用不详,但是其中的一项是能够把你上传的html文件显示为一个网页.其次是有好事者(别的博主都这么称呼)做了一个基于github的管理工具:[Octopress](http://octopress.org/)).然后,我们就可以使用Octopress这个开源的框架加上Github Pages服务来搭建自己的Blog.  
 到这里可能你会觉得非常兴奋,恨不得立马就要下手开搞.引用一句Octopress官方网站的标题:  
@@ -16,7 +16,7 @@ GitHub果真是一个神奇的地方.以前在使用[Baidu](http://hi.baidu.com/
 
 所以,如果没有一定的Git命令基础,html知识和Linux命令行知识的话,最好不要轻易的下决定.  
 另外,Octopress框架下的Blog系统,需要使用[Markdown](http://zh.wikipedia.org/zh/Markdown)语言来写博客,如果之前没有使用过的话,需要简单的学习一下,废话少说,开始介绍我的搭建之旅.
-# 搭建Octopress
+## 搭建Octopress
 <!--more-->
 ---
 我是在iMac上面成功搭建的Octopress,具体的环境如下:
@@ -39,11 +39,11 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 git呢我们的mac默认安装,[GitHub](https://github.com/)账号注册部分,直接跳过.
 
 
-## 安装低版本的Ruby
+### 安装低版本的Ruby
 
-### 1.通过Ruby安装Ruby1.9.3p125
+#### 1.通过Ruby安装Ruby1.9.3p125
 
-#### 安装Homeview
+##### 安装Homeview
 这里我使用[Homebrew](http://brew.sh/)来安装rbenv，如果你没有Homebrew，打开终端，使用以下命令安装吧。
 
 ```
@@ -58,7 +58,7 @@ $ brew install rbenv
 $ brew install ruby-build
 ```
 
-#### 安装Ruby
+##### 安装Ruby
 使用rbenv安装1.9.3p125版本的ruby
 
 ```
@@ -69,10 +69,10 @@ $ ruby --version #ruby 1.9.3p125 (2012-02-16 revision 34643) [x86_64-darwin13.4.
 ```
 
 安装完成后可以用ruby --version进行验证
-### 2.通过Rvm安装Ruby1.9.3p125
+#### 2.通过Rvm安装Ruby1.9.3p125
 
 rvm 全称Ruby Version Manager, 是一个非常好用的ruby版本管理以及安装工具.
-#### 安装rvm
+##### 安装rvm
 ```
 $ curl -L get.rvm.io | bash -s stable
 $ source ~/.bashrc
@@ -83,7 +83,7 @@ $ source ~/.bash_profile
 ```
 $ sed -i -e 's/ftp\.ruby-lang\.org\/pub\/ruby/ruby\.taobao\.org\/mirrors\/ruby/g' ~/.rvm/config/db
 ```
-#### Ruby的安装与切换
+##### Ruby的安装与切换
 
  * 列出已知的ruby版本
  
@@ -116,25 +116,25 @@ $ sed -i -e 's/ftp\.ruby-lang\.org\/pub\/ruby/ruby\.taobao\.org\/mirrors\/ruby/g
     $ rvm remove 1.9.3p125
  ```
 
-## 安装Octopress
+### 安装Octopress
 安装Ruby完成后就按照官方指南安装Octpress
 
 ```
-# clone octopress
+## clone octopress
 $ git clone git://github.com/imathis/octopress.git octopress
 $ cd octopress
 
-# 安装依赖
+## 安装依赖
 $ gem install bundler
 $ rbenv rehash
 $ bundle install
 
-# 安装octopress默认主题
+## 安装octopress默认主题
 $ rake install
 ```
 ---------
 
-# 部署
+## 部署
 接下来需要把Blog部署到github上去，第一步要做的是去[github](https://github.com/new)创建一个`username.github.com`的repo，比如我的就叫[`douxinchun.github.com`](http://douxinchun.github.io/)。
 
 然后运行以下命令，并依照提示建立github和Octopress的关联
@@ -144,9 +144,9 @@ $ rake setup_github_pages
 ```
 ---------
 
-# 创建博客
+## 创建博客
 
-### 生成博客
+#### 生成博客
 ```
 $ rake generate
 $ rake deploy
@@ -162,7 +162,7 @@ $ git push origin source
 完成后等待一段时间后就能访问`http://username.github.com`看到自己的博客了
 
 
-### 简单的修改配置
+#### 简单的修改配置
 配置文件路径为`~/octopress/_config.yml`
 
 ```
@@ -192,7 +192,7 @@ $ git commit -m "simple settings"
 $ git push origin source
 ```
 
-### 支持中文标签
+#### 支持中文标签
 目前版本的Octopress会在`/source/blog/categories`下创建一个`index.markdown`来作为分类的首页，但这个首页在标签有中文时会出现无法跳转的情况，原因是因为在出现中文标签时Octopress会把文件的路径中的中文转换成拼音，而在Category跳转时是直接写了中文路径，结果自然是404。解决方法是自己实现一个分类首页并处理中文。
 
 首先按照[这里](https://kaworu.ch/blog/2013/09/23/categories-page-with-octopress/)的方法实现`index.html`,给Blog添加分类
@@ -212,23 +212,23 @@ category_url = File.join(category_dir, category.to_url.downcase)
 
 ---------
 
-# 写博客
+## 写博客
 
 经过上面几部后，博客已经成功搭建，现在就可以开始写博文了。
 
-###创建博文
+####创建博文
 ```
-# 使用终端
+## 使用终端
 $ rake new_post['title']
 
 ```
 生成的文件在`~/source/_posts`目录下
 
 
-### 编辑博文
+#### 编辑博文
 
 ```
-# ...markdown写博文
+## ...markdown写博文
 
 $ rake preview #localhost:4000
 
@@ -242,7 +242,7 @@ $ rake deploy
 ```
 
 ---------
-# 参考资料
+## 参考资料
 
 * http://octopress.org/ &nbsp;&nbsp;&nbsp;&nbsp;Octopress作者站点
 * http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/  &nbsp;&nbsp;&nbsp;&nbsp;唐巧的Blog中搭建Octopress的部分  
