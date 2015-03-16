@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-02-10T20:29:17+08:00</updated>
+  <updated>2015-03-16T15:30:45+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -20,22 +20,22 @@
     <id>http://douxinchun.github.io/blog/20150210/install-octopress</id>
     <content type="html"><![CDATA[<h1>前言</h1>
 
-<p>github果真是一个神奇的地方.以前在使用Baidu空间和CSDN来写博客的时候,就听前辈们说过GitHub可以写博客.经过一番Google后终于弄明白了原理.
-首先是github中有一个功能叫做<a href="https://pages.github.com/">Pages</a>,这个功能具体的作用不详,但是其中的一项是能够把你上传的html文件显示为一个网页.其次是有好事者(别的博主都这么称呼)做了一个基于github的管理工具:<a href="http://octopress.org/">Octopress</a>).然后,我们就可以使用Octopress这个开源的框架加上Github Pages服务来搭建自己的Blog.</p>
+<p>GitHub果真是一个神奇的地方.以前在使用<a href="http://hi.baidu.com/douxinchun">Baidu</a>空间和<a href="http://blog.csdn.net/douxinchun">CSDN</a>来写博客的时候,就听前辈们说过GitHub可以写博客.经过一番Google后终于弄明白了原理.<br/>
+首先是github中有一个功能叫做<a href="https://pages.github.com/">Pages</a>,这个功能具体的作用不详,但是其中的一项是能够把你上传的html文件显示为一个网页.其次是有好事者(别的博主都这么称呼)做了一个基于github的管理工具:<a href="http://octopress.org/">Octopress</a>).然后,我们就可以使用Octopress这个开源的框架加上Github Pages服务来搭建自己的Blog.<br/>
+到这里可能你会觉得非常兴奋,恨不得立马就要下手开搞.引用一句Octopress官方网站的标题:</p>
 
-<p>到这里可能你会觉得非常兴奋,恨不得立马就要下手开搞.引用一句Octopress官方网站的原文:<br/>
-Octopress<br/>
-A blogging framework for hackers.<br/>
-所以,如果没有一定的GitHub基础,html知识和Linux命令行知识的话,最好不要轻易的下决定.</p>
+<blockquote><p>Octopress<br/>
+A blogging framework for hackers.</p></blockquote>
 
-<p>另外,Octopress框架下的Blog系统,需要使用<a href="http://zh.wikipedia.org/zh/Markdown">Markdown</a>语言来写博客,如果之前没有使用过的话,需要简单的学习一下,废话少说,开始介绍我的搭建之旅.</p>
+<p>所以,如果没有一定的Git命令基础,html知识和Linux命令行知识的话,最好不要轻易的下决定.<br/>
+另外,Octopress框架下的Blog系统,需要使用<a href="http://zh.wikipedia.org/zh/Markdown">Markdown</a>语言来写博客,如果之前没有使用过的话,需要简单的学习一下,废话少说,开始介绍我的搭建之旅.</p>
+
+<h1>搭建Octopress</h1>
 
 <!--more-->
 
 
 <hr />
-
-<h1>搭建Octopress</h1>
 
 <p>我是在iMac上面成功搭建的Octopress,具体的环境如下:</p>
 
@@ -46,16 +46,20 @@ A blogging framework for hackers.<br/>
 
 <p>安装Octopress基本上要按照以下几个步骤:</p>
 
-<p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1. 注册GitHub账号<br/>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2. 安装Ruby1.9.3p125<br/>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3. 安装Octopress<br/>
- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4. 部署到GitHub上</p>
+<pre><code>    1. 注册GitHub账号  
+    2. 安装Ruby1.9.3p125  
+    3. 安装Octopress     
+    4. 部署到GitHub上  
+</code></pre>
 
-<p><a href="http://octopress.org/docs/setup/">这里</a>是Octopress的官方指南，各位可以按照其中的步骤进行安装.需要注意一点,官方的教程中的第2步:Install Ruby 1.9.3 or greater using either rbenv or RVM.提到可以使用更高的Ruby版本,这一点,我在2.0.0下做过验证,没有成功,强烈建议使用版本1.9.3p125或者1.9.3</p>
+<p><a href="http://octopress.org/docs/setup/">这里</a>是Octopress的官方安装指南，各位可以按照其中的步骤进行安装.需要注意一点,官方的教程中的第2步:</p>
 
-<p>Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中使用的是RVM,这里同时给出两种方式来安装Ruby1.9.3</p>
+<blockquote><p>2.Install Ruby 1.9.3 or greater using either <a href="http://octopress.org/docs/setup/rbenv/">rbenv</a> or <a href="http://octopress.org/docs/setup/rvm/">RVM</a>.</p></blockquote>
 
-<p>git呢我们的mac默认安装,<a href="https://github.com/">GitHub</a>账号注册,直接跳过.</p>
+<p>提到可以使用更高版本的Ruby,这一点,我在2.0.0下做过验证,没有成功,强烈建议使用版本1.9.3p125或者1.9.3
+Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中使用的是RVM,这里同时给出两种方式来安装Ruby1.9.3</p>
+
+<p>git呢我们的mac默认安装,<a href="https://github.com/">GitHub</a>账号注册部分,直接跳过.</p>
 
 <h2>安装低版本的Ruby</h2>
 
@@ -180,16 +184,16 @@ A blogging framework for hackers.<br/>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#clone octopress
+</pre></td><td class='code'><pre><code class=''><span class='line'># clone octopress
 </span><span class='line'>$ git clone git://github.com/imathis/octopress.git octopress
 </span><span class='line'>$ cd octopress
 </span><span class='line'>
-</span><span class='line'>#安装依赖
+</span><span class='line'># 安装依赖
 </span><span class='line'>$ gem install bundler
 </span><span class='line'>$ rbenv rehash
 </span><span class='line'>$ bundle install
 </span><span class='line'>
-</span><span class='line'>#安装octopress默认主题
+</span><span class='line'># 安装octopress默认主题
 </span><span class='line'>$ rake install</span></code></pre></td></tr></table></div></figure>
 
 
@@ -197,7 +201,7 @@ A blogging framework for hackers.<br/>
 
 <h1>部署</h1>
 
-<p>接下来需要把Blog部署到github上去，第一步要做的是去<a href="https://github.com/new">github</a>创建一个<code>username.github.com</code>的repo，比如我的就叫<code>douxinchun.github.com</code>。</p>
+<p>接下来需要把Blog部署到github上去，第一步要做的是去<a href="https://github.com/new">github</a>创建一个<code>username.github.com</code>的repo，比如我的就叫<a href="http://douxinchun.github.io/"><code>douxinchun.github.com</code></a>。</p>
 
 <p>然后运行以下命令，并依照提示建立github和Octopress的关联</p>
 
@@ -217,7 +221,7 @@ A blogging framework for hackers.<br/>
 </span><span class='line'>$ rake deploy</span></code></pre></td></tr></table></div></figure>
 
 
-<p>把生成后的代码上传到github</p>
+<p>把修改完的代码上传到github,repo:douxinchun.github.com下的source分支下</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -305,7 +309,7 @@ A blogging framework for hackers.<br/>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#使用终端
+</pre></td><td class='code'><pre><code class=''><span class='line'># 使用终端
 </span><span class='line'>$ rake new_post['title']
 </span></code></pre></td></tr></table></div></figure>
 
@@ -325,7 +329,7 @@ A blogging framework for hackers.<br/>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#...markdown写博文
+</pre></td><td class='code'><pre><code class=''><span class='line'># ...markdown写博文
 </span><span class='line'>
 </span><span class='line'>$ rake preview #localhost:4000
 </span><span class='line'>
@@ -335,7 +339,7 @@ A blogging framework for hackers.<br/>
 </span><span class='line'>$ git commit -m "comment" 
 </span><span class='line'>$ git push origin source
 </span><span class='line'>
-</span><span class='line'>$ rake deploy</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>$ rake deploy  </span></code></pre></td></tr></table></div></figure>
 
 
 <hr />
@@ -343,8 +347,36 @@ A blogging framework for hackers.<br/>
 <h1>参考资料</h1>
 
 <ul>
-<li><a href="http://octopress.org/">http://octopress.org/</a></li>
-<li><a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/</a></li>
+<li><a href="http://octopress.org/">http://octopress.org/</a> &nbsp;&nbsp;&nbsp;&nbsp;Octopress作者站点</li>
+<li><a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/</a>  &nbsp;&nbsp;&nbsp;&nbsp;唐巧的Blog中搭建Octopress的部分</li>
+</ul>
+
+
+<p>其他的博主搭建Octopress的Blog:</p>
+
+<ul>
+<li><a href="http://msching.github.io/blog/2014/04/11/starting/">http://msching.github.io/blog/2014/04/11/starting/</a>  &nbsp;&nbsp;&nbsp;&nbsp;基于Github和Octopress搭建属于自己的博客 - 码农人生</li>
+<li><a href="http://biaobiaoqi.me/blog/2013/03/21/building-octopress-in-github-mac/">http://biaobiaoqi.me/blog/2013/03/21/building-octopress-in-github-mac/</a>  &nbsp;&nbsp;&nbsp;&nbsp; 安装Octopress的记录 - Peter潘 - 博客园</li>
+</ul>
+
+
+<p>安装ruby1.9.3-p125时google的一些站点,如果你在安装Ruby 1.9.3的时候遇到问题,不妨浏览一下下面的网址,看能不能找到解决方案:</p>
+
+<ul>
+<li><a href="http://stackoverflow.com/questions/26208230/rvm-install-1-9-3-on-os-x-10-9-5-failing?answertab=active#tab-top">http://stackoverflow.com/questions/26208230/rvm-install-1-9-3-on-os-x-10-9-5-failing?answertab=active#tab-top</a></li>
+<li><a href="https://github.com/wayneeseguin/rvm/issues/1975">https://github.com/wayneeseguin/rvm/issues/1975</a></li>
+<li><a href="http://stackoverflow.com/questions/24502284/error-installing-ruby-1-9-3-p547-with-rvm-on-osx-10-9-3">http://stackoverflow.com/questions/24502284/error-installing-ruby-1-9-3-p547-with-rvm-on-osx-10-9-3</a></li>
+<li><a href="https://www.ruby-lang.org/zh_tw/downloads/#third-party-tools">https://www.ruby-lang.org/zh_tw/downloads/#third-party-tools</a></li>
+<li><a href="https://github.com/wayneeseguin/rvm/issues/2837">https://github.com/wayneeseguin/rvm/issues/2837</a></li>
+<li><a href="http://stackoverflow.com/questions/15587298/cant-install-ruby-1-9-3-via-rvm-in-os-x-lion-even-with-with-gcc-clang">http://stackoverflow.com/questions/15587298/cant-install-ruby-1-9-3-via-rvm-in-os-x-lion-even-with-with-gcc-clang</a></li>
+<li><a href="http://stackoverflow.com/questions/21068346/issue-with-rubygems-rb-when-installing-rails">http://stackoverflow.com/questions/21068346/issue-with-rubygems-rb-when-installing-rails</a></li>
+<li><a href="http://stackoverflow.com/questions/14592945/cannot-compile-ruby-1-9-3">http://stackoverflow.com/questions/14592945/cannot-compile-ruby-1-9-3</a></li>
+<li><a href="http://stackoverflow.com/questions/15643486/cant-install-ruby-2-0-0-p0-with-rvm-error-running-make-j8/15655034#15655034">http://stackoverflow.com/questions/15643486/cant-install-ruby-2-0-0-p0-with-rvm-error-running-make-j8/15655034#15655034</a></li>
+<li><a href="http://stackoverflow.com/questions/14072524/error-installing-ruby-with-rvm-osx-10-8">http://stackoverflow.com/questions/14072524/error-installing-ruby-with-rvm-osx-10-8</a></li>
+<li><a href="https://ruby-china.org/wiki/install_ruby_guide">https://ruby-china.org/wiki/install_ruby_guide</a></li>
+<li><a href="http://blog.fengqijun.me/blog/2013/08/29/move-from-rvm-to-rbenv/">http://blog.fengqijun.me/blog/2013/08/29/move-from-rvm-to-rbenv/</a></li>
+<li><a href="http://about.ac/2012/04/install-ruby-with-rbenv.html">http://about.ac/2012/04/install-ruby-with-rbenv.html</a></li>
+<li><a href="https://ruby-china.org/wiki/rvm-guide">https://ruby-china.org/wiki/rvm-guide</a></li>
 </ul>
 
 ]]></content>
