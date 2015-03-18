@@ -3,6 +3,7 @@
   <url>
     <loc>http://douxinchun.github.io/blog/20150210/install-octopress.html</loc>
     <lastmod>2015-02-10T18:38:16+08:00</lastmod>
+<<<<<<< HEAD
   </url>
   <url>
     <loc>http://douxinchun.github.io/testnewpage/123.html</loc>
@@ -24,5 +25,44 @@
   </url>
   <url>
     <loc>http://douxinchun.github.io/blog/categories/octopress/</loc>
+=======
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/testnewpage/123.html</loc>
+    <lastmod>2015-03-16T19:01:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/categories/</loc>
+    <lastmod>2015-03-16T19:01:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/archives/</loc>
+    <lastmod>2015-03-16T19:01:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/</loc>
+    <lastmod>2015-03-16T19:01:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/aboutme/</loc>
+    <lastmod>2015-03-16T19:01:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/testnewpage/</loc>
+    <lastmod>2015-03-16T19:01:39+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+>>>>>>> 3c1c2fea88b0e9549c83093378ad82e3a6ec2218
   </url>
 </urlset>
