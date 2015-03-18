@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://douxinchun.github.io/blog/20150210/install-octopress.html</loc>
+    <lastmod>2015-02-10T18:38:16+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/testnewpage/123.html</loc>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/categories/</loc>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/archives/</loc>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/</loc>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/aboutme/</loc>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/testnewpage/</loc>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/categories/octopress/</loc>
+  </url>
+</urlset>
