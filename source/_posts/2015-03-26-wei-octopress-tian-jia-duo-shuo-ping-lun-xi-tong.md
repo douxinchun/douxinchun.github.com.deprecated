@@ -4,13 +4,14 @@ title: "为 Octopress 添加多说评论系统"
 date: 2015-03-26 14:51:19 +0800
 comments: true
 categories: octopress
----
+---  
+
 octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件[多说](http://duoshuo.com/)来替代disqus
 
 添加的过程主要是参照了Havee's Space中的Blog[为 Octopress 添加多说评论系统](http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html)  
 
 其中有几点需要注意的事情是:
-<!--more-->
+<!--more-->  
 1.duoshuo_short_name 是指在多说控制面板中添加新站点，第三行有多说的二级域名中的你填入的部分.比如说,二级域名是 **http://douxinchun.duoshuo.com 中,那么duoshuo_short_name就是 **douxinchun.  
 2.文件 `source/_includes/post/duoshuo.html` 中的内容可以参照多说控制台-->工具中提供的[通用代码](http://douxinchun.duoshuo.com/admin/tools/)  
 3.文件`_includes/custom/asides/recent_comments.html`中的内容可以参照多说控制台-->工具中[最新评论的code](http://douxinchun.duoshuo.com/admin/tools/recent-comments/)  
@@ -27,7 +28,8 @@ octopress自带的disqus自定义的选项非常少,由于国内的原因,加载
 
 解决方案参照 [技术小黑屋的Blog:集成多说评论](http://droidyue.com/blog/2014/07/29/integrate-duoshuo-in-octopress/)，思路就是对所有body div的设置不应用到id为ds-wrapper的div 默认的设置如下。  
 文件为`sass/base/_theme.scss`  
-```  
+
+{% codeblock sass/base/_theme.scss %}
 body {
   > div {
     background: $sidebar-bg $noise-bg;
@@ -38,9 +40,10 @@ body {
     }
   }
 }
-```  
+{% endcodeblock %}
+
 使用not把ds-wrapper加入例外，修改为这样的设置    
-```  
+{% codeblock 修改后的_theme.scss文件 %}
 body {
   > div:not(#ds-wrapper){
     background: $sidebar-bg $noise-bg;
@@ -51,5 +54,5 @@ body {
     }
   }
 }
-```    
+{% endcodeblock %}      
 到这里，就比较完美的添加完多说的评论了.
