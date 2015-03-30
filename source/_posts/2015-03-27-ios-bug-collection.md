@@ -10,8 +10,8 @@ categories: iOS开发
 
 环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview  
 接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+都出了,感觉以后使用AutoLayout会是主流),刚开始一切OK,跑起来顺畅的很,在3.5和4的屏幕上适应的都不错,后来不知道怎么调整了一下UI,结果悲剧发生了,Scrollview死活滑动不了了,导致Scrollview上的下拉刷新也不好用了.  
-第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail... ...Fuck 清一水的解决方案都是这个,说好的滑动呢...  
-
+第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail... ...Fuck Google上清一水的解决方案都是这个,说好的滑动呢...  
+<!--more-->
 最后,纠结了1分钟,在viewdidload,viewwillapear,viewdidappear,viewlayoutsubviews中都设置一次contentSize,Run,神奇的事情发生了,Scrollview动起来了,然后一个一个的去除contentSize,最终确定,只有在viewlayoutsubviews设置才会有效,,坑爹啊.  
 具体的code如下:  
 {% codeblock lang:objc viewDidLayoutSubviews %}
