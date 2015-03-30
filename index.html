@@ -191,46 +191,14 @@ localhost:octopress &hellip;">
 
 <p>环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview<br/>
 接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+都出了,感觉以后使用AutoLayout会是主流),刚开始一切OK,跑起来顺畅的很,在3.5和4的屏幕上适应的都不错,后来不知道怎么调整了一下UI,结果悲剧发生了,Scrollview死活滑动不了了,导致Scrollview上的下拉刷新也不好用了.<br/>
-第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail&hellip; &hellip;Fuck 清一水的解决方案都是这个,说好的滑动呢&hellip;</p>
+第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail&hellip; &hellip;Fuck Google上清一水的解决方案都是这个,说好的滑动呢&hellip;</p>
 
-<p>最后,纠结了1分钟,在viewdidload,viewwillapear,viewdidappear,viewlayoutsubviews中都设置一次contentSize,Run,神奇的事情发生了,Scrollview动起来了,然后一个一个的去除contentSize,最终确定,只有在viewlayoutsubviews设置才会有效,,坑爹啊.<br/>
-具体的code如下:</p>
-
-<figure class='code'><figcaption><span>viewDidLayoutSubviews </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// Called just before the view controller&#39;s view&#39;s layoutSubviews method is invoked. Subclasses can implement as necessary. The default is a nop.</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillLayoutSubviews</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;viewWillLayoutSubviews&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">scrollview</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">),</span> <span class="n">CGRectGetHeight</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>坑爹啊,问题虽然解决了,但是这不科学啊,于是重新查看UIViewController的生命周期:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>2015-03-27 16:17:35.887 BugDemo[3195:937760] viewDidLoad
-</span><span class='line'>2015-03-27 16:17:35.888 BugDemo[3195:937760] viewWillAppear
-</span><span class='line'>2015-03-27 16:17:35.891 BugDemo[3195:937760] viewWillLayoutSubviews
-</span><span class='line'>2015-03-27 16:17:35.892 BugDemo[3195:937760] viewDidLayoutSubviews
-</span><span class='line'>2015-03-27 16:17:35.900 BugDemo[3195:937760] viewDidAppear</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-发现生命周期的最后一个方法是viewDidAppear,只好理解为涉及了Autolayout,在viewDidAppear中设置已经晚了,可能是由于AutoLayout的某些原因,到了viewDidAppear的时候再设置contentSize属性已经不被scrllview接受或者被AutoLayout的某些机制给拦截了重设为另一个自适应的数值了.<br/>
-最后,总结,AutoLayout真是坑,界面还是乖乖的用code手写吧,这样出了问题好定位分析,解决.</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/20150327/ios-bug-collection.html">阅读全文</a>
+    </footer>
   
 
 
