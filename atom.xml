@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-05-11T16:25:41+08:00</updated>
+  <updated>2015-05-11T17:03:03+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -866,7 +866,44 @@ anon-access = read &ndash;>修改为 anon-access = none</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p></p>
 
+<h2>3.UITableview点击背景隐藏键盘</h2>
+
+<p>由于UITableview是UIScrollview的子类,如果按照2中的方式话,会响应touchbegin方法,但是UITablevieDelegate中的didSelectRowAtIndexPath就会不响应了.<br/>
+解决方法参照:<a href="http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview">http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">gestureRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">hideKeyboard</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">gestureRecognizer</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//The UITapGestureRecognizer solution works with table cell selection if you set:</span>
+</span><span class='line'><span class="c1">//加入这一句,不会影响到tableview的didSelectRowAtIndexPath方法</span>
+</span><span class='line'><span class="n">gestureRecognizer</span><span class="p">.</span><span class="n">cancelsTouchesInView</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+然后,添加hideKeyboard方法,想下面这样</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void) hideKeyboard {
+</span><span class='line'>    [self.view endEditing:YES];
+</span><span class='line'>    ...
+</span><span class='line'>    ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
 ]]></content>
   </entry>
   
