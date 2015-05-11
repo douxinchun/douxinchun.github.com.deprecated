@@ -56,6 +56,28 @@ categories: iOS开发过程中遇到的坑
    [super touchesEnded:touches withEvent:event];   
  }   
  @end 
-{% endcodeblock %}
+{% endcodeblock %}  
 
+##3.UITableview点击背景隐藏键盘  
+由于UITableview是UIScrollview的子类,如果按照2中的方式话,会响应touchbegin方法,但是UITablevieDelegate中的didSelectRowAtIndexPath就会不响应了.  
+解决方法参照:http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview  
+{% codeblock lang:objc%}
+UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+[self.tableView addGestureRecognizer:gestureRecognizer];
+
+//The UITapGestureRecognizer solution works with table cell selection if you set:
+//加入这一句,不会影响到tableview的didSelectRowAtIndexPath方法
+gestureRecognizer.cancelsTouchesInView = NO;
+
+{% endcodeblock %}  
+然后,添加hideKeyboard方法,想下面这样  
+{%codeblock%}
+- (void) hideKeyboard {
+    [self.view endEditing:YES];
+    ...
+    ...
+}
+{%endcodeblock%}  
+
+此外,还有一种可以响应touchbegin的方案参见这里 http://www.cnblogs.com/tangbinblog/p/4066930.html ,不过这种方案看上去需要以子类的方式重写hitTest方法,暂时没有考证可行性.先Mark一下,等以后再来看看.
 
