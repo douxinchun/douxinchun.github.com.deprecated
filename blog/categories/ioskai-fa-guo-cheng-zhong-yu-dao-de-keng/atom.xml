@@ -4,7 +4,7 @@
   <title><![CDATA[分类：ios开发过程中遇到的坑 | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-05-11T17:03:03+08:00</updated>
+  <updated>2015-05-11T17:18:31+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -132,6 +132,8 @@
 </span><span class='line'>    &hellip;
 </span><span class='line'>    &hellip;
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+
+<p>此外,还有一种可以响应touchbegin的方案参见这里 <a href="http://www.cnblogs.com/tangbinblog/p/4066930.html">http://www.cnblogs.com/tangbinblog/p/4066930.html</a> ,不过这种方案看上去需要以子类的方式重写hitTest方式,暂时没有考证可行性.先Mark一下,等以后再来看看.</p>
 ]]></content>
   </entry>
   
