@@ -1,28 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://douxinchun.github.io/blog/20150210/install-octopress.html</loc>
-    <lastmod>2015-02-10T18:38:16+08:00</lastmod>
+    <loc>http://douxinchun.github.io/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html</loc>
+    <lastmod>2015-05-11T14:13:23+08:00</lastmod>
   </url>
   <url>
-    <loc>http://douxinchun.github.io/testnewpage/123.html</loc>
+    <loc>http://douxinchun.github.io/blog/20150505/set-up-svnserver-under-centos.html</loc>
+    <lastmod>2015-05-05T14:12:48+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/20150401/xcode-plugin-collection.html</loc>
+    <lastmod>2015-04-01T10:24:50+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/20150327/octopress-deeper-learn-1.html</loc>
+    <lastmod>2015-03-27T15:08:02+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/20150327/ios-bug-collection.html</loc>
+    <lastmod>2015-03-27T15:00:07+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html</loc>
+    <lastmod>2015-03-26T14:51:19+08:00</lastmod>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/20150210/install-octopress.html</loc>
+    <lastmod>2015-02-10T18:38:16+08:00</lastmod>
   </url>
   <url>
     <loc>http://douxinchun.github.io/blog/categories/</loc>
   </url>
   <url>
-    <loc>http://douxinchun.github.io/blog/archives/</loc>
+    <loc>http://douxinchun.github.io/</loc>
   </url>
   <url>
-    <loc>http://douxinchun.github.io/</loc>
+    <loc>http://douxinchun.github.io/blog/archives/</loc>
   </url>
   <url>
     <loc>http://douxinchun.github.io/aboutme/</loc>
   </url>
   <url>
-    <loc>http://douxinchun.github.io/testnewpage/</loc>
+    <loc>http://douxinchun.github.io/blog/categories/octopress/</loc>
   </url>
   <url>
-    <loc>http://douxinchun.github.io/blog/categories/octopress/</loc>
+    <loc>http://douxinchun.github.io/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/</loc>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/categories/xcode/</loc>
+  </url>
+  <url>
+    <loc>http://douxinchun.github.io/blog/categories/linux/</loc>
   </url>
 </urlset>

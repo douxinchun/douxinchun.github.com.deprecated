@@ -4,7 +4,7 @@
   <title><![CDATA[分类：octopress | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-03-18T22:55:17+08:00</updated>
+  <updated>2015-05-26T23:49:53+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -12,6 +12,377 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[加快Octopress国内访问速度]]></title>
+    <link href="http://douxinchun.github.io/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html"/>
+    <updated>2015-05-11T14:13:23+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150511/accelerate-the-speed-of-access-octopress-in-china</id>
+    <content type="html"><![CDATA[<h2>Overview</h2>
+
+<p>本文最主要引自<a href="http://www.chanjar.me/blog/2014/06/29/jia-kuai-octopressguo-nei-fang-wen-su-du/">加快octopress国内访问速度</a>和<a href="http://imxylz.com/blog/2013/09/22/move-google-fonts-to-local-server/">Octopress加速Google字体渲染</a>,以下内容是在这两篇博文的指导上结合自己实践经验的总结.</p>
+
+<!--more-->
+
+
+<p>在github中搭建好了Octopress后,访问速度非常的慢,这是引文Octopress使用了Google API的CDN服务和Google Fonts.Google的CDN访问速度在国外的网络环境下是非常快的,但是在天朝,非常非常的慢,尤其是使用了https来访问.</p>
+
+<p>于是,为了加快访问速度,我们只好把Google的web fonts缓存到本地的服务器并更改jQuery的cdn服务.</p>
+
+<h3>1.把jquery的cdn服务改成microsoft的</h3>
+
+<p>编辑文件 source/_includes/head.html  找到下图注释掉的部分,替换成 <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script></p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--&lt;script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">&lt;/script>&ndash;>
+</span><span class='line'>  &lt;script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js">&lt;/script></span></code></pre></td></tr></table></div></figure></p>
+
+<h3>2.缓存google fonts (将PT Serif和PT Sans缓存到本地)</h3>
+
+<p>打开 source/_includes/custom/head.html<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lt;link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+</span><span class='line'>&lt;link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"></span></code></pre></td></tr></table></div></figure><br/>
+将 <a href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic">https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic</a>
+以及 <a href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic">https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic</a> 中的内容复制到本地,并在 source/stylesheets 下新建pt_sans.css和pt_serif.css文件,文件部分内容如下:<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/&lt;em> cyrillic-ext &lt;/em>/
+</span><span class='line'>@font-face {
+</span><span class='line'>  font-family: &lsquo;PT Serif&rsquo;;
+</span><span class='line'>  font-style: normal;
+</span><span class='line'>  font-weight: 400;
+</span><span class='line'>  src: local(&lsquo;PT Serif&rsquo;), local(&lsquo;PTSerif-Regular&rsquo;), url(&lt;a href="https://fonts.gstatic.com/s/ptserif/v8/5hX15RUpPERmeybVlLQEWBkAz4rYn47Zy2rvigWQf6w.woff2">https://fonts.gstatic.com/s/ptserif/v8/5hX15RUpPERmeybVlLQEWBkAz4rYn47Zy2rvigWQf6w.woff2&lt;/a>) format(&lsquo;woff2&rsquo;);
+</span><span class='line'>  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+</span><span class='line'>}
+</span><span class='line'>/&lt;em> cyrillic &lt;/em>/
+</span><span class='line'>@font-face {
+</span><span class='line'>  font-family: &lsquo;PT Serif&rsquo;;
+</span><span class='line'>  font-style: normal;
+</span><span class='line'>  font-weight: 400;
+</span><span class='line'>  src: local(&lsquo;PT Serif&rsquo;), local(&lsquo;PTSerif-Regular&rsquo;), url(&lt;a href="https://fonts.gstatic.com/s/ptserif/v8/fU0HAfLiPHGlZhZpY6M7dBkAz4rYn47Zy2rvigWQf6w.woff2">https://fonts.gstatic.com/s/ptserif/v8/fU0HAfLiPHGlZhZpY6M7dBkAz4rYn47Zy2rvigWQf6w.woff2&lt;/a>) format(&lsquo;woff2&rsquo;);
+</span><span class='line'>  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+</span><span class='line'>}
+</span><span class='line'>/&lt;em> latin-ext &lt;/em>/
+</span><span class='line'>@font-face {
+</span><span class='line'>  font-family: &lsquo;PT Serif&rsquo;;
+</span><span class='line'>  font-style: normal;
+</span><span class='line'>  font-weight: 400;
+</span><span class='line'>  src: local(&lsquo;PT Serif&rsquo;), local(&lsquo;PTSerif-Regular&rsquo;), url(&lt;a href="https://fonts.gstatic.com/s/ptserif/v8/CPRt--GVMETgA6YEaoGitxkAz4rYn47Zy2rvigWQf6w.woff2">https://fonts.gstatic.com/s/ptserif/v8/CPRt--GVMETgA6YEaoGitxkAz4rYn47Zy2rvigWQf6w.woff2&lt;/a>) format(&lsquo;woff2&rsquo;);
+</span><span class='line'>  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+</span><span class='line'>}
+</span><span class='line'>&hellip;</span></code></pre></td></tr></table></div></figure><br/>
+注意,此处访问这两个链接可能需要翻墙.
+新建一个目录 source/fonts 把字体解压缩到这个目录下.<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>douxinchundeiMac:fonts douxinchun$ pwd
+</span><span class='line'>/Users/douxinchun/octopress/source/fonts
+</span><span class='line'>douxinchundeiMac:fonts douxinchun$ tree
+</span><span class='line'>.
+</span><span class='line'>├── pt_sans
+</span><span class='line'>│   ├── 0XxGQsSc1g4rdRdjJKZrNAzyDMXhdD8sAj6OAJTFsBI.woff2
+</span><span class='line'>│   ├── 7dSh6BcuqDLzS2qAASIeuoX0hVgzZQUfRDuZrPvH3D8.woff2
+</span><span class='line'>│   ├── BJVWev7_auVaQ__OU8Qih1KPGs1ZzpMvnHX-7fPOuAc.woff2
+</span><span class='line'>│   ├── CWlc_g68BGYDSGdpJvpktgLUuEpTyoUstqEm5AMlJo4.woff2
+</span><span class='line'>│   ├── DVKQJxMmC9WF_oplMzlQqYX0hVgzZQUfRDuZrPvH3D8.woff2
+</span><span class='line'>│   ├── GpWpM_6S4VQLPNAQ3iWvVYX0hVgzZQUfRDuZrPvH3D8.woff2
+</span><span class='line'>│   ├── PIPMHY90P7jtyjpXuZ2cLJBw1xU1rKptJj_0jans920.woff2
+</span><span class='line'>│   ├── fhNmDCnjccoUYyU4ZASaLVKPGs1ZzpMvnHX-7fPOuAc.woff2
+</span><span class='line'>│   ├── g46X4VH_KHOWAAa-HpnGPgsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>│   ├── hpORcvLZtemlH8gI-1S-7gsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>│   ├── kTYfCWJhlldPf5LnG4ZnHAsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkA7aC6SjiAOpAWOKfJDfVRY.woff2
+</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkBampu5_7CjHW5spxoeN3Vs.woff2
+</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkBdwxCXfZpKo5kWAx_74bHs.woff2
+</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkIjoYw3YTyktCCer_ilOlhE.woff2
+</span><span class='line'>│   └── oysROHFTu1eTZ74Hcf8V-VKPGs1ZzpMvnHX-7fPOuAc.woff2
+</span><span class='line'>└── pt_serif
+</span><span class='line'>    ├── 03aPdn7fFF3H6ngCgAlQzAzyDMXhdD8sAj6OAJTFsBI.woff2
+</span><span class='line'>    ├── 3Nwg9VzlwLXPq3fNKwVRMAsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>    ├── 5hX15RUpPERmeybVlLQEWBkAz4rYn47Zy2rvigWQf6w (1).woff2
+</span><span class='line'>    ├── CPRt&ndash;GVMETgA6YEaoGitxkAz4rYn47Zy2rvigWQf6w.woff2
+</span><span class='line'>    ├── Foydq9xJp&ndash;nfYIx2TBz9TrEaqfC9P2pvLXik1Kbr9s.woff2
+</span><span class='line'>    ├── Foydq9xJp&ndash;nfYIx2TBz9WaVI6zN22yiurzcBKxPjFE.woff2
+</span><span class='line'>    ├── Foydq9xJp&ndash;nfYIx2TBz9ZsnFT_2ovhuEig4Dh-CBQw.woff2
+</span><span class='line'>    ├── Foydq9xJp&ndash;nfYIx2TBz9bllaL-ufMOTUcv7jfgmuJg.woff2
+</span><span class='line'>    ├── I-OtoJZa3TeyH6D9oli3iXYhjbSpvc47ee6xR_80Hnw.woff2
+</span><span class='line'>    ├── O_WhD9hODL16N4KLHLX7xQsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpF4sYYdJg5dU2qzJEVSuta0.woff2
+</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpIgp9Q8gbYrhqGlRav_IXfk.woff2
+</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpKE8kM4xWR1_1bYURRojRGc.woff2
+</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpPZraR2Tg8w2lzm7kLNL0-w.woff2
+</span><span class='line'>    ├── b31S45a_TNgaBApZhTgE6AsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>    └── fU0HAfLiPHGlZhZpY6M7dBkAz4rYn47Zy2rvigWQf6w.woff2&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>2 directories, 32 files
+</span><span class='line'>douxinchundeiMac:fonts douxinchun$</span></code></pre></td></tr></table></div></figure></p>
+
+<p>将文件pt_sans.css和pt_serif.css的web引用修改为本地引用,文件部分内容如下:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/&lt;em> cyrillic-ext &lt;/em>/
+</span><span class='line'>@font-face {
+</span><span class='line'>  font-family: &lsquo;PT Sans&rsquo;;
+</span><span class='line'>  font-style: normal;
+</span><span class='line'>  font-weight: 400;
+</span><span class='line'>  src: local(&lsquo;PT Sans&rsquo;), local(&lsquo;PTSans-Regular&rsquo;), url(/fonts/pt_sans/fhNmDCnjccoUYyU4ZASaLVKPGs1ZzpMvnHX-7fPOuAc.woff2) format(&lsquo;woff2&rsquo;);
+</span><span class='line'>  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+</span><span class='line'>}
+</span><span class='line'>/&lt;em> cyrillic &lt;/em>/
+</span><span class='line'>@font-face {
+</span><span class='line'>  font-family: &lsquo;PT Sans&rsquo;;
+</span><span class='line'>  font-style: normal;
+</span><span class='line'>  font-weight: 400;
+</span><span class='line'>  src: local(&lsquo;PT Sans&rsquo;), local(&lsquo;PTSans-Regular&rsquo;), url(/fonts/pt_sans/BJVWev7_auVaQ__OU8Qih1KPGs1ZzpMvnHX-7fPOuAc.woff2) format(&lsquo;woff2&rsquo;);
+</span><span class='line'>  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure></p>
+
+<p>编辑 source/_includes/custom/head.html 为
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lt;link href="http://douxinchun.github.io/stylesheets/pt_serif.css" rel="stylesheet" type="text/css">
+</span><span class='line'>&lt;link href="http://douxinchun.github.io/stylesheets/pt_sans.css" rel="stylesheet" type="text/css"></span></code></pre></td></tr></table></div></figure></p>
+
+<p>部署访问,速度果然快了很多.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress学习旅程(1)]]></title>
+    <link href="http://douxinchun.github.io/blog/20150327/octopress-deeper-learn-1.html"/>
+    <updated>2015-03-27T15:08:02+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150327/octopress-deeper-learn-1</id>
+    <content type="html"><![CDATA[<p>主要用来记录学习Octopress中的一些知识点.</p>
+
+<p>先记录一个命令,rake -T 可以查看命令rake的介绍:<br/>
+<figure class='code'><figcaption><span>octopress-bash </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>localhost:octopress douxinchun$ rake -T
+</span><span class='line'>rake clean                     # Clean out caches: .pygments-cache, .gist-cache, .sass-cache
+</span><span class='line'>rake copydot[source,dest]      # copy dot files for deployment
+</span><span class='line'>rake deploy                    # Default deploy task
+</span><span class='line'>rake gen_deploy                # Generate website and deploy
+</span><span class='line'>rake generate                  # Generate jekyll site
+</span><span class='line'>rake install[theme]            # Initial setup for Octopress: copies the default theme into the path of Jekyll&rsquo;s generator
+</span><span class='line'>rake integrate                 # Move all stashed posts back into the posts directory, ready for site generation
+</span><span class='line'>rake isolate[filename]         # Move all other posts than the one currently being worked on to a temporary stash location (stash) so regenerat&hellip;
+</span><span class='line'>rake list                      # list tasks
+</span><span class='line'>rake new_page[filename]        # Create a new page in source/(filename)/index.md
+</span><span class='line'>rake new_post[title]           # Begin a new post in source/&lt;em>posts
+</span><span class='line'>rake preview                   # preview the site in a web browser
+</span><span class='line'>rake push                      # deploy public directory to github pages
+</span><span class='line'>rake rsync                     # Deploy website via rsync
+</span><span class='line'>rake set_root_dir[dir]         # Update configurations to support publishing to root or sub directory
+</span><span class='line'>rake setup_github_pages[repo]  # Set up &lt;/em>deploy folder and deploy branch for Github Pages deployment
+</span><span class='line'>rake update_source[theme]      # Move source to source.old, install source theme updates, replace source/_includes/navigation.html with source&hellip;.
+</span><span class='line'>rake update_style[theme]       # Move sass to sass.old, install sass theme updates, replace sass/custom with sass.old/custom
+</span><span class='line'>rake watch                     # Watch the site and regenerate when it changes</span></code></pre></td></tr></table></div></figure></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[为 Octopress 添加多说评论系统]]></title>
+    <link href="http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html"/>
+    <updated>2015-03-26T14:51:19+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong</id>
+    <content type="html"><![CDATA[<p>octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件<a href="http://duoshuo.com/">多说</a>来替代disqus</p>
+
+<p>添加的过程主要是参照了Havee&rsquo;s Space中的Blog<a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">为 Octopress 添加多说评论系统</a></p>
+
+<p>其中有几点需要注意的事情是:</p>
+
+<!--more-->
+
+
+<p>
+1.duoshuo_short_name 是指在多说控制面板中添加新站点，第三行有多说的二级域名中的你填入的部分.比如说,二级域名是 <strong><a href="http://douxinchun.duoshuo.com">http://douxinchun.duoshuo.com</a> 中,那么duoshuo_short_name就是 </strong>douxinchun.<br/>
+2.文件 <code>source/_includes/post/duoshuo.html</code> 中的内容可以参照多说控制台&ndash;>工具中提供的<a href="http://douxinchun.duoshuo.com/admin/tools/">通用代码</a><br/>
+3.文件<code>_includes/custom/asides/recent_comments.html</code>中的内容可以参照多说控制台&ndash;>工具中<a href="http://douxinchun.duoshuo.com/admin/tools/recent-comments/">最新评论的code</a></p>
+
+<p>最后完成以后,rake preview,一切OK,但还会有一个小问题,就是当需要登陆或者输入邮箱地址的时候，会出现如下图的问题，登陆框的背后有一层带颜色的层。</p>
+
+<p><img src="/blog_reference_image/2015/3/duoshuo_background_issue.png" alt="duoshuo_background_issue.png" /></p>
+
+<h3>原因</h3>
+
+<p>具体原因是我所使用的css为所有的body div增加了一个背景。下图为id为ds-wrapper的div的背景属性 ds-wrapper div background</p>
+
+<h3>解决</h3>
+
+<p>解决方案参照 <a href="http://droidyue.com/blog/2014/07/29/integrate-duoshuo-in-octopress/">技术小黑屋的Blog:集成多说评论</a>，思路就是对所有body div的设置不应用到id为ds-wrapper的div 默认的设置如下。<br/>
+文件为<code>sass/base/_theme.scss</code></p>
+
+<p><figure class='code'><figcaption><span>sass/base/_theme.scss </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nt">body</span> <span class="p">{</span><span class="o">&lt;/</span><span class="nt">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">blockquote</span><span class="o">&gt;&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">div</span> <span class="p">{</span>
+</span><span class='line'>    <span class="na">background</span><span class="o">:</span> <span class="nv">$sidebar-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">border-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$page-border-bottom</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">background</span><span class="o">:</span> <span class="nv">$main-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">border-right</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$sidebar-border</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></p></blockquote>
+
+<p>使用not把ds-wrapper加入例外，修改为这样的设置  <br/>
+<figure class='code'><figcaption><span>修改后的_theme.scss文件 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nt">body</span> <span class="p">{</span><span class="o">&lt;/</span><span class="nt">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">blockquote</span><span class="o">&gt;&lt;</span><span class="nt">p</span><span class="o">&gt;</span><span class="nt">div</span><span class="nd">:not</span><span class="o">(</span><span class="nn">#ds-wrapper</span><span class="o">)</span><span class="p">{</span>
+</span><span class='line'>    <span class="na">background</span><span class="o">:</span> <span class="nv">$sidebar-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">border-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$page-border-bottom</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">background</span><span class="o">:</span> <span class="nv">$main-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">border-right</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$sidebar-border</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>    <br/>
+到这里，就比较完美的添加完多说的评论了.</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在GitHub上搭建Octopress]]></title>

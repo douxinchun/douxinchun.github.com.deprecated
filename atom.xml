@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-03-18T22:55:17+08:00</updated>
+  <updated>2015-05-26T23:49:53+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -12,6 +12,989 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[加快Octopress国内访问速度]]></title>
+    <link href="http://douxinchun.github.io/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html"/>
+    <updated>2015-05-11T14:13:23+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150511/accelerate-the-speed-of-access-octopress-in-china</id>
+    <content type="html"><![CDATA[<h2>Overview</h2>
+
+<p>本文最主要引自<a href="http://www.chanjar.me/blog/2014/06/29/jia-kuai-octopressguo-nei-fang-wen-su-du/">加快octopress国内访问速度</a>和<a href="http://imxylz.com/blog/2013/09/22/move-google-fonts-to-local-server/">Octopress加速Google字体渲染</a>,以下内容是在这两篇博文的指导上结合自己实践经验的总结.</p>
+
+<!--more-->
+
+
+<p>在github中搭建好了Octopress后,访问速度非常的慢,这是引文Octopress使用了Google API的CDN服务和Google Fonts.Google的CDN访问速度在国外的网络环境下是非常快的,但是在天朝,非常非常的慢,尤其是使用了https来访问.</p>
+
+<p>于是,为了加快访问速度,我们只好把Google的web fonts缓存到本地的服务器并更改jQuery的cdn服务.</p>
+
+<h3>1.把jquery的cdn服务改成microsoft的</h3>
+
+<p>编辑文件 source/_includes/head.html  找到下图注释掉的部分,替换成 <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--&lt;script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">&lt;/script>-->
+</span><span class='line'>  &lt;script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js">&lt;/script></span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.缓存google fonts (将PT Serif和PT Sans缓存到本地)</h3>
+
+<p>打开 source/_includes/custom/head.html</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+</span><span class='line'>&lt;link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+</span><span class='line'>&lt;link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"></span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+将 <a href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic">https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic</a>
+以及 <a href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic">https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic</a> 中的内容复制到本地,并在 source/stylesheets 下新建pt_sans.css和pt_serif.css文件,文件部分内容如下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* cyrillic-ext */
+</span><span class='line'>@font-face {
+</span><span class='line'>  font-family: 'PT Serif';
+</span><span class='line'>  font-style: normal;
+</span><span class='line'>  font-weight: 400;
+</span><span class='line'>  src: local('PT Serif'), local('PTSerif-Regular'), url(https://fonts.gstatic.com/s/ptserif/v8/5hX15RUpPERmeybVlLQEWBkAz4rYn47Zy2rvigWQf6w.woff2) format('woff2');
+</span><span class='line'>  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+</span><span class='line'>}
+</span><span class='line'>/* cyrillic */
+</span><span class='line'>@font-face {
+</span><span class='line'>  font-family: 'PT Serif';
+</span><span class='line'>  font-style: normal;
+</span><span class='line'>  font-weight: 400;
+</span><span class='line'>  src: local('PT Serif'), local('PTSerif-Regular'), url(https://fonts.gstatic.com/s/ptserif/v8/fU0HAfLiPHGlZhZpY6M7dBkAz4rYn47Zy2rvigWQf6w.woff2) format('woff2');
+</span><span class='line'>  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+</span><span class='line'>}
+</span><span class='line'>/* latin-ext */
+</span><span class='line'>@font-face {
+</span><span class='line'>  font-family: 'PT Serif';
+</span><span class='line'>  font-style: normal;
+</span><span class='line'>  font-weight: 400;
+</span><span class='line'>  src: local('PT Serif'), local('PTSerif-Regular'), url(https://fonts.gstatic.com/s/ptserif/v8/CPRt--GVMETgA6YEaoGitxkAz4rYn47Zy2rvigWQf6w.woff2) format('woff2');
+</span><span class='line'>  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+</span><span class='line'>}
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+注意,此处访问这两个链接可能需要翻墙.
+新建一个目录 source/fonts 把字体解压缩到这个目录下.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>douxinchundeiMac:fonts douxinchun$ pwd
+</span><span class='line'>/Users/douxinchun/octopress/source/fonts
+</span><span class='line'>douxinchundeiMac:fonts douxinchun$ tree
+</span><span class='line'>.
+</span><span class='line'>├── pt_sans
+</span><span class='line'>│   ├── 0XxGQsSc1g4rdRdjJKZrNAzyDMXhdD8sAj6OAJTFsBI.woff2
+</span><span class='line'>│   ├── 7dSh6BcuqDLzS2qAASIeuoX0hVgzZQUfRDuZrPvH3D8.woff2
+</span><span class='line'>│   ├── BJVWev7_auVaQ__OU8Qih1KPGs1ZzpMvnHX-7fPOuAc.woff2
+</span><span class='line'>│   ├── CWlc_g68BGYDSGdpJvpktgLUuEpTyoUstqEm5AMlJo4.woff2
+</span><span class='line'>│   ├── DVKQJxMmC9WF_oplMzlQqYX0hVgzZQUfRDuZrPvH3D8.woff2
+</span><span class='line'>│   ├── GpWpM_6S4VQLPNAQ3iWvVYX0hVgzZQUfRDuZrPvH3D8.woff2
+</span><span class='line'>│   ├── PIPMHY90P7jtyjpXuZ2cLJBw1xU1rKptJj_0jans920.woff2
+</span><span class='line'>│   ├── fhNmDCnjccoUYyU4ZASaLVKPGs1ZzpMvnHX-7fPOuAc.woff2
+</span><span class='line'>│   ├── g46X4VH_KHOWAAa-HpnGPgsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>│   ├── hpORcvLZtemlH8gI-1S-7gsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>│   ├── kTYfCWJhlldPf5LnG4ZnHAsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkA7aC6SjiAOpAWOKfJDfVRY.woff2
+</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkBampu5_7CjHW5spxoeN3Vs.woff2
+</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkBdwxCXfZpKo5kWAx_74bHs.woff2
+</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkIjoYw3YTyktCCer_ilOlhE.woff2
+</span><span class='line'>│   └── oysROHFTu1eTZ74Hcf8V-VKPGs1ZzpMvnHX-7fPOuAc.woff2
+</span><span class='line'>└── pt_serif
+</span><span class='line'>    ├── 03aPdn7fFF3H6ngCgAlQzAzyDMXhdD8sAj6OAJTFsBI.woff2
+</span><span class='line'>    ├── 3Nwg9VzlwLXPq3fNKwVRMAsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>    ├── 5hX15RUpPERmeybVlLQEWBkAz4rYn47Zy2rvigWQf6w (1).woff2
+</span><span class='line'>    ├── CPRt--GVMETgA6YEaoGitxkAz4rYn47Zy2rvigWQf6w.woff2
+</span><span class='line'>    ├── Foydq9xJp--nfYIx2TBz9TrEaqfC9P2pvLXik1Kbr9s.woff2
+</span><span class='line'>    ├── Foydq9xJp--nfYIx2TBz9WaVI6zN22yiurzcBKxPjFE.woff2
+</span><span class='line'>    ├── Foydq9xJp--nfYIx2TBz9ZsnFT_2ovhuEig4Dh-CBQw.woff2
+</span><span class='line'>    ├── Foydq9xJp--nfYIx2TBz9bllaL-ufMOTUcv7jfgmuJg.woff2
+</span><span class='line'>    ├── I-OtoJZa3TeyH6D9oli3iXYhjbSpvc47ee6xR_80Hnw.woff2
+</span><span class='line'>    ├── O_WhD9hODL16N4KLHLX7xQsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpF4sYYdJg5dU2qzJEVSuta0.woff2
+</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpIgp9Q8gbYrhqGlRav_IXfk.woff2
+</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpKE8kM4xWR1_1bYURRojRGc.woff2
+</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpPZraR2Tg8w2lzm7kLNL0-w.woff2
+</span><span class='line'>    ├── b31S45a_TNgaBApZhTgE6AsYbbCjybiHxArTLjt7FRU.woff2
+</span><span class='line'>    └── fU0HAfLiPHGlZhZpY6M7dBkAz4rYn47Zy2rvigWQf6w.woff2
+</span><span class='line'>
+</span><span class='line'>2 directories, 32 files
+</span><span class='line'>douxinchundeiMac:fonts douxinchun$</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>将文件pt_sans.css和pt_serif.css的web引用修改为本地引用,文件部分内容如下:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/* cyrillic-ext */
+</span><span class='line'>@font-face {
+</span><span class='line'>  font-family: 'PT Sans';
+</span><span class='line'>  font-style: normal;
+</span><span class='line'>  font-weight: 400;
+</span><span class='line'>  src: local('PT Sans'), local('PTSans-Regular'), url(/fonts/pt_sans/fhNmDCnjccoUYyU4ZASaLVKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+</span><span class='line'>  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+</span><span class='line'>}
+</span><span class='line'>/* cyrillic */
+</span><span class='line'>@font-face {
+</span><span class='line'>  font-family: 'PT Sans';
+</span><span class='line'>  font-style: normal;
+</span><span class='line'>  font-weight: 400;
+</span><span class='line'>  src: local('PT Sans'), local('PTSans-Regular'), url(/fonts/pt_sans/BJVWev7_auVaQ__OU8Qih1KPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+</span><span class='line'>  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>编辑 source/_includes/custom/head.html 为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+</span><span class='line'>&lt;link href="http://douxinchun.github.io/stylesheets/pt_serif.css" rel="stylesheet" type="text/css">
+</span><span class='line'>&lt;link href="http://douxinchun.github.io/stylesheets/pt_sans.css" rel="stylesheet" type="text/css"></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>部署访问,速度果然快了很多.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在CentOS下安装SVN Server]]></title>
+    <link href="http://douxinchun.github.io/blog/20150505/set-up-svnserver-under-centos.html"/>
+    <updated>2015-05-05T14:12:48+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150505/set-up-svnserver-under-centos</id>
+    <content type="html"><![CDATA[<h2>OverView</h2>
+
+<p>之前搭建SVN Server都是在WindowsServer下直接安装一个<a href="https://www.visualsvn.com/">Visual SVN</a>,近期在一个项目中发现对方使用的是阿里云的云服务器,而且是CentOS的操作系统.特此记录一下自己的搭建过程,以备后用.</p>
+
+<!--more-->
+
+
+<p>整个过程分为5个部分.<br/>
+1. 连接云服务器<br/>
+2. 安装SVN Server<br/>
+3. 配置SVN Server<br/>
+4. 配置防火墙开通端口 <br/>
+5. 启动SVN服务.<br/>
+最后,我会在文章的末尾总结一下自己在搭建的过程中遇到的问题汇总.</p>
+
+<h3>1.连接云服务器</h3>
+
+<p>由于需要连接的是centOS系统,所有先放弃Windows和Mac OS X上的远端桌面连接工具吧.Windows上应该是需要一个SSH的客户端工具.<br/>
+打开Terminal ,root 是username 后面跟的是ip地址</p>
+
+<figure class='code'><figcaption><span>Terminal </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>localhost:~ douxinchun$ ssh -l root 182.92.178.156</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+按照提示输入密码,登录成功后显示如下:</p>
+
+<figure class='code'><figcaption><span>Terminal </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Last login: Mon May  4 16:31:40 2015 from 111.203.240.200
+</span><span class='line'>
+</span><span class='line'>Welcome to aliyun Elastic Compute Service!
+</span><span class='line'>
+</span><span class='line'>[root@iZ256vx3u5fZ ~]#</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>2.安装SVN Server</h3>
+
+<p>检查是否安装</p>
+
+<figure class='code'><figcaption><span>Terminal </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qa subversion
+</span><span class='line'>[root@iZ256vx3u5fZ /]# rpm -qa subversion
+</span><span class='line'>subversion-1.6.11-12.el6_6.x86_64
+</span><span class='line'>[root@iZ256vx3u5fZ /]#</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+卸载旧的版本</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum remove subversion</span></code></pre></td></tr></table></div></figure>
+
+
+<p>安装</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum install -y subversion</span></code></pre></td></tr></table></div></figure>
+
+
+<p>验证安装是否成功</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svnserve --version
+</span><span class='line'>[root@iZ256vx3u5fZ /]# svnserve --version
+</span><span class='line'>svnserve，版本 1.6.11 (r934486)
+</span><span class='line'>   编译于 Feb 10 2015，22:08:22
+</span><span class='line'>
+</span><span class='line'>版权所有 (C) 2000-2009 CollabNet。
+</span><span class='line'>Subversion 是开放源代码软件，请参阅 http://subversion.tigris.org/ 站点。
+</span><span class='line'>此产品包含由 CollabNet(http://www.Collab.Net/) 开发的软件。
+</span><span class='line'>
+</span><span class='line'>下列版本库后端(FS) 模块可用: 
+</span><span class='line'>
+</span><span class='line'>* fs_base : 模块只能操作BDB版本库。
+</span><span class='line'>* fs_fs : 模块与文本文件(FSFS)版本库一起工作。
+</span><span class='line'>
+</span><span class='line'>Cyrus SASL 认证可用。
+</span><span class='line'>
+</span><span class='line'>[root@iZ256vx3u5fZ /]#</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>3.配置SVN Server</h3>
+
+<p>首先,创建一个SVN的版本库</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[root@iZ256vx3u5fZ svn]# mkdir /home/svn/testRepo
+</span><span class='line'>[root@iZ256vx3u5fZ svn]# svnadmin create /home/svn/testRepo
+</span><span class='line'>[root@iZ256vx3u5fZ svn]# cd /home/svn/testRepo/
+</span><span class='line'>[root@iZ256vx3u5fZ testRepo]# ls -a
+</span><span class='line'>.  ..  conf  db  format  hooks  locks  README.txt</span></code></pre></td></tr></table></div></figure>
+
+
+<p> 如果创建成功,testRepo目录下会多出几个文件夹,进入到conf文件夹会有3个配置文件:<br/>
+ (1). svnserve.conf:  svn服务综合配置文件. <br/>
+ (2). passwd:  用户名口令文件。<br/>
+ (3). authz:   权限配置文件</p>
+
+<h4>passwd文件</h4>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[users]
+</span><span class='line'># harry = harryssecret
+</span><span class='line'># sally = sallyssecret
+</span><span class='line'>svnuser=123456</span></code></pre></td></tr></table></div></figure>
+
+
+<p>svnuser为用户名.123456为密码</p>
+
+<h4>authz文件</h4>
+
+<p>添加一行这个</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[/]
+</span><span class='line'>svnuser=rw</span></code></pre></td></tr></table></div></figure>
+
+
+<p>意思是svnuser用户对所有的目录有读写权限,如果需要详细的分组,可以参照这里[<a href="http://www.blogjava.net/rockblue1988/archive/2014/11/19/420246.aspx">http://www.blogjava.net/rockblue1988/archive/2014/11/19/420246.aspx</a>]</p>
+
+<h4>svnserve.conf文件</h4>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#匿名访问者权限
+</span><span class='line'>anon-access = none
+</span><span class='line'>#验证用户权限
+</span><span class='line'>auth-access = write
+</span><span class='line'>#密码文件地址
+</span><span class='line'>password-db = /home/svn/testRepo/passwd
+</span><span class='line'>#权限文件地址
+</span><span class='line'>authz-db = /home/svn/testRepo/authz
+</span><span class='line'>#项目名称（UUID）
+</span><span class='line'>realm =testRepo</span></code></pre></td></tr></table></div></figure>
+
+
+<p>采用默认配置. 以上语句都必须顶格写, 左侧不能留空格, 否则会出错.</p>
+
+<h3>4.打开Linux下的防火墙端口</h3>
+
+<p>默认是3690端口，你也可以用别的。已开启的跳过这一步</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>修改
+</span><span class='line'>iptables -I INPUT -p tcp --dport 3690 -j ACCEPT
+</span><span class='line'>保存
+</span><span class='line'>/etc/rc.d/init.d/iptables save
+</span><span class='line'>重启
+</span><span class='line'>service iptables restart
+</span><span class='line'>查看
+</span><span class='line'>/etc/init.d/iptables status</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>5.启动SVN服务</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svnserve -d -r /home/svn</span></code></pre></td></tr></table></div></figure>
+
+
+<p>-d:守护进程
+-r:svn根目录
+这里注意启动时的目录一定不要再往下写一级,不然客户端再按照下面的地址访问的时候,会提示错误:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>XXXXXXX(别怪我,实在记不清了)non existent in revision 0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+假设服务端IP为182.92.178.156，那么如下设置后testRepo的访问目录就为：
+svn://182.92.178.156:3690/testRepo</p>
+
+<p>如果端口被占用可以重新换一个端口运行,更换端口可以让一台服务器运行多个SVN Server,不要忘记按照第4步在iptable中打开相应的端口</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svnserve -d -r /home/svn  --listen-port 3391</span></code></pre></td></tr></table></div></figure>
+
+
+<p>关闭SVN服务</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ps -aux|grep svn  
+</span><span class='line'>kill 1755 进程id</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启动完成后,客户端就可以成功的连接了<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2015/5/svn_client.png"></p>
+
+<hr />
+
+<h3>6.遇到的问题</h3>
+
+<p>1.端口被占用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svnserve: 不能绑定服务器套接字: 地址已在使用</span></code></pre></td></tr></table></div></figure>
+
+
+<p>更换端口,或者关闭正在运行的SVN服务,参见第5步,启动服务</p>
+
+<p>2.导入工程</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir MyProject  
+</span><span class='line'>$ mkdir MyProject/trunk  
+</span><span class='line'>$ mkdir MyProject/branches  
+</span><span class='line'>$ mkdir MyProject/tags  
+</span><span class='line'>svn import MyProject svn://182.92.178.156/testRepo/MyProject -m "first import project"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.导出工程</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn co svn://192.168.5.228/testRepo/MyProject</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4.客户端查看不到日志<br/>
+修改svnserver.conf文件里面：
+anon-access = read &ndash;>修改为 anon-access = none</p>
+
+<h3>7.添加开机启动</h3>
+
+<p>首先：编写一个启动脚本svn_startup.sh，我放在/root/svn_startup.sh</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
+</span><span class='line'>/usr/bin/svnserve -d -r /home/svn/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里的svnserve路径保险起见，最好写绝对路径,因为启动的时候，环境变量也许没加载.
+绝对路径怎么查?</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>which svnserve</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里还有可能碰到一个问题，如果你在windows下建立和编写的脚步，拿到linux下，用vi或者vim修改后可能会无法执行，这是文件格式的问题</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vi svn_startup.sh
+</span><span class='line'>输入:set ff 回车
+</span><span class='line'>如果显示的结果不是fileformat=unix
+</span><span class='line'>再次输入
+</span><span class='line'>set ff=unix
+</span><span class='line'>就OK了</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后修改该脚本的执行权限</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chmod ug+x svn_startup.sh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者万能的</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chmod 777 svn_startup.sh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>最后：加入自动运行</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>vi /etc/rc.d/rc.local</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在末尾添加脚本的路径，如：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/root/svn_startup.sh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在，你可以重启一下试试了。 不懂得怎么确认成功？败给你了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ps -ef|grep svnserve</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>参考来源</h3>
+
+<p><a href="http://blog.csdn.net/shangliuyan/article/details/7351675">http://blog.csdn.net/shangliuyan/article/details/7351675</a>
+<a href="http://www.blogjava.net/rockblue1988/archive/2014/11/19/420246.aspx">http://www.blogjava.net/rockblue1988/archive/2014/11/19/420246.aspx</a>
+<a href="http://www.centoscn.com/CentosServer/ftp/2014/0306/2505.html">http://www.centoscn.com/CentosServer/ftp/2014/0306/2505.html</a>
+<a href="http://www.blogjava.net/nkjava/archive/2011/08/29/357502.html">http://www.blogjava.net/nkjava/archive/2011/08/29/357502.html</a>
+<a href="http://bbs.csdn.net/topics/390757995">http://bbs.csdn.net/topics/390757995</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode常用的插件集合]]></title>
+    <link href="http://douxinchun.github.io/blog/20150401/xcode-plugin-collection.html"/>
+    <updated>2015-04-01T10:24:50+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150401/xcode-plugin-collection</id>
+    <content type="html"><![CDATA[<p>本文主要总结了一下,我在Xcode下经常使用的的插件.</p>
+
+<h2>1.Alcatraz</h2>
+
+<p>Alcatraz是一个Xcode的开源的包管理工具.使用它,我们可以查找和安装各种各样的插件,模板以及配色方案.<br/>
+安装Alcatraz很简单,打开Terminal,把下面一行粘贴进命令行即可,安装之前,友情提示:Alcatraz is available for OSX 10.9+ and Xcode 5+ only.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -fsSL https://raw.githubusercontent.com/supermarin/Alcatraz/master/Scripts/install.sh | sh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+删除插件命令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+清空Alcatraz缓存的命令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf ~/Library/Application\ Support/Alcatraz</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>安装完成之后 ,最后提示</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Alcatraz successfully installed!!1!🍻   Please restart your Xcode.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+重启Xcode,发现在Windows菜单项下会多出一个Pachage Manager的项,快捷键是⇧⌘9</p>
+
+<!--more-->
+
+
+<h2>2.VVDocumenter</h2>
+
+<p>VVDocumenter可以帮我们自动生成注释文档,使用的方式也非常简单.在任何的类,方法或者你需要插入注释的地方输入&#8221;///&ldquo;即可,这里引用一张原作者的gif图片来说明效果:<br/>
+<img src="https://camo.githubusercontent.com/ca5518c9872e15b8a95b9d8c5f44bc331977d710/68747470733a2f2f7261772e6769746875622e636f6d2f6f6e65766361742f5656446f63756d656e7465722d58636f64652f6d61737465722f53637265656e53686f742e676966"></p>
+
+<p>安装方式也很简单,
+1.Alcatraz ,如果你安装了Alcatraz,直接打开Xcode->⇧⌘9->搜索VVDocumenter,Install.<br/>
+2.如果不想安装Alcatraz,把整个项目clone到本地,然后在Xcode中编译(⌘B),重启Xcode,Windows->会出现一个VVDocumenter项.安装成功.<br/>
+如果还不放心,可以在这查找到插件的存在 ~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/</p>
+
+<p>GitHub:git@github.com:onevcat/VVDocumenter-Xcode.git</p>
+
+<h2>3.RTImageAssets</h2>
+
+<p>用来生成 @3x 的图片资源对应的 @2x 和 @1x 版本，只要拖拽高清图到 @3x 的位置上，然后按 Ctrl+Shift+A 即可自动生成两张低清的补全空位。当然你也可以从 @2x 的图生成 @3x 版本，如果你对图片质量要求不高的话.
+附一张使用效果的gif<br/>
+<img src="https://github.com/rickytan/RTImageAssets/raw/master/ScreenCap/usage.gif"></p>
+
+<p>GitHub:git@github.com:rickytan/RTImageAssets.git</p>
+
+<h2>4.XAlign</h2>
+
+<p>自动对齐,效果gif图:</p>
+
+<p><img src="https://camo.githubusercontent.com/7973c0e352b1f91e3efe5b3550cff5df97f4589a/687474703a2f2f7166692e73682f58416c69676e2f696d616765732f657175616c2e676966"></p>
+
+<p>安装方式 Terminal,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># install
+</span><span class='line'>    $ curl http://qfi.sh/XAlign/build/install.sh | sh
+</span><span class='line'>
+</span><span class='line'>    or
+</span><span class='line'>    
+</span><span class='line'>    # update
+</span><span class='line'>    $ curl http://qfi.sh/XAlign/build/update.sh | sh</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>5.ClangFormat</h2>
+
+<p>代码格式化工具</p>
+
+<p><img src="https://camo.githubusercontent.com/758d8d2c87f7ec1bb3b6882d6500fe4cf5252759/68747470733a2f2f7261772e6769746875622e636f6d2f7472617669736a6566666572792f436c616e67466f726d61742d58636f64652f6d61737465722f524541444d452f636c616e67666f726d61742d78636f64652d64656d6f2e676966"></p>
+
+<h2>6.Auto Importer for Xcode</h2>
+
+<p>自动引入头文件</p>
+
+<p><img src="https://github.com/lucholaf/Auto-Importer-for-Xcode/raw/master/demo.gif"></p>
+
+<h2>7.KSImageNamed-Xcode</h2>
+
+<p>图片名称自动补全<br/>
+<img src="https://camo.githubusercontent.com/c354bf04524df86daeabe7a6d2b9926fac790f85/68747470733a2f2f7261772e6769746875622e636f6d2f6b7375746865722f4b53496d6167654e616d65642d58636f64652f6d61737465722f73637265656e73686f742e676966"></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress学习旅程(1)]]></title>
+    <link href="http://douxinchun.github.io/blog/20150327/octopress-deeper-learn-1.html"/>
+    <updated>2015-03-27T15:08:02+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150327/octopress-deeper-learn-1</id>
+    <content type="html"><![CDATA[<p>主要用来记录学习Octopress中的一些知识点.</p>
+
+<p>先记录一个命令,rake -T 可以查看命令rake的介绍:</p>
+
+<figure class='code'><figcaption><span>octopress-bash </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>localhost:octopress douxinchun$ rake -T
+</span><span class='line'>rake clean                     # Clean out caches: .pygments-cache, .gist-cache, .sass-cache
+</span><span class='line'>rake copydot[source,dest]      # copy dot files for deployment
+</span><span class='line'>rake deploy                    # Default deploy task
+</span><span class='line'>rake gen_deploy                # Generate website and deploy
+</span><span class='line'>rake generate                  # Generate jekyll site
+</span><span class='line'>rake install[theme]            # Initial setup for Octopress: copies the default theme into the path of Jekyll's generator
+</span><span class='line'>rake integrate                 # Move all stashed posts back into the posts directory, ready for site generation
+</span><span class='line'>rake isolate[filename]         # Move all other posts than the one currently being worked on to a temporary stash location (stash) so regenerat...
+</span><span class='line'>rake list                      # list tasks
+</span><span class='line'>rake new_page[filename]        # Create a new page in source/(filename)/index.md
+</span><span class='line'>rake new_post[title]           # Begin a new post in source/_posts
+</span><span class='line'>rake preview                   # preview the site in a web browser
+</span><span class='line'>rake push                      # deploy public directory to github pages
+</span><span class='line'>rake rsync                     # Deploy website via rsync
+</span><span class='line'>rake set_root_dir[dir]         # Update configurations to support publishing to root or sub directory
+</span><span class='line'>rake setup_github_pages[repo]  # Set up _deploy folder and deploy branch for Github Pages deployment
+</span><span class='line'>rake update_source[theme]      # Move source to source.old, install source theme updates, replace source/_includes/navigation.html with source....
+</span><span class='line'>rake update_style[theme]       # Move sass to sass.old, install sass theme updates, replace sass/custom with sass.old/custom
+</span><span class='line'>rake watch                     # Watch the site and regenerate when it changes</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开发过程中遇到的Bug处理集合]]></title>
+    <link href="http://douxinchun.github.io/blog/20150327/ios-bug-collection.html"/>
+    <updated>2015-03-27T15:00:07+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150327/ios-bug-collection</id>
+    <content type="html"><![CDATA[<h2>1.iOS7 下UIScrollView 无法滑动的解决办法</h2>
+
+<p>环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview<br/>
+接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+都出了,感觉以后使用AutoLayout会是主流),刚开始一切OK,跑起来顺畅的很,在3.5和4的屏幕上适应的都不错,后来不知道怎么调整了一下UI,结果悲剧发生了,Scrollview死活滑动不了了,导致Scrollview上的下拉刷新也不好用了.<br/>
+第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail&hellip; &hellip;Fuck Google上清一水的解决方案都是这个,说好的滑动呢&hellip;</p>
+
+<!--more-->
+
+
+<p>最后,纠结了1分钟,在viewdidload,viewwillapear,viewdidappear,viewlayoutsubviews中都设置一次contentSize,Run,神奇的事情发生了,Scrollview动起来了,然后一个一个的去除contentSize,最终确定,只有在viewlayoutsubviews设置才会有效,,坑爹啊.<br/>
+具体的code如下:</p>
+
+<figure class='code'><figcaption><span>viewDidLayoutSubviews </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// Called just before the view controller&#39;s view&#39;s layoutSubviews method is invoked. Subclasses can implement as necessary. The default is a nop.</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillLayoutSubviews</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;viewWillLayoutSubviews&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">scrollview</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">),</span> <span class="n">CGRectGetHeight</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>坑爹啊,问题虽然解决了,但是这不科学啊,于是重新查看UIViewController的生命周期:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>2015-03-27 16:17:35.887 BugDemo[3195:937760] viewDidLoad
+</span><span class='line'>2015-03-27 16:17:35.888 BugDemo[3195:937760] viewWillAppear
+</span><span class='line'>2015-03-27 16:17:35.891 BugDemo[3195:937760] viewWillLayoutSubviews
+</span><span class='line'>2015-03-27 16:17:35.892 BugDemo[3195:937760] viewDidLayoutSubviews
+</span><span class='line'>2015-03-27 16:17:35.900 BugDemo[3195:937760] viewDidAppear</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+发现生命周期的最后一个方法是viewDidAppear,只好理解为涉及了Autolayout,在viewDidAppear中设置已经晚了,可能是由于AutoLayout的某些原因,到了viewDidAppear的时候再设置contentSize属性已经不被scrllview接受或者被AutoLayout的某些机制给拦截了重设为另一个自适应的数值了.<br/>
+最后,总结,AutoLayout真是坑,界面还是乖乖的用code手写吧,这样出了问题好定位分析,解决.</p>
+
+<h2>2.UIScrollView不能响应UITouch事件的解决办法</h2>
+
+<p>原因是：UIView的touch事件被UIScrollView捕获了。</p>
+
+<p>解决办法：让UIScrollView将事件传递过去。于是最简单的解决办法就是加一个UIScrollView的category。这样每个用到UIScrollView的地方只要导入这个category就可以直接响应相关的touch事件了。</p>
+
+<figure class='code'><figcaption><span>UIScrollView+UITouch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &quot;UIScrollView+UITouch.h&quot;       </span>
+</span><span class='line'> <span class="k">@implementation</span> <span class="bp">UIScrollView</span> <span class="nl">(UITouch)</span>
+</span><span class='line'> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">touchesBegan</span><span class="p">:(</span><span class="bp">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">{</span>
+</span><span class='line'>   <span class="p">[[</span><span class="nb">self</span> <span class="n">nextResponder</span><span class="p">]</span> <span class="nl">touchesBegan</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="nb">super</span> <span class="nl">touchesBegan</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">touchesMoved</span><span class="p">:(</span><span class="bp">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">{</span>
+</span><span class='line'>   <span class="p">[[</span><span class="nb">self</span> <span class="n">nextResponder</span><span class="p">]</span> <span class="nl">touchesMoved</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="nb">super</span> <span class="nl">touchesMoved</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">touchesEnded</span><span class="p">:(</span><span class="bp">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">{</span>
+</span><span class='line'>   <span class="p">[[</span><span class="nb">self</span> <span class="n">nextResponder</span><span class="p">]</span> <span class="nl">touchesEnded</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="nb">super</span> <span class="nl">touchesEnded</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>3.UITableview点击背景隐藏键盘</h2>
+
+<p>由于UITableview是UIScrollview的子类,如果按照2中的方式话,会响应touchbegin方法,但是UITablevieDelegate中的didSelectRowAtIndexPath就会不响应了.<br/>
+解决方法参照:<a href="http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview">http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">gestureRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">hideKeyboard</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">gestureRecognizer</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//The UITapGestureRecognizer solution works with table cell selection if you set:</span>
+</span><span class='line'><span class="c1">//加入这一句,不会影响到tableview的didSelectRowAtIndexPath方法</span>
+</span><span class='line'><span class="n">gestureRecognizer</span><span class="p">.</span><span class="n">cancelsTouchesInView</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+然后,添加hideKeyboard方法,想下面这样</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void) hideKeyboard {
+</span><span class='line'>    [self.view endEditing:YES];
+</span><span class='line'>    ...
+</span><span class='line'>    ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>此外,还有一种可以响应touchbegin的方案参见这里 <a href="http://www.cnblogs.com/tangbinblog/p/4066930.html">http://www.cnblogs.com/tangbinblog/p/4066930.html</a> ,不过这种方案看上去需要以子类的方式重写hitTest方法,暂时没有考证可行性.先Mark一下,等以后再来看看.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[为 Octopress 添加多说评论系统]]></title>
+    <link href="http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html"/>
+    <updated>2015-03-26T14:51:19+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong</id>
+    <content type="html"><![CDATA[<p>octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件<a href="http://duoshuo.com/">多说</a>来替代disqus</p>
+
+<p>添加的过程主要是参照了Havee&rsquo;s Space中的Blog<a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">为 Octopress 添加多说评论系统</a></p>
+
+<p>其中有几点需要注意的事情是:</p>
+
+<!--more-->
+
+
+<p>
+1.duoshuo_short_name 是指在多说控制面板中添加新站点，第三行有多说的二级域名中的你填入的部分.比如说,二级域名是 <strong><a href="http://douxinchun.duoshuo.com">http://douxinchun.duoshuo.com</a> 中,那么duoshuo_short_name就是 </strong>douxinchun.<br/>
+2.文件 <code>source/_includes/post/duoshuo.html</code> 中的内容可以参照多说控制台&ndash;>工具中提供的<a href="http://douxinchun.duoshuo.com/admin/tools/">通用代码</a><br/>
+3.文件<code>_includes/custom/asides/recent_comments.html</code>中的内容可以参照多说控制台&ndash;>工具中<a href="http://douxinchun.duoshuo.com/admin/tools/recent-comments/">最新评论的code</a></p>
+
+<p>最后完成以后,rake preview,一切OK,但还会有一个小问题,就是当需要登陆或者输入邮箱地址的时候，会出现如下图的问题，登陆框的背后有一层带颜色的层。</p>
+
+<p><img src="http://douxinchun.github.io/blog_reference_image/2015/3/duoshuo_background_issue.png" alt="duoshuo_background_issue.png" /></p>
+
+<h3>原因</h3>
+
+<p>具体原因是我所使用的css为所有的body div增加了一个背景。下图为id为ds-wrapper的div的背景属性 ds-wrapper div background</p>
+
+<h3>解决</h3>
+
+<p>解决方案参照 <a href="http://droidyue.com/blog/2014/07/29/integrate-duoshuo-in-octopress/">技术小黑屋的Blog:集成多说评论</a>，思路就是对所有body div的设置不应用到id为ds-wrapper的div 默认的设置如下。<br/>
+文件为<code>sass/base/_theme.scss</code></p>
+
+<figure class='code'><figcaption><span>sass/base/_theme.scss </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nt">body</span> <span class="p">{</span>
+</span><span class='line'>  <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
+</span><span class='line'>    <span class="na">background</span><span class="o">:</span> <span class="nv">$sidebar-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">border-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$page-border-bottom</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">background</span><span class="o">:</span> <span class="nv">$main-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">border-right</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$sidebar-border</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用not把ds-wrapper加入例外，修改为这样的设置</p>
+
+<figure class='code'><figcaption><span>修改后的_theme.scss文件 </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nt">body</span> <span class="p">{</span>
+</span><span class='line'>  <span class="o">&gt;</span> <span class="nt">div</span><span class="nd">:not</span><span class="o">(</span><span class="nn">#ds-wrapper</span><span class="o">)</span><span class="p">{</span>
+</span><span class='line'>    <span class="na">background</span><span class="o">:</span> <span class="nv">$sidebar-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
+</span><span class='line'>    <span class="na">border-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$page-border-bottom</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
+</span><span class='line'>      <span class="na">background</span><span class="o">:</span> <span class="nv">$main-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
+</span><span class='line'>      <span class="na">border-right</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$sidebar-border</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>    <br/>
+到这里，就比较完美的添加完多说的评论了.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在GitHub上搭建Octopress]]></title>
