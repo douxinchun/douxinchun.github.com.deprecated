@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[分类：ios开发过程中遇到的坑 | 冷雨之家]]></title>
+  <title><![CDATA[Category: Ios开发过程中遇到的坑 | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-06-12T14:26:30+08:00</updated>
+  <updated>2015-06-12T18:50:50+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
-    
+    <email><![CDATA[douxinchunlengyu@163.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
