@@ -20,7 +20,7 @@ date_format: "%Y 年%-m 月%-d 日"
 subscribe_rss: /atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
-email:
+email: douxinchunlengyu@163.com
 
 # ----------------------- #
 #    Jekyll & Plugins     #
@@ -36,7 +36,7 @@ destination: public
 plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
-category_title_prefix: "分类：" #修改分类前缀
+# category_title_prefix: "分类：" #修改分类前缀
 markdown: rdiscount
 rdiscount:
   extensions:
