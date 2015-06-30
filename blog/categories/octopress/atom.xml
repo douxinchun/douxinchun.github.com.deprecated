@@ -4,11 +4,7 @@
   <title><![CDATA[Category: Octopress | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-<<<<<<< HEAD
-  <updated>2015-06-30T16:27:42+08:00</updated>
-=======
-  <updated>2015-06-12T18:50:50+08:00</updated>
->>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
+  <updated>2015-06-30T16:34:07+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -18,7 +14,6 @@
 
   
   <entry>
-<<<<<<< HEAD
     <title type="html"><![CDATA[在多台机器上协作使用Octopress]]></title>
     <link href="http://douxinchun.github.io/blog/20150630/use-octopress-in-different-machines.html"/>
     <updated>2015-06-30T13:49:49+08:00</updated>
@@ -117,8 +112,6 @@
   </entry>
   
   <entry>
-=======
->>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
     <title type="html"><![CDATA[加快Octopress国内访问速度]]></title>
     <link href="http://douxinchun.github.io/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html"/>
     <updated>2015-05-11T14:13:23+08:00</updated>
@@ -400,12 +393,9 @@
 </span><span class='line'>rake update_source[theme]      # Move source to source.old, install source theme updates, replace source/_includes/navigation.html with source&hellip;.
 </span><span class='line'>rake update_style[theme]       # Move sass to sass.old, install sass theme updates, replace sass/custom with sass.old/custom
 </span><span class='line'>rake watch                     # Watch the site and regenerate when it changes</span></code></pre></td></tr></table></div></figure></p>
-<<<<<<< HEAD
 
 <p>追加一个介绍的很详细的Octopress使用者的总结,内容很详细,留作备忘<br/>
 <a href="http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/">http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/</a></p>
-=======
->>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
 ]]></content>
   </entry>
   

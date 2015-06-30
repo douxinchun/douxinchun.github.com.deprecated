@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-<<<<<<< HEAD
     <loc>http://douxinchun.github.io/blog/20150630/use-octopress-in-different-machines.html</loc>
     <lastmod>2015-06-30T13:49:49+08:00</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-=======
->>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
     <loc>http://douxinchun.github.io/blog/20150612/night-watcher-swear.html</loc>
     <lastmod>2015-06-12T15:10:52+08:00</lastmod>
     <priority>0.8</priority>
@@ -50,41 +47,25 @@
   </url>
   <url>
     <loc>http://douxinchun.github.io/blog/categories/</loc>
-<<<<<<< HEAD
-    <lastmod>2015-06-30T16:27:42+08:00</lastmod>
-=======
-    <lastmod>2015-06-12T18:50:50+08:00</lastmod>
->>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
+    <lastmod>2015-06-30T16:34:07+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://douxinchun.github.io/</loc>
-<<<<<<< HEAD
-    <lastmod>2015-06-30T16:27:42+08:00</lastmod>
-=======
-    <lastmod>2015-06-12T18:50:50+08:00</lastmod>
->>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
+    <lastmod>2015-06-30T16:34:07+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>http://douxinchun.github.io/blog/archives/</loc>
-<<<<<<< HEAD
-    <lastmod>2015-06-30T16:27:42+08:00</lastmod>
-=======
-    <lastmod>2015-06-12T18:50:50+08:00</lastmod>
->>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
+    <lastmod>2015-06-30T16:34:07+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://douxinchun.github.io/aboutme/</loc>
-<<<<<<< HEAD
-    <lastmod>2015-06-30T16:27:42+08:00</lastmod>
-=======
-    <lastmod>2015-06-12T18:50:50+08:00</lastmod>
->>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
+    <lastmod>2015-06-30T16:34:07+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
