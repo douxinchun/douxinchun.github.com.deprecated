@@ -4,7 +4,11 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
+<<<<<<< HEAD
   <updated>2015-06-30T16:27:42+08:00</updated>
+=======
+  <updated>2015-06-12T18:50:50+08:00</updated>
+>>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -14,6 +18,7 @@
 
   
   <entry>
+<<<<<<< HEAD
     <title type="html"><![CDATA[在多台机器上协作使用Octopress]]></title>
     <link href="http://douxinchun.github.io/blog/20150630/use-octopress-in-different-machines.html"/>
     <updated>2015-06-30T13:49:49+08:00</updated>
@@ -126,6 +131,8 @@
   </entry>
   
   <entry>
+=======
+>>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
     <title type="html"><![CDATA[冰与火之歌 守夜人誓言]]></title>
     <link href="http://douxinchun.github.io/blog/20150612/night-watcher-swear.html"/>
     <updated>2015-06-12T15:10:52+08:00</updated>
@@ -853,10 +860,13 @@ anon-access = read &ndash;>修改为 anon-access = none</p>
 
 <p>图片名称自动补全<br/>
 <img src="https://camo.githubusercontent.com/c354bf04524df86daeabe7a6d2b9926fac790f85/68747470733a2f2f7261772e6769746875622e636f6d2f6b7375746865722f4b53496d6167654e616d65642d58636f64652f6d61737465722f73637265656e73686f742e676966"></p>
+<<<<<<< HEAD
 
 <h2>8.ZLGotoSandboxPlugin-Xcode</h2>
 
 <p>快速定位simulator的沙盒路径 <a href="https://github.com/MakeZL/ZLGotoSandboxPlugin">https://github.com/MakeZL/ZLGotoSandboxPlugin</a></p>
+=======
+>>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
 ]]></content>
   </entry>
   
@@ -911,9 +921,12 @@ anon-access = read &ndash;>修改为 anon-access = none</p>
 </span><span class='line'>rake update_style[theme]       # Move sass to sass.old, install sass theme updates, replace sass/custom with sass.old/custom
 </span><span class='line'>rake watch                     # Watch the site and regenerate when it changes</span></code></pre></td></tr></table></div></figure>
 
+<<<<<<< HEAD
 
 <p>追加一个介绍的很详细的Octopress使用者的总结,内容很详细,留作备忘<br/>
 <a href="http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/">http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/</a></p>
+=======
+>>>>>>> 460384403f2524e867674ca379af7541bfafbd5c
 ]]></content>
   </entry>
   
