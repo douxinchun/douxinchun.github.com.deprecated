@@ -31,3 +31,7 @@ rake update_source[theme]      # Move source to source.old, install source theme
 rake update_style[theme]       # Move sass to sass.old, install sass theme updates, replace sass/custom with sass.old/custom
 rake watch                     # Watch the site and regenerate when it changes
 {% endcodeblock %}
+
+
+追加一个介绍的很详细的Octopress使用者的总结,内容很详细,留作备忘  
+http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/

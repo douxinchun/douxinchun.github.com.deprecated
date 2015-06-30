@@ -87,10 +87,8 @@ GitHub:git@github.com:rickytan/RTImageAssets.git
 {% img https://camo.githubusercontent.com/c354bf04524df86daeabe7a6d2b9926fac790f85/68747470733a2f2f7261772e6769746875622e636f6d2f6b7375746865722f4b53496d6167654e616d65642d58636f64652f6d61737465722f73637265656e73686f742e676966 %}
 
 
-
-
-
-
+##8.ZLGotoSandboxPlugin-Xcode  
+快速定位simulator的沙盒路径 https://github.com/MakeZL/ZLGotoSandboxPlugin
 
 
 
