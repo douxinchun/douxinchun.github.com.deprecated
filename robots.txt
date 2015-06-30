@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://douxinchun.github.io/sitemap.xml 
