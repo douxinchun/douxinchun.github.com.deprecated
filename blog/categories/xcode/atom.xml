@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Xcode | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-07-01T14:31:56+08:00</updated>
+  <updated>2015-07-20T17:52:05+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -12,6 +12,29 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode中的调试器LLDB]]></title>
+    <link href="http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html"/>
+    <updated>2015-07-20T17:40:46+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb</id>
+    <content type="html"><![CDATA[<p>原文地址:<a href="http://objccn.io/issue-19-2/  ">http://objccn.io/issue-19-2/  </a>
+里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
+
+<h3>1.查看某个变量的值</h3>
+
+<p> <em>print</em><br/>
+ <img class="<a" src="href="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png">http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png</a>&#8221;><br/>
+ LLDB会做前缀匹配,一把简写为p,<br/>
+ 使用po可以查看NSObject的description</p>
+
+<h3>2.改变某个变量的值</h3>
+
+<p><em>expression</em><br/>
+<img class="<a" src="href="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png">http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png</a>&#8221;><br/>
+简写为expr或者是e(还能再懒一点吗~~)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Xcode常用的插件集合]]></title>

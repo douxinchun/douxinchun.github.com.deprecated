@@ -9,8 +9,7 @@
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="前言 GoAgent可以使用两种方式来翻墙上网:一种是官方推荐的,申请一个Google的Email账号,然后上传服务端需要的文件到Google App Engine;另外一种就就是通过国外的没有被屏蔽的PHP的空间来代替GAE作为服务端.
-本人以前(2015年以前)一直是使用第一种方式, &hellip;">
+  <meta name="description" content="原文地址:http://objccn.io/issue-19-2/ 里面内容很多,本着实用主义,这里只记录我自己常用的命令: 1.查看某个变量的值 print LLDB会做前缀匹配,一把简写为p, 使用po可以查看NSObject的description 2.改变某个变量的值 expression &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +68,133 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html">Xcode中的调试器LLDB</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-20T17:40:46+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>5:40 pm</span></time>
+        
+	    
+	           | <a href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html#comments">评论</a>
+	          
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>原文地址:<a href="http://objccn.io/issue-19-2/  ">http://objccn.io/issue-19-2/  </a>
+里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
+
+<h3>1.查看某个变量的值</h3>
+
+<p> <em>print</em><br/>
+ <img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png"><br/>
+ LLDB会做前缀匹配,一把简写为p,<br/>
+ 使用po可以查看NSObject的description</p>
+
+<h3>2.改变某个变量的值</h3>
+
+<p><em>expression</em><br/>
+<img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png"><br/>
+简写为expr或者是e(还能再懒一点吗~~)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150720/autolayout-summary.html">AutoLayout 使用总结</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-20T16:55:20+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>4:55 pm</span></time>
+        
+	    
+	           | <a href="/blog/20150720/autolayout-summary.html#comments">评论</a>
+	          
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>1.如何计算UITableViewCell的高度</h3>
+
+<p>在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用<code>sizeWithFont:</code> 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予<code>heightForRow:</code>。</p>
+
+<p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
+理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
+
+<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/  ">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/  </a>
+和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
+
+<p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
+1. UILabel以及UITextField等有<code>preferredMaxLayoutWidth</code>属性的VIew需要设置一下,不然计算出来的高度UILable的部分只有一行文字的高度<br/>
+2. 对于具有<code>intrinsicContentSize</code>的View需要在垂直方向上,将压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)设置为1000,最高级
+3. 要保证Cell在垂直方向上设置的Constraints,理论上可以计算出整个Cell的高度,可以降低某个垂直方向约束的优先级,来消除xib中的约束错误提示</p>
+
+<h3>2.AutoLayout下的动画</h3>
+
+<p>在使用Autolayout时，动画的使用和以前也不同了，以前我们是修改frame，现在我们可以通过修改Constraints, 然后在动画时layoutIfNeeded就行了。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//修改约束
+</span><span class='line'>...
+</span><span class='line'>[UIView animateWithDuration:0.2 animations:^{
+</span><span class='line'>    [view layoutIfNeeded];
+</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+Autolayout有时在动画时候会很方便，因为View之间的坐标是相互影响的，在传统frame中，如果改变一个view的frame,那么可能你要更改很多view的frame，才能让页面显得和谐。在Autolayout中可能只需要修改一个Constraint就可以了，在做动画时会很方便。</p>
+
+<h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
+
+<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/  ">http://objccn.io/issue-3-5/  </a>
+API中对应的是:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UILayoutPriority)contentHuggingPriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+</span><span class='line'>- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+</span><span class='line'>- (UILayoutPriority)contentCompressionResistancePriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+</span><span class='line'>- (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayout
+</span><span class='line'>- </span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -480,97 +606,9 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html">为 Octopress 添加多说评论系统</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-26T14:51:19+08:00'><span class='date'>2015 年3 月26 日</span> <span class='time'>2:51 pm</span></time>
-        
-	    
-	           | <a href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html#comments">评论</a>
-	          
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件<a href="http://duoshuo.com/">多说</a>来替代disqus</p>
-
-<p>添加的过程主要是参照了Havee&rsquo;s Space中的Blog<a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">为 Octopress 添加多说评论系统</a></p>
-
-<p>其中有几点需要注意的事情是:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html">阅读全文</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150210/install-octopress.html">在GitHub上搭建Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-02-10T18:38:16+08:00'><span class='date'>2015 年2 月10 日</span> <span class='time'>6:38 pm</span></time>
-        
-	    
-	           | <a href="/blog/20150210/install-octopress.html#comments">评论</a>
-	          
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>前言</h2>
-
-<p>GitHub果真是一个神奇的地方.以前在使用<a href="http://hi.baidu.com/douxinchun">Baidu</a>空间和<a href="http://blog.csdn.net/douxinchun">CSDN</a>来写博客的时候,就听前辈们说过GitHub可以写博客.经过一番Google后终于弄明白了原理.<br/>
-首先是github中有一个功能叫做<a href="https://pages.github.com/">Pages</a>,这个功能具体的作用不详,但是其中的一项是能够把你上传的html文件显示为一个网页.其次是有好事者(别的博主都这么称呼)做了一个基于github的管理工具:<a href="http://octopress.org/">Octopress</a>).然后,我们就可以使用Octopress这个开源的框架加上Github Pages服务来搭建自己的Blog.<br/>
-到这里可能你会觉得非常兴奋,恨不得立马就要下手开搞.引用一句Octopress官方网站的标题:</p>
-
-<blockquote><p>Octopress<br/>
-A blogging framework for hackers.</p></blockquote>
-
-<p>所以,如果没有一定的Git命令基础,html知识和Linux命令行知识的话,最好不要轻易的下决定.<br/>
-另外,Octopress框架下的Blog系统,需要使用<a href="http://zh.wikipedia.org/zh/Markdown">Markdown</a>语言来写博客,如果之前没有使用过的话,需要简单的学习一下,废话少说,开始介绍我的搭建之旅.</p>
-
-<h2>搭建Octopress</h2>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/20150210/install-octopress.html">阅读全文</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/posts/2">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -589,6 +627,14 @@ A blogging framework for hackers.</p></blockquote>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html">Xcode中的调试器LLDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20150720/autolayout-summary.html">AutoLayout 使用总结</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20150701/acccess-the-real-world-through-the-gfw.html">GoAgent+PHP 访问Google</a>
       </li>
     
@@ -598,14 +644,6 @@ A blogging framework for hackers.</p></blockquote>
     
       <li class="post">
         <a href="/blog/20150612/night-watcher-swear.html">冰与火之歌 守夜人誓言</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html">加快Octopress国内访问速度</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20150505/set-up-svnserver-under-centos.html">在CentOS下安装SVN Server</a>
       </li>
     
   </ul>
@@ -618,10 +656,11 @@ A blogging framework for hackers.</p></blockquote>
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (1)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (5)</a></li>
-<li class='category'><a href='/blog/categories/xcode/'>xcode (1)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (2)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 
   </ul>
