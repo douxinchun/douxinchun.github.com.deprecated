@@ -9,7 +9,8 @@
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="原文地址:http://objccn.io/issue-19-2/ 里面内容很多,本着实用主义,这里只记录我自己常用的命令: 1.查看某个变量的值 print LLDB会做前缀匹配,一把简写为p, 使用po可以查看NSObject的description 2.改变某个变量的值 expression &hellip;">
+  <meta name="description" content="原文地址:http://objccn.io/issue-19-2/
+里面内容很多,本着实用主义,这里只记录我自己常用的命令: 1.查看某个变量的值 print LLDB会做前缀匹配,一把简写为p, 使用po可以查看NSObject的description 2.改变某个变量的值 expression &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +94,7 @@
   </header>
 
 
-  <div class="entry-content"><p>原文地址:<a href="http://objccn.io/issue-19-2/  ">http://objccn.io/issue-19-2/  </a>
+  <div class="entry-content"><p>原文地址:<a href="http://objccn.io/issue-19-2/">http://objccn.io/issue-19-2/</a><br/>
 里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
 
 <h3>1.查看某个变量的值</h3>
@@ -146,7 +147,7 @@
 <p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
 理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
 
-<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/  ">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/  </a>
+<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/</a><br/>
 和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
 
 <p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
@@ -175,7 +176,7 @@ Autolayout有时在动画时候会很方便，因为View之间的坐标是相互
 
 <h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
 
-<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/  ">http://objccn.io/issue-3-5/  </a>
+<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a><br/>
 API中对应的是:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>

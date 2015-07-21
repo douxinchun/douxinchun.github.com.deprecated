@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ios开发过程中遇到的坑 | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-07-20T17:52:05+08:00</updated>
+  <updated>2015-07-21T11:59:30+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -103,7 +103,7 @@
 <h2>3.UITableview点击背景隐藏键盘</h2>
 
 <p>由于UITableview是UIScrollview的子类,如果按照2中的方式话,会响应touchbegin方法,但是UITablevieDelegate中的didSelectRowAtIndexPath就会不响应了.<br/>
-解决方法参照:<a href="http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview  ">http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview  </a>
+解决方法参照:<a href="http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview">http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview</a><br/>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
