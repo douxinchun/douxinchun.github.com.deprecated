@@ -27,7 +27,7 @@ categories: css
      padding:5px;
     }
 {% endcodeblock %}  
-然后在HTML代码的<head>标签对，<title>下面改成这样：
+然后在HTML代码的<head\>标签对,<title\>下面改成这样:
 {% codeblock %}
    <head>
    <title>HI</title>
@@ -36,7 +36,7 @@ categories: css
 {% endcodeblock %}  
 这样就OK了  
 
-2.内嵌式CSS。直接在<title>标签加成这样：
+2.内嵌式CSS。直接在<title\>标签加成这样：
 {% codeblock %}
    <head>
    <title>HI</title>
