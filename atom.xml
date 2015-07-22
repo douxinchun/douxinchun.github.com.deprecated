@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-07-22T18:53:29+08:00</updated>
+  <updated>2015-07-22T19:06:46+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -54,7 +54,7 @@
 
 
 <p>
-然后在HTML代码的<head>标签对，<title>下面改成这样：</p>
+然后在HTML代码的&lt;head>标签对,&lt;title>下面改成这样:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -69,7 +69,7 @@
 <p>
 这样就OK了</p>
 
-<p>2.内嵌式CSS。直接在<title>标签加成这样：</p>
+<p>2.内嵌式CSS。直接在&lt;title>标签加成这样：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
