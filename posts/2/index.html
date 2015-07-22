@@ -9,7 +9,27 @@
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件多说来替代disqus 添加的过程主要是参照了Havee&rsquo;s Space中的Blog为 Octopress 添加多说评论系统 &hellip;">
+  <meta name="description" content="主要用来记录学习Octopress中的一些知识点. 先记录一个命令,rake -T 可以查看命令rake的介绍: octopress-bash 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+localhost:octopress &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,6 +41,7 @@
   <link rel="canonical" href="http://douxinchun.github.io/posts/2/index.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
   <link href="/atom.xml" rel="alternate" title="冷雨之家" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>&#8211;>
@@ -68,6 +89,127 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150327/octopress-deeper-learn-1.html">Octopress学习旅程(1)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-27T15:08:02+08:00'><span class='date'>2015 年3 月27 日</span> <span class='time'>3:08 pm</span></time>
+        
+	    
+	           | <a href="/blog/20150327/octopress-deeper-learn-1.html#comments">评论</a>
+	          
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>主要用来记录学习Octopress中的一些知识点.</p>
+
+<p>先记录一个命令,rake -T 可以查看命令rake的介绍:</p>
+
+<figure class='code'><figcaption><span>octopress-bash </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>localhost:octopress douxinchun$ rake -T
+</span><span class='line'>rake clean                     # Clean out caches: .pygments-cache, .gist-cache, .sass-cache
+</span><span class='line'>rake copydot[source,dest]      # copy dot files for deployment
+</span><span class='line'>rake deploy                    # Default deploy task
+</span><span class='line'>rake gen_deploy                # Generate website and deploy
+</span><span class='line'>rake generate                  # Generate jekyll site
+</span><span class='line'>rake install[theme]            # Initial setup for Octopress: copies the default theme into the path of Jekyll's generator
+</span><span class='line'>rake integrate                 # Move all stashed posts back into the posts directory, ready for site generation
+</span><span class='line'>rake isolate[filename]         # Move all other posts than the one currently being worked on to a temporary stash location (stash) so regenerat...
+</span><span class='line'>rake list                      # list tasks
+</span><span class='line'>rake new_page[filename]        # Create a new page in source/(filename)/index.md
+</span><span class='line'>rake new_post[title]           # Begin a new post in source/_posts
+</span><span class='line'>rake preview                   # preview the site in a web browser
+</span><span class='line'>rake push                      # deploy public directory to github pages
+</span><span class='line'>rake rsync                     # Deploy website via rsync
+</span><span class='line'>rake set_root_dir[dir]         # Update configurations to support publishing to root or sub directory
+</span><span class='line'>rake setup_github_pages[repo]  # Set up _deploy folder and deploy branch for Github Pages deployment
+</span><span class='line'>rake update_source[theme]      # Move source to source.old, install source theme updates, replace source/_includes/navigation.html with source....
+</span><span class='line'>rake update_style[theme]       # Move sass to sass.old, install sass theme updates, replace sass/custom with sass.old/custom
+</span><span class='line'>rake watch                     # Watch the site and regenerate when it changes</span></code></pre></td></tr></table></div></figure>
+
+
+<p>追加一个介绍的很详细的Octopress使用者的总结,内容很详细,留作备忘<br/>
+<a href="http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/">http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150327/ios-bug-collection.html">iOS开发过程中遇到的Bug处理集合</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-27T15:00:07+08:00'><span class='date'>2015 年3 月27 日</span> <span class='time'>3:00 pm</span></time>
+        
+	    
+	           | <a href="/blog/20150327/ios-bug-collection.html#comments">评论</a>
+	          
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1.iOS7 下UIScrollView 无法滑动的解决办法</h2>
+
+<p>环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview<br/>
+接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+都出了,感觉以后使用AutoLayout会是主流),刚开始一切OK,跑起来顺畅的很,在3.5和4的屏幕上适应的都不错,后来不知道怎么调整了一下UI,结果悲剧发生了,Scrollview死活滑动不了了,导致Scrollview上的下拉刷新也不好用了.<br/>
+第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail&hellip; &hellip;Fuck Google上清一水的解决方案都是这个,说好的滑动呢&hellip;</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/20150327/ios-bug-collection.html">阅读全文</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -180,6 +322,14 @@ A blogging framework for hackers.</p></blockquote>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html">在网页中嵌入css的三种方法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20150722/distribute-ipa-by-itms-services.html">使用itms-services 协议来发布ipa文件</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html">Xcode中的调试器LLDB</a>
       </li>
     
@@ -191,14 +341,6 @@ A blogging framework for hackers.</p></blockquote>
         <a href="/blog/20150701/acccess-the-real-world-through-the-gfw.html">GoAgent+PHP 访问Google</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/20150630/use-octopress-in-different-machines.html">在多台机器上协作使用Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20150612/night-watcher-swear.html">冰与火之歌 守夜人誓言</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -208,8 +350,9 @@ A blogging framework for hackers.</p></blockquote>
 <section>
   <h1>文章分类</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (1)</a></li>
+    <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
+<li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (2)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (5)</a></li>

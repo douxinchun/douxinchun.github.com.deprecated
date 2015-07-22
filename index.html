@@ -9,8 +9,21 @@
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="原文地址:http://objccn.io/issue-19-2/
-里面内容很多,本着实用主义,这里只记录我自己常用的命令: 1.查看某个变量的值 print LLDB会做前缀匹配,一把简写为p, 使用po可以查看NSObject的description 2.改变某个变量的值 expression &hellip;">
+  <meta name="description" content="留存备忘
+假如有一段HTML代码如下： 1
+2
+3
+4
+5
+6
+7
+8
+&lt;html>
+&lt;head>
+&lt;title>Hi&lt;/title>
+&lt;/head>
+&lt;body> &lt;div id=&#8221;myid&#8221; class=&#8221;myclass&#8221;>&lt;/div>
+&lt &hellip;&#8221;>
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,6 +35,7 @@
   <link rel="canonical" href="http://douxinchun.github.io/index.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
   <link href="/atom.xml" rel="alternate" title="冷雨之家" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>&#8211;>
@@ -75,6 +89,367 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html">在网页中嵌入css的三种方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-22T18:42:32+08:00'><span class='date'>2015 年7 月22 日</span> <span class='time'>6:42 pm</span></time>
+        
+	    
+	           | <a href="/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html#comments">评论</a>
+	          
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>留存备忘<br/>
+假如有一段HTML代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
+</span><span class='line'>&lt;head>
+</span><span class='line'>&lt;title>Hi&lt;/title>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body>
+</span><span class='line'>  &lt;div id="myid" class="myclass">&lt;/div>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>在HTML代码中嵌入CSS有一下三种方法：</p>
+
+<p>1.外链式CSS。编写一个.css文件并且命名为style.css,内容如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#myid{
+</span><span class='line'>     padding:5px;
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+然后在HTML代码的<head>标签对，<title>下面改成这样：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
+</span><span class='line'>   &lt;title>HI&lt;/title>
+</span><span class='line'>   &lt;link rel="stylesheet" type="text/css" href="style.css">
+</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+这样就OK了</p>
+
+<p>2.内嵌式CSS。直接在<title>标签加成这样：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
+</span><span class='line'>   &lt;title>HI&lt;/title>
+</span><span class='line'>   &lt;style type="text/css">
+</span><span class='line'>   &lt;!--
+</span><span class='line'>    #myid{
+</span><span class='line'>     padding:5px;
+</span><span class='line'>     }
+</span><span class='line'>    -->
+</span><span class='line'>   &lt;/style>
+</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>3.直接式CSS。直接为DIV添加style属性如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div id="myid" class="myclass" style="padding:5px;">&lt;/div></span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150722/distribute-ipa-by-itms-services.html">使用itms-services 协议来发布ipa文件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-22T16:45:35+08:00'><span class='date'>2015 年7 月22 日</span> <span class='time'>4:45 pm</span></time>
+        
+	    
+	           | <a href="/blog/20150722/distribute-ipa-by-itms-services.html#comments">评论</a>
+	          
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>苹果允许用itms-services协议来直接在iphone/ipad上安装应用程序，我们可以直接生成该协议需要的相关文件，这样产品经理和测试都可以直接在设备上安装新版的应用:</p>
+
+<p>需要两个文件，一个是html，另一个是plist。</p>
+
+<p>文件index.html(请自动忽略css部分,我实在不会写前端):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
+</span><span class='line'>&lt;head>
+</span><span class='line'>    &lt;style>
+</span><span class='line'>        body {
+</span><span class='line'>            font-size: 50px;
+</span><span class='line'>            margin-top:100px;
+</span><span class='line'>            margin-left:auto;
+</span><span class='line'>            margin-right:auto;
+</span><span class='line'>            text-align:center;
+</span><span class='line'>        }
+</span><span class='line'>    &lt;/style>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body>
+</span><span class='line'>&lt;p>iOS 7.1 and above systems use the following link to install&lt;/p>
+</span><span class='line'>&lt;p>&lt;a href="itms-services://?action=download-manifest&amp;url=https://********/**/tue_test.plist">Install TU/e App For Test&lt;/a>&lt;/p>
+</span><span class='line'>&lt;/a>&lt;/p>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>文件plist:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?>
+</span><span class='line'>&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+</span><span class='line'>&lt;plist version="1.0">
+</span><span class='line'>&lt;dict>
+</span><span class='line'>   &lt;key>items&lt;/key>
+</span><span class='line'>   &lt;array>
+</span><span class='line'>       &lt;dict>
+</span><span class='line'>           &lt;key>assets&lt;/key>
+</span><span class='line'>           &lt;array>
+</span><span class='line'>               &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>software-package&lt;/string>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>http://****/**/tue_test.ipa(ipa文件的访问地址)&lt;/string>
+</span><span class='line'>               &lt;/dict>
+</span><span class='line'>               &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>display-image&lt;/string>
+</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
+</span><span class='line'>                   &lt;true/>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
+</span><span class='line'>               &lt;/dict>
+</span><span class='line'>      &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>full-size-image&lt;/string>
+</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
+</span><span class='line'>                   &lt;true/>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
+</span><span class='line'>              &lt;/dict>
+</span><span class='line'>           &lt;/array>
+</span><span class='line'>           &lt;key>metadata&lt;/key>
+</span><span class='line'>           &lt;dict>
+</span><span class='line'>               &lt;key>bundle-identifier&lt;/key>
+</span><span class='line'>               &lt;string>com.xx.xx(bundleID需要ipa中需要保持一致)&lt;/string>
+</span><span class='line'>               &lt;key>bundle-version&lt;/key>
+</span><span class='line'>               &lt;string>1.0(CFBundleVersion需要和ipa中的保持一致)&lt;/string>
+</span><span class='line'>               &lt;key>kind&lt;/key>
+</span><span class='line'>               &lt;string>software&lt;/string>
+</span><span class='line'>               &lt;key>subtitle&lt;/key>
+</span><span class='line'>               &lt;string>&lt;/string>
+</span><span class='line'>               &lt;key>title&lt;/key>
+</span><span class='line'>               &lt;string>TU/e测试版(随便起,用于踊跃alert确认时的提示)&lt;/string>
+</span><span class='line'>           &lt;/dict>
+</span><span class='line'>       &lt;/dict>
+</span><span class='line'>   &lt;/array>
+</span><span class='line'>&lt;/dict>
+</span><span class='line'>&lt;/plist></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>注意</h3>
+
+<p>在iOS7.1之前,协议地址后的url需要使用http协议,</p>
+
+<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="http://********/**/tue_test.plist">http://********/**/tue_test.plist</a></p></blockquote>
+
+<p>在iOS7.1以及以后,这里需要换成https协议,</p>
+
+<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="https://********/**/tue_test.plist">https://********/**/tue_test.plist</a></p></blockquote>
+
+<p>否则使用Safari安装的时候,会提示&#8221;无法安装应用程序，因为“xx.xx.xx” 的证书无效;无法找到主机&#8221;1.2.3.4&#8221;&ldquo;之类的错误.也就是说,原先存放plist的web服务器需要支持https协议.<br/>
+自己动手搭建一个https的web服务的话,其中证书的部分很令人头痛的.我在IIS上整了一个上午,最后的结果上自己生成的证书Safari不认.我去,果断放弃这条路,google了一个简便的方法.利用开源中国(<a href="http://git.oschina.net/">http://git.oschina.net/</a>)提供的代码托管服务,托管一下plist文件,然后ipa的安装包和index.html依旧放在自己的服务器上.itms-services协议后面的url地址,改成在plist文件在开源中国上的url(注意url结束到.plist为止,后面的那一串参数不要带,直接手动把http改为https).</p>
+
+<p>具体的流程参见这里,<a href="http://blog.csdn.net/sy_bz/article/details/33739779">http://blog.csdn.net/sy_bz/article/details/33739779</a></p>
+
+<p>同理,我觉得github也应该可以代替开源中国.</p>
+
+<h3>附</h3>
+
+<p>plist中的字段说明:</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> key值                </th>
+<th style="text-align:left;"> 说明                   </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> <strong>assets</strong>           </td>
+<td style="text-align:left;">   </td>
+</tr>
+<tr>
+<td style="text-align:left;"> software-package url </td>
+<td style="text-align:left;"> 要安装的 ipa 地址  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> display-image url    </td>
+<td style="text-align:left;">   安装ipa的时候,桌面显示呃图标  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <strong>metadata</strong>         </td>
+<td style="text-align:left;">    </td>
+</tr>
+<tr>
+<td style="text-align:left;"> bundle-identifier    </td>
+<td style="text-align:left;"> bundle ID (和ipa保持一致) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> bundle-version       </td>
+<td style="text-align:left;"> CFBundleVersion(和ipa保持一致)  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> title                </td>
+<td style="text-align:left;"> 用户点击时弹框中的AppTitle提示  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> subtitle             </td>
+<td style="text-align:left;"> 不明,应该 也跟弹框的内容相关 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>以备后用<br/>
+自搭https服务器,可以查看的参照:<a href="http://zengrong.net/post/2108.html">http://zengrong.net/post/2108.html</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html">Xcode中的调试器LLDB</a></h1>
     
     
@@ -94,7 +469,7 @@
   </header>
 
 
-  <div class="entry-content"><p>原文地址:<a href="http://objccn.io/issue-19-2/">http://objccn.io/issue-19-2/</a><br/>
+  <div class="entry-content"><p>原文地址:<a href="http://objccn.io/issue-19-2/  ">http://objccn.io/issue-19-2/  </a>
 里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
 
 <h3>1.查看某个变量的值</h3>
@@ -147,7 +522,7 @@
 <p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
 理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
 
-<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/</a><br/>
+<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/  ">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/  </a>
 和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
 
 <p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
@@ -176,7 +551,7 @@ Autolayout有时在动画时候会很方便，因为View之间的坐标是相互
 
 <h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
 
-<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a><br/>
+<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/  ">http://objccn.io/issue-3-5/  </a>
 API中对应的是:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -486,127 +861,6 @@ API中对应的是:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150327/octopress-deeper-learn-1.html">Octopress学习旅程(1)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-27T15:08:02+08:00'><span class='date'>2015 年3 月27 日</span> <span class='time'>3:08 pm</span></time>
-        
-	    
-	           | <a href="/blog/20150327/octopress-deeper-learn-1.html#comments">评论</a>
-	          
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>主要用来记录学习Octopress中的一些知识点.</p>
-
-<p>先记录一个命令,rake -T 可以查看命令rake的介绍:</p>
-
-<figure class='code'><figcaption><span>octopress-bash </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>localhost:octopress douxinchun$ rake -T
-</span><span class='line'>rake clean                     # Clean out caches: .pygments-cache, .gist-cache, .sass-cache
-</span><span class='line'>rake copydot[source,dest]      # copy dot files for deployment
-</span><span class='line'>rake deploy                    # Default deploy task
-</span><span class='line'>rake gen_deploy                # Generate website and deploy
-</span><span class='line'>rake generate                  # Generate jekyll site
-</span><span class='line'>rake install[theme]            # Initial setup for Octopress: copies the default theme into the path of Jekyll's generator
-</span><span class='line'>rake integrate                 # Move all stashed posts back into the posts directory, ready for site generation
-</span><span class='line'>rake isolate[filename]         # Move all other posts than the one currently being worked on to a temporary stash location (stash) so regenerat...
-</span><span class='line'>rake list                      # list tasks
-</span><span class='line'>rake new_page[filename]        # Create a new page in source/(filename)/index.md
-</span><span class='line'>rake new_post[title]           # Begin a new post in source/_posts
-</span><span class='line'>rake preview                   # preview the site in a web browser
-</span><span class='line'>rake push                      # deploy public directory to github pages
-</span><span class='line'>rake rsync                     # Deploy website via rsync
-</span><span class='line'>rake set_root_dir[dir]         # Update configurations to support publishing to root or sub directory
-</span><span class='line'>rake setup_github_pages[repo]  # Set up _deploy folder and deploy branch for Github Pages deployment
-</span><span class='line'>rake update_source[theme]      # Move source to source.old, install source theme updates, replace source/_includes/navigation.html with source....
-</span><span class='line'>rake update_style[theme]       # Move sass to sass.old, install sass theme updates, replace sass/custom with sass.old/custom
-</span><span class='line'>rake watch                     # Watch the site and regenerate when it changes</span></code></pre></td></tr></table></div></figure>
-
-
-<p>追加一个介绍的很详细的Octopress使用者的总结,内容很详细,留作备忘<br/>
-<a href="http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/">http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150327/ios-bug-collection.html">iOS开发过程中遇到的Bug处理集合</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-27T15:00:07+08:00'><span class='date'>2015 年3 月27 日</span> <span class='time'>3:00 pm</span></time>
-        
-	    
-	           | <a href="/blog/20150327/ios-bug-collection.html#comments">评论</a>
-	          
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>1.iOS7 下UIScrollView 无法滑动的解决办法</h2>
-
-<p>环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview<br/>
-接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+都出了,感觉以后使用AutoLayout会是主流),刚开始一切OK,跑起来顺畅的很,在3.5和4的屏幕上适应的都不错,后来不知道怎么调整了一下UI,结果悲剧发生了,Scrollview死活滑动不了了,导致Scrollview上的下拉刷新也不好用了.<br/>
-第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail&hellip; &hellip;Fuck Google上清一水的解决方案都是这个,说好的滑动呢&hellip;</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/20150327/ios-bug-collection.html">阅读全文</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -628,6 +882,14 @@ API中对应的是:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html">在网页中嵌入css的三种方法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20150722/distribute-ipa-by-itms-services.html">使用itms-services 协议来发布ipa文件</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html">Xcode中的调试器LLDB</a>
       </li>
     
@@ -639,14 +901,6 @@ API中对应的是:</p>
         <a href="/blog/20150701/acccess-the-real-world-through-the-gfw.html">GoAgent+PHP 访问Google</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/20150630/use-octopress-in-different-machines.html">在多台机器上协作使用Octopress</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20150612/night-watcher-swear.html">冰与火之歌 守夜人誓言</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -656,8 +910,9 @@ API中对应的是:</p>
 <section>
   <h1>文章分类</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (1)</a></li>
+    <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
+<li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (2)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (5)</a></li>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Xcode | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-07-21T11:59:30+08:00</updated>
+  <updated>2015-07-22T18:53:29+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -18,7 +18,7 @@
     <link href="http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html"/>
     <updated>2015-07-20T17:40:46+08:00</updated>
     <id>http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb</id>
-    <content type="html"><![CDATA[<p>原文地址:<a href="http://objccn.io/issue-19-2/">http://objccn.io/issue-19-2/</a><br/>
+    <content type="html"><![CDATA[<p>原文地址:<a href="http://objccn.io/issue-19-2/  ">http://objccn.io/issue-19-2/  </a>
 里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
 
 <h3>1.查看某个变量的值</h3>
