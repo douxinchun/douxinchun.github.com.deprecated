@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-07-22T19:06:46+08:00</updated>
+  <updated>2015-09-01T10:21:37+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -12,6 +12,84 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode 统计项目中代码的行数]]></title>
+    <link href="http://douxinchun.github.io/blog/20150901/cloc.html"/>
+    <updated>2015-09-01T10:09:12+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150901/cloc</id>
+    <content type="html"><![CDATA[<h3>方法一:</h3>
+
+<p>终端命令进入项目目录下，命令如下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+列出每个文件的行数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs grep -v "^$"|wc -l  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>列出代码行数总和</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>grep -v "^$"是去掉空行</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>注释也统计在代码量之内</p>
+
+<h3>方法二:</h3>
+
+<p>使用CLOC,项目说明地址:<a href="http://cloc.sourceforge.net/  ">http://cloc.sourceforge.net/  </a>
+  1.64 Perl脚本下载地址,<a href="https://github.com/douxinchun/CLOC">https://github.com/douxinchun/CLOC</a></p>
+
+<p>使用方法:<br/>
+perl cloc-1.64.pl ./YourProjectName</p>
+
+<p>result:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> 200 files
+</span><span class='line'> 744 text files.
+</span><span class='line'> 630 unique files.                                          
+</span><span class='line'> 315 files ignored.
+</span><span class='line'>
+</span><span class='line'>http://cloc.sourceforge.net v 1.64  T=2.56 s (199.8 files/s, 22014.2 lines/s)
+</span><span class='line'>-------------------------------------------------------------------------------
+</span><span class='line'>Language                     files          blank        comment           code
+</span><span class='line'>-------------------------------------------------------------------------------
+</span><span class='line'>Objective C                    242           6916           4208          28460
+</span><span class='line'>C/C++ Header                   265           3605           8066           4870
+</span><span class='line'>JSON                             3              0              0            107
+</span><span class='line'>Bourne Shell                     1              5              0             65
+</span><span class='line'>-------------------------------------------------------------------------------
+</span><span class='line'>SUM:                           511          10526          12274          33502
+</span><span class='line'>-------------------------------------------------------------------------------</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在网页中嵌入css的三种方法]]></title>
