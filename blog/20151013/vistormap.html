@@ -5,13 +5,15 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Xcode 统计项目中代码的行数 - 冷雨之家</title>
+  <title>为Octopress侧边栏增加访客地图 - 冷雨之家</title>
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="方法一: 终端命令进入项目目录下，命令如下 1
-find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l 列出每个文件的行数 1
-find . -name "*.m" -or -name &hellip;">
+  <meta name="description" content="效果图我的Blog右下角那个旋转的3D地图,可以显示地域和访客的数量.
+Widget获取地址在这里:
+https://www.revolvermaps.com/?target=setupgl 可以根据自己的喜好设定.
+分两步添加到Octopress的侧边栏中:
+1,获取code,并创建文件 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +22,7 @@ find . -name "*.m" -or -name &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://douxinchun.github.io/blog/20150901/cloc.html">
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20151013/vistormap.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
@@ -76,7 +78,7 @@ find . -name "*.m" -or -name &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Xcode 统计项目中代码的行数</h1>
+      <h1 class="entry-title">为Octopress侧边栏增加访客地图</h1>
     
     
       <p class="meta">
@@ -85,7 +87,7 @@ find . -name "*.m" -or -name &hellip;">
 
 
 
-<time class='entry-date' datetime='2015-09-01T10:09:12+08:00'><span class='date'>2015 年9 月1 日</span> <span class='time'>10:09 am</span></time>
+<time class='entry-date' datetime='2015-10-13T13:33:13+08:00'><span class='date'>2015 年10 月13 日</span> <span class='time'>1:33 pm</span></time>
         
 	    
 	           | <a href="#comments">评论</a>
@@ -95,76 +97,33 @@ find . -name "*.m" -or -name &hellip;">
   </header>
 
 
-<div class="entry-content"><h3>方法一:</h3>
+<div class="entry-content"><p>效果图我的Blog右下角那个旋转的3D地图,可以显示地域和访客的数量.<br/>
+Widget获取地址在这里:<br/>
+<a href="https://www.revolvermaps.com/?target=setupgl  ">https://www.revolvermaps.com/?target=setupgl  </a>
+可以根据自己的喜好设定.
+分两步添加到Octopress的侧边栏中:<br/>
+1,获取code,并创建文件<br/>
+<code>source/_includes/custom/asides/earth.html</code></p>
 
-<p>终端命令进入项目目录下，命令如下</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-列出每个文件的行数</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs grep -v "^$"|wc -l  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>列出代码行数总和</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grep -v "^$"是去掉空行</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>注释也统计在代码量之内</p>
-
-<h3>方法二:</h3>
-
-<p>使用CLOC,项目说明地址:<a href="http://cloc.sourceforge.net/  ">http://cloc.sourceforge.net/  </a>
-  1.64 Perl脚本下载地址,<a href="https://github.com/douxinchun/CLOC">https://github.com/douxinchun/CLOC</a></p>
-
-<p>使用方法:<br/>
-perl cloc-1.64.pl ./YourProjectName</p>
-
-<p>result:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> 200 files
-</span><span class='line'> 744 text files.
-</span><span class='line'> 630 unique files.                                          
-</span><span class='line'> 315 files ignored.
-</span><span class='line'>
-</span><span class='line'>http://cloc.sourceforge.net v 1.64  T=2.56 s (199.8 files/s, 22014.2 lines/s)
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>Language                     files          blank        comment           code
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>Objective C                    242           6916           4208          28460
-</span><span class='line'>C/C++ Header                   265           3605           8066           4870
-</span><span class='line'>JSON                             3              0              0            107
-</span><span class='line'>Bourne Shell                     1              5              0             65
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>SUM:                           511          10526          12274          33502
-</span><span class='line'>-------------------------------------------------------------------------------</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;section&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>访客地图<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;amp;m=0&amp;amp;s=220&amp;amp;c=ff0000&amp;amp;cr1=ffffff&amp;amp;f=arial&amp;amp;l=0&quot;</span> <span class="na">async=</span><span class="s">&quot;async&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;/section&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p></p>
+<p>
+2,修改配置文件<br/>
+<code>_config.yml</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">default_asides</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">custom/asides/about.html</span><span class="p-Indicator">,</span><span class="nv">asides/recent_posts.html</span><span class="p-Indicator">,</span> <span class="nv">asides/github.html</span><span class="p-Indicator">,</span> <span class="nv">asides/delicious.html</span><span class="p-Indicator">,</span> <span class="nv">asides/pinboard.html</span><span class="p-Indicator">,</span> <span class="nv">asides/googleplus.html</span><span class="p-Indicator">,</span><span class="nv">asides/category_list.html</span><span class="p-Indicator">,</span><span class="nv">custom/asides/recent_comments.html</span><span class="p-Indicator">,</span><span class="nv">custom/asides/earth.html</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
 </div>
 
 
@@ -180,12 +139,12 @@ perl cloc-1.64.pl ./YourProjectName</p>
 
 
 
-<time class='entry-date' datetime='2015-09-01T10:09:12+08:00'><span class='date'>2015 年9 月1 日</span> <span class='time'>10:09 am</span></time>
+<time class='entry-date' datetime='2015-10-13T13:33:13+08:00'><span class='date'>2015 年10 月13 日</span> <span class='time'>1:33 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ios/'>ios</a>
+    <a class='category' href='/blog/categories/octopress/'>octopress</a>
   
 </span>
 
@@ -201,10 +160,8 @@ perl cloc-1.64.pl ./YourProjectName</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html" title="Previous Post: 在网页中嵌入css的三种方法">&laquo; 在网页中嵌入css的三种方法</a>
+        <a class="basic-alignment left" href="/blog/20151009/private-api-in-ios.html" title="Previous Post: iOS SDK中的私有API">&laquo; iOS SDK中的私有API</a>
       
-      
-        <a class="basic-alignment right" href="/blog/20151009/private-api-in-ios.html" title="Next Post: iOS SDK中的私有API">iOS SDK中的私有API &raquo;</a>
       
     </p>
   </footer>
@@ -214,7 +171,7 @@ perl cloc-1.64.pl ./YourProjectName</p>
   <section>
     <h1>评论</h1>
     <div id="comments" aria-live="polite">	   <!-- Duoshuo Comment BEGIN -->
-	   <div class="ds-thread" data-title="Xcode 统计项目中代码的行数"></div>
+	   <div class="ds-thread" data-title="为Octopress侧边栏增加访客地图"></div>
 	   <script type="text/javascript">
 	     var duoshuoQuery = {short_name:"douxinchun"};
 	     (function() {
