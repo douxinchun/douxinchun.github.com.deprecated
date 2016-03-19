@@ -5,11 +5,25 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>AutoLayout 使用总结 - 冷雨之家</title>
+  <title>在网页中嵌入css的三种方法 - 冷雨之家</title>
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="1.如何计算UITableViewCell的高度 在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用sizeWithFont: 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予heightForRow &hellip;">
+  <meta name="description" content="留存备忘
+假如有一段HTML代码如下： 1
+2
+3
+4
+5
+6
+7
+8
+&lt;html>
+&lt;head>
+&lt;title>Hi&lt;/title>
+&lt;/head>
+&lt;body> &lt;div id=&#8221;myid&#8221; class=&#8221;myclass&#8221;>&lt;/div>
+&lt &hellip;&#8221;>
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +32,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://douxinchun.github.io/blog/20150720/autolayout-summary.html">
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
@@ -74,7 +88,7 @@
   
   <header>
     
-      <h1 class="entry-title">AutoLayout 使用总结</h1>
+      <h1 class="entry-title">在网页中嵌入css的三种方法</h1>
     
     
       <p class="meta">
@@ -83,7 +97,7 @@
 
 
 
-<time class='entry-date' datetime='2015-07-20T16:55:20+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>4:55 pm</span></time>
+<time class='entry-date' datetime='2015-07-22T18:42:32+08:00'><span class='date'>2015 年7 月22 日</span> <span class='time'>6:42 pm</span></time>
         
 	    
 	           | <a href="#comments">评论</a>
@@ -93,55 +107,87 @@
   </header>
 
 
-<div class="entry-content"><h3>1.如何计算UITableViewCell的高度</h3>
-
-<p>在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用<code>sizeWithFont:</code> 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予<code>heightForRow:</code>。</p>
-
-<p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
-理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
-
-<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/</a><br/>
-和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
-
-<p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
-1. UILabel以及UITextField等有<code>preferredMaxLayoutWidth</code>属性的VIew需要设置一下,不然计算出来的高度UILable的部分只有一行文字的高度<br/>
-2. 对于具有<code>intrinsicContentSize</code>的View需要在垂直方向上,将压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)设置为1000,最高级
-3. 要保证Cell在垂直方向上设置的Constraints,理论上可以计算出整个Cell的高度,可以降低某个垂直方向约束的优先级,来消除xib中的约束错误提示</p>
-
-<h3>2.AutoLayout下的动画</h3>
-
-<p>在使用Autolayout时，动画的使用和以前也不同了，以前我们是修改frame，现在我们可以通过修改Constraints, 然后在动画时layoutIfNeeded就行了。</p>
+<div class="entry-content"><p>留存备忘<br/>
+假如有一段HTML代码如下：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//修改约束
-</span><span class='line'>...
-</span><span class='line'>[UIView animateWithDuration:0.2 animations:^{
-</span><span class='line'>    [view layoutIfNeeded];
-</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
+</span><span class='line'>&lt;head>
+</span><span class='line'>&lt;title>Hi&lt;/title>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body>
+</span><span class='line'>  &lt;div id="myid" class="myclass">&lt;/div>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>在HTML代码中嵌入CSS有一下三种方法：</p>
+
+<p>1.外链式CSS。编写一个.css文件并且命名为style.css,内容如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#myid{
+</span><span class='line'>     padding:5px;
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
 
 
 <p>
-Autolayout有时在动画时候会很方便，因为View之间的坐标是相互影响的，在传统frame中，如果改变一个view的frame,那么可能你要更改很多view的frame，才能让页面显得和谐。在Autolayout中可能只需要修改一个Constraint就可以了，在做动画时会很方便。</p>
+然后在HTML代码的&lt;head>标签对,&lt;title>下面改成这样:</p>
 
-<h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
+</span><span class='line'>   &lt;title>HI&lt;/title>
+</span><span class='line'>   &lt;link rel="stylesheet" type="text/css" href="style.css">
+</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure>
 
-<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a><br/>
-API中对应的是:</p>
+
+<p>
+这样就OK了</p>
+
+<p>2.内嵌式CSS。直接在&lt;title>标签加成这样：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (UILayoutPriority)contentHuggingPriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (UILayoutPriority)contentCompressionResistancePriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayout
-</span><span class='line'>- </span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
+</span><span class='line'>   &lt;title>HI&lt;/title>
+</span><span class='line'>   &lt;style type="text/css">
+</span><span class='line'>   &lt;!--
+</span><span class='line'>    #myid{
+</span><span class='line'>     padding:5px;
+</span><span class='line'>     }
+</span><span class='line'>    -->
+</span><span class='line'>   &lt;/style>
+</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>3.直接式CSS。直接为DIV添加style属性如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div id="myid" class="myclass" style="padding:5px;">&lt;/div></span></code></pre></td></tr></table></div></figure>
 
 </div>
 
@@ -158,12 +204,12 @@ API中对应的是:</p>
 
 
 
-<time class='entry-date' datetime='2015-07-20T16:55:20+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>4:55 pm</span></time>
+<time class='entry-date' datetime='2015-07-22T18:42:32+08:00'><span class='date'>2015 年7 月22 日</span> <span class='time'>6:42 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ios/'>ios</a>
+    <a class='category' href='/blog/categories/css/'>css</a>
   
 </span>
 
@@ -179,10 +225,10 @@ API中对应的是:</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/20150701/acccess-the-real-world-through-the-gfw.html" title="Previous Post: GoAgent+PHP 访问Google">&laquo; GoAgent+PHP 访问Google</a>
+        <a class="basic-alignment left" href="/blog/20150722/distribute-ipa-by-itms-services.html" title="Previous Post: 使用itms-services 协议来发布ipa文件">&laquo; 使用itms-services 协议来发布ipa文件</a>
       
       
-        <a class="basic-alignment right" href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html" title="Next Post: Xcode中的调试器LLDB">Xcode中的调试器LLDB &raquo;</a>
+        <a class="basic-alignment right" href="/blog/20150901/cloc.html" title="Next Post: xcode 统计项目中代码的行数">xcode 统计项目中代码的行数 &raquo;</a>
       
     </p>
   </footer>
@@ -192,7 +238,7 @@ API中对应的是:</p>
   <section>
     <h1>评论</h1>
     <div id="comments" aria-live="polite">	   <!-- Duoshuo Comment BEGIN -->
-	   <div class="ds-thread" data-title="AutoLayout 使用总结"></div>
+	   <div class="ds-thread" data-title="在网页中嵌入css的三种方法"></div>
 	   <script type="text/javascript">
 	     var duoshuoQuery = {short_name:"douxinchun"};
 	     (function() {
