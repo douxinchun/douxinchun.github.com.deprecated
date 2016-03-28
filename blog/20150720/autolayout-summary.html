@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Xcode常用的插件集合 - 冷雨之家</title>
+  <title>AutoLayout 使用总结 - 冷雨之家</title>
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="本文主要总结了一下,我在Xcode下经常使用的的插件. 1.Alcatraz Alcatraz是一个Xcode的开源的包管理工具.使用它,我们可以查找和安装各种各样的插件,模板以及配色方案.
-安装Alcatraz很简单,打开Terminal,把下面一行粘贴进命令行即可,安装之前,友情提示: &hellip;">
+  <meta name="description" content="1.如何计算UITableViewCell的高度 在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用sizeWithFont: 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予heightForRow &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://douxinchun.github.io/blog/20150401/xcode-plugin-collection.html">
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20150720/autolayout-summary.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
@@ -75,7 +74,7 @@
   
   <header>
     
-      <h1 class="entry-title">Xcode常用的插件集合</h1>
+      <h1 class="entry-title">AutoLayout 使用总结</h1>
     
     
       <p class="meta">
@@ -84,7 +83,7 @@
 
 
 
-<time class='entry-date' datetime='2015-04-01T10:24:50+08:00'><span class='date'>2015 年4 月1 日</span> <span class='time'>10:24 am</span></time>
+<time class='entry-date' datetime='2015-07-20T16:55:20+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>4:55 pm</span></time>
         
 	    
 	           | <a href="#comments">评论</a>
@@ -94,109 +93,56 @@
   </header>
 
 
-<div class="entry-content"><p>本文主要总结了一下,我在Xcode下经常使用的的插件.</p>
+<div class="entry-content"><h3>1.如何计算UITableViewCell的高度</h3>
 
-<h2>1.Alcatraz</h2>
+<p>在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用<code>sizeWithFont:</code> 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予<code>heightForRow:</code>。</p>
 
-<p>Alcatraz是一个Xcode的开源的包管理工具.使用它,我们可以查找和安装各种各样的插件,模板以及配色方案.<br/>
-安装Alcatraz很简单,打开Terminal,把下面一行粘贴进命令行即可,安装之前,友情提示:Alcatraz is available for OSX 10.9+ and Xcode 5+ only.</p>
+<p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
+理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>curl -fsSL https://raw.githubusercontent.com/supermarin/Alcatraz/master/Scripts/install.sh | sh</span></code></pre></td></tr></table></div></figure>
+<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/</a><br/>
+和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
 
+<p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
+1. UILabel以及UITextField等有<code>preferredMaxLayoutWidth</code>属性的VIew需要设置一下,不然计算出来的高度UILable的部分只有一行文字的高度<br/>
+2. 对于具有<code>intrinsicContentSize</code>的View需要在垂直方向上,将压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)设置为1000,最高级
+3. 要保证Cell在垂直方向上设置的Constraints,理论上可以计算出整个Cell的高度,可以降低某个垂直方向约束的优先级,来消除xib中的约束错误提示</p>
 
-<p>
-删除插件命令</p>
+<h3>2.AutoLayout下的动画</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-清空Alcatraz缓存的命令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf ~/Library/Application\ Support/Alcatraz</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>安装完成之后 ,最后提示</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Alcatraz successfully installed!!1!🍻   Please restart your Xcode.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-重启Xcode,发现在Windows菜单项下会多出一个Pachage Manager的项,快捷键是⇧⌘9</p>
-
-<!--more-->
-
-
-<h2>2.VVDocumenter</h2>
-
-<p>VVDocumenter可以帮我们自动生成注释文档,使用的方式也非常简单.在任何的类,方法或者你需要插入注释的地方输入&#8221;///&ldquo;即可,这里引用一张原作者的gif图片来说明效果:<br/>
-<img src="https://camo.githubusercontent.com/ca5518c9872e15b8a95b9d8c5f44bc331977d710/68747470733a2f2f7261772e6769746875622e636f6d2f6f6e65766361742f5656446f63756d656e7465722d58636f64652f6d61737465722f53637265656e53686f742e676966"></p>
-
-<p>安装方式也很简单,
-1.Alcatraz ,如果你安装了Alcatraz,直接打开Xcode->⇧⌘9->搜索VVDocumenter,Install.<br/>
-2.如果不想安装Alcatraz,把整个项目clone到本地,然后在Xcode中编译(⌘B),重启Xcode,Windows->会出现一个VVDocumenter项.安装成功.<br/>
-如果还不放心,可以在这查找到插件的存在 ~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/</p>
-
-<p>GitHub:git@github.com:onevcat/VVDocumenter-Xcode.git</p>
-
-<h2>3.RTImageAssets</h2>
-
-<p>用来生成 @3x 的图片资源对应的 @2x 和 @1x 版本，只要拖拽高清图到 @3x 的位置上，然后按 Ctrl+Shift+A 即可自动生成两张低清的补全空位。当然你也可以从 @2x 的图生成 @3x 版本，如果你对图片质量要求不高的话.
-附一张使用效果的gif<br/>
-<img src="https://github.com/rickytan/RTImageAssets/raw/master/ScreenCap/usage.gif"></p>
-
-<p>GitHub:git@github.com:rickytan/RTImageAssets.git</p>
-
-<h2>4.XAlign</h2>
-
-<p>自动对齐,效果gif图:</p>
-
-<p><img src="https://camo.githubusercontent.com/7973c0e352b1f91e3efe5b3550cff5df97f4589a/687474703a2f2f7166692e73682f58416c69676e2f696d616765732f657175616c2e676966"></p>
-
-<p>安装方式 Terminal,</p>
+<p>在使用Autolayout时，动画的使用和以前也不同了，以前我们是修改frame，现在我们可以通过修改Constraints, 然后在动画时layoutIfNeeded就行了。</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># install
-</span><span class='line'>    $ curl http://qfi.sh/XAlign/build/install.sh | sh
-</span><span class='line'>
-</span><span class='line'>    or
-</span><span class='line'>    
-</span><span class='line'>    # update
-</span><span class='line'>    $ curl http://qfi.sh/XAlign/build/update.sh | sh</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//修改约束
+</span><span class='line'>...
+</span><span class='line'>[UIView animateWithDuration:0.2 animations:^{
+</span><span class='line'>    [view layoutIfNeeded];
+</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
 
 
-<h2>5.ClangFormat</h2>
+<p>
+Autolayout有时在动画时候会很方便，因为View之间的坐标是相互影响的，在传统frame中，如果改变一个view的frame,那么可能你要更改很多view的frame，才能让页面显得和谐。在Autolayout中可能只需要修改一个Constraint就可以了，在做动画时会很方便。</p>
 
-<p>代码格式化工具</p>
+<h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
 
-<p><img src="https://camo.githubusercontent.com/758d8d2c87f7ec1bb3b6882d6500fe4cf5252759/68747470733a2f2f7261772e6769746875622e636f6d2f7472617669736a6566666572792f436c616e67466f726d61742d58636f64652f6d61737465722f524541444d452f636c616e67666f726d61742d78636f64652d64656d6f2e676966"></p>
+<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a><br/>
+API中对应的是:</p>
 
-<h2>6.Auto Importer for Xcode</h2>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UILayoutPriority)contentHuggingPriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+</span><span class='line'>- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+</span><span class='line'>- (UILayoutPriority)contentCompressionResistancePriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+</span><span class='line'>- (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayout
+</span><span class='line'>- </span></code></pre></td></tr></table></div></figure>
 
-<p>自动引入头文件</p>
-
-<p><img src="https://github.com/lucholaf/Auto-Importer-for-Xcode/raw/master/demo.gif"></p>
-
-<h2>7.KSImageNamed-Xcode</h2>
-
-<p>图片名称自动补全<br/>
-<img src="https://camo.githubusercontent.com/c354bf04524df86daeabe7a6d2b9926fac790f85/68747470733a2f2f7261772e6769746875622e636f6d2f6b7375746865722f4b53496d6167654e616d65642d58636f64652f6d61737465722f73637265656e73686f742e676966"></p>
-
-<h2>8.ZLGotoSandboxPlugin-Xcode</h2>
-
-<p>快速定位simulator的沙盒路径 <a href="https://github.com/MakeZL/ZLGotoSandboxPlugin">https://github.com/MakeZL/ZLGotoSandboxPlugin</a></p>
 </div>
 
 
@@ -212,12 +158,12 @@
 
 
 
-<time class='entry-date' datetime='2015-04-01T10:24:50+08:00'><span class='date'>2015 年4 月1 日</span> <span class='time'>10:24 am</span></time>
+<time class='entry-date' datetime='2015-07-20T16:55:20+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>4:55 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/xcode/'>xcode</a>
+    <a class='category' href='/blog/categories/ios/'>ios</a>
   
 </span>
 
@@ -233,10 +179,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/20150327/octopress-deeper-learn-1.html" title="Previous Post: Octopress学习旅程(1)">&laquo; Octopress学习旅程(1)</a>
+        <a class="basic-alignment left" href="/blog/20150701/acccess-the-real-world-through-the-gfw.html" title="Previous Post: GoAgent+PHP 访问Google">&laquo; GoAgent+PHP 访问Google</a>
       
       
-        <a class="basic-alignment right" href="/blog/20150505/set-up-svnserver-under-centos.html" title="Next Post: 在CentOS下安装SVN Server">在CentOS下安装SVN Server &raquo;</a>
+        <a class="basic-alignment right" href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html" title="Next Post: Xcode中的调试器LLDB">Xcode中的调试器LLDB &raquo;</a>
       
     </p>
   </footer>
@@ -246,7 +192,7 @@
   <section>
     <h1>评论</h1>
     <div id="comments" aria-live="polite">	   <!-- Duoshuo Comment BEGIN -->
-	   <div class="ds-thread" data-title="Xcode常用的插件集合"></div>
+	   <div class="ds-thread" data-title="AutoLayout 使用总结"></div>
 	   <script type="text/javascript">
 	     var duoshuoQuery = {short_name:"douxinchun"};
 	     (function() {

@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2015-06-12T18:50:50+08:00</updated>
+  <updated>2016-03-20T01:20:46+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -12,6 +12,806 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[为Octopress侧边栏增加访客地图]]></title>
+    <link href="http://douxinchun.github.io/blog/20151013/vistormap.html"/>
+    <updated>2015-10-13T13:33:13+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20151013/vistormap</id>
+    <content type="html"><![CDATA[<p>效果图我的Blog右下角那个旋转的3D地图,可以显示地域和访客的数量.<br/>
+Widget获取地址在这里:<br/>
+<a href="https://www.revolvermaps.com/?target=setupgl">https://www.revolvermaps.com/?target=setupgl</a><br/>
+可以根据自己的喜好设定.
+分两步添加到Octopress的侧边栏中:<br/>
+1,获取code,并创建文件<br/>
+<code>source/_includes/custom/asides/earth.html</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;section&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>访客地图<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;amp;m=0&amp;amp;s=220&amp;amp;c=ff0000&amp;amp;cr1=ffffff&amp;amp;f=arial&amp;amp;l=0&quot;</span> <span class="na">async=</span><span class="s">&quot;async&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;/section&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+2,修改配置文件<br/>
+<code>_config.yml</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">default_asides</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">custom/asides/about.html</span><span class="p-Indicator">,</span><span class="nv">asides/recent_posts.html</span><span class="p-Indicator">,</span> <span class="nv">asides/github.html</span><span class="p-Indicator">,</span> <span class="nv">asides/delicious.html</span><span class="p-Indicator">,</span> <span class="nv">asides/pinboard.html</span><span class="p-Indicator">,</span> <span class="nv">asides/googleplus.html</span><span class="p-Indicator">,</span><span class="nv">asides/category_list.html</span><span class="p-Indicator">,</span><span class="nv">custom/asides/recent_comments.html</span><span class="p-Indicator">,</span><span class="nv">custom/asides/earth.html</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS SDK中的私有API]]></title>
+    <link href="http://douxinchun.github.io/blog/20151009/private-api-in-ios.html"/>
+    <updated>2015-10-09T14:37:39+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20151009/private-api-in-ios</id>
+    <content type="html"><![CDATA[<p>由于是私有API,再键入的时候不会有提示,注意在提交AppStore之前需要全部删除.</p>
+
+<p>1.查看View的层次结构</p>
+
+<blockquote><p>recursiveDescription</p></blockquote>
+
+<p>eg:查看UISearchBar的View层级,找到Cancel-Button的位置并修改该按钮的样式</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">UISearchBar</span> <span class="o">*</span><span class="n">searchBarView</span>  <span class="o">=</span> <span class="p">[[</span><span class="bp">UISearchBar</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">375</span><span class="p">,</span> <span class="mi">44</span><span class="p">)];</span>
+</span><span class='line'><span class="n">searchBarView</span><span class="p">.</span><span class="n">showsCancelButton</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//私有API,直接发消息给searchBarView的吧,编译器是不会过的,不信你试试看~~</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,[</span><span class="n">searchBarView</span> <span class="nl">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">recursiveDescription</span><span class="p">)]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+打印结果如下:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2015</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">09</span> <span class="mi">15</span><span class="o">:</span><span class="mi">12</span><span class="o">:</span><span class="mf">20.568</span> <span class="n">findAward</span><span class="p">[</span><span class="mi">5625</span><span class="o">:</span><span class="mi">756750</span><span class="p">]</span> <span class="o">&lt;</span><span class="nl">UISearchBar</span><span class="p">:</span> <span class="mh">0x144574710</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">375</span> <span class="mi">44</span><span class="p">);</span> <span class="n">text</span> <span class="o">=</span> <span class="err">&#39;&#39;</span><span class="p">;</span> <span class="n">gestureRecognizers</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">NSArray</span><span class="p">:</span> <span class="mh">0x174247b90</span><span class="o">&gt;</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x174430040</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UIView</span><span class="p">:</span> <span class="mh">0x17418d750</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">375</span> <span class="mi">44</span><span class="p">);</span> <span class="n">clipsToBounds</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span> <span class="n">autoresize</span> <span class="o">=</span> <span class="n">W</span><span class="o">+</span><span class="n">H</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x17442ff80</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UISearchBarBackground</span><span class="p">:</span> <span class="mh">0x1445a4240</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">375</span> <span class="mi">44</span><span class="p">);</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x174431200</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UINavigationButton</span><span class="p">:</span> <span class="mh">0x14452b250</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">34</span> <span class="mi">30</span><span class="p">);</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x17442e4c0</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UISearchBarTextField</span><span class="p">:</span> <span class="mh">0x144645db0</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">);</span> <span class="n">text</span> <span class="o">=</span> <span class="err">&#39;&#39;</span><span class="p">;</span> <span class="n">clipsToBounds</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x1702213a0</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">_UISearchBarSearchFieldBackgroundView</span><span class="p">:</span> <span class="mh">0x1445732c0</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">);</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">autoresize</span> <span class="o">=</span> <span class="n">W</span><span class="o">+</span><span class="n">H</span><span class="p">;</span> <span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x17442fac0</span><span class="o">&gt;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>根据打印的结果,我们可以看出,UISearchBar的二级subview里有一个,<code>UINavigationButton</code>随便猜猜,这个也是<code>UIButton</code>的子类了.故要获得它并修改他的样式的code如下:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="k">for</span> <span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="n">view</span> <span class="k">in</span> <span class="p">[[</span><span class="n">searchBarView</span><span class="p">.</span><span class="n">subviews</span> <span class="n">lastObject</span><span class="p">]</span> <span class="n">subviews</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="p">([</span><span class="n">view</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">UIButton</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="bp">UIButton</span> <span class="o">*</span><span class="n">cancelBtn</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">view</span><span class="p">;</span>
+</span><span class='line'>                    <span class="p">[</span><span class="n">cancelBtn</span> <span class="nl">setTitle</span><span class="p">:</span><span class="s">@&quot;取消&quot;</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>                    <span class="p">[</span><span class="n">cancelBtn</span> <span class="nl">setTitleColor</span><span class="p">:</span><span class="n">COLOR_EA4426</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>                    <span class="p">[</span><span class="n">cancelBtn</span> <span class="nl">setTitleColor</span><span class="p">:</span><span class="n">COLOR_EA4426</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateHighlighted</span><span class="p">];</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode 统计项目中代码的行数]]></title>
+    <link href="http://douxinchun.github.io/blog/20150901/cloc.html"/>
+    <updated>2015-09-01T10:09:12+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150901/cloc</id>
+    <content type="html"><![CDATA[<h3>方法一:</h3>
+
+<p>终端命令进入项目目录下，命令如下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+列出每个文件的行数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs grep -v "^$"|wc -l  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>列出代码行数总和</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>grep -v "^$"是去掉空行</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>注释也统计在代码量之内</p>
+
+<h3>方法二:</h3>
+
+<p>使用CLOC,项目说明地址:<a href="http://cloc.sourceforge.net/">http://cloc.sourceforge.net/</a><br/>
+  1.64 Perl脚本下载地址,<a href="https://github.com/douxinchun/CLOC">https://github.com/douxinchun/CLOC</a></p>
+
+<p>使用方法:<br/>
+perl cloc-1.64.pl ./YourProjectName</p>
+
+<p>result:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> 200 files
+</span><span class='line'> 744 text files.
+</span><span class='line'> 630 unique files.                                          
+</span><span class='line'> 315 files ignored.
+</span><span class='line'>
+</span><span class='line'>http://cloc.sourceforge.net v 1.64  T=2.56 s (199.8 files/s, 22014.2 lines/s)
+</span><span class='line'>-------------------------------------------------------------------------------
+</span><span class='line'>Language                     files          blank        comment           code
+</span><span class='line'>-------------------------------------------------------------------------------
+</span><span class='line'>Objective C                    242           6916           4208          28460
+</span><span class='line'>C/C++ Header                   265           3605           8066           4870
+</span><span class='line'>JSON                             3              0              0            107
+</span><span class='line'>Bourne Shell                     1              5              0             65
+</span><span class='line'>-------------------------------------------------------------------------------
+</span><span class='line'>SUM:                           511          10526          12274          33502
+</span><span class='line'>-------------------------------------------------------------------------------</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在网页中嵌入css的三种方法]]></title>
+    <link href="http://douxinchun.github.io/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html"/>
+    <updated>2015-07-22T18:42:32+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa</id>
+    <content type="html"><![CDATA[<p>留存备忘<br/>
+假如有一段HTML代码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
+</span><span class='line'>&lt;head>
+</span><span class='line'>&lt;title>Hi&lt;/title>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body>
+</span><span class='line'>  &lt;div id="myid" class="myclass">&lt;/div>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>在HTML代码中嵌入CSS有一下三种方法：</p>
+
+<p>1.外链式CSS。编写一个.css文件并且命名为style.css,内容如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#myid{
+</span><span class='line'>     padding:5px;
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+然后在HTML代码的&lt;head>标签对,&lt;title>下面改成这样:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
+</span><span class='line'>   &lt;title>HI&lt;/title>
+</span><span class='line'>   &lt;link rel="stylesheet" type="text/css" href="style.css">
+</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+这样就OK了</p>
+
+<p>2.内嵌式CSS。直接在&lt;title>标签加成这样：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
+</span><span class='line'>   &lt;title>HI&lt;/title>
+</span><span class='line'>   &lt;style type="text/css">
+</span><span class='line'>   &lt;!--
+</span><span class='line'>    #myid{
+</span><span class='line'>     padding:5px;
+</span><span class='line'>     }
+</span><span class='line'>    -->
+</span><span class='line'>   &lt;/style>
+</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>3.直接式CSS。直接为DIV添加style属性如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div id="myid" class="myclass" style="padding:5px;">&lt;/div></span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用itms-services 协议来发布ipa文件]]></title>
+    <link href="http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services.html"/>
+    <updated>2015-07-22T16:45:35+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services</id>
+    <content type="html"><![CDATA[<p>苹果允许用itms-services协议来直接在iphone/ipad上安装应用程序，我们可以直接生成该协议需要的相关文件，这样产品经理和测试都可以直接在设备上安装新版的应用:</p>
+
+<p>需要两个文件，一个是html，另一个是plist。</p>
+
+<p>文件index.html(请自动忽略css部分,我实在不会写前端):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
+</span><span class='line'>&lt;head>
+</span><span class='line'>    &lt;style>
+</span><span class='line'>        body {
+</span><span class='line'>            font-size: 50px;
+</span><span class='line'>            margin-top:100px;
+</span><span class='line'>            margin-left:auto;
+</span><span class='line'>            margin-right:auto;
+</span><span class='line'>            text-align:center;
+</span><span class='line'>        }
+</span><span class='line'>    &lt;/style>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body>
+</span><span class='line'>&lt;p>iOS 7.1 and above systems use the following link to install&lt;/p>
+</span><span class='line'>&lt;p>&lt;a href="itms-services://?action=download-manifest&amp;url=https://********/**/tue_test.plist">Install TU/e App For Test&lt;/a>&lt;/p>
+</span><span class='line'>&lt;/a>&lt;/p>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>文件plist:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?>
+</span><span class='line'>&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+</span><span class='line'>&lt;plist version="1.0">
+</span><span class='line'>&lt;dict>
+</span><span class='line'>   &lt;key>items&lt;/key>
+</span><span class='line'>   &lt;array>
+</span><span class='line'>       &lt;dict>
+</span><span class='line'>           &lt;key>assets&lt;/key>
+</span><span class='line'>           &lt;array>
+</span><span class='line'>               &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>software-package&lt;/string>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>http://****/**/tue_test.ipa(ipa文件的访问地址)&lt;/string>
+</span><span class='line'>               &lt;/dict>
+</span><span class='line'>               &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>display-image&lt;/string>
+</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
+</span><span class='line'>                   &lt;true/>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
+</span><span class='line'>               &lt;/dict>
+</span><span class='line'>      &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>full-size-image&lt;/string>
+</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
+</span><span class='line'>                   &lt;true/>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
+</span><span class='line'>              &lt;/dict>
+</span><span class='line'>           &lt;/array>
+</span><span class='line'>           &lt;key>metadata&lt;/key>
+</span><span class='line'>           &lt;dict>
+</span><span class='line'>               &lt;key>bundle-identifier&lt;/key>
+</span><span class='line'>               &lt;string>com.xx.xx(bundleID需要ipa中需要保持一致)&lt;/string>
+</span><span class='line'>               &lt;key>bundle-version&lt;/key>
+</span><span class='line'>               &lt;string>1.0(CFBundleVersion需要和ipa中的保持一致)&lt;/string>
+</span><span class='line'>               &lt;key>kind&lt;/key>
+</span><span class='line'>               &lt;string>software&lt;/string>
+</span><span class='line'>               &lt;key>subtitle&lt;/key>
+</span><span class='line'>               &lt;string>&lt;/string>
+</span><span class='line'>               &lt;key>title&lt;/key>
+</span><span class='line'>               &lt;string>TU/e测试版(随便起,用于踊跃alert确认时的提示)&lt;/string>
+</span><span class='line'>           &lt;/dict>
+</span><span class='line'>       &lt;/dict>
+</span><span class='line'>   &lt;/array>
+</span><span class='line'>&lt;/dict>
+</span><span class='line'>&lt;/plist></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>注意</h3>
+
+<p>在iOS7.1之前,协议地址后的url需要使用http协议,</p>
+
+<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="http://********/**/tue_test.plist">http://********/**/tue_test.plist</a></p></blockquote>
+
+<p>在iOS7.1以及以后,这里需要换成https协议,</p>
+
+<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="https://********/**/tue_test.plist">https://********/**/tue_test.plist</a></p></blockquote>
+
+<p>否则使用Safari安装的时候,会提示&#8221;无法安装应用程序，因为“xx.xx.xx” 的证书无效;无法找到主机&#8221;1.2.3.4&#8221;&ldquo;之类的错误.也就是说,原先存放plist的web服务器需要支持https协议.<br/>
+自己动手搭建一个https的web服务的话,其中证书的部分很令人头痛的.我在IIS上整了一个上午,最后的结果上自己生成的证书Safari不认.我去,果断放弃这条路,google了一个简便的方法.利用开源中国(<a href="http://git.oschina.net/">http://git.oschina.net/</a>)提供的代码托管服务,托管一下plist文件,然后ipa的安装包和index.html依旧放在自己的服务器上.itms-services协议后面的url地址,改成在plist文件在开源中国上的url(注意url结束到.plist为止,后面的那一串参数不要带,直接手动把http改为https).</p>
+
+<p>具体的流程参见这里,<a href="http://blog.csdn.net/sy_bz/article/details/33739779">http://blog.csdn.net/sy_bz/article/details/33739779</a></p>
+
+<p>同理,我觉得github也应该可以代替开源中国.</p>
+
+<h3>附</h3>
+
+<p>plist中的字段说明:</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> key值                </th>
+<th style="text-align:left;"> 说明                   </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> <strong>assets</strong>           </td>
+<td style="text-align:left;">   </td>
+</tr>
+<tr>
+<td style="text-align:left;"> software-package url </td>
+<td style="text-align:left;"> 要安装的 ipa 地址  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> display-image url    </td>
+<td style="text-align:left;">   安装ipa的时候,桌面显示呃图标  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <strong>metadata</strong>         </td>
+<td style="text-align:left;">    </td>
+</tr>
+<tr>
+<td style="text-align:left;"> bundle-identifier    </td>
+<td style="text-align:left;"> bundle ID (和ipa保持一致) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> bundle-version       </td>
+<td style="text-align:left;"> CFBundleVersion(和ipa保持一致)  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> title                </td>
+<td style="text-align:left;"> 用户点击时弹框中的AppTitle提示  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> subtitle             </td>
+<td style="text-align:left;"> 不明,应该 也跟弹框的内容相关 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>以备后用<br/>
+自搭https服务器,可以查看的参照:<a href="http://zengrong.net/post/2108.html">http://zengrong.net/post/2108.html</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode中的调试器LLDB]]></title>
+    <link href="http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html"/>
+    <updated>2015-07-20T17:40:46+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb</id>
+    <content type="html"><![CDATA[<p>原文地址:<a href="http://objccn.io/issue-19-2/">http://objccn.io/issue-19-2/</a><br/>
+里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
+
+<h3>1.查看某个变量的值</h3>
+
+<p> <em>print</em><br/>
+ <img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png"><br/>
+ LLDB会做前缀匹配,一把简写为p,<br/>
+ 使用po可以查看NSObject的description</p>
+
+<h3>2.改变某个变量的值</h3>
+
+<p><em>expression</em><br/>
+<img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png"><br/>
+简写为expr或者是e(还能再懒一点吗~~)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AutoLayout 使用总结]]></title>
+    <link href="http://douxinchun.github.io/blog/20150720/autolayout-summary.html"/>
+    <updated>2015-07-20T16:55:20+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150720/autolayout-summary</id>
+    <content type="html"><![CDATA[<h3>1.如何计算UITableViewCell的高度</h3>
+
+<p>在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用<code>sizeWithFont:</code> 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予<code>heightForRow:</code>。</p>
+
+<p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
+理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
+
+<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/</a><br/>
+和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
+
+<p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
+1. UILabel以及UITextField等有<code>preferredMaxLayoutWidth</code>属性的VIew需要设置一下,不然计算出来的高度UILable的部分只有一行文字的高度<br/>
+2. 对于具有<code>intrinsicContentSize</code>的View需要在垂直方向上,将压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)设置为1000,最高级
+3. 要保证Cell在垂直方向上设置的Constraints,理论上可以计算出整个Cell的高度,可以降低某个垂直方向约束的优先级,来消除xib中的约束错误提示</p>
+
+<h3>2.AutoLayout下的动画</h3>
+
+<p>在使用Autolayout时，动画的使用和以前也不同了，以前我们是修改frame，现在我们可以通过修改Constraints, 然后在动画时layoutIfNeeded就行了。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//修改约束
+</span><span class='line'>...
+</span><span class='line'>[UIView animateWithDuration:0.2 animations:^{
+</span><span class='line'>    [view layoutIfNeeded];
+</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+Autolayout有时在动画时候会很方便，因为View之间的坐标是相互影响的，在传统frame中，如果改变一个view的frame,那么可能你要更改很多view的frame，才能让页面显得和谐。在Autolayout中可能只需要修改一个Constraint就可以了，在做动画时会很方便。</p>
+
+<h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
+
+<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a><br/>
+API中对应的是:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UILayoutPriority)contentHuggingPriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+</span><span class='line'>- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+</span><span class='line'>- (UILayoutPriority)contentCompressionResistancePriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+</span><span class='line'>- (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayout
+</span><span class='line'>- </span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GoAgent+PHP 访问Google]]></title>
+    <link href="http://douxinchun.github.io/blog/20150701/acccess-the-real-world-through-the-gfw.html"/>
+    <updated>2015-07-01T10:53:00+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150701/acccess-the-real-world-through-the-gfw</id>
+    <content type="html"><![CDATA[<h2>前言</h2>
+
+<p>GoAgent可以使用两种方式来翻墙上网:一种是官方推荐的,申请一个Google的Email账号,然后上传服务端需要的文件到Google App Engine;另外一种就就是通过国外的没有被屏蔽的PHP的空间来代替GAE作为服务端.<br/>
+本人以前(2015年以前)一直是使用第一种方式,但后来由于国内对于GAE一直是重点的屏蔽对象,导致许多的公布的ip地址不可用,<a href="http://www.firefoxfan.com/">火狐范</a>上公布的ip也是只能用一两天,<a href="https://github.com/moonshawdo/checkgoogleip">checkgoogleip</a>上扫出来的ip,十个里面有9个都不靠谱,剩下的一个,没撑过2天也挂了.<br/>
+实在不再愿意每天折腾iplist,所以决定Google一下,在PHP空间上部署goagent服务.</p>
+
+<hr />
+
+<p>注意! 本文goagent为3.2.3版本(具体而言是3.2.3版本) 运行于Linux  内核版本：2.6.32-531.29.2.lve1.3.11.1.el6.x86_64<br/>
+客户端的系统是Mac OS X<br/>
+如果你用的是Windows系统,推荐使用<a href="https://github.com/DIYgod/EasyGoAgent">Easy GoAgent</a>,开箱即用.</p>
+
+<!--more-->
+
+
+<h2>在PHP空间上部署goagent</h2>
+
+<p>这个不难 相对于我这里gae需要每2天换一次ip PHP空间一般相对较少被屏蔽
+不过一旦PHP空间被屏蔽 那就要重新申请其他的了.<br/>
+国外的免费的PHP空间有很多,比如:<a href="http://www.vhostfull.com/">VHost Full</a>,<a href="http://cn.ecvps.com/">EcVps</a><br/>
+这里以免费空间ecvps为例</p>
+
+<ul>
+<li>进入ecvps 申请免费空间 可以切换为中文页面显示 <a href="http://www.ecvps.com/client/cart.php?gid=3">订购免费版的地址</a></li>
+<li>选择现在订购 填一些信息 注意注册信息不要写中文 最好写音译</li>
+<li>关于信息 写的不要太离谱 比如地址要和邮编要对的上之类 防止审核为欺诈订单</li>
+<li>一般申请成功 注册邮箱就会收到确认的email,如果出现提示了没有通过审核欺诈,记得回去充填一下资料,填的再靠谱一些.</li>
+<li><p>在会员中心面板上 点击 我的信件 标签 然后打开<strong>New Account Information</strong>
+里面有系统生成的 Domain Username Password
+注意如果连续7天没有访问流量 则此空间会被删除<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2015/7/ecvps_my_letter.png"><br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2015/7/ecvps_newaccount.png"></p></li>
+<li><p>下载安装FileZilla 或者其他的FTP软件
+打开FileZilla 填写远程主机的一些信息 全部根据<strong>New Account Information</strong>来</p>
+
+<blockquote><p>主机(Domain)<br/>
+username.ecvps.net<br/>
+用户名(Username) 就是New Account Information中的Username 如<br/>
+username<br/>
+密码(Password) 这个也根据New Account Information中给出的 填写<br/>
+端口不用填 点快速连接<br/>
+在本地站点中 选中goagent/server/php路径下的所有文件<br/>
+上传到远程站点的 /domains/xinchun.ecvps.net/public_html目录下</p></blockquote></li>
+</ul>
+
+
+<p>如果FTP连接不上的,可以使用EcVps Control中自带的FileManager功能<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2015/7/ecvps_control.png"></p>
+
+<p>打开goagent/local/proxy.ini文件 对于其中的[php]部分
+改动两行就可以了 分别是</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[php]
+</span><span class='line'>enable = 1
+</span><span class='line'>fetchserver = http://username.ecvps.net/index.php</span></code></pre></td></tr></table></div></figure>
+
+
+<p>密码用可以用默认的
+也可以不用 则要统一修改goagent/server/php路径下所有文件内设定的默认密码
+网上一些文章用的是fetch.php 但注意新版goagent 3.2.3用的是index.php
+这里有<a href="https://github.com/goagent/goagent/blob/wiki/FAQ.md">官方说明</a>,参见第13条,不要试图在浏览器里打开这个链接:  <a href="http://username.ecvps.net/index.php">http://username.ecvps.net/index.php</a></p>
+
+<p>最后修改Chrome中的SwitchyOmega的自动切换的情景模式为GoAgent PHP</p>
+
+<h2>启动</h2>
+
+<p>用Terminal cd到goagent的local目录:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ python proxy.py</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>然后就没有然后,<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2015/7/ecvps_google.png"></p>
+
+<h2>开机启动</h2>
+
+<p>安装一个GoagentMac(Mac),然后查看包的内容,找到Info.plist ,用文件编辑器编辑,修改一下key值 GoAgentPath的value为proxy.py的路径.</p>
+
+<h2>额外内容</h2>
+
+<p>使用探针
+一般来说 到这里 启动goagent就可以上youtube也可以去下载视频了
+如果想详细了解该PHP服务器的一些信息 可以使用探针
+点击右上方的探针下载 会下载tz.zip文件 然后解压成tz.php
+再上传到/domains/saburika.ecvps.net/public_html目录下
+此时访问<a href="http://saburika.ecvps.net/tz.php">http://saburika.ecvps.net/tz.php</a> 就会出现你的php空间的详细信息了</p>
+
+<p>第二种上传方式
+不使用ftp上传 直接使用网页上传也是可以的
+这个要阅读<strong>New Account Information中</strong>给出的相关信息
+把给定的网址和端口复制到浏览器地址栏
+用系统给自己生成的Username和Password登录
+就会出现php空间的网页版操作面板了</p>
+
+<h2>附件</h2>
+
+<p><a href="https://github.com/goagent/goagent">goagent官方主页</a><br/>
+SwitchyOmega在Goagent的安装包local目录下自带,并且带有备份文件</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在多台机器上协作使用Octopress]]></title>
+    <link href="http://douxinchun.github.io/blog/20150630/use-octopress-in-different-machines.html"/>
+    <updated>2015-06-30T13:49:49+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150630/use-octopress-in-different-machines</id>
+    <content type="html"><![CDATA[<p>按照之前文章 <a href="http://douxinchun.github.io/blog/20150210/install-octopress.html">在GitHub上搭建Octopress</a> 中的步骤,就可以成功的搭建自己的Octopress框架下的博客了,但是接下来的问题是,如果这个是在公司的机器上搭建了环境,那么下班回到家后想继续更新一下自己的Blog怎么办呢.</p>
+
+<p>其实,想想原理很简单,Git是一个版本管理系统(分布式的),如果我们在下班前把自己的文件提交到Git的远程库上,然后到家的时候,把家里的PC搭建一个Ruby的环境,再把有关的文件从远程库上pull下来,OK,万事大吉,又可以继续编写自己的Blog了.</p>
+
+<h3>准备工作:</h3>
+
+<p>参照  <a href="http://douxinchun.github.io/blog/20150210/install-octopress.html">在GitHub上搭建Octopress</a>  首先要在新机器上搭建一个Ruby的环境,Simple Guide:<br/>
+*
+   * 安装Git
+   * 安装ruby,例如：Ruby 1.9.3-p125
+   * 克隆项目</p>
+
+<!--more-->
+
+
+<p>接下来我们需要把GitHub上已经建好的博客项目clone下来。</p>
+
+<p>克隆远程仓库到本地</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone git@github.com:username/username.github.com.git octopress ##octopress 为你的本地项目文件夹</span></code></pre></td></tr></table></div></figure>
+
+
+<p>切换到source分支</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress ##进入项目
+</span><span class='line'>$ git checkout source ##切换到本地的source分支</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建_deploy目录(存在的话,直接同步),并和远程库的master分支同步</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir _deploy
+</span><span class='line'>$ cd ./_deploy
+</span><span class='line'>$ git pull origin master ##同步本地的master branch</span></code></pre></td></tr></table></div></figure>
+
+
+<p>配置环境,在octopress目录下进行,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install bundler
+</span><span class='line'>$ rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
+</span><span class='line'>$ bundle install
+</span><span class='line'>$ rake setup_github_pages</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后它会询问你的项目仓库的URL:</p>
+
+<blockquote><p>Enter the read/write url for your repository (For example, ‘git@github.com:your_username/your_username.github.com)</p></blockquote>
+
+<p>输入仓库的URL，这样你就完成了全新的一个本地博客副本。</p>
+
+<p>注意:以上操作只需要在完全没有环境的机器上执行一次,不需要每次都执行</p>
+
+<h3>更新变化（重要）</h3>
+
+<p>每次使用前，先确保拿到最新的文件(先GitHub上的远程库同步)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress  #进入项目目录
+</span><span class='line'>$ git pull origin source  # 更新本地source branch
+</span><span class='line'>$ cd ./_deploy  #进入_deploy目录
+</span><span class='line'>$ git pull origin master  # 更新本地master branch</span></code></pre></td></tr></table></div></figure>
+
+
+<p>提交</p>
+
+<p>提交的时候，由于需要多台机器协作，需要把source分支push到origin中，这样另外一台机器才能拿到最新的源文件。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake generate
+</span><span class='line'>$ git add .
+</span><span class='line'>$ git commit -am "提交注释" 
+</span><span class='line'>$ git push origin source  # 将本地当前分支的更新推送到远程 source branch 
+</span><span class='line'>$ rake deploy             # 更新远程 master branch，并部署博文</span></code></pre></td></tr></table></div></figure>
+
+
+<p>另外的机器更新变化</p>
+
+<p>在另外的机器上，就可以获取到相应的变化。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress  #进入项目目录
+</span><span class='line'>$ git pull origin source  # 更新本地source branch
+</span><span class='line'>$ cd ./_deploy  #进入_deploy目录
+</span><span class='line'>$ git pull origin master  # 更新本地master branch和远程库的 master保持同步</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[冰与火之歌 守夜人誓言]]></title>
@@ -741,6 +1541,10 @@ anon-access = read &ndash;>修改为 anon-access = none</p>
 
 <p>图片名称自动补全<br/>
 <img src="https://camo.githubusercontent.com/c354bf04524df86daeabe7a6d2b9926fac790f85/68747470733a2f2f7261772e6769746875622e636f6d2f6b7375746865722f4b53496d6167654e616d65642d58636f64652f6d61737465722f73637265656e73686f742e676966"></p>
+
+<h2>8.ZLGotoSandboxPlugin-Xcode</h2>
+
+<p>快速定位simulator的沙盒路径 <a href="https://github.com/MakeZL/ZLGotoSandboxPlugin">https://github.com/MakeZL/ZLGotoSandboxPlugin</a></p>
 ]]></content>
   </entry>
   
@@ -749,7 +1553,9 @@ anon-access = read &ndash;>修改为 anon-access = none</p>
     <link href="http://douxinchun.github.io/blog/20150327/octopress-deeper-learn-1.html"/>
     <updated>2015-03-27T15:08:02+08:00</updated>
     <id>http://douxinchun.github.io/blog/20150327/octopress-deeper-learn-1</id>
-    <content type="html"><![CDATA[<p>主要用来记录学习Octopress中的一些知识点.</p>
+    <content type="html"><![CDATA[<h2>1.rake -T</h2>
+
+<p>主要用来记录学习Octopress中的一些知识点.</p>
 
 <p>先记录一个命令,rake -T 可以查看命令rake的介绍:</p>
 
@@ -795,6 +1601,83 @@ anon-access = read &ndash;>修改为 anon-access = none</p>
 </span><span class='line'>rake update_style[theme]       # Move sass to sass.old, install sass theme updates, replace sass/custom with sass.old/custom
 </span><span class='line'>rake watch                     # Watch the site and regenerate when it changes</span></code></pre></td></tr></table></div></figure>
 
+
+<p>追加一个介绍的很详细的Octopress使用者的总结,内容很详细,留作备忘<br/>
+<a href="http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/">http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/</a></p>
+
+<h2>2.添加返回顶部</h2>
+
+<p>以下步骤参考这里:<a href="http://www.udpwork.com/item/12851.html">http://www.udpwork.com/item/12851.html</a></p>
+
+<p>1)来这里<strong><a href="http://www.scrolltotop.com/">Scroll To Top</a></strong>找一个自己喜欢的样式</p>
+
+<p>2)新建一个文件来存放widget代码,文件目录<code>source/_includes/custom/</code>,假设文件名为:<code>scroll_to_top.html</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="o">&lt;</span><span class="nt">script</span> <span class="nt">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nt">src</span><span class="o">=</span><span class="s2">&quot;http://arrow.scrolltotop.com/arrow78.js&quot;</span><span class="o">&gt;&lt;/</span><span class="nt">script</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="nt">noscript</span><span class="o">&gt;</span><span class="nt">Not</span> <span class="nt">seeing</span> <span class="nt">a</span> <span class="o">&lt;</span><span class="nt">a</span> <span class="nt">href</span><span class="o">=</span><span class="s2">&quot;http://www.scrolltotop.com/&quot;</span><span class="o">&gt;</span><span class="nt">Scroll</span> <span class="nt">to</span> <span class="nt">Top</span> <span class="nt">Button</span><span class="o">&lt;/</span><span class="nt">a</span><span class="o">&gt;?</span> <span class="nt">Go</span> <span class="nt">to</span> <span class="nt">our</span> <span class="nt">FAQ</span> <span class="nt">page</span> <span class="nt">for</span> <span class="nt">more</span> <span class="nt">info</span><span class="o">.&lt;/</span><span class="nt">noscript</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+这里需要注意默认Octopress引入的jquery.min.js和widget code中使用的jquery的版本可能是不一样的.如果你曾经按照本站中Blog<strong><a href="blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html">加快Octopress国内访问速度</a></strong>中处理过Octopress的JQuery,那么你可以保留widget中的JQuery的引入,或者在文件<code>source/_includes/head.html</code>中,作如下修改:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="o">&lt;!</span><span class="nt">--</span><span class="o">&lt;</span><span class="nt">script</span> <span class="nt">src</span><span class="o">=</span><span class="s2">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&quot;</span><span class="o">&gt;&lt;/</span><span class="nt">script</span><span class="o">&gt;</span><span class="nt">--</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;!</span><span class="nt">--</span><span class="o">&lt;</span><span class="nt">script</span> <span class="nt">src</span><span class="o">=</span><span class="s2">&quot;//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js&quot;</span><span class="o">&gt;&lt;/</span><span class="nt">script</span><span class="o">&gt;</span><span class="nt">--</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;!</span><span class="nt">--</span><span class="err">为了添加</span><span class="nt">scroll_to_top</span><span class="nc">.html</span> <span class="err">提高了</span><span class="nt">js</span><span class="err">的版本</span><span class="nt">--</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="nt">script</span> <span class="nt">src</span><span class="o">=</span><span class="s2">&quot;//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js&quot;</span><span class="o">&gt;&lt;/</span><span class="nt">script</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+3)将scroll_to_top.html引入到页面中<br/>
+文件位置<code>source/_layouts/default.html</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="o">&lt;</span><span class="nt">footer</span> <span class="nt">role</span><span class="o">=</span><span class="s2">&quot;contentinfo&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="o">%</span> <span class="n">include</span> <span class="n">footer</span><span class="o">.</span><span class="n">html</span> <span class="o">%</span><span class="p">}</span><span class="o">&lt;/</span><span class="nt">footer</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="p">{</span><span class="o">%</span> <span class="n">include</span> <span class="n">after_footer</span><span class="o">.</span><span class="n">html</span> <span class="o">%</span><span class="p">}</span>
+</span><span class='line'>  <span class="p">{</span><span class="o">%</span> <span class="n">include</span> <span class="n">custom</span><span class="o">/</span><span class="n">scroll_to_top</span><span class="o">.</span><span class="n">html</span> <span class="o">%</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>3)去除图片上的灰色背景<br/>
+Octopress默认的为所有的div添加了一个背景，所以上述完成之后看到的图片是有一个灰色背景的，需要去除一下。修改以下文件即可。<code>sass/base/_theme.scss</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nt">body</span> <span class="p">{</span>
+</span><span class='line'>  <span class="o">&gt;</span> <span class="n">div</span><span class="o">:</span><span class="n">not</span><span class="p">(</span><span class="m">#ds</span><span class="o">-</span><span class="n">wrapper</span><span class="p">)</span><span class="o">:</span><span class="n">not</span><span class="p">(</span><span class="m">#topcon</span><span class="n">trol</span><span class="p">)</span> <span class="err">{</span>
+</span><span class='line'>    <span class="k">background</span><span class="o">:</span> <span class="err">$</span><span class="n">sidebar</span><span class="o">-</span><span class="n">bg</span> <span class="err">$</span><span class="n">noise</span><span class="o">-</span><span class="n">bg</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">border-bottom</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="err">$</span><span class="k">page</span><span class="o">-</span><span class="k">border-bottom</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">&gt;</span> <span class="n">div</span> <span class="err">{</span>
+</span><span class='line'>      <span class="k">background</span><span class="o">:</span> <span class="err">$</span><span class="n">main</span><span class="o">-</span><span class="n">bg</span> <span class="err">$</span><span class="n">noise</span><span class="o">-</span><span class="n">bg</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">border-right</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="err">$</span><span class="n">sidebar</span><span class="o">-</span><span class="k">border</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="err">}</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+其中我们添加的div的id为topcontrol。当然前面的ds-wrapper是为了去除多说评论框登陆的背景问题，如不需要可以去掉。<br/>
+大功告成!!!</p>
 ]]></content>
   </entry>
   

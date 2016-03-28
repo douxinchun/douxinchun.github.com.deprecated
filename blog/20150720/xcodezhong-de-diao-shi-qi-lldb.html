@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Xcode - 冷雨之家</title>
+  <title>Xcode中的调试器LLDB - 冷雨之家</title>
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="Category: xcode">
+  <meta name="description" content="原文地址:http://objccn.io/issue-19-2/
+里面内容很多,本着实用主义,这里只记录我自己常用的命令: 1.查看某个变量的值 print LLDB会做前缀匹配,一把简写为p, 使用po可以查看NSObject的description 2.改变某个变量的值 expression &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://douxinchun.github.io/blog/categories/xcode/index.html">
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
@@ -70,51 +71,107 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Xcode</h1>
+    
+      <h1 class="entry-title">Xcode中的调试器LLDB</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-20T17:40:46+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>5:40 pm</span></time>
+        
+	    
+	           | <a href="#comments">评论</a>
+	          
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>原文地址:<a href="http://objccn.io/issue-19-2/">http://objccn.io/issue-19-2/</a><br/>
+里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
 
-  
-  <h2>2015</h2>
+<h3>1.查看某个变量的值</h3>
 
-<article>
-  
-<h1><a href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html">Xcode中的调试器LLDB</a></h1>
-<time datetime="2015-07-20T17:40:46+08:00" pubdate><span class='month'>Jul</span> <span class='day'>20</span> <span class='year'>2015</span></time>
+<p> <em>print</em><br/>
+ <img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png"><br/>
+ LLDB会做前缀匹配,一把简写为p,<br/>
+ 使用po可以查看NSObject的description</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/xcode/'>xcode</a></span>
-</footer>
+<h3>2.改变某个变量的值</h3>
 
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/20150401/xcode-plugin-collection.html">Xcode常用的插件集合</a></h1>
-<time datetime="2015-04-01T10:24:50+08:00" pubdate><span class='month'>Apr</span> <span class='day'>01</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/xcode/'>xcode</a></span>
-</footer>
-
-
-</article>
-
+<p><em>expression</em><br/>
+<img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png"><br/>
+简写为expr或者是e(还能再懒一点吗~~)</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">NewSpring</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-07-20T17:40:46+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>5:40 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/xcode/'>xcode</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/20150720/autolayout-summary.html" title="Previous Post: AutoLayout 使用总结">&laquo; AutoLayout 使用总结</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/20150722/distribute-ipa-by-itms-services.html" title="Next Post: 使用itms-services 协议来发布ipa文件">使用itms-services 协议来发布ipa文件 &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
 
+
+  <section>
+    <h1>评论</h1>
+    <div id="comments" aria-live="polite">	   <!-- Duoshuo Comment BEGIN -->
+	   <div class="ds-thread" data-title="Xcode中的调试器LLDB"></div>
+	   <script type="text/javascript">
+	     var duoshuoQuery = {short_name:"douxinchun"};
+	     (function() {
+	       var ds = document.createElement('script');
+	       ds.type = 'text/javascript';ds.async = true;
+	       ds.src = 'http://static.duoshuo.com/embed.js';
+	       ds.charset = 'UTF-8';
+	       (document.getElementsByTagName('head')[0] 
+	       || document.getElementsByTagName('body')[0]).appendChild(ds);
+	     })();
+	   </script>
+	   <!-- Duoshuo Comment END --></div>
+  </section>
 
 </div>
 
