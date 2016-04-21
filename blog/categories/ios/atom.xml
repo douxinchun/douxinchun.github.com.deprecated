@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ios | 冷雨之家]]></title>
+  <link href="http://douxinchun.github.io/blog/categories/ios/atom.xml" rel="self"/>
+  <link href="http://douxinchun.github.io/"/>
+  <updated>2016-04-21T15:34:39+08:00</updated>
+  <id>http://douxinchun.github.io/</id>
+  <author>
+    <name><![CDATA[NewSpring]]></name>
+    <email><![CDATA[douxinchunlengyu@163.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS SDK中的私有API]]></title>
+    <link href="http://douxinchun.github.io/blog/20151009/private-api-in-ios.html"/>
+    <updated>2015-10-09T14:37:39+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20151009/private-api-in-ios</id>
+    <content type="html"><![CDATA[<p>由于是私有API,再键入的时候不会有提示,注意在提交AppStore之前需要全部删除.</p>
+
+<p>1.查看View的层次结构</p>
+
+<blockquote><p>recursiveDescription</p></blockquote>
+
+<p>eg:查看UISearchBar的View层级,找到Cancel-Button的位置并修改该按钮的样式</p>
+
+<pre><code class="objc">    UISearchBar *searchBarView  = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 375, 44)];
+    searchBarView.showsCancelButton = YES;
+    //私有API,直接发消息给searchBarView的吧,编译器是不会过的,不信你试试看~~
+    NSLog(@"%@",[searchBarView performSelector:@selector(recursiveDescription)]);
+</code></pre>
+
+<p>打印结果如下:</p>
+
+<pre><code>2015-10-09 15:12:20.568 findAward[5625:756750] &lt;UISearchBar: 0x144574710; frame = (0 0; 375 44); text = ''; gestureRecognizers = &lt;NSArray: 0x174247b90&gt;; layer = &lt;CALayer: 0x174430040&gt;&gt;
+   | &lt;UIView: 0x17418d750; frame = (0 0; 375 44); clipsToBounds = YES; autoresize = W+H; layer = &lt;CALayer: 0x17442ff80&gt;&gt;
+   |    | &lt;UISearchBarBackground: 0x1445a4240; frame = (0 0; 375 44); opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x174431200&gt;&gt;
+   |    | &lt;UINavigationButton: 0x14452b250; frame = (0 0; 34 30); opaque = NO; layer = &lt;CALayer: 0x17442e4c0&gt;&gt;
+   |    | &lt;UISearchBarTextField: 0x144645db0; frame = (0 0; 0 0); text = ''; clipsToBounds = YES; opaque = NO; layer = &lt;CALayer: 0x1702213a0&gt;&gt;
+   |    |    | &lt;_UISearchBarSearchFieldBackgroundView: 0x1445732c0; frame = (0 0; 0 0); opaque = NO; autoresize = W+H; userInteractionEnabled = NO; layer = &lt;CALayer: 0x17442fac0&gt;&gt;  
+</code></pre>
+
+<p>根据打印的结果,我们可以看出,UISearchBar的二级subview里有一个,<code>UINavigationButton</code>随便猜猜,这个也是<code>UIButton</code>的子类了.故要获得它并修改他的样式的code如下:<br/>
+<code>objc  
+ for (UIView *view in [[searchBarView.subviews lastObject] subviews]) {
+                if ([view isKindOfClass:[UIButton class]]) {
+                    UIButton *cancelBtn = (UIButton *)view;
+                    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+                    [cancelBtn setTitleColor:COLOR_EA4426 forState:UIControlStateNormal];
+                    [cancelBtn setTitleColor:COLOR_EA4426 forState:UIControlStateHighlighted];
+                }
+            }
+</code></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode 统计项目中代码的行数]]></title>
+    <link href="http://douxinchun.github.io/blog/20150901/cloc.html"/>
+    <updated>2015-09-01T10:09:12+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150901/cloc</id>
+    <content type="html"><![CDATA[<h3>方法一:</h3>
+
+<p>终端命令进入项目目录下，命令如下<br/>
+<code>
+find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l  
+</code><br/>
+列出每个文件的行数<br/>
+<code>
+find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs grep -v "^$"|wc -l  
+</code>
+列出代码行数总和</p>
+
+<pre><code>grep -v "^$"是去掉空行
+</code></pre>
+
+<p>注释也统计在代码量之内</p>
+
+<h3>方法二:</h3>
+
+<p>使用CLOC,项目说明地址:<a href="http://cloc.sourceforge.net/">http://cloc.sourceforge.net/</a><br/>
+  1.64 Perl脚本下载地址,<a href="https://github.com/douxinchun/CLOC">https://github.com/douxinchun/CLOC</a></p>
+
+<p>使用方法:<br/>
+perl cloc-1.64.pl ./YourProjectName</p>
+
+<p>result:</p>
+
+<pre><code>     200 files
+     744 text files.
+     630 unique files.                                          
+     315 files ignored.
+
+http://cloc.sourceforge.net v 1.64  T=2.56 s (199.8 files/s, 22014.2 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Objective C                    242           6916           4208          28460
+C/C++ Header                   265           3605           8066           4870
+JSON                             3              0              0            107
+Bourne Shell                     1              5              0             65
+-------------------------------------------------------------------------------
+SUM:                           511          10526          12274          33502
+-------------------------------------------------------------------------------
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用itms-services 协议来发布ipa文件]]></title>
+    <link href="http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services.html"/>
+    <updated>2015-07-22T16:45:35+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services</id>
+    <content type="html"><![CDATA[<p>苹果允许用itms-services协议来直接在iphone/ipad上安装应用程序，我们可以直接生成该协议需要的相关文件，这样产品经理和测试都可以直接在设备上安装新版的应用:</p>
+
+<p>需要两个文件，一个是html，另一个是plist。</p>
+
+<p>文件index.html(请自动忽略css部分,我实在不会写前端):
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
+</span><span class='line'>&lt;head>
+</span><span class='line'>    &lt;style>
+</span><span class='line'>        body {
+</span><span class='line'>            font-size: 50px;
+</span><span class='line'>            margin-top:100px;
+</span><span class='line'>            margin-left:auto;
+</span><span class='line'>            margin-right:auto;
+</span><span class='line'>            text-align:center;
+</span><span class='line'>        }
+</span><span class='line'>    &lt;/style>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>iOS 7.1 and above systems use the following link to install&lt;/p>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lt;a href="itms-services://?action=download-manifest&amp;url=https://********/**/tue_test.plist">Install TU/e App For Test&lt;/a>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lt;/a>&lt;/p>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure></p>
+
+<p>文件plist:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
+</span><span class='line'>&lt;!DOCTYPE plist PUBLIC &ldquo;-//Apple//DTD PLIST 1.0//EN&rdquo; &ldquo;&lt;a href="http://www.apple.com/DTDs/PropertyList-1.0.dtd">http://www.apple.com/DTDs/PropertyList-1.0.dtd&lt;/a>&rdquo;>
+</span><span class='line'>&lt;plist version="1.0">
+</span><span class='line'>&lt;dict>
+</span><span class='line'>   &lt;key>items&lt;/key>
+</span><span class='line'>   &lt;array>
+</span><span class='line'>       &lt;dict>
+</span><span class='line'>           &lt;key>assets&lt;/key>
+</span><span class='line'>           &lt;array>
+</span><span class='line'>               &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>software-package&lt;/string>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>&lt;a href="http://****/**/tue_test.ipa">http://****/**/tue_test.ipa&lt;/a>(ipa文件的访问地址)&lt;/string>
+</span><span class='line'>               &lt;/dict>
+</span><span class='line'>               &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>display-image&lt;/string>
+</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
+</span><span class='line'>                   &lt;true/>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
+</span><span class='line'>               &lt;/dict>
+</span><span class='line'>      &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>full-size-image&lt;/string>
+</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
+</span><span class='line'>                   &lt;true/>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
+</span><span class='line'>              &lt;/dict>
+</span><span class='line'>           &lt;/array>
+</span><span class='line'>           &lt;key>metadata&lt;/key>
+</span><span class='line'>           &lt;dict>
+</span><span class='line'>               &lt;key>bundle-identifier&lt;/key>
+</span><span class='line'>               &lt;string>com.xx.xx(bundleID需要ipa中需要保持一致)&lt;/string>
+</span><span class='line'>               &lt;key>bundle-version&lt;/key>
+</span><span class='line'>               &lt;string>1.0(CFBundleVersion需要和ipa中的保持一致)&lt;/string>
+</span><span class='line'>               &lt;key>kind&lt;/key>
+</span><span class='line'>               &lt;string>software&lt;/string>
+</span><span class='line'>               &lt;key>subtitle&lt;/key>
+</span><span class='line'>               &lt;string>&lt;/string>
+</span><span class='line'>               &lt;key>title&lt;/key>
+</span><span class='line'>               &lt;string>TU/e测试版(随便起,用于踊跃alert确认时的提示)&lt;/string>
+</span><span class='line'>           &lt;/dict>
+</span><span class='line'>       &lt;/dict>
+</span><span class='line'>   &lt;/array>
+</span><span class='line'>&lt;/dict>
+</span><span class='line'>&lt;/plist></span></code></pre></td></tr></table></div></figure></p>
+
+<h3>注意</h3>
+
+<p>在iOS7.1之前,协议地址后的url需要使用http协议,</p>
+
+<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="http://********/**/tue_test.plist">http://********/**/tue_test.plist</a></p></blockquote>
+
+<p>在iOS7.1以及以后,这里需要换成https协议,</p>
+
+<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="https://********/**/tue_test.plist">https://********/**/tue_test.plist</a></p></blockquote>
+
+<p>否则使用Safari安装的时候,会提示&#8221;无法安装应用程序，因为“xx.xx.xx” 的证书无效;无法找到主机&#8221;1.2.3.4&#8221;&ldquo;之类的错误.也就是说,原先存放plist的web服务器需要支持https协议.<br/>
+自己动手搭建一个https的web服务的话,其中证书的部分很令人头痛的.我在IIS上整了一个上午,最后的结果上自己生成的证书Safari不认.我去,果断放弃这条路,google了一个简便的方法.利用开源中国(<a href="http://git.oschina.net/">http://git.oschina.net/</a>)提供的代码托管服务,托管一下plist文件,然后ipa的安装包和index.html依旧放在自己的服务器上.itms-services协议后面的url地址,改成在plist文件在开源中国上的url(注意url结束到.plist为止,后面的那一串参数不要带,直接手动把http改为https).</p>
+
+<p>具体的流程参见这里,<a href="http://blog.csdn.net/sy_bz/article/details/33739779">http://blog.csdn.net/sy_bz/article/details/33739779</a></p>
+
+<p>同理,我觉得github也应该可以代替开源中国.</p>
+
+<h3>附</h3>
+
+<p>plist中的字段说明:</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> key值                </th>
+<th style="text-align:left;"> 说明                   </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> <strong>assets</strong>           </td>
+<td style="text-align:left;">   </td>
+</tr>
+<tr>
+<td style="text-align:left;"> software-package url </td>
+<td style="text-align:left;"> 要安装的 ipa 地址  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> display-image url    </td>
+<td style="text-align:left;">   安装ipa的时候,桌面显示呃图标  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <strong>metadata</strong>         </td>
+<td style="text-align:left;">    </td>
+</tr>
+<tr>
+<td style="text-align:left;"> bundle-identifier    </td>
+<td style="text-align:left;"> bundle ID (和ipa保持一致) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> bundle-version       </td>
+<td style="text-align:left;"> CFBundleVersion(和ipa保持一致)  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> title                </td>
+<td style="text-align:left;"> 用户点击时弹框中的AppTitle提示  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> subtitle             </td>
+<td style="text-align:left;"> 不明,应该 也跟弹框的内容相关 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>以备后用<br/>
+自搭https服务器,可以查看的参照:<a href="http://zengrong.net/post/2108.html">http://zengrong.net/post/2108.html</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[AutoLayout 使用总结]]></title>
+    <link href="http://douxinchun.github.io/blog/20150720/autolayout-summary.html"/>
+    <updated>2015-07-20T16:55:20+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150720/autolayout-summary</id>
+    <content type="html"><![CDATA[<h3>1.如何计算UITableViewCell的高度</h3>
+
+<p>在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用<code>sizeWithFont:</code> 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予<code>heightForRow:</code>。</p>
+
+<p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
+理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
+
+<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/</a><br/>
+和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
+
+<p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
+1. UILabel以及UITextField等有<code>preferredMaxLayoutWidth</code>属性的VIew需要设置一下,不然计算出来的高度UILable的部分只有一行文字的高度<br/>
+2. 对于具有<code>intrinsicContentSize</code>的View需要在垂直方向上,将压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)设置为1000,最高级
+3. 要保证Cell在垂直方向上设置的Constraints,理论上可以计算出整个Cell的高度,可以降低某个垂直方向约束的优先级,来消除xib中的约束错误提示</p>
+
+<h3>2.AutoLayout下的动画</h3>
+
+<p>在使用Autolayout时，动画的使用和以前也不同了，以前我们是修改frame，现在我们可以通过修改Constraints, 然后在动画时layoutIfNeeded就行了。</p>
+
+<pre><code>//修改约束
+...
+[UIView animateWithDuration:0.2 animations:^{
+    [view layoutIfNeeded];
+}];
+</code></pre>
+
+<p>Autolayout有时在动画时候会很方便，因为View之间的坐标是相互影响的，在传统frame中，如果改变一个view的frame,那么可能你要更改很多view的frame，才能让页面显得和谐。在Autolayout中可能只需要修改一个Constraint就可以了，在做动画时会很方便。</p>
+
+<h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
+
+<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a><br/>
+API中对应的是:</p>
+
+<pre><code>- (UILayoutPriority)contentHuggingPriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+- (UILayoutPriority)contentCompressionResistancePriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
+- (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayout
+- 
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>
