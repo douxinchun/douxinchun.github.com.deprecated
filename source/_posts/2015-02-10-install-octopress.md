@@ -46,8 +46,8 @@ git呢我们的mac默认安装,[GitHub](https://github.com/)账号注册部分,�
 
 ##### 安装Homeview
 这里我使用[Homebrew](http://brew.sh/)来安装rbenv，如果你没有Homebrew，打开终端,copy 执行以下命令。
-*(此处注意请随时关心Homebrew的官网首页的安装命令是否更新)*  
-``` objc Terminal
+*(此处注意请随时关注Homebrew的官网首页的安装命令是否更新)*  
+```bash Terminal
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ```
 
@@ -72,7 +72,7 @@ $ ruby --version #ruby 1.9.3p125 (2012-02-16 revision 34643) [x86_64-darwin13.4.
 安装完成后可以用ruby --version进行验证
 #### 2.通过Rvm安装Ruby1.9.3p125
 
-[RVM](http://www.rvm.io/) 全称[Ruby Version Manager](http://www.rvm.io/), 是一个非常好用的ruby版本管理以及安装工具. RVM的安装方法,也可按照官方首页
+[RVM](http://www.rvm.io/) 全称[Ruby Version Manager](http://www.rvm.io/), 是一个非常好用的ruby版本管理以及安装工具. RVM的安装方法,也可按照官方首页.
 ##### 安装rvm
 ```
 $ \curl -sSL https://get.rvm.io | bash -s stable
@@ -84,7 +84,7 @@ $ source ~/.bash_profile
 ```
 $ sed -i .bak -E 's!https?://cache.ruby-lang.org/pub/ruby!https://ruby.taobao.org/mirrors/ruby!' $rvm_path/config/db
 ```
-##### Ruby的安装与切换
+##### Ruby的安装与切换 (RVM管理)
 
  * 列出已知的ruby版本
  
@@ -147,7 +147,7 @@ Make sure that `gem install compass-core -v '1.0.3'` succeeds before bundling.
 bundle config mirror.https://rubygems.org https://ruby.taobao.org
 ```
 或者是在目录下找到Gemfile文件,替换
-```
+``` plain Gemfile
 source 'https://rubygems.org/'
 ```
 为
@@ -161,7 +161,7 @@ source "https://ruby.taobao.org"
 
 ## 安装octopress默认主题  
 
-```
+```bash Terminal 
 $ rake install
 ```
 ---------
@@ -255,6 +255,18 @@ $ rake new_post['title']
 
 ```
 生成的文件在`~/source/_posts`目录下
+
+如果使用的是zsh,可能会遇到下面的情况
+
+```
+zsh: no matches found: new_post[...]
+```  
+原因是诸如[]之类的不是正确的命令字符。当然，我们也可以使用转义符来解决这一问题。但每次都需要敲入转义符，实在是太麻烦了。解决方案是在~/.zshrc文件下，加入这样一行内容：
+```
+alias rake="noglob rake"
+```
+
+添加在最后一行,即可
 
 
 #### 编辑博文

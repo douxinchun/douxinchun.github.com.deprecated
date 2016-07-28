@@ -90,6 +90,9 @@ GitHub:git@github.com:rickytan/RTImageAssets.git
 ##8.ZLGotoSandboxPlugin-Xcode  
 快速定位simulator的沙盒路径 https://github.com/MakeZL/ZLGotoSandboxPlugin
 
+##9.XcodeColors  
+Debug的时侯使控制台输出的日志带有色彩,一般配合[CocoaLumberjack](https://github.com/CocoaLumberjack/CocoaLumberjack)来使用  
+{% img /blog_reference_image/2016/7/xcode_console_colorful_logs.png %}
 
 
 

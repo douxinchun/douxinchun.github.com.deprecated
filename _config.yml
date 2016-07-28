@@ -36,7 +36,7 @@ destination: public
 plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
-# category_title_prefix: "分类：" #修改分类前缀
+category_title_prefix: "分类：" #修改分类前缀
 markdown: rdiscount
 rdiscount:
   extensions:
@@ -111,10 +111,10 @@ github_skip_forks: true
 duoshuo_comments: true
 duoshuo_short_name: douxinchun
 duoshuo_asides_num: 10      # 侧边栏评论显示条目数
-duoshuo_asides_avatars: 0   # 侧边栏评论是否显示头像
-duoshuo_asides_time: 0      # 侧边栏评论是否显示时间
-duoshuo_asides_title: 0     # 侧边栏评论是否显示标题
-duoshuo_asides_admin: 0     # 侧边栏评论是否显示作者评论
+duoshuo_asides_avatars: 1   # 侧边栏评论是否显示头像
+duoshuo_asides_time: 1      # 侧边栏评论是否显示时间
+duoshuo_asides_title: 1     # 侧边栏评论是否显示标题
+duoshuo_asides_admin: 1     # 侧边栏评论是否显示作者评论
 duoshuo_asides_length: 18   # 侧边栏评论截取的长度
 
 # Google Analytics
