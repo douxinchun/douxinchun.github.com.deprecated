@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Xcode | 冷雨之家]]></title>
+  <title><![CDATA[分类：xcode | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2016-04-21T15:34:39+08:00</updated>
+  <updated>2016-07-28T16:32:11+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -12,6 +12,163 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志]]></title>
+    <link href="http://douxinchun.github.io/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html"/>
+    <updated>2016-07-28T14:42:39+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi</id>
+    <content type="html"><![CDATA[<p>本文是基于:<a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a> 的改动.</p>
+
+<p>Xcode是一款非常优秀的IDE,但是在日志打印上貌似没有那么多高级的特性，比如分级打印，显示颜色。本博客就介绍下两个开源组件结合使用达到如下效果：
+<img src="/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
+
+<h2>1.CocoaLumberjack</h2>
+
+<h3>1.1基本介绍</h3>
+
+<p>CocoaLumberjack是一个开源工程，为Xcode提供分级打印的策略，源码地址:<a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a></p>
+
+<p>CocoaLumberjack包含几个对象分别可以把Log输出到不同的地方:</p>
+
+<ul>
+<li>DDASLLogger 输出到Console.app</li>
+<li>DDTTYLogger 输出到Xcode控制台</li>
+<li>DDLogFileManager 输出到文件</li>
+<li>DDAbstractDatabaseLogger 输出到DB</li>
+</ul>
+
+
+<p>通过ddLogLevel的int型变量或常量来定义打印等级</p>
+
+<ul>
+<li>LOG_LEVEL_OFF 关闭Log</li>
+<li>LOG_LEVEL_ERROR 只打印Error级别的Log</li>
+<li>LOG_LEVEL_WARN 打印Error和Warning级别的Log</li>
+<li>LOG_LEVEL_INFO 打印Error、Warn、Info级别的Log</li>
+<li>LOG_LEVEL_DEBUG 打印Error、Warn、Info、Debug级别的Log</li>
+<li>LOG_LEVEL_VERBOSE 打印Error、Warn、Info、Debug、Verbose级别的Log</li>
+</ul>
+
+
+<p>使用不同的宏打印不同级别的Log</p>
+
+<ul>
+<li>DDLogError(frmt, …) 打印Error级别的Log</li>
+<li>DDLogWarn(frmt, …) 打印Warn级别的Log</li>
+<li>DDLogInfo(frmt, …) 打印Info级别的Log</li>
+<li>DDLogDebug(frmt, …) 打印Debug级别的Log</li>
+<li>DDLogVerbose(frmt, …) 打印Verbose级别的Log</li>
+</ul>
+
+
+<p>如果,现在想往已有的工程中引入CocoaLumberjack,可以使用下面的宏定义,</p>
+
+<pre><code>#define NSLog(...) DDLogInfo(__VA_ARGS__)
+</code></pre>
+
+<h3>1.2设置LogFormatter</h3>
+
+<p>我们可以定制自己的Log的方式。通过创建一个类实现DDLogFormatter协议的方法<code>- (NSString *)formatLogMessage:(DDLogMessage *)logMessage;</code>,如下创建一个LogFormatter类，并实现如下方法：</p>
+
+<pre><code>...
+NSDateFormatter *threadUnsafeDateFormatter;
+threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
+        [threadUnsafeDateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss:SSS"];
+...  
+
+-(NSString *)formatLogMessage:(DDLogMessage *)logMessage{
+
+    NSString *levelStr = nil;
+    NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage-&gt;_timestamp)];
+
+    switch (logMessage.flag) {
+        case DDLogFlagError:
+        {
+            levelStr=@"[ERROR]";
+            break;
+        }
+        case DDLogFlagWarning:{
+            levelStr=@"[WARN ]";
+            break;
+        }
+        case DDLogFlagDebug:{
+            levelStr=@"[DEBUG]";
+            break;
+        }
+        case DDLogFlagInfo:
+        {
+            levelStr=@"[INFO ]";
+            break;
+        }
+        default:
+            levelStr=@"[VBOSE]";
+            break;
+    }
+
+    return [NSString stringWithFormat:@"%@ %@ &gt; %@ [line %d] %@",levelStr,dateAndTime,logMessage.function,logMessage.line,logMessage.message];
+}
+</code></pre>
+
+<p>上面的例子中我们定制了Log能打印自己的等级、类和方法、代码行数。</p>
+
+<h3>1.3初始化</h3>
+
+<p>CocoaLumberjack的引擎需要我们自己来启动。下面的示例代码</p>
+
+<pre><code> DDFileLogger *filelogger = [[DDFileLogger alloc] init];
+    filelogger.rollingFrequency = 60*60*24;//1h滚动一次
+    filelogger.logFileManager.maximumNumberOfLogFiles = 24;//最大文件数量24个
+
+    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blackColor] backgroundColor:nil forFlag:DDLogFlagVerbose];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blueColor] backgroundColor:nil forFlag:DDLogFlagDebug];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor purpleColor] backgroundColor:nil forFlag:DDLogFlagInfo];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];
+
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];//写入xCode控制台
+    [DDLog addLogger:[DDASLLogger sharedInstance]];//写入到苹果的日志
+    [DDLog addLogger:filelogger];//写入到文件系统 Cache/Library/Log
+    filelogger.logFormatter = [[SHDDLogFormatter alloc] init];
+    [DDTTYLogger sharedInstance].logFormatter = [[SHDDLogFormatter alloc] init];
+
+    DDLogError(@"DDLogError 中文错误");      // red
+    DDLogWarn(@"DDLogWarn 中文警告");        // orange
+    DDLogDebug(@"DDLogDebug 中文调试");      // blue
+    DDLogInfo(@"DDLogInfo 中文信息");        // purple
+    DDLogVerbose(@"DDLogVerbose 中文详细");  // black
+</code></pre>
+
+<h2>2.XcodeColors</h2>
+
+<h3>2.1安装</h3>
+
+<p>XcodeColors是一个Xcode插件，源码地址：<a href="https://github.com/robbiehanson/XcodeColors">XcodeColors</a>; 代码下下来后打开工程run一次，插件就自动安装到了~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/XcodeColors.xcplugin路径下.<br/>
+安装完成重启Xcode<br/>
+也可以通过Alcatraz来安装,具体的参见<a href="/blog/20150401/xcode-plugin-collection.html">Xcode常用插件集合</a></p>
+
+<h3>2.2配置scheme</h3>
+
+<p>在Scheme中配置Environment Variables, 添加参数XcodeColors为YES.如下图
+<img src="/blog_reference_image/2016/7/XcodeColors_scheme.png"></p>
+
+<h3>2.3为DDLog打开颜色</h3>
+
+<pre><code>[[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+</code></pre>
+
+<h3>2.4为特定的Log级别设定颜色</h3>
+
+<pre><code>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];
+</code></pre>
+
+<p>完成以上步骤就可以看到控制台的不同颜色的打印了。。</p>
+
+<h2>参考文章</h2>
+
+<p><a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Xcode中的调试器LLDB]]></title>
@@ -134,6 +291,11 @@ Alcatraz successfully installed!!1!🍻   Please restart your Xcode.
 <h2>8.ZLGotoSandboxPlugin-Xcode</h2>
 
 <p>快速定位simulator的沙盒路径 <a href="https://github.com/MakeZL/ZLGotoSandboxPlugin">https://github.com/MakeZL/ZLGotoSandboxPlugin</a></p>
+
+<h2>9.XcodeColors</h2>
+
+<p>Debug的时侯使控制台输出的日志带有色彩,一般配合<a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a>来使用<br/>
+<img src="/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
 ]]></content>
   </entry>
   

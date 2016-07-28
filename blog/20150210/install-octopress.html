@@ -453,6 +453,23 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 
 <p>生成的文件在<code>~/source/_posts</code>目录下</p>
 
+<p>如果使用的是zsh,可能会遇到下面的情况</p>
+
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>zsh: no matches found: new_post<span class="o">[</span>...<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+原因是诸如[]之类的不是正确的命令字符。当然，我们也可以使用转义符来解决这一问题。但每次都需要敲入转义符，实在是太麻烦了。解决方案是在~/.zshrc文件下，加入这样一行内容：</p>
+
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">alias </span><span class="nv">rake</span><span class="o">=</span><span class="s2">&quot;noglob rake&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>添加在最后一行,即可</p>
+
 <h4>编辑博文</h4>
 
 <figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -594,6 +611,10 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20151013/vistormap.html">为Octopress侧边栏增加访客地图</a>
       </li>
     
@@ -609,10 +630,6 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
         <a href="/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html">在网页中嵌入css的三种方法</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/20150722/distribute-ipa-by-itms-services.html">使用itms-services 协议来发布ipa文件</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -624,17 +641,17 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
   <ul id="categories">
     <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (4)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (5)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
-<li class='category'><a href='/blog/categories/xcode/'>xcode (2)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 
   </ul>
 </section><section>
 <h1>最新评论</h1>
-<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="0" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="1" data-show-time="1" data-show-title="1" data-show-admin="1" data-excerpt-length="18"></ul>
 
 </section><section>
 <h1>访客地图</h1>

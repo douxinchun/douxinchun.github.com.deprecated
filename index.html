@@ -9,12 +9,7 @@
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="效果图我的Blog右下角那个旋转的3D地图,可以显示地域和访客的数量.
-Widget获取地址在这里:
-https://www.revolvermaps.com/?target=setupgl
-可以根据自己的喜好设定.
-分两步添加到Octopress的侧边栏中:
-1,获取code,并创建文件 &hellip;">
+  <meta name="description" content="本文是基于:https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/ 的改动. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +71,249 @@ https://www.revolvermaps.com/?target=setupgl
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-07-28T14:42:39+08:00'><span class='date'>2016 年7 月28 日</span> <span class='time'>2:42 pm</span></time>
+        
+	    
+	           | <a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html#comments">评论</a>
+	          
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文是基于:<a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a> 的改动.</p>
+
+<p>Xcode是一款非常优秀的IDE,但是在日志打印上貌似没有那么多高级的特性，比如分级打印，显示颜色。本博客就介绍下两个开源组件结合使用达到如下效果：
+<img src="/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
+
+<h2>1.CocoaLumberjack</h2>
+
+<h3>1.1基本介绍</h3>
+
+<p>CocoaLumberjack是一个开源工程，为Xcode提供分级打印的策略，源码地址:<a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a></p>
+
+<p>CocoaLumberjack包含几个对象分别可以把Log输出到不同的地方:</p>
+
+<ul>
+<li>DDASLLogger 输出到Console.app</li>
+<li>DDTTYLogger 输出到Xcode控制台</li>
+<li>DDLogFileManager 输出到文件</li>
+<li>DDAbstractDatabaseLogger 输出到DB</li>
+</ul>
+
+
+<p>通过ddLogLevel的int型变量或常量来定义打印等级</p>
+
+<ul>
+<li>LOG_LEVEL_OFF 关闭Log</li>
+<li>LOG_LEVEL_ERROR 只打印Error级别的Log</li>
+<li>LOG_LEVEL_WARN 打印Error和Warning级别的Log</li>
+<li>LOG_LEVEL_INFO 打印Error、Warn、Info级别的Log</li>
+<li>LOG_LEVEL_DEBUG 打印Error、Warn、Info、Debug级别的Log</li>
+<li>LOG_LEVEL_VERBOSE 打印Error、Warn、Info、Debug、Verbose级别的Log</li>
+</ul>
+
+
+<p>使用不同的宏打印不同级别的Log</p>
+
+<ul>
+<li>DDLogError(frmt, …) 打印Error级别的Log</li>
+<li>DDLogWarn(frmt, …) 打印Warn级别的Log</li>
+<li>DDLogInfo(frmt, …) 打印Info级别的Log</li>
+<li>DDLogDebug(frmt, …) 打印Debug级别的Log</li>
+<li>DDLogVerbose(frmt, …) 打印Verbose级别的Log</li>
+</ul>
+
+
+<p>如果,现在想往已有的工程中引入CocoaLumberjack,可以使用下面的宏定义,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define NSLog(...) DDLogInfo(__VA_ARGS__)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>1.2设置LogFormatter</h3>
+
+<p>我们可以定制自己的Log的方式。通过创建一个类实现DDLogFormatter协议的方法<code>- (NSString *)formatLogMessage:(DDLogMessage *)logMessage;</code>,如下创建一个LogFormatter类，并实现如下方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'>NSDateFormatter *threadUnsafeDateFormatter;
+</span><span class='line'>threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
+</span><span class='line'>        [threadUnsafeDateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss:SSS"];
+</span><span class='line'>...  
+</span><span class='line'>    
+</span><span class='line'>-(NSString *)formatLogMessage:(DDLogMessage *)logMessage{
+</span><span class='line'>    
+</span><span class='line'>    NSString *levelStr = nil;
+</span><span class='line'>    NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage-&gt;_timestamp)];
+</span><span class='line'>    
+</span><span class='line'>    switch (logMessage.flag) {
+</span><span class='line'>        case DDLogFlagError:
+</span><span class='line'>        {
+</span><span class='line'>            levelStr=@"[ERROR]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        case DDLogFlagWarning:{
+</span><span class='line'>            levelStr=@"[WARN ]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        case DDLogFlagDebug:{
+</span><span class='line'>            levelStr=@"[DEBUG]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        case DDLogFlagInfo:
+</span><span class='line'>        {
+</span><span class='line'>            levelStr=@"[INFO ]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        default:
+</span><span class='line'>            levelStr=@"[VBOSE]";
+</span><span class='line'>            break;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    return [NSString stringWithFormat:@"%@ %@ &gt; %@ [line %d] %@",levelStr,dateAndTime,logMessage.function,logMessage.line,logMessage.message];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子中我们定制了Log能打印自己的等级、类和方法、代码行数。</p>
+
+<h3>1.3初始化</h3>
+
+<p>CocoaLumberjack的引擎需要我们自己来启动。下面的示例代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> DDFileLogger *filelogger = [[DDFileLogger alloc] init];
+</span><span class='line'>    filelogger.rollingFrequency = 60*60*24;//1h滚动一次
+</span><span class='line'>    filelogger.logFileManager.maximumNumberOfLogFiles = 24;//最大文件数量24个
+</span><span class='line'>    
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blackColor] backgroundColor:nil forFlag:DDLogFlagVerbose];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blueColor] backgroundColor:nil forFlag:DDLogFlagDebug];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor purpleColor] backgroundColor:nil forFlag:DDLogFlagInfo];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];
+</span><span class='line'>
+</span><span class='line'>    [DDLog addLogger:[DDTTYLogger sharedInstance]];//写入xCode控制台
+</span><span class='line'>    [DDLog addLogger:[DDASLLogger sharedInstance]];//写入到苹果的日志
+</span><span class='line'>    [DDLog addLogger:filelogger];//写入到文件系统 Cache/Library/Log
+</span><span class='line'>    filelogger.logFormatter = [[SHDDLogFormatter alloc] init];
+</span><span class='line'>    [DDTTYLogger sharedInstance].logFormatter = [[SHDDLogFormatter alloc] init];
+</span><span class='line'>    
+</span><span class='line'>    DDLogError(@"DDLogError 中文错误");      // red
+</span><span class='line'>    DDLogWarn(@"DDLogWarn 中文警告");        // orange
+</span><span class='line'>    DDLogDebug(@"DDLogDebug 中文调试");      // blue
+</span><span class='line'>    DDLogInfo(@"DDLogInfo 中文信息");        // purple
+</span><span class='line'>    DDLogVerbose(@"DDLogVerbose 中文详细");  // black
+</span><span class='line'>    </span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2.XcodeColors</h2>
+
+<h3>2.1安装</h3>
+
+<p>XcodeColors是一个Xcode插件，源码地址：<a href="https://github.com/robbiehanson/XcodeColors">XcodeColors</a>; 代码下下来后打开工程run一次，插件就自动安装到了~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/XcodeColors.xcplugin路径下.<br/>
+安装完成重启Xcode<br/>
+也可以通过Alcatraz来安装,具体的参见<a href="/blog/20150401/xcode-plugin-collection.html">Xcode常用插件集合</a></p>
+
+<h3>2.2配置scheme</h3>
+
+<p>在Scheme中配置Environment Variables, 添加参数XcodeColors为YES.如下图
+<img src="/blog_reference_image/2016/7/XcodeColors_scheme.png"></p>
+
+<h3>2.3为DDLog打开颜色</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[DDTTYLogger sharedInstance] setColorsEnabled:YES];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.4为特定的Log级别设定颜色</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>完成以上步骤就可以看到控制台的不同颜色的打印了。。</p>
+
+<h2>参考文章</h2>
+
+<p><a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -908,52 +1146,6 @@ API中对应的是:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150612/night-watcher-swear.html">冰与火之歌 守夜人誓言</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-12T15:10:52+08:00'><span class='date'>2015 年6 月12 日</span> <span class='time'>3:10 pm</span></time>
-        
-	    
-	           | <a href="/blog/20150612/night-watcher-swear.html#comments">评论</a>
-	          
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近重温了一遍Game of Throne , 感觉守夜人的誓词太霸气了。翻译的也是信达雅.</p>
-
-<p>Night watcher swear(
-&ldquo;Night gathers, and now my watch begins. It shall not end until my death. I shall take no wife, hold no lands, father no children. I shall wear no crowns and win no glory. I shall live and die at my post. I am the sword in the darkness. I am the watcher on the walls. I am the fire that burns against the cold, the light that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men. I pledge my life and honor to the Night&rsquo;s Watch, for this night and all the nights to come.&rdquo;)</p>
-
-<p>　守夜人誓言：「长夜将至，我从今开始守望，至死方休。我将不娶妻、不封地、不生子。我将不戴宝冠，不争荣宠。我将尽忠职守，生死於斯。我是黑暗中的利剑，长城上的守卫。我是抵御寒冷的烈焰，破晓时分的光线，唤醒眠者的号角，守护王国的坚盾。我将生命与荣耀献给守夜人，今夜如此，夜夜皆然。」<br/>
-　<br/>
-　<br/>
-　
-繁体版: <br/>
-　　永夜终至，吾辈铭记，巍巍大任，死亦无终。 <br/>
-　　无享妻爱，不履寸土，决绝子嗣，身归兄弟。 <br/>
-　　何言无冕，兄弟所望，何争俗荣，袍泽同心，尽忠职守，生死于斯，心念所归，无惧无退.<br/>
-　　铸兵利剑，暗夜无当；凝聚础石，长城屹立；腾焰熊熊，炽烈华光；耀耀破晓，璨以晨光；鸣无尽之号角，警外患之袭扰；锻坚钢之神盾，固王国之永宁.<br/>
-　　于今挺身，奉以生命，以夜为始，死亦无终。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -975,6 +1167,10 @@ API中对应的是:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20151013/vistormap.html">为Octopress侧边栏增加访客地图</a>
       </li>
     
@@ -990,10 +1186,6 @@ API中对应的是:</p>
         <a href="/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html">在网页中嵌入css的三种方法</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/20150722/distribute-ipa-by-itms-services.html">使用itms-services 协议来发布ipa文件</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -1005,17 +1197,17 @@ API中对应的是:</p>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (4)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (5)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
-<li class='category'><a href='/blog/categories/xcode/'>xcode (2)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 
   </ul>
 </section><section>
 <h1>最新评论</h1>
-<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="0" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
+<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="1" data-show-time="1" data-show-title="1" data-show-admin="1" data-excerpt-length="18"></ul>
 
 <!-- 多说最新评论 start -->
 	<div class="ds-recent-comments" data-num-items="5" data-show-avatars="1" data-show-time="1" data-show-title="1" data-show-admin="1" data-excerpt-length="70"></div>

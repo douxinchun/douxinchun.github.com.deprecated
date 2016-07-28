@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2016-04-21T15:34:39+08:00</updated>
+  <updated>2016-07-28T16:32:11+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -12,6 +12,226 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志]]></title>
+    <link href="http://douxinchun.github.io/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html"/>
+    <updated>2016-07-28T14:42:39+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi</id>
+    <content type="html"><![CDATA[<p>本文是基于:<a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a> 的改动.</p>
+
+<p>Xcode是一款非常优秀的IDE,但是在日志打印上貌似没有那么多高级的特性，比如分级打印，显示颜色。本博客就介绍下两个开源组件结合使用达到如下效果：
+<img src="http://douxinchun.github.io/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
+
+<h2>1.CocoaLumberjack</h2>
+
+<h3>1.1基本介绍</h3>
+
+<p>CocoaLumberjack是一个开源工程，为Xcode提供分级打印的策略，源码地址:<a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a></p>
+
+<p>CocoaLumberjack包含几个对象分别可以把Log输出到不同的地方:</p>
+
+<ul>
+<li>DDASLLogger 输出到Console.app</li>
+<li>DDTTYLogger 输出到Xcode控制台</li>
+<li>DDLogFileManager 输出到文件</li>
+<li>DDAbstractDatabaseLogger 输出到DB</li>
+</ul>
+
+
+<p>通过ddLogLevel的int型变量或常量来定义打印等级</p>
+
+<ul>
+<li>LOG_LEVEL_OFF 关闭Log</li>
+<li>LOG_LEVEL_ERROR 只打印Error级别的Log</li>
+<li>LOG_LEVEL_WARN 打印Error和Warning级别的Log</li>
+<li>LOG_LEVEL_INFO 打印Error、Warn、Info级别的Log</li>
+<li>LOG_LEVEL_DEBUG 打印Error、Warn、Info、Debug级别的Log</li>
+<li>LOG_LEVEL_VERBOSE 打印Error、Warn、Info、Debug、Verbose级别的Log</li>
+</ul>
+
+
+<p>使用不同的宏打印不同级别的Log</p>
+
+<ul>
+<li>DDLogError(frmt, …) 打印Error级别的Log</li>
+<li>DDLogWarn(frmt, …) 打印Warn级别的Log</li>
+<li>DDLogInfo(frmt, …) 打印Info级别的Log</li>
+<li>DDLogDebug(frmt, …) 打印Debug级别的Log</li>
+<li>DDLogVerbose(frmt, …) 打印Verbose级别的Log</li>
+</ul>
+
+
+<p>如果,现在想往已有的工程中引入CocoaLumberjack,可以使用下面的宏定义,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define NSLog(...) DDLogInfo(__VA_ARGS__)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>1.2设置LogFormatter</h3>
+
+<p>我们可以定制自己的Log的方式。通过创建一个类实现DDLogFormatter协议的方法<code>- (NSString *)formatLogMessage:(DDLogMessage *)logMessage;</code>,如下创建一个LogFormatter类，并实现如下方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'>NSDateFormatter *threadUnsafeDateFormatter;
+</span><span class='line'>threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
+</span><span class='line'>        [threadUnsafeDateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss:SSS"];
+</span><span class='line'>...  
+</span><span class='line'>    
+</span><span class='line'>-(NSString *)formatLogMessage:(DDLogMessage *)logMessage{
+</span><span class='line'>    
+</span><span class='line'>    NSString *levelStr = nil;
+</span><span class='line'>    NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage-&gt;_timestamp)];
+</span><span class='line'>    
+</span><span class='line'>    switch (logMessage.flag) {
+</span><span class='line'>        case DDLogFlagError:
+</span><span class='line'>        {
+</span><span class='line'>            levelStr=@"[ERROR]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        case DDLogFlagWarning:{
+</span><span class='line'>            levelStr=@"[WARN ]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        case DDLogFlagDebug:{
+</span><span class='line'>            levelStr=@"[DEBUG]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        case DDLogFlagInfo:
+</span><span class='line'>        {
+</span><span class='line'>            levelStr=@"[INFO ]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        default:
+</span><span class='line'>            levelStr=@"[VBOSE]";
+</span><span class='line'>            break;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    return [NSString stringWithFormat:@"%@ %@ &gt; %@ [line %d] %@",levelStr,dateAndTime,logMessage.function,logMessage.line,logMessage.message];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子中我们定制了Log能打印自己的等级、类和方法、代码行数。</p>
+
+<h3>1.3初始化</h3>
+
+<p>CocoaLumberjack的引擎需要我们自己来启动。下面的示例代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> DDFileLogger *filelogger = [[DDFileLogger alloc] init];
+</span><span class='line'>    filelogger.rollingFrequency = 60*60*24;//1h滚动一次
+</span><span class='line'>    filelogger.logFileManager.maximumNumberOfLogFiles = 24;//最大文件数量24个
+</span><span class='line'>    
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blackColor] backgroundColor:nil forFlag:DDLogFlagVerbose];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blueColor] backgroundColor:nil forFlag:DDLogFlagDebug];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor purpleColor] backgroundColor:nil forFlag:DDLogFlagInfo];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];
+</span><span class='line'>
+</span><span class='line'>    [DDLog addLogger:[DDTTYLogger sharedInstance]];//写入xCode控制台
+</span><span class='line'>    [DDLog addLogger:[DDASLLogger sharedInstance]];//写入到苹果的日志
+</span><span class='line'>    [DDLog addLogger:filelogger];//写入到文件系统 Cache/Library/Log
+</span><span class='line'>    filelogger.logFormatter = [[SHDDLogFormatter alloc] init];
+</span><span class='line'>    [DDTTYLogger sharedInstance].logFormatter = [[SHDDLogFormatter alloc] init];
+</span><span class='line'>    
+</span><span class='line'>    DDLogError(@"DDLogError 中文错误");      // red
+</span><span class='line'>    DDLogWarn(@"DDLogWarn 中文警告");        // orange
+</span><span class='line'>    DDLogDebug(@"DDLogDebug 中文调试");      // blue
+</span><span class='line'>    DDLogInfo(@"DDLogInfo 中文信息");        // purple
+</span><span class='line'>    DDLogVerbose(@"DDLogVerbose 中文详细");  // black
+</span><span class='line'>    </span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2.XcodeColors</h2>
+
+<h3>2.1安装</h3>
+
+<p>XcodeColors是一个Xcode插件，源码地址：<a href="https://github.com/robbiehanson/XcodeColors">XcodeColors</a>; 代码下下来后打开工程run一次，插件就自动安装到了~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/XcodeColors.xcplugin路径下.<br/>
+安装完成重启Xcode<br/>
+也可以通过Alcatraz来安装,具体的参见<a href="http://douxinchun.github.io/blog/20150401/xcode-plugin-collection.html">Xcode常用插件集合</a></p>
+
+<h3>2.2配置scheme</h3>
+
+<p>在Scheme中配置Environment Variables, 添加参数XcodeColors为YES.如下图
+<img src="http://douxinchun.github.io/blog_reference_image/2016/7/XcodeColors_scheme.png"></p>
+
+<h3>2.3为DDLog打开颜色</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[DDTTYLogger sharedInstance] setColorsEnabled:YES];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.4为特定的Log级别设定颜色</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>完成以上步骤就可以看到控制台的不同颜色的打印了。。</p>
+
+<h2>参考文章</h2>
+
+<p><a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[为Octopress侧边栏增加访客地图]]></title>
@@ -1545,6 +1765,11 @@ anon-access = read &ndash;>修改为 anon-access = none</p>
 <h2>8.ZLGotoSandboxPlugin-Xcode</h2>
 
 <p>快速定位simulator的沙盒路径 <a href="https://github.com/MakeZL/ZLGotoSandboxPlugin">https://github.com/MakeZL/ZLGotoSandboxPlugin</a></p>
+
+<h2>9.XcodeColors</h2>
+
+<p>Debug的时侯使控制台输出的日志带有色彩,一般配合<a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a>来使用<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
 ]]></content>
   </entry>
   
@@ -2265,6 +2490,23 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 
 
 <p>生成的文件在<code>~/source/_posts</code>目录下</p>
+
+<p>如果使用的是zsh,可能会遇到下面的情况</p>
+
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>zsh: no matches found: new_post<span class="o">[</span>...<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+原因是诸如[]之类的不是正确的命令字符。当然，我们也可以使用转义符来解决这一问题。但每次都需要敲入转义符，实在是太麻烦了。解决方案是在~/.zshrc文件下，加入这样一行内容：</p>
+
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">alias </span><span class="nv">rake</span><span class="o">=</span><span class="s2">&quot;noglob rake&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>添加在最后一行,即可</p>
 
 <h4>编辑博文</h4>
 
