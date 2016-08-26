@@ -9,7 +9,10 @@
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="本文是基于:https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/ 的改动. &hellip;">
+  <meta name="description" content="Develoepr Environment 去Apple Develop 网站申请Push证书并下载导入到Keychain中.
+从Keychain中分别导出证书和密钥的.p12文件:cer.p12 key.p12
+交换密码为:123456
+使用openssl 将cer.p12及key. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +74,74 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">Apple远程推送Pem证书生成-命令备忘</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-26T11:12:01+08:00'><span class='date'>2016 年8 月26 日</span> <span class='time'>11:12 am</span></time>
+        
+	    
+	           | <a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html#comments">评论</a>
+	          
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Develoepr Environment</h3>
+
+<ol>
+<li>去Apple Develop 网站申请Push证书并下载导入到Keychain中.</li>
+<li>从Keychain中分别导出证书和密钥的.p12文件:cer.p12 key.p12<br/>
+交换密码为:123456</li>
+<li><p>使用openssl 将cer.p12及key.p12转成cer.pem和key.pem<br/>
+命令如下:</p>
+
+<pre><code>$ openssl pkcs12 -clcerts -nokeys -out cer.pem -in cer.p12
+$ openssl pkcs12 -nocerts -out key.pem -in key.p12
+</code></pre>
+
+<p>转换密钥文件时候,提示输一个pem的密码,转换完成后清除pem密码的命令:</p>
+
+<pre><code>$ openssl rsa -in key.pem -out key.pem  
+</code></pre></li>
+<li><p>合并cer.pem及key.pem</p>
+
+<pre><code>$ cat cer.pem key.pem &gt; cer_key.pem
+</code></pre></li>
+</ol>
+
+
+<h3>Release Environment 过程同上</h3>
+
+<p>PS.<br/>
+测试生成的cer.pem及key.pem是否可用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ openssl s_client -connect gateway.push.apple.com:2195  -cert cer.pem -key key.pem </span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+注：gateway.push.apple.com:2195用于appStore app;<br/>
+   gateway.sandbox.push.apple.com:2195用于沙盒app;<br/>
+   以上命令执行后会打印一大罗信息，最后处于可输入状态，打几个字符回车后自动断开连接即为正常。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1099,53 +1170,6 @@ API中对应的是:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150630/use-octopress-in-different-machines.html">在多台机器上协作使用Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-06-30T13:49:49+08:00'><span class='date'>2015 年6 月30 日</span> <span class='time'>1:49 pm</span></time>
-        
-	    
-	           | <a href="/blog/20150630/use-octopress-in-different-machines.html#comments">评论</a>
-	          
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>按照之前文章 <a href="/blog/20150210/install-octopress.html">在GitHub上搭建Octopress</a> 中的步骤,就可以成功的搭建自己的Octopress框架下的博客了,但是接下来的问题是,如果这个是在公司的机器上搭建了环境,那么下班回到家后想继续更新一下自己的Blog怎么办呢.</p>
-
-<p>其实,想想原理很简单,Git是一个版本管理系统(分布式的),如果我们在下班前把自己的文件提交到Git的远程库上,然后到家的时候,把家里的PC搭建一个Ruby的环境,再把有关的文件从远程库上pull下来,OK,万事大吉,又可以继续编写自己的Blog了.</p>
-
-<h3>准备工作:</h3>
-
-<p>参照  <a href="/blog/20150210/install-octopress.html">在GitHub上搭建Octopress</a>  首先要在新机器上搭建一个Ruby的环境,Simple Guide:<br/>
-*
-   * 安装Git
-   * 安装ruby,例如：Ruby 1.9.3-p125
-   * 克隆项目</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/20150630/use-octopress-in-different-machines.html">阅读全文</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1167,6 +1191,10 @@ API中对应的是:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">Apple远程推送Pem证书生成-命令备忘</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a>
       </li>
     
@@ -1182,10 +1210,6 @@ API中对应的是:</p>
         <a href="/blog/20150901/cloc.html">Xcode 统计项目中代码的行数</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html">在网页中嵌入css的三种方法</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -1197,7 +1221,7 @@ API中对应的是:</p>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (5)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (6)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>

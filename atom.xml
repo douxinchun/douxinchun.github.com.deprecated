@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2016-07-28T16:32:11+08:00</updated>
+  <updated>2016-08-26T19:28:28+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -12,6 +12,51 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Apple远程推送Pem证书生成-命令备忘]]></title>
+    <link href="http://douxinchun.github.io/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html"/>
+    <updated>2016-08-26T11:12:01+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20160826/apple-remote-notificatoin-push-pem-file-generate</id>
+    <content type="html"><![CDATA[<h3>Develoepr Environment</h3>
+
+<ol>
+<li>去Apple Develop 网站申请Push证书并下载导入到Keychain中.</li>
+<li>从Keychain中分别导出证书和密钥的.p12文件:cer.p12 key.p12<br/>
+交换密码为:123456</li>
+<li><p>使用openssl 将cer.p12及key.p12转成cer.pem和key.pem<br/>
+命令如下:</p>
+
+<pre><code>$ openssl pkcs12 -clcerts -nokeys -out cer.pem -in cer.p12
+$ openssl pkcs12 -nocerts -out key.pem -in key.p12
+</code></pre>
+
+<p>转换密钥文件时候,提示输一个pem的密码,转换完成后清除pem密码的命令:</p>
+
+<pre><code>$ openssl rsa -in key.pem -out key.pem  
+</code></pre></li>
+<li><p>合并cer.pem及key.pem</p>
+
+<pre><code>$ cat cer.pem key.pem &gt; cer_key.pem
+</code></pre></li>
+</ol>
+
+
+<h3>Release Environment 过程同上</h3>
+
+<p>PS.<br/>
+测试生成的cer.pem及key.pem是否可用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ openssl s_client -connect gateway.push.apple.com:2195  -cert cer.pem -key key.pem </span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+注：gateway.push.apple.com:2195用于appStore app;<br/>
+   gateway.sandbox.push.apple.com:2195用于沙盒app;<br/>
+   以上命令执行后会打印一大罗信息，最后处于可输入状态，打几个字符回车后自动断开连接即为正常。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志]]></title>

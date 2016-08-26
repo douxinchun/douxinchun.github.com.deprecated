@@ -5,11 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>分类：ios - 冷雨之家</title>
+  <title>Apple远程推送Pem证书生成-命令备忘 - 冷雨之家</title>
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="Category: ios">
+  <meta name="description" content="Develoepr Environment 去Apple Develop 网站申请Push证书并下载导入到Keychain中.
+从Keychain中分别导出证书和密钥的.p12文件:cer.p12 key.p12
+交换密码为:123456
+使用openssl 将cer.p12及key. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://douxinchun.github.io/blog/categories/ios/index.html">
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
@@ -70,110 +73,127 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">分类：ios</h1>
+    
+      <h1 class="entry-title">Apple远程推送Pem证书生成-命令备忘</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-26T11:12:01+08:00'><span class='date'>2016 年8 月26 日</span> <span class='time'>11:12 am</span></time>
+        
+	    
+	           | <a href="#comments">评论</a>
+	          
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><h3>Develoepr Environment</h3>
 
-  
-  <h2>2016</h2>
+<ol>
+<li>去Apple Develop 网站申请Push证书并下载导入到Keychain中.</li>
+<li>从Keychain中分别导出证书和密钥的.p12文件:cer.p12 key.p12<br/>
+交换密码为:123456</li>
+<li><p>使用openssl 将cer.p12及key.p12转成cer.pem和key.pem<br/>
+命令如下:</p>
 
-<article>
-  
-<h1><a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">Apple远程推送Pem证书生成-命令备忘</a></h1>
-<time datetime="2016-08-26T11:12:01+08:00" pubdate><span class='month'>Aug</span> <span class='day'>26</span> <span class='year'>2016</span></time>
+<pre><code>$ openssl pkcs12 -clcerts -nokeys -out cer.pem -in cer.p12
+$ openssl pkcs12 -nocerts -out key.pem -in key.p12
+</code></pre>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ios/'>ios</a></span>
-</footer>
+<p>转换密钥文件时候,提示输一个pem的密码,转换完成后清除pem密码的命令:</p>
 
+<pre><code>$ openssl rsa -in key.pem -out key.pem  
+</code></pre></li>
+<li><p>合并cer.pem及key.pem</p>
 
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a></h1>
-<time datetime="2016-07-28T14:42:39+08:00" pubdate><span class='month'>Jul</span> <span class='day'>28</span> <span class='year'>2016</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/xcode/'>xcode</a></span>
-</footer>
+<pre><code>$ cat cer.pem key.pem &gt; cer_key.pem
+</code></pre></li>
+</ol>
 
 
-</article>
+<h3>Release Environment 过程同上</h3>
+
+<p>PS.<br/>
+测试生成的cer.pem及key.pem是否可用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ openssl s_client -connect gateway.push.apple.com:2195  -cert cer.pem -key key.pem </span></code></pre></td></tr></table></div></figure>
 
 
-
-  
-  <h2>2015</h2>
-
-<article>
-  
-<h1><a href="/blog/20151009/private-api-in-ios.html">iOS SDK中的私有API</a></h1>
-<time datetime="2015-10-09T14:37:39+08:00" pubdate><span class='month'>Oct</span> <span class='day'>09</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ios/'>ios</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/20150901/cloc.html">Xcode 统计项目中代码的行数</a></h1>
-<time datetime="2015-09-01T10:09:12+08:00" pubdate><span class='month'>Sep</span> <span class='day'>01</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ios/'>ios</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/20150722/distribute-ipa-by-itms-services.html">使用itms-services 协议来发布ipa文件</a></h1>
-<time datetime="2015-07-22T16:45:35+08:00" pubdate><span class='month'>Jul</span> <span class='day'>22</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ios/'>ios</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/20150720/autolayout-summary.html">AutoLayout 使用总结</a></h1>
-<time datetime="2015-07-20T16:55:20+08:00" pubdate><span class='month'>Jul</span> <span class='day'>20</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ios/'>ios</a></span>
-</footer>
-
-
-</article>
-
+<p>
+注：gateway.push.apple.com:2195用于appStore app;<br/>
+   gateway.sandbox.push.apple.com:2195用于沙盒app;<br/>
+   以上命令执行后会打印一大罗信息，最后处于可输入状态，打几个字符回车后自动断开连接即为正常。</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">NewSpring</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-08-26T11:12:01+08:00'><span class='date'>2016 年8 月26 日</span> <span class='time'>11:12 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html" title="Previous Post: 使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志">&laquo; 使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
+
+  <section>
+    <h1>评论</h1>
+    <div id="comments" aria-live="polite">	   <!-- Duoshuo Comment BEGIN -->
+	   <div class="ds-thread" data-title="Apple远程推送Pem证书生成-命令备忘"></div>
+	   <script type="text/javascript">
+	     var duoshuoQuery = {short_name:"douxinchun"};
+	     (function() {
+	       var ds = document.createElement('script');
+	       ds.type = 'text/javascript';ds.async = true;
+	       ds.src = 'http://static.duoshuo.com/embed.js';
+	       ds.charset = 'UTF-8';
+	       (document.getElementsByTagName('head')[0] 
+	       || document.getElementsByTagName('body')[0]).appendChild(ds);
+	     })();
+	   </script>
+	   <!-- Duoshuo Comment END --></div>
+  </section>
 
 </div>
 
