@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://douxinchun.github.io/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html</loc>
+<lastmod>2016-11-10T10:55:09+08:00</lastmod>
+</url>
+<url>
 <loc>http://douxinchun.github.io/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html</loc>
 <lastmod>2016-08-26T11:12:01+08:00</lastmod>
 </url>
@@ -111,6 +115,9 @@
 </url>
 <url>
 <loc>http://douxinchun.github.io/blog/categories/css/</loc>
+</url>
+<url>
+<loc>http://douxinchun.github.io/blog/categories/objective-c/</loc>
 </url>
 <url>
 <loc>http://douxinchun.github.io/googled64ca099c8848d46.html</loc>

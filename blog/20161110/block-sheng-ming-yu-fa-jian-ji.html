@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>分类：冰与火之歌 - 冷雨之家</title>
+  <title>Block 声明语法 简记 - 冷雨之家</title>
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="Category: 冰与火之歌">
+  <meta name="description" content="本地变量(Local Variable) returnType (^blockName)(parameterTypes) = ^returnType(parameters) {&hellip;}; 属性(Property) @property (nonatomic, copy, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://douxinchun.github.io/blog/categories/bing-yu-huo-zhi-ge/index.html">
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
@@ -70,37 +70,117 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">分类：冰与火之歌</h1>
+    
+      <h1 class="entry-title">Block 声明语法 简记</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-11-10T10:55:09+08:00'><span class='date'>2016 年11 月10 日</span> <span class='time'>10:55 am</span></time>
+        
+	    
+	           | <a href="#comments">评论</a>
+	          
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><h4>本地变量(Local Variable)</h4>
 
-  
-  <h2>2015</h2>
+<blockquote><p>returnType (^blockName)(parameterTypes) = ^returnType(parameters) {&hellip;};</p></blockquote>
 
-<article>
-  
-<h1><a href="/blog/20150612/night-watcher-swear.html">冰与火之歌 守夜人誓言</a></h1>
-<time datetime="2015-06-12T15:10:52+08:00" pubdate><span class='month'>Jun</span> <span class='day'>12</span> <span class='year'>2015</span></time>
+<h4>属性(Property)</h4>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌</a></span>
-</footer>
+<blockquote><p>@property (nonatomic, copy, nullability) returnType (^blockName)(parameterTypes);</p></blockquote>
 
+<h4>方法参数(method parameter)</h4>
 
-</article>
+<blockquote><ul>
+<li>(void)someMethodThatTakesABlock:(returnType (^nullability)(parameterTypes))blockName;</li>
+</ul>
+</blockquote>
 
+<h4>方法调用的时候的参数</h4>
+
+<blockquote><p>[someObject someMethodThatTakesABlock:^returnType (parameters) {&hellip;}];</p></blockquote>
+
+<h4>重定义(typedef)</h4>
+
+<blockquote><p>typedef returnType (^TypeName)(parameterTypes);
+TypeName blockName = ^returnType(parameters) {&hellip;};</p></blockquote>
+
+<h2>参考资料</h2>
+
+<p><a href="http://fuckingblocksyntax.com/">http://fuckingblocksyntax.com/</a></p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">NewSpring</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2016-11-10T10:55:09+08:00'><span class='date'>2016 年11 月10 日</span> <span class='time'>10:55 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/objective-c/'>objective_c</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html" title="Previous Post: Apple远程推送Pem证书生成-命令备忘">&laquo; Apple远程推送Pem证书生成-命令备忘</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
+
+  <section>
+    <h1>评论</h1>
+    <div id="comments" aria-live="polite">	   <!-- Duoshuo Comment BEGIN -->
+	   <div class="ds-thread" data-title="Block 声明语法 简记"></div>
+	   <script type="text/javascript">
+	     var duoshuoQuery = {short_name:"douxinchun"};
+	     (function() {
+	       var ds = document.createElement('script');
+	       ds.type = 'text/javascript';ds.async = true;
+	       ds.src = 'http://static.duoshuo.com/embed.js';
+	       ds.charset = 'UTF-8';
+	       (document.getElementsByTagName('head')[0] 
+	       || document.getElementsByTagName('body')[0]).appendChild(ds);
+	     })();
+	   </script>
+	   <!-- Duoshuo Comment END --></div>
+  </section>
 
 </div>
 

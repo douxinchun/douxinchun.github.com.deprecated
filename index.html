@@ -9,10 +9,7 @@
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="Develoepr Environment 去Apple Develop 网站申请Push证书并下载导入到Keychain中.
-从Keychain中分别导出证书和密钥的.p12文件:cer.p12 key.p12
-交换密码为:123456
-使用openssl 将cer.p12及key. &hellip;">
+  <meta name="description" content="本地变量(Local Variable) returnType (^blockName)(parameterTypes) = ^returnType(parameters) {&hellip;}; 属性(Property) @property (nonatomic, copy, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +71,64 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html">Block 声明语法 简记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-11-10T10:55:09+08:00'><span class='date'>2016 年11 月10 日</span> <span class='time'>10:55 am</span></time>
+        
+	    
+	           | <a href="/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html#comments">评论</a>
+	          
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>本地变量(Local Variable)</h4>
+
+<blockquote><p>returnType (^blockName)(parameterTypes) = ^returnType(parameters) {&hellip;};</p></blockquote>
+
+<h4>属性(Property)</h4>
+
+<blockquote><p>@property (nonatomic, copy, nullability) returnType (^blockName)(parameterTypes);</p></blockquote>
+
+<h4>方法参数(method parameter)</h4>
+
+<blockquote><ul>
+<li>(void)someMethodThatTakesABlock:(returnType (^nullability)(parameterTypes))blockName;</li>
+</ul>
+</blockquote>
+
+<h4>方法调用的时候的参数</h4>
+
+<blockquote><p>[someObject someMethodThatTakesABlock:^returnType (parameters) {&hellip;}];</p></blockquote>
+
+<h4>重定义(typedef)</h4>
+
+<blockquote><p>typedef returnType (^TypeName)(parameterTypes);
+TypeName blockName = ^returnType(parameters) {&hellip;};</p></blockquote>
+
+<h2>参考资料</h2>
+
+<p><a href="http://fuckingblocksyntax.com/">http://fuckingblocksyntax.com/</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1123,53 +1178,6 @@ API中对应的是:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150701/acccess-the-real-world-through-the-gfw.html">GoAgent+PHP 访问Google</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-01T10:53:00+08:00'><span class='date'>2015 年7 月1 日</span> <span class='time'>10:53 am</span></time>
-        
-	    
-	           | <a href="/blog/20150701/acccess-the-real-world-through-the-gfw.html#comments">评论</a>
-	          
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>前言</h2>
-
-<p>GoAgent可以使用两种方式来翻墙上网:一种是官方推荐的,申请一个Google的Email账号,然后上传服务端需要的文件到Google App Engine;另外一种就就是通过国外的没有被屏蔽的PHP的空间来代替GAE作为服务端.<br/>
-本人以前(2015年以前)一直是使用第一种方式,但后来由于国内对于GAE一直是重点的屏蔽对象,导致许多的公布的ip地址不可用,<a href="http://www.firefoxfan.com/">火狐范</a>上公布的ip也是只能用一两天,<a href="https://github.com/moonshawdo/checkgoogleip">checkgoogleip</a>上扫出来的ip,十个里面有9个都不靠谱,剩下的一个,没撑过2天也挂了.<br/>
-实在不再愿意每天折腾iplist,所以决定Google一下,在PHP空间上部署goagent服务.</p>
-
-<hr />
-
-<p>注意! 本文goagent为3.2.3版本(具体而言是3.2.3版本) 运行于Linux  内核版本：2.6.32-531.29.2.lve1.3.11.1.el6.x86_64<br/>
-客户端的系统是Mac OS X<br/>
-如果你用的是Windows系统,推荐使用<a href="https://github.com/DIYgod/EasyGoAgent">Easy GoAgent</a>,开箱即用.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/20150701/acccess-the-real-world-through-the-gfw.html">阅读全文</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1191,6 +1199,10 @@ API中对应的是:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html">Block 声明语法 简记</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">Apple远程推送Pem证书生成-命令备忘</a>
       </li>
     
@@ -1204,10 +1216,6 @@ API中对应的是:</p>
     
       <li class="post">
         <a href="/blog/20151009/private-api-in-ios.html">iOS SDK中的私有API</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20150901/cloc.html">Xcode 统计项目中代码的行数</a>
       </li>
     
   </ul>
@@ -1224,6 +1232,7 @@ API中对应的是:</p>
 <li class='category'><a href='/blog/categories/ios/'>ios (6)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>

@@ -9,7 +9,8 @@
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="按照之前文章 在GitHub上搭建Octopress 中的步骤,就可以成功的搭建自己的Octopress框架下的博客了,但是接下来的问题是,如果这个是在公司的机器上搭建了环境,那么下班回到家后想继续更新一下自己的Blog怎么办呢. 其实,想想原理很简单,Git是一个版本管理系统(分布式的), &hellip;">
+  <meta name="description" content="前言 GoAgent可以使用两种方式来翻墙上网:一种是官方推荐的,申请一个Google的Email账号,然后上传服务端需要的文件到Google App Engine;另外一种就就是通过国外的没有被屏蔽的PHP的空间来代替GAE作为服务端.
+本人以前(2015年以前)一直是使用第一种方式, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +72,53 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150701/acccess-the-real-world-through-the-gfw.html">GoAgent+PHP 访问Google</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-01T10:53:00+08:00'><span class='date'>2015 年7 月1 日</span> <span class='time'>10:53 am</span></time>
+        
+	    
+	           | <a href="/blog/20150701/acccess-the-real-world-through-the-gfw.html#comments">评论</a>
+	          
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>前言</h2>
+
+<p>GoAgent可以使用两种方式来翻墙上网:一种是官方推荐的,申请一个Google的Email账号,然后上传服务端需要的文件到Google App Engine;另外一种就就是通过国外的没有被屏蔽的PHP的空间来代替GAE作为服务端.<br/>
+本人以前(2015年以前)一直是使用第一种方式,但后来由于国内对于GAE一直是重点的屏蔽对象,导致许多的公布的ip地址不可用,<a href="http://www.firefoxfan.com/">火狐范</a>上公布的ip也是只能用一两天,<a href="https://github.com/moonshawdo/checkgoogleip">checkgoogleip</a>上扫出来的ip,十个里面有9个都不靠谱,剩下的一个,没撑过2天也挂了.<br/>
+实在不再愿意每天折腾iplist,所以决定Google一下,在PHP空间上部署goagent服务.</p>
+
+<hr />
+
+<p>注意! 本文goagent为3.2.3版本(具体而言是3.2.3版本) 运行于Linux  内核版本：2.6.32-531.29.2.lve1.3.11.1.el6.x86_64<br/>
+客户端的系统是Mac OS X<br/>
+如果你用的是Windows系统,推荐使用<a href="https://github.com/DIYgod/EasyGoAgent">Easy GoAgent</a>,开箱即用.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/20150701/acccess-the-real-world-through-the-gfw.html">阅读全文</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -623,6 +671,10 @@ A blogging framework for hackers.</p></blockquote>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html">Block 声明语法 简记</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">Apple远程推送Pem证书生成-命令备忘</a>
       </li>
     
@@ -636,10 +688,6 @@ A blogging framework for hackers.</p></blockquote>
     
       <li class="post">
         <a href="/blog/20151009/private-api-in-ios.html">iOS SDK中的私有API</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20150901/cloc.html">Xcode 统计项目中代码的行数</a>
       </li>
     
   </ul>
@@ -656,6 +704,7 @@ A blogging framework for hackers.</p></blockquote>
 <li class='category'><a href='/blog/categories/ios/'>ios (6)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
