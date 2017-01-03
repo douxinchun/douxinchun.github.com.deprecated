@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2016-11-10T11:04:23+08:00</updated>
+  <updated>2017-01-03T14:34:52+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -12,6 +12,89 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 操作系统目录说明]]></title>
+    <link href="http://douxinchun.github.io/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html"/>
+    <updated>2017-01-03T11:28:24+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming</id>
+    <content type="html"><![CDATA[<p>iOS的设备越狱后,安装openssh,可以通过ssh连接工具(Mac OS 下直接使用Terminal)连接到手机上查看相关的系统目录:
+ssh 连接命令常用格式:
+`ssh [-l login_name] [-p port] [user@]hostname<br/>
+示例:<br/>
+$ ssh <a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#58;&#114;&#x6f;&#111;&#x74;&#64;&#49;&#x30;&#x2e;&#x32;&#46;&#x39;&#x38;&#x2e;&#x38;&#55;">&#x72;&#x6f;&#111;&#x74;&#64;&#x31;&#x30;&#x2e;&#50;&#x2e;&#x39;&#56;&#x2e;&#56;&#55;</a><br/>
+默认的openssh连接密码为:alpine</p>
+
+<p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
+
+<!--more-->
+
+
+<p>二、iPhone中其他基本文件的存放文件目录如下：<br/>
+1、/Applications<br/>
+常用软件的安装目录<br/>
+2. /private /var/ mobile/Media /iphone video Recorder<br/>
+iphone video Recorder录像文件存放目录<br/>
+3、/private /var/ mobile/Media /DCIM <br/>
+相机拍摄的照片文件存放目录<br/>
+4、/private/var/ mobile /Media/iTunes_Control/Music <br/>
+iTunes上传的多媒体文件（例如MP3、MP4等）存放目录，文件没有被修改，但是文件名字被修改了，直接下载到电脑即可读取。<br/>
+5、/private /var/root/Media/EBooks<br/>
+熊猫看书存放目录 <br/>
+6、/Library/Ringtones<br/>
+系统自带的来电铃声存放目录（用iTunes将文件转换为ACC文件，把后缀名改成.m4r,用iPhone_PC_Suite传到/Library/Ringtones即可） <br/>
+7、/System/Library/Audio/UISounds<br/>
+短信记其它系统默认效果铃声（m4r铃声文件改扩展名为.caf）短信铃声文件名为sms-received开头的caf文件<br/>
+8、/private/var/ mobile /Library/AddressBook<br/>
+系统电话本的存放目录。<br/>
+9、/private /var/ mobile/Media /iphone Recorder<br/>
+iphone Recorder录音软件文件存放目录<br/>
+10、/Applications/Preferences.app/zh_CN.lproj<br/>
+软件Preferences.app的中文汉化文件存放目录<br/>
+11、/Library/Wallpaper <br/>
+系统q1ang纸的存放目录<br/>
+12、/System/Library/Audio/UISounds <br/>
+系统声音文件的存放目录<br/>
+13、/private/var/root/Media/PXL <br/>
+ibrickr上传安装程序建立的一个数据库，估计和windows的uninstall记录差不多。<br/>
+14、/bin <br/>
+和linux系统差不多，是系统执行指令的存放目录。 <br/>
+15、/private/var/ mobile /Library/SMS <br/>
+系统短信的存放目录<br/>
+16、/private/var/run<br/>
+系统进程运行的临时目录？（查看这里可以看到系统启动的所有进程）<br/>
+17、/private/var/logs/CrashReporter<br/>
+系统错误记录报</p>
+
+<h3>iPhone 特殊文件目录介绍</h3>
+
+<ol>
+<li>/private/var/mobile<br/>
+新刷完的机器，要在这个文件夹下建一个Documents的目录。</li>
+<li>/private/var/mobile/Applications<br/>
+通过AppStore和iTunes安装的程序都在里面。</li>
+<li>/private/var/stash<br/>
+这个文件夹下的Applications目录里面是所有通过Cydia和app安装的程序，Ringtones目录里是所有的手机铃音，自制铃音直接拷在里面即可，Themes目录里是所有Winterboard主题，可以手工修改。</li>
+<li>/var/mobile/Media/ROMs/GBA　<br/>
+gpsPhone模拟器存放rom的目录。</li>
+<li>/var/mobile/Media/textReader<br/>
+textReader看书软件读取的电子书的存放路径。</li>
+<li>/System/Library/Fonts/Cache<br/>
+系统字体目录，要替换的字体放在该目录下，权限644不变</li>
+<li>/private/var/mobile/Media/Maps<br/>
+离线地图目录，把地图文件夹放到该目录下，文件夹赋予777权限</li>
+<li>/private/var/mobile/Library/Downloads<br/>
+ipa文件存放目录，用Installous安装</li>
+<li>/private/var/mobile/Library/Keyboard<br/>
+系统拼音字库文件位置</li>
+<li>/var/stash/Themes.XXXXXX<br/>
+winterboard主题文件存放路径</li>
+<li>/private/var/mobile/Media/DCIM/999APPLE<br/>
+系统自带截屏文件存放路径</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Block 声明语法 简记]]></title>
@@ -104,6 +187,9 @@ $ openssl pkcs12 -nocerts -out key.pem -in key.p12
 <img src="http://douxinchun.github.io/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
 
 <h2>1.CocoaLumberjack</h2>
+
+<!--more-->
+
 
 <h3>1.1基本介绍</h3>
 
@@ -2204,454 +2290,6 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
 
 <p>    <br/>
 到这里，就比较完美的添加完多说的评论了.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在GitHub上搭建Octopress]]></title>
-    <link href="http://douxinchun.github.io/blog/20150210/install-octopress.html"/>
-    <updated>2015-02-10T18:38:16+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150210/install-octopress</id>
-    <content type="html"><![CDATA[<h2>前言</h2>
-
-<p>GitHub果真是一个神奇的地方.以前在使用<a href="http://hi.baidu.com/douxinchun">Baidu</a>空间和<a href="http://blog.csdn.net/douxinchun">CSDN</a>来写博客的时候,就听前辈们说过GitHub可以写博客.经过一番Google后终于弄明白了原理.<br/>
-首先是github中有一个功能叫做<a href="https://pages.github.com/">Pages</a>,这个功能具体的作用不详,但是其中的一项是能够把你上传的html文件显示为一个网页.其次是有好事者(别的博主都这么称呼)做了一个基于github的管理工具:<a href="http://octopress.org/">Octopress</a>.然后,我们就可以使用Octopress这个开源的框架加上Github Pages服务来搭建自己的Blog.</p>
-
-<p>到这里可能你会觉得非常兴奋,恨不得立马就要下手开搞.引用一句<a href="http://octopress.org/">Octopress</a>官方网站的标题:</p>
-
-<blockquote><p>Octopress<br/>
-A blogging framework for hackers.</p></blockquote>
-
-<p>所以,如果没有一定的Git命令基础,html知识和Linux命令行知识的话,最好不要轻易的下决定.<br/>
-另外,Octopress框架下的Blog系统,需要使用<a href="http://zh.wikipedia.org/zh/Markdown">Markdown</a>语言来写博客,如果之前没有使用过的话,需要简单的学习一下,废话少说,开始介绍我的搭建之旅.</p>
-
-<h2>搭建Octopress</h2>
-
-<!--more-->
-
-
-<hr />
-
-<p>我是在iMac上面成功搭建的Octopress,具体的环境如下:</p>
-
-<ul>
-<li>Mac OS X 10.9.5 (这个版本号下安装Ruby1.9.3p125是非常头疼的)</li>
-</ul>
-
-
-<p>安装Octopress基本上要按照以下几个步骤:</p>
-
-<pre><code>    1. 注册GitHub账号  
-    2. 安装Ruby1.9.3p125 (后来,在更新机器的过程中发现也可以使用ruby-1.9.3-p551,so,大家在安装的时候,执行 rvm install 1.9.3 就行,不要在意小版本)
-    3. 安装Octopress     
-    4. 部署到GitHub上  
-</code></pre>
-
-<p><a href="http://octopress.org/docs/setup/">这里</a>是Octopress的官方安装指南，各位可以按照其中的步骤进行安装.需要注意一点,官方的教程中的第2步:</p>
-
-<blockquote><p>2.Install Ruby 1.9.3 or greater using either <a href="http://octopress.org/docs/setup/rbenv/">rbenv</a> or <a href="http://octopress.org/docs/setup/rvm/">RVM</a>.</p></blockquote>
-
-<p>提到可以使用更高版本的Ruby,这一点,我在2.0.0下做过验证,没有成功,强烈建议使用版本<strong>1.9.3p125</strong>或者<strong>1.9.3</strong>
-Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中使用的是RVM,这里同时给出两种方式来安装Ruby1.9.3</p>
-
-<p>git呢我们的mac默认安装,<a href="https://github.com/">GitHub</a>账号注册部分,直接跳过.</p>
-
-<h3>安装低版本的Ruby</h3>
-
-<h4>1.通过Ruby安装Ruby1.9.3</h4>
-
-<h5>安装Homeview</h5>
-
-<p>这里我使用<a href="http://brew.sh/">Homebrew</a>来安装rbenv，如果你没有Homebrew，打开终端,copy 执行以下命令。
-<em>(此处注意请随时关注Homebrew的官网首页的安装命令是否更新)</em></p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>/usr/bin/ruby -e <span class="s2">&quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>有了Homebrew就可以安装rbenv了</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>brew update
-</span><span class='line'><span class="nv">$ </span>brew install rbenv
-</span><span class='line'><span class="nv">$ </span>brew install ruby-build
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>安装Ruby</h5>
-
-<p>使用rbenv安装1.9.3版本的ruby</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rbenv install 1.9.3
-</span><span class='line'><span class="nv">$ </span>rbenv <span class="nb">local </span>1.9.3
-</span><span class='line'><span class="nv">$ </span>rbenv rehash
-</span><span class='line'><span class="nv">$ </span>ruby --version <span class="c">#ruby 1.9.3p125 (2012-02-16 revision 34643) [x86_64-darwin13.4.0]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>安装完成后可以用ruby &ndash;version进行验证</p>
-
-<h4>2.通过Rvm安装Ruby1.9.3p125</h4>
-
-<p><a href="http://www.rvm.io/">RVM</a> 全称<a href="http://www.rvm.io/">Ruby Version Manager</a>, 是一个非常好用的ruby版本管理以及安装工具. RVM的安装方法,也可按照官方首页.</p>
-
-<h5>安装rvm</h5>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="se">\c</span>url -sSL https://get.rvm.io <span class="p">|</span> bash -s stable
-</span><span class='line'><span class="nv">$ </span><span class="nb">source</span> ~/.bashrc
-</span><span class='line'><span class="nv">$ </span><span class="nb">source</span> ~/.bash_profile
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>修改 RVM 的 Ruby 下载源到国内的 淘宝镜像服务器，这样能提高安装速度</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sed -i .bak -E <span class="s1">&#39;s!https?://cache.ruby-lang.org/pub/ruby!https://ruby.taobao.org/mirrors/ruby!&#39;</span> <span class="nv">$rvm_path</span>/config/db
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>Ruby的安装与切换 (RVM管理)</h5>
-
-<ul>
-<li>列出已知的ruby版本</li>
-</ul>
-
-
-<pre><code class="`">   $ rvm list known
-</code></pre>
-
-<ul>
-<li>安装一个ruby版本</li>
-</ul>
-
-
-<pre><code class="`">   $ rvm install 1.9.3
-</code></pre>
-
-<ul>
-<li>使用一个ruby版本</li>
-</ul>
-
-
-<pre><code class="`">   $ rvm use 1.9.3p125
-</code></pre>
-
-<ul>
-<li>如果想设置为默认版本，可以这样</li>
-</ul>
-
-
-<pre><code class="`">   $ rvm use 1.9.3p125 --default 
-</code></pre>
-
-<ul>
-<li>查询已经安装的ruby</li>
-</ul>
-
-
-<pre><code class="`">   $ rvm list
-</code></pre>
-
-<ul>
-<li>卸载一个已安装版本</li>
-</ul>
-
-
-<pre><code class="`">    $ rvm remove 1.9.3p125
-</code></pre>
-
-<h3>安装Octopress</h3>
-
-<p>安装Ruby完成后就按照官方指南安装Octpress</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">## clone octopress</span>
-</span><span class='line'><span class="nv">$ </span>git clone git://github.com/imathis/octopress.git octopress
-</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>octopress
-</span><span class='line'><span class="c">## 安装依赖</span>
-</span><span class='line'><span class="nv">$ </span>gem install bundler
-</span><span class='line'><span class="nv">$ </span>rbenv rehash
-</span><span class='line'><span class="nv">$ </span>bundle install
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>此处,至于如果bundle install的时候,出现类似下面的情况:</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>...
-</span><span class='line'>Gem::RemoteFetcher::FetchError: Errno::ECONNRESET: Connection reset by peer - SSL_connect <span class="o">(</span>https://rubygems.org/gems/compass-core-1.0.3.gem<span class="o">)</span>
-</span><span class='line'>...
-</span><span class='line'>此处省略1W字
-</span><span class='line'>...
-</span><span class='line'>An error occurred <span class="k">while</span> installing compass-core <span class="o">(</span>1.0.3<span class="o">)</span>, and Bundler cannot
-</span><span class='line'><span class="k">continue</span>.
-</span><span class='line'>Make sure that <span class="sb">`</span>gem install compass-core -v <span class="s1">&#39;1.0.3&#39;</span><span class="sb">`</span> succeeds before bundling.
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>则需要使用 Bundler 的 Gem 源代码镜像命令</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle config mirror.https://rubygems.org https://ruby.taobao.org
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或者是在目录下找到Gemfile文件,替换</p>
-
-<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>source 'https://rubygems.org/'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>为</p>
-
-<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>source "https://ruby.taobao.org"</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>当然了,如果你有足够的毅力,你也可以按照最后一行的提示,直接在Terminal中打:gem install compass-core -v &lsquo;1.0.3&rsquo;,然后success后再继续bundle install,然后不断重复这一过程,Believe me,it&rsquo;s not a dead circle.~~</p>
-
-<p>在此,感谢一下万能的淘宝,顺便感谢一下GFW!</p>
-
-<h2>安装octopress默认主题</h2>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake install
-</span></code></pre></td></tr></table></div></figure>
-
-
-<hr />
-
-<h2>部署</h2>
-
-<p>接下来需要把Blog部署到github上去，第一步要做的是去<a href="https://github.com/new">github</a>创建一个<code>username.github.com</code>的repo，比如我的就叫<a href="http://douxinchun.github.io/"><code>douxinchun.github.com</code></a>。</p>
-
-<p>然后运行以下命令，并依照提示建立github和Octopress的关联</p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake setup_github_pages
-</span></code></pre></td></tr></table></div></figure>
-
-
-<hr />
-
-<h2>创建博客</h2>
-
-<h4>生成博客</h4>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake generate
-</span><span class='line'><span class="nv">$ </span>rake deploy
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>把修改完的代码上传到github,repo:douxinchun.github.com下的source分支下</p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git add .
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s1">&#39;create blog&#39;</span>
-</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>完成后等待一段时间后就能访问<code>http://username.github.com</code>看到自己的博客了</p>
-
-<h4>简单的修改配置</h4>
-
-<p>配置文件路径为<code>~/octopress/_config.yml</code></p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>url:                <span class="c"># For rewriting urls for RSS, etc</span>
-</span><span class='line'>title:              <span class="c"># Used in the header and title tags</span>
-</span><span class='line'>subtitle:           <span class="c"># A description used in the header</span>
-</span><span class='line'>author:             <span class="c"># Your name, for RSS, Copyright, Metadata</span>
-</span><span class='line'>simple_search:      <span class="c"># Search engine for simple site search</span>
-</span><span class='line'>description:        <span class="c"># A default meta description for your site</span>
-</span><span class='line'>date_format:        <span class="c"># Format dates using Ruby&#39;s date strftime syntax</span>
-</span><span class='line'>subscribe_rss:      <span class="c"># Url for your blog&#39;s feed, defauts to /atom.xml</span>
-</span><span class='line'>subscribe_email:    <span class="c"># Url to subscribe by email (service required)</span>
-</span><span class='line'>category_feeds:     <span class="c"># Enable per category RSS feeds (defaults to false in 2.1)</span>
-</span><span class='line'>email:              <span class="c"># Email address for the RSS feed if you want it.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>编辑完成后,执行这个操作部署到GitHub中</p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake generate
-</span><span class='line'><span class="nv">$ </span>rake deploy
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>将修改保存到GitHub的远程库中</p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git add .
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;simple settings&quot;</span>
-</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>支持中文标签</h4>
-
-<p>目前版本的Octopress会在<code>/source/blog/categories</code>下创建一个<code>index.markdown</code>来作为分类的首页，但这个首页在标签有中文时会出现无法跳转的情况，原因是因为在出现中文标签时Octopress会把文件的路径中的中文转换成拼音，而在Category跳转时是直接写了中文路径，结果自然是404。解决方法是自己实现一个分类首页并处理中文。</p>
-
-<p>首先按照<a href="https://kaworu.ch/blog/2013/09/23/categories-page-with-octopress/">这里</a>的方法实现<code>index.html</code>,给Blog添加分类</p>
-
-<p>将<code>plugins/category_list_tag.rb</code>中的</p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">category_url</span> <span class="o">=</span> File.join<span class="o">(</span>category_dir, category.gsub<span class="o">(</span>/_<span class="p">|</span><span class="se">\P</span><span class="o">{</span>Word<span class="o">}</span>/, <span class="s1">&#39;-&#39;</span><span class="o">)</span>.gsub<span class="o">(</span>/-<span class="o">{</span>2,<span class="o">}</span>/, <span class="s1">&#39;-&#39;</span><span class="o">)</span>.downcase<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>替换成</p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">category_url</span> <span class="o">=</span> File.join<span class="o">(</span>category_dir, category.to_url.downcase<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样你的博客就可以支持中文标签的跳转了。</p>
-
-<hr />
-
-<h2>写博客</h2>
-
-<p>经过上面几部后，博客已经成功搭建，现在就可以开始写博文了。</p>
-
-<h4>创建博文</h4>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">## 使用终端</span>
-</span><span class='line'><span class="nv">$ </span>rake new_post<span class="o">[</span><span class="s1">&#39;title&#39;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>生成的文件在<code>~/source/_posts</code>目录下</p>
-
-<p>如果使用的是zsh,可能会遇到下面的情况</p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>zsh: no matches found: new_post<span class="o">[</span>...<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-原因是诸如[]之类的不是正确的命令字符。当然，我们也可以使用转义符来解决这一问题。但每次都需要敲入转义符，实在是太麻烦了。解决方案是在~/.zshrc文件下，加入这样一行内容：</p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">alias </span><span class="nv">rake</span><span class="o">=</span><span class="s2">&quot;noglob rake&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>添加在最后一行,即可</p>
-
-<h4>编辑博文</h4>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">## ...markdown写博文</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span>rake preview <span class="c">#localhost:4000</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span>rake generate
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span>git add .
-</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;comment&quot;</span>
-</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">$ </span>rake deploy
-</span></code></pre></td></tr></table></div></figure>
-
-
-<hr />
-
-<h2>参考资料</h2>
-
-<ul>
-<li><a href="http://octopress.org/">http://octopress.org/</a> &nbsp;&nbsp;&nbsp;&nbsp;Octopress作者站点</li>
-<li><a href="http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/">http://blog.devtang.com/blog/2012/02/10/setup-blog-based-on-github/</a>  &nbsp;&nbsp;&nbsp;&nbsp;唐巧的Blog中搭建Octopress的部分</li>
-</ul>
-
-
-<p>其他的博主搭建Octopress的Blog:</p>
-
-<ul>
-<li><a href="http://msching.github.io/blog/2014/04/11/starting/">http://msching.github.io/blog/2014/04/11/starting/</a>  &nbsp;&nbsp;&nbsp;&nbsp;基于Github和Octopress搭建属于自己的博客 - 码农人生</li>
-<li><a href="http://biaobiaoqi.me/blog/2013/03/21/building-octopress-in-github-mac/">http://biaobiaoqi.me/blog/2013/03/21/building-octopress-in-github-mac/</a>  &nbsp;&nbsp;&nbsp;&nbsp; 安装Octopress的记录 - Peter潘 - 博客园</li>
-</ul>
-
-
-<p>安装ruby1.9.3-p125时google的一些站点,如果你在安装Ruby 1.9.3的时候遇到问题,不妨浏览一下下面的网址,看能不能找到解决方案:</p>
-
-<ul>
-<li><a href="http://stackoverflow.com/questions/26208230/rvm-install-1-9-3-on-os-x-10-9-5-failing?answertab=active#tab-top">http://stackoverflow.com/questions/26208230/rvm-install-1-9-3-on-os-x-10-9-5-failing?answertab=active#tab-top</a></li>
-<li><a href="https://github.com/wayneeseguin/rvm/issues/1975">https://github.com/wayneeseguin/rvm/issues/1975</a></li>
-<li><a href="http://stackoverflow.com/questions/24502284/error-installing-ruby-1-9-3-p547-with-rvm-on-osx-10-9-3">http://stackoverflow.com/questions/24502284/error-installing-ruby-1-9-3-p547-with-rvm-on-osx-10-9-3</a></li>
-<li><a href="https://www.ruby-lang.org/zh_tw/downloads/#third-party-tools">https://www.ruby-lang.org/zh_tw/downloads/#third-party-tools</a></li>
-<li><a href="https://github.com/wayneeseguin/rvm/issues/2837">https://github.com/wayneeseguin/rvm/issues/2837</a></li>
-<li><a href="http://stackoverflow.com/questions/15587298/cant-install-ruby-1-9-3-via-rvm-in-os-x-lion-even-with-with-gcc-clang">http://stackoverflow.com/questions/15587298/cant-install-ruby-1-9-3-via-rvm-in-os-x-lion-even-with-with-gcc-clang</a></li>
-<li><a href="http://stackoverflow.com/questions/21068346/issue-with-rubygems-rb-when-installing-rails">http://stackoverflow.com/questions/21068346/issue-with-rubygems-rb-when-installing-rails</a></li>
-<li><a href="http://stackoverflow.com/questions/14592945/cannot-compile-ruby-1-9-3">http://stackoverflow.com/questions/14592945/cannot-compile-ruby-1-9-3</a></li>
-<li><a href="http://stackoverflow.com/questions/15643486/cant-install-ruby-2-0-0-p0-with-rvm-error-running-make-j8/15655034#15655034">http://stackoverflow.com/questions/15643486/cant-install-ruby-2-0-0-p0-with-rvm-error-running-make-j8/15655034#15655034</a></li>
-<li><a href="http://stackoverflow.com/questions/14072524/error-installing-ruby-with-rvm-osx-10-8">http://stackoverflow.com/questions/14072524/error-installing-ruby-with-rvm-osx-10-8</a></li>
-<li><a href="https://ruby-china.org/wiki/install_ruby_guide">https://ruby-china.org/wiki/install_ruby_guide</a></li>
-<li><a href="http://blog.fengqijun.me/blog/2013/08/29/move-from-rvm-to-rbenv/">http://blog.fengqijun.me/blog/2013/08/29/move-from-rvm-to-rbenv/</a></li>
-<li><a href="http://about.ac/2012/04/install-ruby-with-rbenv.html">http://about.ac/2012/04/install-ruby-with-rbenv.html</a></li>
-<li><a href="https://ruby-china.org/wiki/rvm-guide">https://ruby-china.org/wiki/rvm-guide</a></li>
-</ul>
-
 ]]></content>
   </entry>
   

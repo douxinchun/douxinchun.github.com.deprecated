@@ -5,13 +5,15 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Xcode 统计项目中代码的行数 - 冷雨之家</title>
+  <title>iOS 操作系统目录说明 - 冷雨之家</title>
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="方法一: 终端命令进入项目目录下，命令如下 1
-find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l 列出每个文件的行数 1
-find . -name "*.m" -or -name &hellip;">
+  <meta name="description" content="iOS的设备越狱后,安装openssh,可以通过ssh连接工具(Mac OS 下直接使用Terminal)连接到手机上查看相关的系统目录:
+ssh 连接命令常用格式:
+`ssh [-l login_name] [-p port] [user@]hostname
+示例:
+$ ssh &#x72;&# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +22,7 @@ find . -name "*.m" -or -name &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://douxinchun.github.io/blog/20150901/cloc.html">
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
@@ -76,7 +78,7 @@ find . -name "*.m" -or -name &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Xcode 统计项目中代码的行数</h1>
+      <h1 class="entry-title">iOS 操作系统目录说明</h1>
     
     
       <p class="meta">
@@ -85,7 +87,7 @@ find . -name "*.m" -or -name &hellip;">
 
 
 
-<time class='entry-date' datetime='2015-09-01T10:09:12+08:00'><span class='date'>2015 年9 月1 日</span> <span class='time'>10:09 am</span></time>
+<time class='entry-date' datetime='2017-01-03T11:28:24+08:00'><span class='date'>2017 年1 月3 日</span> <span class='time'>11:28 am</span></time>
         
 	    
 	           | <a href="#comments">评论</a>
@@ -95,76 +97,81 @@ find . -name "*.m" -or -name &hellip;">
   </header>
 
 
-<div class="entry-content"><h3>方法一:</h3>
+<div class="entry-content"><p>iOS的设备越狱后,安装openssh,可以通过ssh连接工具(Mac OS 下直接使用Terminal)连接到手机上查看相关的系统目录:
+ssh 连接命令常用格式:
+`ssh [-l login_name] [-p port] [user@]hostname<br/>
+示例:<br/>
+$ ssh <a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#58;&#114;&#x6f;&#111;&#x74;&#64;&#49;&#x30;&#x2e;&#x32;&#46;&#x39;&#x38;&#x2e;&#x38;&#55;">&#x72;&#x6f;&#111;&#x74;&#64;&#x31;&#x30;&#x2e;&#50;&#x2e;&#x39;&#56;&#x2e;&#56;&#55;</a><br/>
+默认的openssh连接密码为:alpine</p>
 
-<p>终端命令进入项目目录下，命令如下</p>
+<p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-列出每个文件的行数</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs grep -v "^$"|wc -l  </span></code></pre></td></tr></table></div></figure>
+<!--more-->
 
 
-<p>列出代码行数总和</p>
+<p>二、iPhone中其他基本文件的存放文件目录如下：<br/>
+1、/Applications<br/>
+常用软件的安装目录<br/>
+2. /private /var/ mobile/Media /iphone video Recorder<br/>
+iphone video Recorder录像文件存放目录<br/>
+3、/private /var/ mobile/Media /DCIM <br/>
+相机拍摄的照片文件存放目录<br/>
+4、/private/var/ mobile /Media/iTunes_Control/Music <br/>
+iTunes上传的多媒体文件（例如MP3、MP4等）存放目录，文件没有被修改，但是文件名字被修改了，直接下载到电脑即可读取。<br/>
+5、/private /var/root/Media/EBooks<br/>
+熊猫看书存放目录 <br/>
+6、/Library/Ringtones<br/>
+系统自带的来电铃声存放目录（用iTunes将文件转换为ACC文件，把后缀名改成.m4r,用iPhone_PC_Suite传到/Library/Ringtones即可） <br/>
+7、/System/Library/Audio/UISounds<br/>
+短信记其它系统默认效果铃声（m4r铃声文件改扩展名为.caf）短信铃声文件名为sms-received开头的caf文件<br/>
+8、/private/var/ mobile /Library/AddressBook<br/>
+系统电话本的存放目录。<br/>
+9、/private /var/ mobile/Media /iphone Recorder<br/>
+iphone Recorder录音软件文件存放目录<br/>
+10、/Applications/Preferences.app/zh_CN.lproj<br/>
+软件Preferences.app的中文汉化文件存放目录<br/>
+11、/Library/Wallpaper <br/>
+系统q1ang纸的存放目录<br/>
+12、/System/Library/Audio/UISounds <br/>
+系统声音文件的存放目录<br/>
+13、/private/var/root/Media/PXL <br/>
+ibrickr上传安装程序建立的一个数据库，估计和windows的uninstall记录差不多。<br/>
+14、/bin <br/>
+和linux系统差不多，是系统执行指令的存放目录。 <br/>
+15、/private/var/ mobile /Library/SMS <br/>
+系统短信的存放目录<br/>
+16、/private/var/run<br/>
+系统进程运行的临时目录？（查看这里可以看到系统启动的所有进程）<br/>
+17、/private/var/logs/CrashReporter<br/>
+系统错误记录报</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grep -v "^$"是去掉空行</span></code></pre></td></tr></table></div></figure>
+<h3>iPhone 特殊文件目录介绍</h3>
 
+<ol>
+<li>/private/var/mobile<br/>
+新刷完的机器，要在这个文件夹下建一个Documents的目录。</li>
+<li>/private/var/mobile/Applications<br/>
+通过AppStore和iTunes安装的程序都在里面。</li>
+<li>/private/var/stash<br/>
+这个文件夹下的Applications目录里面是所有通过Cydia和app安装的程序，Ringtones目录里是所有的手机铃音，自制铃音直接拷在里面即可，Themes目录里是所有Winterboard主题，可以手工修改。</li>
+<li>/var/mobile/Media/ROMs/GBA　<br/>
+gpsPhone模拟器存放rom的目录。</li>
+<li>/var/mobile/Media/textReader<br/>
+textReader看书软件读取的电子书的存放路径。</li>
+<li>/System/Library/Fonts/Cache<br/>
+系统字体目录，要替换的字体放在该目录下，权限644不变</li>
+<li>/private/var/mobile/Media/Maps<br/>
+离线地图目录，把地图文件夹放到该目录下，文件夹赋予777权限</li>
+<li>/private/var/mobile/Library/Downloads<br/>
+ipa文件存放目录，用Installous安装</li>
+<li>/private/var/mobile/Library/Keyboard<br/>
+系统拼音字库文件位置</li>
+<li>/var/stash/Themes.XXXXXX<br/>
+winterboard主题文件存放路径</li>
+<li>/private/var/mobile/Media/DCIM/999APPLE<br/>
+系统自带截屏文件存放路径</li>
+</ol>
 
-<p></p>
-
-<p>注释也统计在代码量之内</p>
-
-<h3>方法二:</h3>
-
-<p>使用CLOC,项目说明地址:<a href="http://cloc.sourceforge.net/">http://cloc.sourceforge.net/</a><br/>
-  1.64 Perl脚本下载地址,<a href="https://github.com/douxinchun/CLOC">https://github.com/douxinchun/CLOC</a></p>
-
-<p>使用方法:<br/>
-perl cloc-1.64.pl ./YourProjectName</p>
-
-<p>result:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> 200 files
-</span><span class='line'> 744 text files.
-</span><span class='line'> 630 unique files.                                          
-</span><span class='line'> 315 files ignored.
-</span><span class='line'>
-</span><span class='line'>http://cloc.sourceforge.net v 1.64  T=2.56 s (199.8 files/s, 22014.2 lines/s)
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>Language                     files          blank        comment           code
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>Objective C                    242           6916           4208          28460
-</span><span class='line'>C/C++ Header                   265           3605           8066           4870
-</span><span class='line'>JSON                             3              0              0            107
-</span><span class='line'>Bourne Shell                     1              5              0             65
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>SUM:                           511          10526          12274          33502
-</span><span class='line'>-------------------------------------------------------------------------------</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
 </div>
 
 
@@ -180,7 +187,7 @@ perl cloc-1.64.pl ./YourProjectName</p>
 
 
 
-<time class='entry-date' datetime='2015-09-01T10:09:12+08:00'><span class='date'>2015 年9 月1 日</span> <span class='time'>10:09 am</span></time>
+<time class='entry-date' datetime='2017-01-03T11:28:24+08:00'><span class='date'>2017 年1 月3 日</span> <span class='time'>11:28 am</span></time>
       
 
 <span class="categories">
@@ -201,10 +208,8 @@ perl cloc-1.64.pl ./YourProjectName</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html" title="Previous Post: 在网页中嵌入css的三种方法">&laquo; 在网页中嵌入css的三种方法</a>
+        <a class="basic-alignment left" href="/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html" title="Previous Post: Block 声明语法 简记">&laquo; Block 声明语法 简记</a>
       
-      
-        <a class="basic-alignment right" href="/blog/20151009/private-api-in-ios.html" title="Next Post: iOS SDK中的私有API">iOS SDK中的私有API &raquo;</a>
       
     </p>
   </footer>
@@ -214,7 +219,7 @@ perl cloc-1.64.pl ./YourProjectName</p>
   <section>
     <h1>评论</h1>
     <div id="comments" aria-live="polite">	   <!-- Duoshuo Comment BEGIN -->
-	   <div class="ds-thread" data-title="Xcode 统计项目中代码的行数"></div>
+	   <div class="ds-thread" data-title="iOS 操作系统目录说明"></div>
 	   <script type="text/javascript">
 	     var duoshuoQuery = {short_name:"douxinchun"};
 	     (function() {
