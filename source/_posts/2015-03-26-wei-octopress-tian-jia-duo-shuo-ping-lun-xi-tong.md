@@ -5,6 +5,10 @@ date: 2015-03-26 14:51:19 +0800
 comments: true
 categories: octopress
 ---  
+Update:  
+最新消息,多说将于2017年6月1日正式关停服务,还是切换回disqus吧.
+
+----
 
 octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件[多说](http://duoshuo.com/)来替代disqus
 
