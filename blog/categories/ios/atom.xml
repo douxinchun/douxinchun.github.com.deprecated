@@ -4,7 +4,7 @@
   <title><![CDATA[分类：ios | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2017-01-03T14:34:52+08:00</updated>
+  <updated>2017-04-01T16:43:39+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -22,7 +22,7 @@
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#114;&#111;&#111;&#116;&#x40;&#49;&#x30;&#x2e;&#50;&#46;&#x39;&#x38;&#x2e;&#56;&#x37;">&#114;&#111;&#111;&#116;&#64;&#x31;&#x30;&#x2e;&#x32;&#x2e;&#57;&#x38;&#46;&#56;&#x37;</a><br/>
+$ ssh <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x72;&#111;&#111;&#116;&#x40;&#x31;&#x30;&#46;&#x32;&#x2e;&#57;&#x38;&#x2e;&#x38;&#55;">&#114;&#111;&#111;&#x74;&#x40;&#x31;&#x30;&#46;&#x32;&#x2e;&#x39;&#x38;&#46;&#56;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -149,9 +149,6 @@ $ openssl s_client -connect gateway.push.apple.com:2195  -cert cer.pem -key key.
 <img src="/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
 
 <h2>1.CocoaLumberjack</h2>
-
-<!--more-->
-
 
 <h3>1.1基本介绍</h3>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2017-01-03T14:34:52+08:00</updated>
+  <updated>2017-04-01T16:43:39+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -22,7 +22,7 @@
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#x6d;&#97;&#x69;&#108;&#116;&#111;&#58;&#114;&#x6f;&#111;&#x74;&#64;&#49;&#x30;&#x2e;&#x32;&#46;&#x39;&#x38;&#x2e;&#x38;&#55;">&#x72;&#x6f;&#111;&#x74;&#64;&#x31;&#x30;&#x2e;&#50;&#x2e;&#x39;&#56;&#x2e;&#56;&#55;</a><br/>
+$ ssh <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#114;&#111;&#x6f;&#116;&#64;&#x31;&#48;&#x2e;&#50;&#x2e;&#x39;&#56;&#x2e;&#x38;&#x37;">&#114;&#111;&#x6f;&#x74;&#x40;&#49;&#x30;&#46;&#50;&#x2e;&#57;&#56;&#46;&#56;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -187,9 +187,6 @@ $ openssl pkcs12 -nocerts -out key.pem -in key.p12
 <img src="http://douxinchun.github.io/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
 
 <h2>1.CocoaLumberjack</h2>
-
-<!--more-->
-
 
 <h3>1.1基本介绍</h3>
 
@@ -2211,7 +2208,12 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
     <link href="http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html"/>
     <updated>2015-03-26T14:51:19+08:00</updated>
     <id>http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong</id>
-    <content type="html"><![CDATA[<p>octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件<a href="http://duoshuo.com/">多说</a>来替代disqus</p>
+    <content type="html"><![CDATA[<p>Update:<br/>
+最新消息,多说将于2017年6月1日正式关停服务,还是切换回disqus吧.</p>
+
+<hr />
+
+<p>octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件<a href="http://duoshuo.com/">多说</a>来替代disqus</p>
 
 <p>添加的过程主要是参照了Havee&rsquo;s Space中的Blog<a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">为 Octopress 添加多说评论系统</a></p>
 
