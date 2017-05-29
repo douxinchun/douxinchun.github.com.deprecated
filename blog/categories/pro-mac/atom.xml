@@ -4,7 +4,7 @@
   <title><![CDATA[分类：pro,mac | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/pro-mac/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2017-05-29T18:26:29+08:00</updated>
+  <updated>2017-05-29T18:28:31+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -131,7 +131,7 @@ sudo pmset -g  //查看看sms的状态,1为开启,0位关闭
 sudo pmset sms -a 0 //关闭sms  
 sudo pmset -g  //重新查看sms的状态是否为0.  
 </code><br/>
-<img src="/blog_reference_image/2017/5/shutdown_pmset" alt="SMS_shutdown" /></p>
+<img src="/blog_reference_image/2017/5/shutdown_pmset.jpg" alt="SMS_shutdown" /></p>
 
 <p>关于是否需要关闭SMS的讨论,可以参见这里,<a href="http://bbs.feng.com/read-htm-tid-4285975.html">http://bbs.feng.com/read-htm-tid-4285975.html</a></p>
 
@@ -145,7 +145,7 @@ sudo tmutil enablelocal  //启用本地快照
 </code></pre>
 
 <p>在Time Machine的偏好设置中可以查看,本地快照的状态,出现了红色的部分即为启用,不出现即为禁用.<br/>
-<img src="/blog_reference_image/2017/5/shutdown_pmset" alt="timemachine_local_shutdown" /></p>
+<img src="/blog_reference_image/2017/5/timemachine_local.jpg" alt="timemachine_local_shutdown" /></p>
 
 <h2>最终成果</h2>
 
