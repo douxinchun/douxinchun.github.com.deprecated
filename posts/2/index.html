@@ -9,7 +9,7 @@
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="1.如何计算UITableViewCell的高度 在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用sizeWithFont: 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予heightForRow &hellip;">
+  <meta name="description" content="苹果允许用itms-services协议来直接在iphone/ipad上安装应用程序，我们可以直接生成该协议需要的相关文件，这样产品经理和测试都可以直接在设备上安装新版的应用: 需要两个文件，一个是html，另一个是plist。 文件index.html(请自动忽略css部分,我实在不会写前端 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -71,6 +71,306 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150722/distribute-ipa-by-itms-services.html">使用itms-services 协议来发布ipa文件</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-22T16:45:35+08:00'><span class='date'>2015 年7 月22 日</span> <span class='time'>4:45 pm</span></time>
+        
+           | <a href="/blog/20150722/distribute-ipa-by-itms-services.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>苹果允许用itms-services协议来直接在iphone/ipad上安装应用程序，我们可以直接生成该协议需要的相关文件，这样产品经理和测试都可以直接在设备上安装新版的应用:</p>
+
+<p>需要两个文件，一个是html，另一个是plist。</p>
+
+<p>文件index.html(请自动忽略css部分,我实在不会写前端):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
+</span><span class='line'>&lt;head>
+</span><span class='line'>    &lt;style>
+</span><span class='line'>        body {
+</span><span class='line'>            font-size: 50px;
+</span><span class='line'>            margin-top:100px;
+</span><span class='line'>            margin-left:auto;
+</span><span class='line'>            margin-right:auto;
+</span><span class='line'>            text-align:center;
+</span><span class='line'>        }
+</span><span class='line'>    &lt;/style>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body>
+</span><span class='line'>&lt;p>iOS 7.1 and above systems use the following link to install&lt;/p>
+</span><span class='line'>&lt;p>&lt;a href="itms-services://?action=download-manifest&amp;url=https://********/**/tue_test.plist">Install TU/e App For Test&lt;/a>&lt;/p>
+</span><span class='line'>&lt;/a>&lt;/p>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>文件plist:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?>
+</span><span class='line'>&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+</span><span class='line'>&lt;plist version="1.0">
+</span><span class='line'>&lt;dict>
+</span><span class='line'>   &lt;key>items&lt;/key>
+</span><span class='line'>   &lt;array>
+</span><span class='line'>       &lt;dict>
+</span><span class='line'>           &lt;key>assets&lt;/key>
+</span><span class='line'>           &lt;array>
+</span><span class='line'>               &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>software-package&lt;/string>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>http://****/**/tue_test.ipa(ipa文件的访问地址)&lt;/string>
+</span><span class='line'>               &lt;/dict>
+</span><span class='line'>               &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>display-image&lt;/string>
+</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
+</span><span class='line'>                   &lt;true/>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
+</span><span class='line'>               &lt;/dict>
+</span><span class='line'>      &lt;dict>
+</span><span class='line'>                   &lt;key>kind&lt;/key>
+</span><span class='line'>                   &lt;string>full-size-image&lt;/string>
+</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
+</span><span class='line'>                   &lt;true/>
+</span><span class='line'>                   &lt;key>url&lt;/key>
+</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
+</span><span class='line'>              &lt;/dict>
+</span><span class='line'>           &lt;/array>
+</span><span class='line'>           &lt;key>metadata&lt;/key>
+</span><span class='line'>           &lt;dict>
+</span><span class='line'>               &lt;key>bundle-identifier&lt;/key>
+</span><span class='line'>               &lt;string>com.xx.xx(bundleID需要ipa中需要保持一致)&lt;/string>
+</span><span class='line'>               &lt;key>bundle-version&lt;/key>
+</span><span class='line'>               &lt;string>1.0(CFBundleVersion需要和ipa中的保持一致)&lt;/string>
+</span><span class='line'>               &lt;key>kind&lt;/key>
+</span><span class='line'>               &lt;string>software&lt;/string>
+</span><span class='line'>               &lt;key>subtitle&lt;/key>
+</span><span class='line'>               &lt;string>&lt;/string>
+</span><span class='line'>               &lt;key>title&lt;/key>
+</span><span class='line'>               &lt;string>TU/e测试版(随便起,用于踊跃alert确认时的提示)&lt;/string>
+</span><span class='line'>           &lt;/dict>
+</span><span class='line'>       &lt;/dict>
+</span><span class='line'>   &lt;/array>
+</span><span class='line'>&lt;/dict>
+</span><span class='line'>&lt;/plist></span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>注意</h3>
+
+<p>在iOS7.1之前,协议地址后的url需要使用http协议,</p>
+
+<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="http://********/**/tue_test.plist">http://********/**/tue_test.plist</a></p></blockquote>
+
+<p>在iOS7.1以及以后,这里需要换成https协议,</p>
+
+<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="https://********/**/tue_test.plist">https://********/**/tue_test.plist</a></p></blockquote>
+
+<p>否则使用Safari安装的时候,会提示&#8221;无法安装应用程序，因为“xx.xx.xx” 的证书无效;无法找到主机&#8221;1.2.3.4&#8221;&ldquo;之类的错误.也就是说,原先存放plist的web服务器需要支持https协议.<br/>
+自己动手搭建一个https的web服务的话,其中证书的部分很令人头痛的.我在IIS上整了一个上午,最后的结果上自己生成的证书Safari不认.我去,果断放弃这条路,google了一个简便的方法.利用开源中国(<a href="http://git.oschina.net/">http://git.oschina.net/</a>)提供的代码托管服务,托管一下plist文件,然后ipa的安装包和index.html依旧放在自己的服务器上.itms-services协议后面的url地址,改成在plist文件在开源中国上的url(注意url结束到.plist为止,后面的那一串参数不要带,直接手动把http改为https).</p>
+
+<p>具体的流程参见这里,<a href="http://blog.csdn.net/sy_bz/article/details/33739779">http://blog.csdn.net/sy_bz/article/details/33739779</a></p>
+
+<p>同理,我觉得github也应该可以代替开源中国.</p>
+
+<h3>附</h3>
+
+<p>plist中的字段说明:</p>
+
+<table>
+<thead>
+<tr>
+<th style="text-align:left;"> key值                </th>
+<th style="text-align:left;"> 说明                   </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;"> <strong>assets</strong>           </td>
+<td style="text-align:left;">   </td>
+</tr>
+<tr>
+<td style="text-align:left;"> software-package url </td>
+<td style="text-align:left;"> 要安装的 ipa 地址  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> display-image url    </td>
+<td style="text-align:left;">   安装ipa的时候,桌面显示呃图标  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> <strong>metadata</strong>         </td>
+<td style="text-align:left;">    </td>
+</tr>
+<tr>
+<td style="text-align:left;"> bundle-identifier    </td>
+<td style="text-align:left;"> bundle ID (和ipa保持一致) </td>
+</tr>
+<tr>
+<td style="text-align:left;"> bundle-version       </td>
+<td style="text-align:left;"> CFBundleVersion(和ipa保持一致)  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> title                </td>
+<td style="text-align:left;"> 用户点击时弹框中的AppTitle提示  </td>
+</tr>
+<tr>
+<td style="text-align:left;"> subtitle             </td>
+<td style="text-align:left;"> 不明,应该 也跟弹框的内容相关 </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>以备后用<br/>
+自搭https服务器,可以查看的参照:<a href="http://zengrong.net/post/2108.html">http://zengrong.net/post/2108.html</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html">Xcode中的调试器LLDB</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-20T17:40:46+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>5:40 pm</span></time>
+        
+           | <a href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>原文地址:<a href="http://objccn.io/issue-19-2/">http://objccn.io/issue-19-2/</a><br/>
+里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
+
+<h3>1.查看某个变量的值</h3>
+
+<p> <em>print</em><br/>
+ <img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png"><br/>
+ LLDB会做前缀匹配,一把简写为p,<br/>
+ 使用po可以查看NSObject的description</p>
+
+<h3>2.改变某个变量的值</h3>
+
+<p><em>expression</em><br/>
+<img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png"><br/>
+简写为expr或者是e(还能再懒一点吗~~)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -622,99 +922,6 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150327/ios-bug-collection.html">iOS开发过程中遇到的Bug处理集合</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-27T15:00:07+08:00'><span class='date'>2015 年3 月27 日</span> <span class='time'>3:00 pm</span></time>
-        
-           | <a href="/blog/20150327/ios-bug-collection.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20150327/ios-bug-collection.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>1.iOS7 下UIScrollView 无法滑动的解决办法</h2>
-
-<p>环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview<br/>
-接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+都出了,感觉以后使用AutoLayout会是主流),刚开始一切OK,跑起来顺畅的很,在3.5和4的屏幕上适应的都不错,后来不知道怎么调整了一下UI,结果悲剧发生了,Scrollview死活滑动不了了,导致Scrollview上的下拉刷新也不好用了.<br/>
-第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail&hellip; &hellip;Fuck Google上清一水的解决方案都是这个,说好的滑动呢&hellip;</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/20150327/ios-bug-collection.html">阅读全文</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html">为 Octopress 添加多说评论系统</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-26T14:51:19+08:00'><span class='date'>2015 年3 月26 日</span> <span class='time'>2:51 pm</span></time>
-        
-           | <a href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Update:<br/>
-最新消息,多说将于2017年6月1日正式关停服务,还是切换回disqus吧.</p>
-
-<hr />
-
-<p>octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件<a href="http://duoshuo.com/">多说</a>来替代disqus</p>
-
-<p>添加的过程主要是参照了Havee&rsquo;s Space中的Blog<a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">为 Octopress 添加多说评论系统</a></p>
-
-<p>其中有几点需要注意的事情是:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html">阅读全文</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -738,6 +945,14 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html">MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">iOS 操作系统目录说明</a>
       </li>
     
@@ -747,14 +962,6 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
     
       <li class="post">
         <a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">Apple远程推送Pem证书生成-命令备忘</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20151013/vistormap.html">为Octopress侧边栏增加访客地图</a>
       </li>
     
   </ul>
@@ -771,8 +978,12 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
 <li class='category'><a href='/blog/categories/ios/'>ios (7)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/macbook/'>macbook (1)</a></li>
 <li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
+<li class='category'><a href='/blog/categories/os/'>os (1)</a></li>
+<li class='category'><a href='/blog/categories/pro-mac/'>pro,mac (1)</a></li>
+<li class='category'><a href='/blog/categories/x-ssd/'>x,ssd (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 

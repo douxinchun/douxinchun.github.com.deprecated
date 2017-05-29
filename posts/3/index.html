@@ -9,8 +9,8 @@
   <meta name="author" content="NewSpring">
 
   
-  <meta name="description" content="前言 GitHub果真是一个神奇的地方.以前在使用Baidu空间和CSDN来写博客的时候,就听前辈们说过GitHub可以写博客.经过一番Google后终于弄明白了原理.
-首先是github中有一个功能叫做Pages,这个功能具体的作用不详,但是其中的一项是能够把你上传的html文件显示为一个网页. &hellip;">
+  <meta name="description" content="1.iOS7 下UIScrollView 无法滑动的解决办法 环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview
+接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +72,99 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150327/ios-bug-collection.html">iOS开发过程中遇到的Bug处理集合</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-27T15:00:07+08:00'><span class='date'>2015 年3 月27 日</span> <span class='time'>3:00 pm</span></time>
+        
+           | <a href="/blog/20150327/ios-bug-collection.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20150327/ios-bug-collection.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1.iOS7 下UIScrollView 无法滑动的解决办法</h2>
+
+<p>环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview<br/>
+接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+都出了,感觉以后使用AutoLayout会是主流),刚开始一切OK,跑起来顺畅的很,在3.5和4的屏幕上适应的都不错,后来不知道怎么调整了一下UI,结果悲剧发生了,Scrollview死活滑动不了了,导致Scrollview上的下拉刷新也不好用了.<br/>
+第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail&hellip; &hellip;Fuck Google上清一水的解决方案都是这个,说好的滑动呢&hellip;</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/20150327/ios-bug-collection.html">阅读全文</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html">为 Octopress 添加多说评论系统</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-26T14:51:19+08:00'><span class='date'>2015 年3 月26 日</span> <span class='time'>2:51 pm</span></time>
+        
+           | <a href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Update:<br/>
+最新消息,多说将于2017年6月1日正式关停服务,还是切换回disqus吧.</p>
+
+<hr />
+
+<p>octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件<a href="http://duoshuo.com/">多说</a>来替代disqus</p>
+
+<p>添加的过程主要是参照了Havee&rsquo;s Space中的Blog<a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">为 Octopress 添加多说评论系统</a></p>
+
+<p>其中有几点需要注意的事情是:</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html">阅读全文</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -147,6 +240,14 @@ A blogging framework for hackers.</p></blockquote>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html">MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">iOS 操作系统目录说明</a>
       </li>
     
@@ -156,14 +257,6 @@ A blogging framework for hackers.</p></blockquote>
     
       <li class="post">
         <a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">Apple远程推送Pem证书生成-命令备忘</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20151013/vistormap.html">为Octopress侧边栏增加访客地图</a>
       </li>
     
   </ul>
@@ -180,8 +273,12 @@ A blogging framework for hackers.</p></blockquote>
 <li class='category'><a href='/blog/categories/ios/'>ios (7)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/macbook/'>macbook (1)</a></li>
 <li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
+<li class='category'><a href='/blog/categories/os/'>os (1)</a></li>
+<li class='category'><a href='/blog/categories/pro-mac/'>pro,mac (1)</a></li>
+<li class='category'><a href='/blog/categories/x-ssd/'>x,ssd (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 
