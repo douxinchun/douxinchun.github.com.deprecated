@@ -104,7 +104,7 @@ sudo pmset -g  //查看看sms的状态,1为开启,0位关闭
 sudo pmset sms -a 0 //关闭sms  
 sudo pmset -g  //重新查看sms的状态是否为0.  
 ```  
-![SMS_shutdown](/blog_reference_image/2017/5/shutdown_pmset)  
+![SMS_shutdown](/blog_reference_image/2017/5/shutdown_pmset.jpg)  
 
 关于是否需要关闭SMS的讨论,可以参见这里,http://bbs.feng.com/read-htm-tid-4285975.html  
 
@@ -117,7 +117,7 @@ sudo tmutil disablelocal //禁用本地快照
 sudo tmutil enablelocal  //启用本地快照
 ```  
 在Time Machine的偏好设置中可以查看,本地快照的状态,出现了红色的部分即为启用,不出现即为禁用.  
-![timemachine_local_shutdown](/blog_reference_image/2017/5/shutdown_pmset)  
+![timemachine_local_shutdown](/blog_reference_image/2017/5/timemachine_local.jpg)  
 
 
 ##最终成果  
