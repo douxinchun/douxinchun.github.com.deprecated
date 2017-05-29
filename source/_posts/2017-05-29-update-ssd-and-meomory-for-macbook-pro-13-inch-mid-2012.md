@@ -3,7 +3,7 @@ layout: post
 title: "MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存"
 date: 2017-05-29 11:52:22 +0800
 comments: true
-categories: MacBook Pro,Mac OS X,SSD
+categories: [MacBook Pro, Mac OS X, SSD]
 ---  
 
 ##我的MacBook Pro  
@@ -97,7 +97,7 @@ sudo nvram boot-args=rootless=0
 ```  
 据说 OS X El Capitan以后不需要,我当前用的Sierra不需要这个.  
 ###关闭突发移动感应器(Sudden Motion Sensor, SMS)  
-突发移动感应器 (SMS) 技术是针对硬盘设计的内建保护功能，有助于防止电脑在掉落或遭遇异常强烈的振动时出现磁盘问题。目前普遍的观点是MBP的SMS功能在主硬盘位上有,光驱位上没有,由于SMS对SSD没有任何的保护作用,为了方式SMS对主硬盘位上SSD造成数据损坏,建议关闭.  
+突发移动感应器 (SMS) 技术是针对硬盘设计的内建保护功能，有助于防止电脑在掉落或遭遇异常强烈的振动时出现磁盘问题。目前普遍的观点是MBP的SMS功能在主硬盘位上有,光驱位上没有,由于SMS对SSD没有任何的保护作用,为了防止SMS对主硬盘位上SSD造成数据损坏,建议关闭.  
 SMS的详细介绍可以在Apple的官方文档上查看 [Mac 笔记本电脑：关于突发移动感应器](https://support.apple.com/zh-cn/HT201666)  
 ```
 sudo pmset -g  //查看看sms的状态,1为开启,0位关闭  
