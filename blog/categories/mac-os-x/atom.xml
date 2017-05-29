@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[分类：pro,mac | 冷雨之家]]></title>
-  <link href="http://douxinchun.github.io/blog/categories/pro-mac/atom.xml" rel="self"/>
+  <title><![CDATA[分类：mac Os X | 冷雨之家]]></title>
+  <link href="http://douxinchun.github.io/blog/categories/mac-os-x/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2017-05-29T18:28:31+08:00</updated>
+  <updated>2017-05-29T22:10:44+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -124,7 +124,7 @@ sudo nvram boot-args=rootless=0
 
 <h3>关闭突发移动感应器(Sudden Motion Sensor, SMS)</h3>
 
-<p>突发移动感应器 (SMS) 技术是针对硬盘设计的内建保护功能，有助于防止电脑在掉落或遭遇异常强烈的振动时出现磁盘问题。目前普遍的观点是MBP的SMS功能在主硬盘位上有,光驱位上没有,由于SMS对SSD没有任何的保护作用,为了方式SMS对主硬盘位上SSD造成数据损坏,建议关闭.<br/>
+<p>突发移动感应器 (SMS) 技术是针对硬盘设计的内建保护功能，有助于防止电脑在掉落或遭遇异常强烈的振动时出现磁盘问题。目前普遍的观点是MBP的SMS功能在主硬盘位上有,光驱位上没有,由于SMS对SSD没有任何的保护作用,为了防止SMS对主硬盘位上SSD造成数据损坏,建议关闭.<br/>
 SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://support.apple.com/zh-cn/HT201666">Mac 笔记本电脑：关于突发移动感应器</a><br/>
 <code>
 sudo pmset -g  //查看看sms的状态,1为开启,0位关闭  
