@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2017-07-23T15:17:54+08:00</updated>
+  <updated>2017-07-23T15:19:34+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -18,8 +18,8 @@
     <link href="http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk.html"/>
     <updated>2017-05-29T16:46:55+08:00</updated>
     <id>http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk</id>
-    <content type="html"><![CDATA[<p>动手之前,TimeMachine备份数据!
-动手之前,TimeMachine备份数据!
+    <content type="html"><![CDATA[<p>动手之前,TimeMachine备份数据!<br/>
+动手之前,TimeMachine备份数据!<br/>
 动手之前,TimeMachine备份数据!</p>
 
 <ul>
@@ -233,7 +233,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x72;&#x6f;&#111;&#x74;&#64;&#x31;&#x30;&#x2e;&#50;&#x2e;&#x39;&#56;&#46;&#56;&#55;">&#114;&#x6f;&#111;&#x74;&#64;&#49;&#48;&#46;&#x32;&#46;&#x39;&#56;&#46;&#x38;&#55;</a><br/>
+$ ssh <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x72;&#111;&#x6f;&#116;&#64;&#49;&#48;&#46;&#50;&#x2e;&#57;&#56;&#x2e;&#56;&#x37;">&#114;&#x6f;&#x6f;&#116;&#x40;&#x31;&#x30;&#46;&#50;&#46;&#57;&#x38;&#x2e;&#56;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
