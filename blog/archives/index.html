@@ -37,6 +37,16 @@ May 29 2017 posted in mac os x, macbook pro, ssd &hellip;">
 <link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
   
 
+  <script>
+  	function addBlankTargetForLinks () {
+  	  $('a[href^="http"]').each(function(){
+  		  $(this).attr('target', '_blank');
+  	  });
+  	}
+  	$(document).bind('DOMNodeInserted', function(event) {
+  	  addBlankTargetForLinks();
+  	});
+  </script>
 </head>
 
 <body   >

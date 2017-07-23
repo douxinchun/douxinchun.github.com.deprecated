@@ -40,6 +40,16 @@ https://www.revolvermaps.com/?target=setupgl
 <link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
   
 
+  <script>
+  	function addBlankTargetForLinks () {
+  	  $('a[href^="http"]').each(function(){
+  		  $(this).attr('target', '_blank');
+  	  });
+  	}
+  	$(document).bind('DOMNodeInserted', function(event) {
+  	  addBlankTargetForLinks();
+  	});
+  </script>
 </head>
 
 <body   >
