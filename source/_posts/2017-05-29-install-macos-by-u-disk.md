@@ -6,9 +6,9 @@ comments: true
 categories: macOS
 ---  
 
-动手之前,TimeMachine备份数据!
-动手之前,TimeMachine备份数据!
 动手之前,TimeMachine备份数据!  
+动手之前,TimeMachine备份数据!  
+动手之前,TimeMachine备份数据!   
 
 * 1.8GB或者更大容量的U盘,Apple建议不小于12G
 * 2.使用 应用程序-->实用工具-->磁盘工具 格盘 (参考图片 格盘)
@@ -23,7 +23,6 @@ sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallme
 耐心等待,直至出现Done.启动U盘制作结束.
 * 5.重新启动PC,按照Option不放,直到出现启动菜单选项.
 ![启动菜单项](/blog_reference_image/2017/7/mac_option_boot.jpg)
-/Users/newspring/douxinchun.github.com/blog_reference_image/2017/7
 
 ###附几张网络图片,仅供参考  
 格盘  
