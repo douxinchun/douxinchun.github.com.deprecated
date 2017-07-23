@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2017-05-29T22:10:44+08:00</updated>
+  <updated>2017-07-23T09:51:21+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -44,9 +44,12 @@
 
 <p>SSD的升级方案,按照网上的介绍有三种:</p>
 
-<p><em>1.主硬盘位保持原装机械硬盘不动,光驱位替换为SSD<br/>
-</em>2.主硬盘位换为SSD,光驱位换为拆下来的机械硬盘<br/>
-*3.主硬盘位换为SSD,光驱位不动.</p>
+<ul>
+<li>1.主硬盘位保持原装机械硬盘不动,光驱位替换为SSD</li>
+<li>2.主硬盘位换为SSD,光驱位换为拆下来的机械硬盘</li>
+<li>3.主硬盘位换为SSD,光驱位不动.</li>
+</ul>
+
 
 <p>在此,我的建议是,如果是Fusion类型的话(机械硬盘和SSD混用,方案1或者方案2),首先查看一下光驱位和主硬盘位的SATA串口的类型.<br/>
 如果只有一个是SATA3,那么SSD放在SATA3串口的位置.<br/>
@@ -58,8 +61,8 @@
 <h3>查看主硬盘位和光驱位SATA类型的方法</h3>
 
 <p>关于本机&ndash;>概览&ndash;>系统报告&ndash;>SATA/SATA Express. 如图,看<strong>链接速度</strong>,SATA3为6千兆位. SATA2为3千兆位. 我的CD-ROM的<strong>协商的链接速度</strong>:1.5 千兆位. 原装硬盘的<strong>协商的链接速度</strong>为3千兆位,说明原装的机械硬盘上的串口速度最高到SATA2.<br/>
-<img src="http://douxinchun.github.io/blog_reference_image/2017/5/disk_sata.jpg" alt="SATA_Express" /><br/>
-<img src="http://douxinchun.github.io/blog_reference_image/2017/5/cd-rom_sata.jpg" alt="SATA_Express" /></p>
+<img src=".././blog_reference_image/2017/5/disk_sata.jpg" alt="SATA_Express" /><br/>
+<img src=".././blog_reference_image/2017/5/cd-rom_sata.jpg" alt="SATA_Express" /></p>
 
 <h2>购买的SSD和内存</h2>
 
@@ -192,7 +195,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#x72;&#x6f;&#111;&#x74;&#x40;&#49;&#x30;&#x2e;&#50;&#46;&#x39;&#x38;&#46;&#56;&#55;">&#114;&#x6f;&#111;&#x74;&#64;&#x31;&#48;&#46;&#x32;&#x2e;&#57;&#x38;&#x2e;&#56;&#x37;</a><br/>
+$ ssh <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#x72;&#x6f;&#x6f;&#116;&#x40;&#49;&#48;&#x2e;&#50;&#46;&#x39;&#x38;&#46;&#56;&#x37;">&#114;&#x6f;&#111;&#116;&#x40;&#49;&#48;&#46;&#50;&#x2e;&#x39;&#x38;&#x2e;&#x38;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
