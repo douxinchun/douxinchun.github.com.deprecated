@@ -3,7 +3,7 @@ layout: post
 title: "MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存"
 date: 2017-05-29 11:52:22 +0800
 comments: true
-categories: [MacBook Pro, Mac OS X, SSD]
+categories: [MacBook Pro, Mac OS X, SSD]  
 ---  
 
 ##我的MacBook Pro  
@@ -14,16 +14,16 @@ categories: [MacBook Pro, Mac OS X, SSD]
 原配内存: 2G*2 1600Hz DDR3  
 原配硬盘: 500G 机械硬盘  
 
-虽然现在来看,这个配置可以卡出翔来,本子厚度可当板砖,但是回想一下,对于当时还是在装有Windows系统的Samsung本子上, 用GNUstep来Build&Run Objective_C 的我来说, 这简直就是女神一般的存在.
+虽然现在来看,这个配置可以卡出翔来,厚度堪当砖,但是回想一下,对于当时还是在装有Windows系统的Samsung本子上, 用GNUstep来Build&Run Objective_C 的我来说, 这简直就是女神一般的存在.
 
 在升级到macOS Sierra后,我已经再也无法忍受启动Xcode时候的无限风火轮.原来打算购买新的MacBook Pro,去官网看了一下,新的本子为了追求超薄,内存什么的都采用了焊接的工艺,换句话说,要买就得直接上顶配,不然以后没法升级.大体预算了一下,需要软妹币小两万.摸了摸自己的口袋,想了想老丈人的礼金,含着泪默默地关闭了apple.com.打开了京东.  
 
 ##升级方案  
 SSD的升级方案,按照网上的介绍有三种:  
 
-*1.主硬盘位保持原装机械硬盘不动,光驱位替换为SSD  
-*2.主硬盘位换为SSD,光驱位换为拆下来的机械硬盘  
-*3.主硬盘位换为SSD,光驱位不动.  
+* 1.主硬盘位保持原装机械硬盘不动,光驱位替换为SSD  
+* 2.主硬盘位换为SSD,光驱位换为拆下来的机械硬盘  
+* 3.主硬盘位换为SSD,光驱位不动.  
  
 在此,我的建议是,如果是Fusion类型的话(机械硬盘和SSD混用,方案1或者方案2),首先查看一下光驱位和主硬盘位的SATA串口的类型.  
 如果只有一个是SATA3,那么SSD放在SATA3串口的位置.  
@@ -34,8 +34,8 @@ SSD的升级方案,按照网上的介绍有三种:
 
 ###查看主硬盘位和光驱位SATA类型的方法  
 关于本机-->概览-->系统报告-->SATA/SATA Express. 如图,看**链接速度**,SATA3为6千兆位. SATA2为3千兆位. 我的CD-ROM的**协商的链接速度**:1.5 千兆位. 原装硬盘的**协商的链接速度**为3千兆位,说明原装的机械硬盘上的串口速度最高到SATA2.  
-![SATA_Express](/blog_reference_image/2017/5/disk_sata.jpg)  
-![SATA_Express](/blog_reference_image/2017/5/cd-rom_sata.jpg)  
+![SATA_disk](/blog_reference_image/2017/5/disk_sata.jpg)  
+![SATA_cd-rom](/blog_reference_image/2017/5/cd-rom_sata.jpg)  
 
 ##购买的SSD和内存  
 购买时间正巧赶上了京东618店庆搞活动.  
@@ -45,12 +45,12 @@ SSD我买的是 SAMSUNG 850 EVO 250G SATA3
 ![JD Kingston Memory](/blog_reference_image/2017/5/jd_memory.jpg)  
 另外还购买了SSK的2.5英寸的USB 3.0硬盘盒,用于装替换下来的原装硬盘. 
 
-------
+---------------
 ##替换SSD  
 先来一张拆机前的准备图:  
-![receive](/blog_reference_image/2017/5/IMG_4026.jpg)  
-做好Time Machine后,开始更换SSD,先拆开后盖,注意拆机前先洗手,触摸金属,释放自身静电:  
-![](https://support.apple.com/library/content/dam/edam/applecare/images/zh_CN/macbookpro/13_bottom_case_removal.png)  
+![ready](/blog_reference_image/2017/5/IMG_4026.jpg)  
+做好Time Machine后,开始更换SSD,先拆开后盖,注意拆机前先洗手,祷告,触摸金属,释放自身静电,祈求上帝保佑:  
+![The location of screws](https://support.apple.com/library/content/dam/edam/applecare/images/zh_CN/macbookpro/13_bottom_case_removal.png)  
 拆下来的螺丝,按照相对位置放好,便于以后重新安装上去. 后壳周边没有任何的暗扣,用塑料吸盘轻轻一吸就能起来.
 ![螺丝排列](/blog_reference_image/2017/5/IMG_4027.jpg)  
 我曾经拆过三星,宏碁还有联想的笔记本(为了清灰,说多了都是泪),但是不得不说MBP内部光驱,硬盘,主板,风扇,电池的排列和构造简直是太完美了, 没有一处的细节不完美,没有一处的空间被浪费掉,且容我慢慢欣赏20s.  
@@ -69,7 +69,7 @@ SSD我买的是 SAMSUNG 850 EVO 250G SATA3
 ##替换内存  
 内存条的替换没有什么可说的,具体的可以参加Apple的指南.[Apple MBP 安装和拆卸内存指南](https://support.apple.com/zh-cn/HT201165)  
 这里放一张基本流程的图:  
-![](https://support.apple.com/library/content/dam/edam/applecare/images/zh_CN/macbookpro/13_insert_memory.png)  
+![替换内存条基本流程,引用自Apple](https://support.apple.com/library/content/dam/edam/applecare/images/zh_CN/macbookpro/13_insert_memory.png)  
 需要注意的一点是,一共上下两根条子,由于这两根条子挨得过于靠近,安装下面的条子的时候,不要把上面的条子的两边的压脚给弄坏了,金手指对齐插好以后,两边轻轻一按就能就位,要用巧劲,不要用蛮力.
 ![替换内存](/blog_reference_image/2017/5/IMG_4030.jpg)  
 
@@ -81,15 +81,16 @@ SSD我买的是 SAMSUNG 850 EVO 250G SATA3
 
 ------
 ##后续配置  
-###开启Trim 
+###开启Trim  
+
 TRIM 是系统级的命令，可以允许操作系统与固态硬盘通信，判断 SSD 上哪些区域没有使用，并准备好擦除和复写。如果缺少 TRIM 支持，系统会在 SSD 可用容量减少时遇到写入速度变慢的现象.  
 可以在「关于本机」里查看系统有没有开启 TRIM 支持：  
-![SATA_Express](/blog_reference_image/2017/5/disk_sata.jpg)  
+![SATA_disk](/blog_reference_image/2017/5/disk_sata.jpg)  
 ```
 sudo trimforce enable
 ```  
 命令执行后会出现警告语，根据提示输入两次「Y」以后，如图显示，就说明 TRIM 支持开启成功了（命令执行完成后会自动重启) :  
-![Trim_start](/blog_reference_image/2017/5/trim_start.jpg)  
+![Trim_Start](/blog_reference_image/2017/5/trim_start.jpg)  
 
 注意,旧版本的OS X系统可能需要先禁用rootless  
 ```
