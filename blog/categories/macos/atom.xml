@@ -4,7 +4,7 @@
   <title><![CDATA[分类：macos | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/macos/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2017-07-23T15:19:34+08:00</updated>
+  <updated>2017-07-23T15:21:45+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -39,8 +39,7 @@ sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallme
 </code>
 耐心等待,直至出现Done.启动U盘制作结束.</li>
 <li>5.重新启动PC,按照Option不放,直到出现启动菜单选项.
-<img src="/blog_reference_image/2017/7/mac_option_boot.jpg" alt="启动菜单项" />
-/Users/newspring/douxinchun.github.com/blog_reference_image/2017/7</li>
+<img src="/blog_reference_image/2017/7/mac_option_boot.jpg" alt="启动菜单项" /></li>
 </ul>
 
 
