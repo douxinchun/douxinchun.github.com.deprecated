@@ -4,7 +4,7 @@
   <title><![CDATA[分类：ssd | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/ssd/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2017-07-23T10:02:50+08:00</updated>
+  <updated>2017-07-23T10:17:11+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -52,6 +52,7 @@
 <h3>查看主硬盘位和光驱位SATA类型的方法</h3>
 
 <p>关于本机&ndash;>概览&ndash;>系统报告&ndash;>SATA/SATA Express. 如图,看<strong>链接速度</strong>,SATA3为6千兆位. SATA2为3千兆位. 我的CD-ROM的<strong>协商的链接速度</strong>:1.5 千兆位. 原装硬盘的<strong>协商的链接速度</strong>为3千兆位,说明原装的机械硬盘上的串口速度最高到SATA2.<br/>
+<img src=".././blog_reference_image/2017/5/disk_sata.jpg" title="" >
 <img src=".././blog_reference_image/2017/5/disk_sata.jpg" alt="SATA_Express" /><br/>
 <img src=".././blog_reference_image/2017/5/cd-rom_sata.jpg" alt="SATA_Express" /></p>
 
