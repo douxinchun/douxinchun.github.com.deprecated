@@ -4,6 +4,7 @@ title: "iOS 操作系统目录说明"
 date: 2017-01-03 11:28:24 +0800
 comments: true
 categories: iOS
+styles: [data-table]
 ---   
 
 iOS的设备越狱后,安装openssh,可以通过ssh连接工具(Mac OS 下直接使用Terminal)连接到手机上查看相关的系统目录:
@@ -18,8 +19,21 @@ $ ssh root@10.2.98.87
 二、iPhone中其他基本文件的存放文件目录如下：  
 1、/Applications  
 常用软件的安装目录  
-2. /private /var/ mobile/Media /iphone video Recorder  
+2. /private /var/ mobile/Media /iphone video Recorder
 iphone video Recorder录像文件存放目录  
+
+ name     | path
+ ---------|------------:
+ iphone video Recorderdfsajdfks|的飞机考六级来看看带分了
+ 
+ 
+First Header | Second Header | Third Header
+------------ | ------------- | ------------
+Content Cell | Content Cell  | Content Cell
+Content Cell | Content Cell  | Content Cell
+ 
+ 
+ 录像文件存放目录 | /private /var/ mobile/Media /iphone video Recorder
 3、/private /var/ mobile/Media /DCIM   
 相机拍摄的照片文件存放目录  
 4、/private/var/ mobile /Media/iTunes_Control/Music   
