@@ -55,6 +55,16 @@ localhost: &hellip;">
 <link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
   
 
+  <script>
+  	function addBlankTargetForLinks () {
+  	  $('a[href^="http"]').each(function(){
+  		  $(this).attr('target', '_blank');
+  	  });
+  	}
+  	$(document).bind('DOMNodeInserted', function(event) {
+  	  addBlankTargetForLinks();
+  	});
+  </script>
 </head>
 
 <body   >
@@ -310,23 +320,23 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20180430/git-command-shi-yong-shou-ji.html">Git Commands 使用手记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html">MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">iOS 操作系统目录说明</a>
       </li>
     
       <li class="post">
         <a href="/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html">Block 声明语法 简记</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">Apple远程推送Pem证书生成-命令备忘</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20151013/vistormap.html">为Octopress侧边栏增加访客地图</a>
       </li>
     
   </ul>
@@ -339,12 +349,17 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (7)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (1)</a></li>
+<li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
+<li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
 <li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
+<li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 
@@ -364,7 +379,7 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - NewSpring -
+  Copyright &copy; 2018 - NewSpring -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

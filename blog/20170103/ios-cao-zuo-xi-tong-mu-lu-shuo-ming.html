@@ -13,7 +13,7 @@
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname
 示例:
-$ ssh &#114;&# &hellip;">
+$ ssh &#x72;&# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,6 +25,8 @@ $ ssh &#114;&# &hellip;">
   <link rel="canonical" href="http://douxinchun.github.io/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
   
   <link href="/atom.xml" rel="alternate" title="冷雨之家" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -39,6 +41,16 @@ $ ssh &#114;&# &hellip;">
 <link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
   
 
+  <script>
+  	function addBlankTargetForLinks () {
+  	  $('a[href^="http"]').each(function(){
+  		  $(this).attr('target', '_blank');
+  	  });
+  	}
+  	$(document).bind('DOMNodeInserted', function(event) {
+  	  addBlankTargetForLinks();
+  	});
+  </script>
 </head>
 
 <body   >
@@ -104,7 +116,7 @@ $ ssh &#114;&# &hellip;">
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#114;&#111;&#x6f;&#116;&#64;&#x31;&#48;&#x2e;&#50;&#x2e;&#x39;&#56;&#x2e;&#x38;&#x37;">&#114;&#111;&#x6f;&#x74;&#x40;&#49;&#x30;&#46;&#50;&#x2e;&#57;&#56;&#46;&#56;&#55;</a><br/>
+$ ssh <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x72;&#111;&#x6f;&#x74;&#64;&#49;&#48;&#x2e;&#x32;&#x2e;&#x39;&#x38;&#46;&#56;&#x37;">&#x72;&#x6f;&#x6f;&#x74;&#x40;&#49;&#x30;&#46;&#x32;&#x2e;&#x39;&#x38;&#46;&#56;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -115,8 +127,49 @@ $ ssh <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#114;&#111;&#x6f;&#116;&
 <p>二、iPhone中其他基本文件的存放文件目录如下：<br/>
 1、/Applications<br/>
 常用软件的安装目录<br/>
-2. /private /var/ mobile/Media /iphone video Recorder<br/>
-iphone video Recorder录像文件存放目录<br/>
+2. /private /var/ mobile/Media /iphone video Recorder
+iphone video Recorder录像文件存放目录</p>
+
+<table>
+<thead>
+<tr>
+<th>name     </th>
+<th style="text-align:right;"> path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iphone video Recorderdfsajdfks</td>
+<td style="text-align:right;">的飞机考六级来看看带分了</td>
+</tr>
+</tbody>
+</table>
+
+
+<table>
+<thead>
+<tr>
+<th>First Header </th>
+<th> Second Header </th>
+<th> Third Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content Cell </td>
+<td> Content Cell  </td>
+<td> Content Cell</td>
+</tr>
+<tr>
+<td>Content Cell </td>
+<td> Content Cell  </td>
+<td> Content Cell</td>
+</tr>
+</tbody>
+</table>
+
+
+<p> 录像文件存放目录 | /private /var/ mobile/Media /iphone video Recorder
 3、/private /var/ mobile/Media /DCIM <br/>
 相机拍摄的照片文件存放目录<br/>
 4、/private/var/ mobile /Media/iTunes_Control/Music <br/>
@@ -214,6 +267,8 @@ winterboard主题文件存放路径</li>
         <a class="basic-alignment left" href="/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html" title="Previous Post: Block 声明语法 简记">&laquo; Block 声明语法 简记</a>
       
       
+        <a class="basic-alignment right" href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html" title="Next Post: MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存">MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -242,23 +297,23 @@ winterboard主题文件存放路径</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20180430/git-command-shi-yong-shou-ji.html">Git Commands 使用手记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html">MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">iOS 操作系统目录说明</a>
       </li>
     
       <li class="post">
         <a href="/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html">Block 声明语法 简记</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">Apple远程推送Pem证书生成-命令备忘</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20151013/vistormap.html">为Octopress侧边栏增加访客地图</a>
       </li>
     
   </ul>
@@ -271,12 +326,17 @@ winterboard主题文件存放路径</li>
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (7)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (1)</a></li>
+<li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
+<li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
 <li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
+<li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 
@@ -296,7 +356,7 @@ winterboard主题文件存放路径</li>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - NewSpring -
+  Copyright &copy; 2018 - NewSpring -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

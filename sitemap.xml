@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://douxinchun.github.io/blog/20180430/git-command-shi-yong-shou-ji.html</loc>
+<lastmod>2018-04-30T17:44:10+08:00</lastmod>
+</url>
+<url>
+<loc>http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk.html</loc>
+<lastmod>2017-05-29T16:46:55+08:00</lastmod>
+</url>
+<url>
+<loc>http://douxinchun.github.io/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html</loc>
+<lastmod>2017-05-29T11:52:22+08:00</lastmod>
+</url>
+<url>
 <loc>http://douxinchun.github.io/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html</loc>
 <lastmod>2017-01-03T11:28:24+08:00</lastmod>
 </url>
@@ -122,6 +134,21 @@
 </url>
 <url>
 <loc>http://douxinchun.github.io/blog/categories/objective-c/</loc>
+</url>
+<url>
+<loc>http://douxinchun.github.io/blog/categories/macbook-pro/</loc>
+</url>
+<url>
+<loc>http://douxinchun.github.io/blog/categories/mac-os-x/</loc>
+</url>
+<url>
+<loc>http://douxinchun.github.io/blog/categories/ssd/</loc>
+</url>
+<url>
+<loc>http://douxinchun.github.io/blog/categories/macos/</loc>
+</url>
+<url>
+<loc>http://douxinchun.github.io/blog/categories/git/</loc>
 </url>
 <url>
 <loc>http://douxinchun.github.io/googled64ca099c8848d46.html</loc>

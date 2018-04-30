@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2017-04-01T16:43:39+08:00</updated>
+  <updated>2018-04-30T19:10:16+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[NewSpring]]></name>
@@ -12,6 +12,255 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Git Commands 使用手记]]></title>
+    <link href="http://douxinchun.github.io/blog/20180430/git-command-shi-yong-shou-ji.html"/>
+    <updated>2018-04-30T17:44:10+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180430/git-command-shi-yong-shou-ji</id>
+    <content type="html"><![CDATA[<p>本文主要用来记录自己在使用Git的过程遇到的一些问题及解决方案.</p>
+
+<h2>1.Git push error: dst refspec dev_1.0 matches more than one.</h2>
+
+<h3>导火索</h3>
+
+<p>  Git 删除远程库中的一个分支的时候报错,如下:</p>
+
+<pre><code class="``">  git push origin --delete dev_1.0
+  error: dst refspec dev_1.0 matches more than one.
+  error: failed to push some refs to 'git@code.sohuno.com:ink-ios/SohuInk.git'
+</code></pre>
+
+<p>  出现这个错误的原因是在于远程Git服务器上名称为dev_1.0的有两个对象：一个是tag，一个是branch；在执行 git push origin &ndash;delete dev_1.0这个命令时Git服务器不知道要删除哪个。</p>
+
+<h3>解决办法</h3>
+
+<p>删除名称为dev_1.0的branch：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git push origin :refs/heads/dev_1.0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+删除名称为dev_1.0的tag:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git push origin :refs/tags/dev_1.0</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Install macOS by U Disk]]></title>
+    <link href="http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk.html"/>
+    <updated>2017-05-29T16:46:55+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk</id>
+    <content type="html"><![CDATA[<p>动手之前,TimeMachine备份数据!<br/>
+动手之前,TimeMachine备份数据!<br/>
+动手之前,TimeMachine备份数据!</p>
+
+<ul>
+<li>1.8GB或者更大容量的U盘,Apple建议不小于12G</li>
+<li>2.使用 应用程序&ndash;>实用工具&ndash;>磁盘工具 格盘 (参考图片 格盘)
+
+<ul>
+<li> 名称 Sierra 使用其它名称注意在后面的Terminal命令中作出替换</li>
+<li> 格式 Mac OS 扩展 (日志式)</li>
+<li> 方案 GUID 分区图</li>
+</ul>
+</li>
+<li>3.AppStore中下载Sierra系统.下载耗时较长,可以冲杯咖啡,休息一下去了.(参照图片 原版安装包)</li>
+<li>4.使用Terminal(应用程序→实用工具→终端),输入命令<br/>
+<code>
+sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/Sierra --applicationpath /Applications/Install\ macOS\ Sierra.app --nointeraction
+</code>
+耐心等待,直至出现Done.启动U盘制作结束.</li>
+<li>5.重新启动PC,按照Option不放,直到出现启动菜单选项.
+<img src="http://douxinchun.github.io/blog_reference_image/2017/7/mac_option_boot.jpg" alt="启动菜单项" /></li>
+</ul>
+
+
+<h3>附几张网络图片,仅供参考</h3>
+
+<p>格盘<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/7/disk_ulitily.jpg" alt="U盘格盘" />
+原版安装包<br/>
+<img src="http://upload-images.jianshu.io/upload_images/3704217-1629bb87e7f7945e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="原版安装包" />
+步骤4,参考图
+<img src="http://douxinchun.github.io/blog_reference_image/2017/7/terminal.jpg" alt="terminal-createinstallmedia" /></p>
+
+<h3>参考资料</h3>
+
+<p><a href="https://support.apple.com/zh-cn/HT201372">创建可引导的macOS安装器,https://support.apple.com/zh-cn/HT201372</a><br/>
+<a href="http://www.iplaysoft.com/macos-usb-install-drive.html">iPlaySoft简单制作 macOS Sierra 正式版U盘USB启动安装盘方法教程</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存]]></title>
+    <link href="http://douxinchun.github.io/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html"/>
+    <updated>2017-05-29T11:52:22+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012</id>
+    <content type="html"><![CDATA[<h2>我的MacBook Pro</h2>
+
+<p>电脑配置<br/>
+机器型号: MacBook Pro (13-inch, Mid 2012) 普通屏<br/>
+根据苹果官网的查询 <a href="https://support.apple.com/zh-cn/HT201300">苹果官网的MBP型号查询</a> 型号应该是MD101或者MD102<br/>
+处理器: 2.5 GHz Intel Core i5<br/>
+原配内存: 2G*2 1600Hz DDR3<br/>
+原配硬盘: 500G 机械硬盘</p>
+
+<p>虽然现在来看,这个配置可以卡出翔来,厚度堪当砖,但是回想一下,对于当时还是在装有Windows系统的Samsung本子上, 用GNUstep来Build&amp;Run Objective_C 的我来说, 这简直就是女神一般的存在.</p>
+
+<p>在升级到macOS Sierra后,我已经再也无法忍受启动Xcode时候的无限风火轮.原来打算购买新的MacBook Pro,去官网看了一下,新的本子为了追求超薄,内存什么的都采用了焊接的工艺,换句话说,要买就得直接上顶配,不然以后没法升级.大体预算了一下,需要软妹币小两万.摸了摸自己的口袋,想了想老丈人的礼金,含着泪默默地关闭了apple.com.打开了京东.</p>
+
+<h2>升级方案</h2>
+
+<p>SSD的升级方案,按照网上的介绍有三种:</p>
+
+<ul>
+<li>1.主硬盘位保持原装机械硬盘不动,光驱位替换为SSD</li>
+<li>2.主硬盘位换为SSD,光驱位换为拆下来的机械硬盘</li>
+<li>3.主硬盘位换为SSD,光驱位不动.</li>
+</ul>
+
+
+<p>在此,我的建议是,如果是Fusion类型的话(机械硬盘和SSD混用,方案1或者方案2),首先查看一下光驱位和主硬盘位的SATA串口的类型.<br/>
+如果只有一个是SATA3,那么SSD放在SATA3串口的位置.<br/>
+如果都是SATA3,那么主硬盘位放机械硬盘,光驱位放SSD,因为主硬盘会有SMS保护(SMS是什么后面会有介绍).但具体的要根据自己的实际情况,比如说因为光驱位的供电模式等原因造成的SSD不识别,那只能把SSD放在主硬盘位.<br/>
+对我来说,我采用的是方案3,主要原因有下:<br/>
+1.主硬盘位对于硬盘的保护比较好,垂直位置上和键盘不重叠,而光驱位位于键盘的正下方,相对来说不如主硬盘位稳定.<br/>
+2.哥是一个纯粹的人,要什么Fusion啊,要存储的话直接上外置硬盘就好了.</p>
+
+<h3>查看主硬盘位和光驱位SATA类型的方法</h3>
+
+<p>关于本机&ndash;>概览&ndash;>系统报告&ndash;>SATA/SATA Express. 如图,看<strong>链接速度</strong>,SATA3为6千兆位. SATA2为3千兆位. 我的CD-ROM的<strong>协商的链接速度</strong>:1.5 千兆位. 原装硬盘的<strong>协商的链接速度</strong>为3千兆位,说明原装的机械硬盘上的串口速度最高到SATA2.<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/disk_sata.jpg" alt="SATA_disk" /><br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/cd-rom_sata.jpg" alt="SATA_cd-rom" /></p>
+
+<h2>购买的SSD和内存</h2>
+
+<p>购买时间正巧赶上了京东618店庆搞活动.<br/>
+SSD我买的是 SAMSUNG 850 EVO 250G SATA3<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/jd_ssd.jpg" alt="JD Samsumg SSD" /><br/>
+内存我买的是金士顿的8G内存条.买两条.按照Apple官网的<a href="https://support.apple.com/zh-cn/HT201165">内存升级指南</a>2012Mid的MBP最高可以升级到4G*2,可能是当年的单条8G还不是很流行,我实测直接升级到8G*2没有任何问题.<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/jd_memory.jpg" alt="JD Kingston Memory" /><br/>
+另外还购买了SSK的2.5英寸的USB 3.0硬盘盒,用于装替换下来的原装硬盘.</p>
+
+<hr />
+
+<h2>替换SSD</h2>
+
+<p>先来一张拆机前的准备图:<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/IMG_4026.jpg" alt="ready" /><br/>
+做好Time Machine后,开始更换SSD,先拆开后盖,注意拆机前先洗手,祷告,触摸金属,释放自身静电,祈求上帝保佑:<br/>
+<img src="https://support.apple.com/library/content/dam/edam/applecare/images/zh_CN/macbookpro/13_bottom_case_removal.png" alt="The location of screws" /><br/>
+拆下来的螺丝,按照相对位置放好,便于以后重新安装上去. 后壳周边没有任何的暗扣,用塑料吸盘轻轻一吸就能起来.
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/IMG_4027.jpg" alt="螺丝排列" /><br/>
+我曾经拆过三星,宏碁还有联想的笔记本(为了清灰,说多了都是泪),但是不得不说MBP内部光驱,硬盘,主板,风扇,电池的排列和构造简直是太完美了, 没有一处的细节不完美,没有一处的空间被浪费掉,且容我慢慢欣赏20s.<br/>
+断开内存条右边的电池电源线,撬开光驱右边最下面的硬盘数据线.
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/IMG_4028.jpg" alt="拆开后盖总览" /><br/>
+拆下硬盘上方的小的固定条,一共两个螺丝.<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/IMG_4032.jpg" alt="硬盘固定条" /><br/>
+利用翘起的塑料小片, 轻轻拉出硬盘(注意藏在硬盘下面的排线,不要扯断了).<br/>
+轻轻拔出左侧的SATA3接口,整个机械硬盘就完全拆下来了.
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/IMG_4033.jpg" alt="被拉出来的硬盘" /><br/>
+按照上图的1,2,3,4的位置,把这四个螺丝拆下来,同样的位置安装到SSD上.<br/>
+将SSD轻轻的装回原硬盘的位置,如下图所示,安装好以后,SSD会比原有的机械硬盘略薄一些,不过有螺丝的固定,没有影响. <br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/IMG_4035.jpg" alt="换为SSD以后效果图" /></p>
+
+<hr />
+
+<h2>替换内存</h2>
+
+<p>内存条的替换没有什么可说的,具体的可以参加Apple的指南.<a href="https://support.apple.com/zh-cn/HT201165">Apple MBP 安装和拆卸内存指南</a><br/>
+这里放一张基本流程的图:<br/>
+<img src="https://support.apple.com/library/content/dam/edam/applecare/images/zh_CN/macbookpro/13_insert_memory.png" alt="替换内存条基本流程,引用自Apple" /><br/>
+需要注意的一点是,一共上下两根条子,由于这两根条子挨得过于靠近,安装下面的条子的时候,不要把上面的条子的两边的压脚给弄坏了,金手指对齐插好以后,两边轻轻一按就能就位,要用巧劲,不要用蛮力.
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/IMG_4030.jpg" alt="替换内存" /></p>
+
+<hr />
+
+<h2>数据恢复</h2>
+
+<p>插入启动U盘,开机启动,先利用磁盘工具将SSD抹掉格式化为:OS X 扩展 (日志式),GUID 分区图.然后插入Time Machine的外置硬盘,选择将Time Machine备份的最新内容恢复到刚刚格式化的SSD分区中.<br/>
+小技巧:合上后盖后,先不要着急上螺丝,先插U盘,点亮机器,识别出来SSD,确认机器不报警以后,再断电上螺丝.<br/>
+制作启动U盘,参见另一篇blog 传送门<a href="http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk.html">U盘安装macOS系统</a></p>
+
+<hr />
+
+<h2>后续配置</h2>
+
+<h3>开启Trim</h3>
+
+<p>TRIM 是系统级的命令，可以允许操作系统与固态硬盘通信，判断 SSD 上哪些区域没有使用，并准备好擦除和复写。如果缺少 TRIM 支持，系统会在 SSD 可用容量减少时遇到写入速度变慢的现象.<br/>
+可以在「关于本机」里查看系统有没有开启 TRIM 支持：<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/disk_sata.jpg" alt="SATA_disk" /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo trimforce enable</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+命令执行后会出现警告语，根据提示输入两次「Y」以后，如图显示，就说明 TRIM 支持开启成功了（命令执行完成后会自动重启) :<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/trim_start.jpg" alt="Trim_Start" /></p>
+
+<p>注意,旧版本的OS X系统可能需要先禁用rootless</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo nvram boot-args=rootless=0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+据说 OS X El Capitan以后不需要,我当前用的Sierra不需要这个.</p>
+
+<h3>关闭突发移动感应器(Sudden Motion Sensor, SMS)</h3>
+
+<p>突发移动感应器 (SMS) 技术是针对硬盘设计的内建保护功能，有助于防止电脑在掉落或遭遇异常强烈的振动时出现磁盘问题。目前普遍的观点是MBP的SMS功能在主硬盘位上有,光驱位上没有,由于SMS对SSD没有任何的保护作用,为了防止SMS对主硬盘位上SSD造成数据损坏,建议关闭.<br/>
+SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://support.apple.com/zh-cn/HT201666">Mac 笔记本电脑：关于突发移动感应器</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo pmset -g  //查看看sms的状态,1为开启,0位关闭  
+</span><span class='line'>sudo pmset sms -a 0 //关闭sms  
+</span><span class='line'>sudo pmset -g  //重新查看sms的状态是否为0.  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/shutdown_pmset.jpg" alt="SMS_shutdown" /></p>
+
+<p>关于是否需要关闭SMS的讨论,可以参见这里,<a href="http://bbs.feng.com/read-htm-tid-4285975.html">http://bbs.feng.com/read-htm-tid-4285975.html</a></p>
+
+<h3>关闭Time Machine的本地快照</h3>
+
+<p>本地快照的详情,同样参见<a href="https://support.apple.com/kb/PH25723?viewlocale=zh_CN&amp;locale=zh_CN">Apple Time Machine 官方介绍</a><br/>
+这个功能会增加SSD的写入量,降低SSD的寿命.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo tmutil disablelocal //禁用本地快照
+</span><span class='line'>sudo tmutil enablelocal  //启用本地快照</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+在Time Machine的偏好设置中可以查看,本地快照的状态,出现了红色的部分即为启用,不出现即为禁用.<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/timemachine_local.jpg" alt="timemachine_local_shutdown" /></p>
+
+<h2>最终成果</h2>
+
+<p>开机10s以内,Xcode工程秒开,硬盘读写速度爽的飞起.<br/>
+<img src="http://douxinchun.github.io/blog_reference_image/2017/5/IMG_4036.jpg" alt="SSD_Speed" /></p>
+
+<h2>参考链接</h2>
+
+<p><a href="http://www.superqq.com/blog/2015/08/27/macbook-replace-ssd-solid-state/">http://www.superqq.com/blog/2015/08/27/macbook-replace-ssd-solid-state/</a><br/>
+<a href="http://chaishiwei.com/blog/972.html">http://chaishiwei.com/blog/972.html</a><br/>
+<a href="https://www.zhihu.com/question/21100176">https://www.zhihu.com/question/21100176</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS 操作系统目录说明]]></title>
@@ -22,7 +271,7 @@
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#114;&#111;&#x6f;&#116;&#64;&#x31;&#48;&#x2e;&#50;&#x2e;&#x39;&#56;&#x2e;&#x38;&#x37;">&#114;&#111;&#x6f;&#x74;&#x40;&#49;&#x30;&#46;&#50;&#x2e;&#57;&#56;&#46;&#56;&#55;</a><br/>
+$ ssh <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x72;&#111;&#x6f;&#x74;&#64;&#49;&#48;&#x2e;&#x32;&#x2e;&#x39;&#x38;&#46;&#56;&#x37;">&#x72;&#x6f;&#x6f;&#x74;&#x40;&#49;&#x30;&#46;&#x32;&#x2e;&#x39;&#x38;&#46;&#56;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -33,8 +282,49 @@ $ ssh <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#114;&#111;&#x6f;&#116;&
 <p>二、iPhone中其他基本文件的存放文件目录如下：<br/>
 1、/Applications<br/>
 常用软件的安装目录<br/>
-2. /private /var/ mobile/Media /iphone video Recorder<br/>
-iphone video Recorder录像文件存放目录<br/>
+2. /private /var/ mobile/Media /iphone video Recorder
+iphone video Recorder录像文件存放目录</p>
+
+<table>
+<thead>
+<tr>
+<th>name     </th>
+<th style="text-align:right;"> path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iphone video Recorderdfsajdfks</td>
+<td style="text-align:right;">的飞机考六级来看看带分了</td>
+</tr>
+</tbody>
+</table>
+
+
+<table>
+<thead>
+<tr>
+<th>First Header </th>
+<th> Second Header </th>
+<th> Third Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content Cell </td>
+<td> Content Cell  </td>
+<td> Content Cell</td>
+</tr>
+<tr>
+<td>Content Cell </td>
+<td> Content Cell  </td>
+<td> Content Cell</td>
+</tr>
+</tbody>
+</table>
+
+
+<p> 录像文件存放目录 | /private /var/ mobile/Media /iphone video Recorder
 3、/private /var/ mobile/Media /DCIM <br/>
 相机拍摄的照片文件存放目录<br/>
 4、/private/var/ mobile /Media/iTunes_Control/Music <br/>
@@ -1933,365 +2223,6 @@ anon-access = read &ndash;>修改为 anon-access = none</p>
 
 <p>Debug的时侯使控制台输出的日志带有色彩,一般配合<a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a>来使用<br/>
 <img src="http://douxinchun.github.io/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Octopress学习旅程(1)]]></title>
-    <link href="http://douxinchun.github.io/blog/20150327/octopress-deeper-learn-1.html"/>
-    <updated>2015-03-27T15:08:02+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150327/octopress-deeper-learn-1</id>
-    <content type="html"><![CDATA[<h2>1.rake -T</h2>
-
-<p>主要用来记录学习Octopress中的一些知识点.</p>
-
-<p>先记录一个命令,rake -T 可以查看命令rake的介绍:</p>
-
-<figure class='code'><figcaption><span>octopress-bash </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>localhost:octopress douxinchun$ rake -T
-</span><span class='line'>rake clean                     # Clean out caches: .pygments-cache, .gist-cache, .sass-cache
-</span><span class='line'>rake copydot[source,dest]      # copy dot files for deployment
-</span><span class='line'>rake deploy                    # Default deploy task
-</span><span class='line'>rake gen_deploy                # Generate website and deploy
-</span><span class='line'>rake generate                  # Generate jekyll site
-</span><span class='line'>rake install[theme]            # Initial setup for Octopress: copies the default theme into the path of Jekyll's generator
-</span><span class='line'>rake integrate                 # Move all stashed posts back into the posts directory, ready for site generation
-</span><span class='line'>rake isolate[filename]         # Move all other posts than the one currently being worked on to a temporary stash location (stash) so regenerat...
-</span><span class='line'>rake list                      # list tasks
-</span><span class='line'>rake new_page[filename]        # Create a new page in source/(filename)/index.md
-</span><span class='line'>rake new_post[title]           # Begin a new post in source/_posts
-</span><span class='line'>rake preview                   # preview the site in a web browser
-</span><span class='line'>rake push                      # deploy public directory to github pages
-</span><span class='line'>rake rsync                     # Deploy website via rsync
-</span><span class='line'>rake set_root_dir[dir]         # Update configurations to support publishing to root or sub directory
-</span><span class='line'>rake setup_github_pages[repo]  # Set up _deploy folder and deploy branch for Github Pages deployment
-</span><span class='line'>rake update_source[theme]      # Move source to source.old, install source theme updates, replace source/_includes/navigation.html with source....
-</span><span class='line'>rake update_style[theme]       # Move sass to sass.old, install sass theme updates, replace sass/custom with sass.old/custom
-</span><span class='line'>rake watch                     # Watch the site and regenerate when it changes</span></code></pre></td></tr></table></div></figure>
-
-
-<p>追加一个介绍的很详细的Octopress使用者的总结,内容很详细,留作备忘<br/>
-<a href="http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/">http://shengmingzhiqing.com/blog/octopress-tutorials-toc.html/</a></p>
-
-<h2>2.添加返回顶部</h2>
-
-<p>以下步骤参考这里:<a href="http://www.udpwork.com/item/12851.html">http://www.udpwork.com/item/12851.html</a></p>
-
-<p>1)来这里<strong><a href="http://www.scrolltotop.com/">Scroll To Top</a></strong>找一个自己喜欢的样式</p>
-
-<p>2)新建一个文件来存放widget代码,文件目录<code>source/_includes/custom/</code>,假设文件名为:<code>scroll_to_top.html</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="o">&lt;</span><span class="nt">script</span> <span class="nt">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nt">src</span><span class="o">=</span><span class="s2">&quot;http://arrow.scrolltotop.com/arrow78.js&quot;</span><span class="o">&gt;&lt;/</span><span class="nt">script</span><span class="o">&gt;</span>
-</span><span class='line'><span class="o">&lt;</span><span class="nt">noscript</span><span class="o">&gt;</span><span class="nt">Not</span> <span class="nt">seeing</span> <span class="nt">a</span> <span class="o">&lt;</span><span class="nt">a</span> <span class="nt">href</span><span class="o">=</span><span class="s2">&quot;http://www.scrolltotop.com/&quot;</span><span class="o">&gt;</span><span class="nt">Scroll</span> <span class="nt">to</span> <span class="nt">Top</span> <span class="nt">Button</span><span class="o">&lt;/</span><span class="nt">a</span><span class="o">&gt;?</span> <span class="nt">Go</span> <span class="nt">to</span> <span class="nt">our</span> <span class="nt">FAQ</span> <span class="nt">page</span> <span class="nt">for</span> <span class="nt">more</span> <span class="nt">info</span><span class="o">.&lt;/</span><span class="nt">noscript</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-这里需要注意默认Octopress引入的jquery.min.js和widget code中使用的jquery的版本可能是不一样的.如果你曾经按照本站中Blog<strong><a href="blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html">加快Octopress国内访问速度</a></strong>中处理过Octopress的JQuery,那么你可以保留widget中的JQuery的引入,或者在文件<code>source/_includes/head.html</code>中,作如下修改:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="o">&lt;!</span><span class="nt">--</span><span class="o">&lt;</span><span class="nt">script</span> <span class="nt">src</span><span class="o">=</span><span class="s2">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js&quot;</span><span class="o">&gt;&lt;/</span><span class="nt">script</span><span class="o">&gt;</span><span class="nt">--</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;!</span><span class="nt">--</span><span class="o">&lt;</span><span class="nt">script</span> <span class="nt">src</span><span class="o">=</span><span class="s2">&quot;//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js&quot;</span><span class="o">&gt;&lt;/</span><span class="nt">script</span><span class="o">&gt;</span><span class="nt">--</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;!</span><span class="nt">--</span><span class="err">为了添加</span><span class="nt">scroll_to_top</span><span class="nc">.html</span> <span class="err">提高了</span><span class="nt">js</span><span class="err">的版本</span><span class="nt">--</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="o">&lt;</span><span class="nt">script</span> <span class="nt">src</span><span class="o">=</span><span class="s2">&quot;//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js&quot;</span><span class="o">&gt;&lt;/</span><span class="nt">script</span><span class="o">&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-3)将scroll_to_top.html引入到页面中<br/>
-文件位置<code>source/_layouts/default.html</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'>  <span class="o">&lt;</span><span class="nt">footer</span> <span class="nt">role</span><span class="o">=</span><span class="s2">&quot;contentinfo&quot;</span><span class="o">&gt;</span><span class="p">{</span><span class="o">%</span> <span class="n">include</span> <span class="n">footer</span><span class="o">.</span><span class="n">html</span> <span class="o">%</span><span class="p">}</span><span class="o">&lt;/</span><span class="nt">footer</span><span class="o">&gt;</span>
-</span><span class='line'>  <span class="p">{</span><span class="o">%</span> <span class="n">include</span> <span class="n">after_footer</span><span class="o">.</span><span class="n">html</span> <span class="o">%</span><span class="p">}</span>
-</span><span class='line'>  <span class="p">{</span><span class="o">%</span> <span class="n">include</span> <span class="n">custom</span><span class="o">/</span><span class="n">scroll_to_top</span><span class="o">.</span><span class="n">html</span> <span class="o">%</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>3)去除图片上的灰色背景<br/>
-Octopress默认的为所有的div添加了一个背景，所以上述完成之后看到的图片是有一个灰色背景的，需要去除一下。修改以下文件即可。<code>sass/base/_theme.scss</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nt">body</span> <span class="p">{</span>
-</span><span class='line'>  <span class="o">&gt;</span> <span class="n">div</span><span class="o">:</span><span class="n">not</span><span class="p">(</span><span class="m">#ds</span><span class="o">-</span><span class="n">wrapper</span><span class="p">)</span><span class="o">:</span><span class="n">not</span><span class="p">(</span><span class="m">#topcon</span><span class="n">trol</span><span class="p">)</span> <span class="err">{</span>
-</span><span class='line'>    <span class="k">background</span><span class="o">:</span> <span class="err">$</span><span class="n">sidebar</span><span class="o">-</span><span class="n">bg</span> <span class="err">$</span><span class="n">noise</span><span class="o">-</span><span class="n">bg</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">border-bottom</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="err">$</span><span class="k">page</span><span class="o">-</span><span class="k">border-bottom</span><span class="p">;</span>
-</span><span class='line'>    <span class="o">&gt;</span> <span class="n">div</span> <span class="err">{</span>
-</span><span class='line'>      <span class="k">background</span><span class="o">:</span> <span class="err">$</span><span class="n">main</span><span class="o">-</span><span class="n">bg</span> <span class="err">$</span><span class="n">noise</span><span class="o">-</span><span class="n">bg</span><span class="p">;</span>
-</span><span class='line'>      <span class="k">border-right</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="err">$</span><span class="n">sidebar</span><span class="o">-</span><span class="k">border</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="err">}</span>
-</span><span class='line'><span class="err">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-其中我们添加的div的id为topcontrol。当然前面的ds-wrapper是为了去除多说评论框登陆的背景问题，如不需要可以去掉。<br/>
-大功告成!!!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开发过程中遇到的Bug处理集合]]></title>
-    <link href="http://douxinchun.github.io/blog/20150327/ios-bug-collection.html"/>
-    <updated>2015-03-27T15:00:07+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150327/ios-bug-collection</id>
-    <content type="html"><![CDATA[<h2>1.iOS7 下UIScrollView 无法滑动的解决办法</h2>
-
-<p>环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview<br/>
-接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+都出了,感觉以后使用AutoLayout会是主流),刚开始一切OK,跑起来顺畅的很,在3.5和4的屏幕上适应的都不错,后来不知道怎么调整了一下UI,结果悲剧发生了,Scrollview死活滑动不了了,导致Scrollview上的下拉刷新也不好用了.<br/>
-第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail&hellip; &hellip;Fuck Google上清一水的解决方案都是这个,说好的滑动呢&hellip;</p>
-
-<!--more-->
-
-
-<p>最后,纠结了1分钟,在viewdidload,viewwillapear,viewdidappear,viewlayoutsubviews中都设置一次contentSize,Run,神奇的事情发生了,Scrollview动起来了,然后一个一个的去除contentSize,最终确定,只有在viewlayoutsubviews设置才会有效,,坑爹啊.<br/>
-具体的code如下:</p>
-
-<figure class='code'><figcaption><span>viewDidLayoutSubviews </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// Called just before the view controller&#39;s view&#39;s layoutSubviews method is invoked. Subclasses can implement as necessary. The default is a nop.</span>
-</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillLayoutSubviews</span><span class="p">{</span>
-</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;viewWillLayoutSubviews&quot;</span><span class="p">);</span>
-</span><span class='line'>    <span class="n">scrollview</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">),</span> <span class="n">CGRectGetHeight</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>坑爹啊,问题虽然解决了,但是这不科学啊,于是重新查看UIViewController的生命周期:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>2015-03-27 16:17:35.887 BugDemo[3195:937760] viewDidLoad
-</span><span class='line'>2015-03-27 16:17:35.888 BugDemo[3195:937760] viewWillAppear
-</span><span class='line'>2015-03-27 16:17:35.891 BugDemo[3195:937760] viewWillLayoutSubviews
-</span><span class='line'>2015-03-27 16:17:35.892 BugDemo[3195:937760] viewDidLayoutSubviews
-</span><span class='line'>2015-03-27 16:17:35.900 BugDemo[3195:937760] viewDidAppear</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-发现生命周期的最后一个方法是viewDidAppear,只好理解为涉及了Autolayout,在viewDidAppear中设置已经晚了,可能是由于AutoLayout的某些原因,到了viewDidAppear的时候再设置contentSize属性已经不被scrllview接受或者被AutoLayout的某些机制给拦截了重设为另一个自适应的数值了.<br/>
-最后,总结,AutoLayout真是坑,界面还是乖乖的用code手写吧,这样出了问题好定位分析,解决.</p>
-
-<h2>2.UIScrollView不能响应UITouch事件的解决办法</h2>
-
-<p>原因是：UIView的touch事件被UIScrollView捕获了。</p>
-
-<p>解决办法：让UIScrollView将事件传递过去。于是最简单的解决办法就是加一个UIScrollView的category。这样每个用到UIScrollView的地方只要导入这个category就可以直接响应相关的touch事件了。</p>
-
-<figure class='code'><figcaption><span>UIScrollView+UITouch </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &quot;UIScrollView+UITouch.h&quot;       </span>
-</span><span class='line'> <span class="k">@implementation</span> <span class="bp">UIScrollView</span> <span class="nl">(UITouch)</span>
-</span><span class='line'> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">touchesBegan</span><span class="p">:(</span><span class="bp">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">{</span>
-</span><span class='line'>   <span class="p">[[</span><span class="nb">self</span> <span class="n">nextResponder</span><span class="p">]</span> <span class="nl">touchesBegan</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
-</span><span class='line'>   <span class="p">[</span><span class="nb">super</span> <span class="nl">touchesBegan</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
-</span><span class='line'> <span class="p">}</span>
-</span><span class='line'> <span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">touchesMoved</span><span class="p">:(</span><span class="bp">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">{</span>
-</span><span class='line'>   <span class="p">[[</span><span class="nb">self</span> <span class="n">nextResponder</span><span class="p">]</span> <span class="nl">touchesMoved</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
-</span><span class='line'>   <span class="p">[</span><span class="nb">super</span> <span class="nl">touchesMoved</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
-</span><span class='line'> <span class="p">}</span>
-</span><span class='line'> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">touchesEnded</span><span class="p">:(</span><span class="bp">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">{</span>
-</span><span class='line'>   <span class="p">[[</span><span class="nb">self</span> <span class="n">nextResponder</span><span class="p">]</span> <span class="nl">touchesEnded</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
-</span><span class='line'>   <span class="p">[</span><span class="nb">super</span> <span class="nl">touchesEnded</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
-</span><span class='line'> <span class="p">}</span>
-</span><span class='line'> <span class="k">@end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h2>3.UITableview点击背景隐藏键盘</h2>
-
-<p>由于UITableview是UIScrollview的子类,如果按照2中的方式话,会响应touchbegin方法,但是UITablevieDelegate中的didSelectRowAtIndexPath就会不响应了.<br/>
-解决方法参照:<a href="http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview">http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview</a></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">gestureRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">hideKeyboard</span><span class="p">)];</span>
-</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">gestureRecognizer</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//The UITapGestureRecognizer solution works with table cell selection if you set:</span>
-</span><span class='line'><span class="c1">//加入这一句,不会影响到tableview的didSelectRowAtIndexPath方法</span>
-</span><span class='line'><span class="n">gestureRecognizer</span><span class="p">.</span><span class="n">cancelsTouchesInView</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-然后,添加hideKeyboard方法,想下面这样</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (void) hideKeyboard {
-</span><span class='line'>    [self.view endEditing:YES];
-</span><span class='line'>    ...
-</span><span class='line'>    ...
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>此外,还有一种可以响应touchbegin的方案参见这里 <a href="http://www.cnblogs.com/tangbinblog/p/4066930.html">http://www.cnblogs.com/tangbinblog/p/4066930.html</a> ,不过这种方案看上去需要以子类的方式重写hitTest方法,暂时没有考证可行性.先Mark一下,等以后再来看看.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[为 Octopress 添加多说评论系统]]></title>
-    <link href="http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html"/>
-    <updated>2015-03-26T14:51:19+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong</id>
-    <content type="html"><![CDATA[<p>Update:<br/>
-最新消息,多说将于2017年6月1日正式关停服务,还是切换回disqus吧.</p>
-
-<hr />
-
-<p>octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件<a href="http://duoshuo.com/">多说</a>来替代disqus</p>
-
-<p>添加的过程主要是参照了Havee&rsquo;s Space中的Blog<a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">为 Octopress 添加多说评论系统</a></p>
-
-<p>其中有几点需要注意的事情是:</p>
-
-<!--more-->
-
-
-<p>
-1.duoshuo_short_name 是指在多说控制面板中添加新站点，第三行有多说的二级域名中的你填入的部分.比如说,二级域名是 <strong><a href="http://douxinchun.duoshuo.com">http://douxinchun.duoshuo.com</a> 中,那么duoshuo_short_name就是 </strong>douxinchun.<br/>
-2.文件 <code>source/_includes/post/duoshuo.html</code> 中的内容可以参照多说控制台&ndash;>工具中提供的<a href="http://douxinchun.duoshuo.com/admin/tools/">通用代码</a><br/>
-3.文件<code>_includes/custom/asides/recent_comments.html</code>中的内容可以参照多说控制台&ndash;>工具中<a href="http://douxinchun.duoshuo.com/admin/tools/recent-comments/">最新评论的code</a></p>
-
-<p>最后完成以后,rake preview,一切OK,但还会有一个小问题,就是当需要登陆或者输入邮箱地址的时候，会出现如下图的问题，登陆框的背后有一层带颜色的层。</p>
-
-<p><img src="http://douxinchun.github.io/blog_reference_image/2015/3/duoshuo_background_issue.png" alt="duoshuo_background_issue.png" /></p>
-
-<h3>原因</h3>
-
-<p>具体原因是我所使用的css为所有的body div增加了一个背景。下图为id为ds-wrapper的div的背景属性 ds-wrapper div background</p>
-
-<h3>解决</h3>
-
-<p>解决方案参照 <a href="http://droidyue.com/blog/2014/07/29/integrate-duoshuo-in-octopress/">技术小黑屋的Blog:集成多说评论</a>，思路就是对所有body div的设置不应用到id为ds-wrapper的div 默认的设置如下。<br/>
-文件为<code>sass/base/_theme.scss</code></p>
-
-<figure class='code'><figcaption><span>sass/base/_theme.scss </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nt">body</span> <span class="p">{</span>
-</span><span class='line'>  <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
-</span><span class='line'>    <span class="na">background</span><span class="o">:</span> <span class="nv">$sidebar-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
-</span><span class='line'>    <span class="na">border-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$page-border-bottom</span><span class="p">;</span>
-</span><span class='line'>    <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
-</span><span class='line'>      <span class="na">background</span><span class="o">:</span> <span class="nv">$main-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
-</span><span class='line'>      <span class="na">border-right</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$sidebar-border</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>使用not把ds-wrapper加入例外，修改为这样的设置</p>
-
-<figure class='code'><figcaption><span>修改后的_theme.scss文件 </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='scss'><span class='line'><span class="nt">body</span> <span class="p">{</span>
-</span><span class='line'>  <span class="o">&gt;</span> <span class="nt">div</span><span class="nd">:not</span><span class="o">(</span><span class="nn">#ds-wrapper</span><span class="o">)</span><span class="p">{</span>
-</span><span class='line'>    <span class="na">background</span><span class="o">:</span> <span class="nv">$sidebar-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
-</span><span class='line'>    <span class="na">border-bottom</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$page-border-bottom</span><span class="p">;</span>
-</span><span class='line'>    <span class="o">&gt;</span> <span class="nt">div</span> <span class="p">{</span>
-</span><span class='line'>      <span class="na">background</span><span class="o">:</span> <span class="nv">$main-bg</span> <span class="nv">$noise-bg</span><span class="p">;</span>
-</span><span class='line'>      <span class="na">border-right</span><span class="o">:</span> <span class="mi">1</span><span class="kt">px</span> <span class="no">solid</span> <span class="nv">$sidebar-border</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>    <br/>
-到这里，就比较完美的添加完多说的评论了.</p>
 ]]></content>
   </entry>
   
