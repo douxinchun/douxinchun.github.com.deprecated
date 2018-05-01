@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://douxinchun.github.io/blog/20180501/mac-terminal-shortcut-keys.html</loc>
+<lastmod>2018-05-01T18:16:04+08:00</lastmod>
+</url>
+<url>
 <loc>http://douxinchun.github.io/blog/20180430/git-command-shi-yong-shou-ji.html</loc>
 <lastmod>2018-04-30T17:44:10+08:00</lastmod>
 </url>
@@ -151,10 +155,10 @@
 <loc>http://douxinchun.github.io/blog/categories/git/</loc>
 </url>
 <url>
-<loc>http://douxinchun.github.io/posts/2/</loc>
+<loc>http://douxinchun.github.io/blog/categories/mac/</loc>
 </url>
 <url>
-<loc>http://douxinchun.github.io/posts/3/</loc>
+<loc>http://douxinchun.github.io/blog/categories/terminal/</loc>
 </url>
 <url>
 <loc>http://douxinchun.github.io/googled64ca099c8848d46.html</loc>

@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-05-01T17:22:56+08:00</updated>
+  <updated>2018-05-01T19:19:47+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -12,6 +12,233 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac Terminal 快捷键记录]]></title>
+    <link href="http://douxinchun.github.io/blog/20180501/mac-terminal-shortcut-keys.html"/>
+    <updated>2018-05-01T18:16:04+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180501/mac-terminal-shortcut-keys</id>
+    <content type="html"><![CDATA[<p>Mac 命令行编辑快捷键的方法，对Mac的应用有所帮助。</p>
+
+<h3>Mac 命令行命令</h3>
+
+<table>
+<thead>
+<tr>
+<th>Command      </th>
+<th> Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>history      </td>
+<td> 显示命令历史列表</td>
+</tr>
+<tr>
+<td>↑(Ctrl+p)    </td>
+<td> 显示上一条命令</td>
+</tr>
+<tr>
+<td>↓(Ctrl+n)    </td>
+<td> 显示下一条命令</td>
+</tr>
+<tr>
+<td>clear        </td>
+<td> 清除 shell 提示屏幕</td>
+</tr>
+<tr>
+<td>exit         </td>
+<td> 注销</td>
+</tr>
+<tr>
+<td>history      </td>
+<td> 显示命令历史</td>
+</tr>
+<tr>
+<td>reset        </td>
+<td> 刷新 shell 提示屏幕</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><br /></p>
+
+<h3>Mac 命令行编辑快捷键</h3>
+
+<table>
+<thead>
+<tr>
+<th>Command      </th>
+<th> Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>↑(Ctrl+p)    </td>
+<td> 显示上一条命令</td>
+</tr>
+<tr>
+<td>↓(Ctrl+n)    </td>
+<td> 显示下一条命令</td>
+</tr>
+<tr>
+<td>!num         </td>
+<td> 执行命令历史列表的第num条命令</td>
+</tr>
+<tr>
+<td>!!           </td>
+<td> 执行上一条命令</td>
+</tr>
+<tr>
+<td>!?string?    </td>
+<td> 执行含有string字符串的最新命令</td>
+</tr>
+<tr>
+<td>Ctrl+r       </td>
+<td> 然后输入若干字符，开始向上搜索包含该字符的命令，继续按  Ctrl+r，搜索上一条匹配的命令</td>
+</tr>
+<tr>
+<td>Ctrl+s       </td>
+<td> 与Ctrl+r类似,只是正向检索</td>
+</tr>
+<tr>
+<td>→(Ctrl+f)    </td>
+<td> 光标向前移动一个字符,相当与-></td>
+</tr>
+<tr>
+<td>←(Ctrl+b)    </td>
+<td> 光标向后移动一个字符,相当与&lt;-</td>
+</tr>
+<tr>
+<td>opt+←        </td>
+<td> 光标向前移动一个单词</td>
+</tr>
+<tr>
+<td>opt+→        </td>
+<td> 光标向后移动一个单词</td>
+</tr>
+<tr>
+<td>ls !$        </td>
+<td> 执行命令ls，并以上一条命令的参数为其参数</td>
+</tr>
+<tr>
+<td>Ctrl+a       </td>
+<td> 移动到当前行的开头</td>
+</tr>
+<tr>
+<td>Ctrl+e       </td>
+<td> 移动到当前行的结尾</td>
+</tr>
+<tr>
+<td>Esc+b        </td>
+<td> 移动到当前单词的开头</td>
+</tr>
+<tr>
+<td>Esc+f        </td>
+<td> 移动到当前单词的结尾</td>
+</tr>
+<tr>
+<td>Ctrl+l       </td>
+<td> 清屏</td>
+</tr>
+<tr>
+<td>Ctrl+u       </td>
+<td> 剪切命令行中光标所在处之前的所有字符（不包括自身）</td>
+</tr>
+<tr>
+<td>Ctrl+k       </td>
+<td> 剪切命令行中光标所在处之后的所有字符（包括自身）</td>
+</tr>
+<tr>
+<td>Ctrl+d       </td>
+<td> 删除光标所在处字符</td>
+</tr>
+<tr>
+<td>Ctrl+h       </td>
+<td> 删除光标所在处前一个字符</td>
+</tr>
+<tr>
+<td>Ctrl+y       </td>
+<td> 粘贴刚才所删除的字符</td>
+</tr>
+<tr>
+<td>Ctrl+w       </td>
+<td> 剪切光标所在处之前的一个词（以空格、标点等为分隔符）</td>
+</tr>
+<tr>
+<td>Ctrl+t       </td>
+<td> 颠倒光标所在处及其之前的字符位置，并将光标移动到下一个字符</td>
+</tr>
+<tr>
+<td>Ctrl+v       </td>
+<td> 插入特殊字符,如Ctrl+v+Tab加入Tab字符键 ,先按下Ctrl+V,抬起后再按下Tab</td>
+</tr>
+<tr>
+<td>Esc+t        </td>
+<td> 颠倒光标所在处及其相邻单词的位置</td>
+</tr>
+<tr>
+<td>Ctrl+c       </td>
+<td> 删除整行</td>
+</tr>
+<tr>
+<td>Ctrl+(x u)   </td>
+<td> 按住Ctrl的同时再先后按x和u，撤销刚才的操作</td>
+</tr>
+<tr>
+<td>Ctrl+s       </td>
+<td> 挂起当前shell</td>
+</tr>
+<tr>
+<td>Ctrl+q       </td>
+<td> 重新启用挂起的shell</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><br /></p>
+
+<h3>下面的应用可能稍稍高级一点点</h3>
+
+<table>
+<thead>
+<tr>
+<th>Command                 </th>
+<th> Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td># !!                   </td>
+<td> 上一条命令</td>
+</tr>
+<tr>
+<td># !-n                  </td>
+<td> 倒数第N条历史命令</td>
+</tr>
+<tr>
+<td># !-n:p                </td>
+<td> 打印上一条命令（不执行）</td>
+</tr>
+<tr>
+<td># !?string?            </td>
+<td> 最新一条含有“string”的命令</td>
+</tr>
+<tr>
+<td># !-n:gs/str1/str2/    </td>
+<td> 将倒数第N条命令的str1替换为str2，并执行（若不加g,则仅替换第一个)</td>
+</tr>
+</tbody>
+</table>
+
+
+<h3>参考</h3>
+
+<p><a href="http://notes.11ten.net/mac-command-line-editing-commonly-used-shortcut-keys.html">http://notes.11ten.net/mac-command-line-editing-commonly-used-shortcut-keys.html</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Git Commands 使用手记]]></title>
@@ -271,7 +498,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#114;&#111;&#x6f;&#x74;&#64;&#49;&#48;&#46;&#x32;&#x2e;&#57;&#x38;&#x2e;&#56;&#x37;">&#114;&#x6f;&#x6f;&#116;&#x40;&#x31;&#x30;&#46;&#50;&#46;&#57;&#56;&#x2e;&#56;&#x37;</a><br/>
+$ ssh <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#114;&#111;&#x6f;&#x74;&#64;&#49;&#x30;&#x2e;&#x32;&#x2e;&#57;&#56;&#x2e;&#56;&#55;">&#x72;&#x6f;&#111;&#x74;&#64;&#x31;&#48;&#46;&#x32;&#x2e;&#57;&#x38;&#46;&#x38;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -282,24 +509,28 @@ $ ssh <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#114;&#111;&#x6f;&#x74;
 <p>二、iPhone中其他基本文件的存放文件目录如下：<br/>
 1、/Applications<br/>
 常用软件的安装目录<br/>
-2. /private /var/ mobile/Media /iphone video Recorder
+2. /private/var/mobile/Media/iphone video Recorder
 iphone video Recorder录像文件存放目录</p>
 
 <table>
 <thead>
 <tr>
-<th>name     </th>
-<th style="text-align:right;"> path</th>
+<th>path     </th>
+<th style="text-align:center;"> description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>iphone video Recorderdfsajdfks</td>
-<td style="text-align:right;">的飞机考六级来看看带分了</td>
+<td style="text-align:center;">的飞机考六级来看看带分了</td>
 </tr>
 </tbody>
 </table>
 
+
+<hr />
+
+<hr />
 
 <table>
 <thead>
@@ -2107,122 +2338,6 @@ anon-access = read &ndash;>修改为 anon-access = none</p>
 <a href="http://www.centoscn.com/CentosServer/ftp/2014/0306/2505.html">http://www.centoscn.com/CentosServer/ftp/2014/0306/2505.html</a>
 <a href="http://www.blogjava.net/nkjava/archive/2011/08/29/357502.html">http://www.blogjava.net/nkjava/archive/2011/08/29/357502.html</a>
 <a href="http://bbs.csdn.net/topics/390757995">http://bbs.csdn.net/topics/390757995</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xcode常用的插件集合]]></title>
-    <link href="http://douxinchun.github.io/blog/20150401/xcode-plugin-collection.html"/>
-    <updated>2015-04-01T10:24:50+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150401/xcode-plugin-collection</id>
-    <content type="html"><![CDATA[<p>本文主要总结了一下,我在Xcode下经常使用的的插件.</p>
-
-<h2>1.Alcatraz</h2>
-
-<p>Alcatraz是一个Xcode的开源的包管理工具.使用它,我们可以查找和安装各种各样的插件,模板以及配色方案.<br/>
-安装Alcatraz很简单,打开Terminal,把下面一行粘贴进命令行即可,安装之前,友情提示:Alcatraz is available for OSX 10.9+ and Xcode 5+ only.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>curl -fsSL https://raw.githubusercontent.com/supermarin/Alcatraz/master/Scripts/install.sh | sh</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-删除插件命令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-清空Alcatraz缓存的命令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf ~/Library/Application\ Support/Alcatraz</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>安装完成之后 ,最后提示</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Alcatraz successfully installed!!1!🍻   Please restart your Xcode.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-重启Xcode,发现在Windows菜单项下会多出一个Pachage Manager的项,快捷键是⇧⌘9</p>
-
-<!--more-->
-
-
-<h2>2.VVDocumenter</h2>
-
-<p>VVDocumenter可以帮我们自动生成注释文档,使用的方式也非常简单.在任何的类,方法或者你需要插入注释的地方输入&#8221;///&ldquo;即可,这里引用一张原作者的gif图片来说明效果:<br/>
-<img src="https://camo.githubusercontent.com/ca5518c9872e15b8a95b9d8c5f44bc331977d710/68747470733a2f2f7261772e6769746875622e636f6d2f6f6e65766361742f5656446f63756d656e7465722d58636f64652f6d61737465722f53637265656e53686f742e676966"></p>
-
-<p>安装方式也很简单,
-1.Alcatraz ,如果你安装了Alcatraz,直接打开Xcode->⇧⌘9->搜索VVDocumenter,Install.<br/>
-2.如果不想安装Alcatraz,把整个项目clone到本地,然后在Xcode中编译(⌘B),重启Xcode,Windows->会出现一个VVDocumenter项.安装成功.<br/>
-如果还不放心,可以在这查找到插件的存在 ~/Library/Application Support/Developer/Shared/Xcode/Plug-ins/</p>
-
-<p>GitHub:git@github.com:onevcat/VVDocumenter-Xcode.git</p>
-
-<h2>3.RTImageAssets</h2>
-
-<p>用来生成 @3x 的图片资源对应的 @2x 和 @1x 版本，只要拖拽高清图到 @3x 的位置上，然后按 Ctrl+Shift+A 即可自动生成两张低清的补全空位。当然你也可以从 @2x 的图生成 @3x 版本，如果你对图片质量要求不高的话.
-附一张使用效果的gif<br/>
-<img src="https://github.com/rickytan/RTImageAssets/raw/master/ScreenCap/usage.gif"></p>
-
-<p>GitHub:git@github.com:rickytan/RTImageAssets.git</p>
-
-<h2>4.XAlign</h2>
-
-<p>自动对齐,效果gif图:</p>
-
-<p><img src="https://camo.githubusercontent.com/7973c0e352b1f91e3efe5b3550cff5df97f4589a/687474703a2f2f7166692e73682f58416c69676e2f696d616765732f657175616c2e676966"></p>
-
-<p>安装方式 Terminal,</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># install
-</span><span class='line'>    $ curl http://qfi.sh/XAlign/build/install.sh | sh
-</span><span class='line'>
-</span><span class='line'>    or
-</span><span class='line'>    
-</span><span class='line'>    # update
-</span><span class='line'>    $ curl http://qfi.sh/XAlign/build/update.sh | sh</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>5.ClangFormat</h2>
-
-<p>代码格式化工具</p>
-
-<p><img src="https://camo.githubusercontent.com/758d8d2c87f7ec1bb3b6882d6500fe4cf5252759/68747470733a2f2f7261772e6769746875622e636f6d2f7472617669736a6566666572792f436c616e67466f726d61742d58636f64652f6d61737465722f524541444d452f636c616e67666f726d61742d78636f64652d64656d6f2e676966"></p>
-
-<h2>6.Auto Importer for Xcode</h2>
-
-<p>自动引入头文件</p>
-
-<p><img src="https://github.com/lucholaf/Auto-Importer-for-Xcode/raw/master/demo.gif"></p>
-
-<h2>7.KSImageNamed-Xcode</h2>
-
-<p>图片名称自动补全<br/>
-<img src="https://camo.githubusercontent.com/c354bf04524df86daeabe7a6d2b9926fac790f85/68747470733a2f2f7261772e6769746875622e636f6d2f6b7375746865722f4b53496d6167654e616d65642d58636f64652f6d61737465722f73637265656e73686f742e676966"></p>
-
-<h2>8.ZLGotoSandboxPlugin-Xcode</h2>
-
-<p>快速定位simulator的沙盒路径 <a href="https://github.com/MakeZL/ZLGotoSandboxPlugin">https://github.com/MakeZL/ZLGotoSandboxPlugin</a></p>
-
-<h2>9.XcodeColors</h2>
-
-<p>Debug的时侯使控制台输出的日志带有色彩,一般配合<a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a>来使用<br/>
-<img src="http://douxinchun.github.io/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
 ]]></content>
   </entry>
   

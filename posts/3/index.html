@@ -9,27 +9,8 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="1.rake -T 主要用来记录学习Octopress中的一些知识点. 先记录一个命令,rake -T 可以查看命令rake的介绍: octopress-bash 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-localhost: &hellip;">
+  <meta name="description" content="本文主要总结了一下,我在Xcode下经常使用的的插件. 1.Alcatraz Alcatraz是一个Xcode的开源的包管理工具.使用它,我们可以查找和安装各种各样的插件,模板以及配色方案.
+安装Alcatraz很简单,打开Terminal,把下面一行粘贴进命令行即可,安装之前,友情提示: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -101,6 +82,80 @@ localhost: &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150401/xcode-plugin-collection.html">Xcode常用的插件集合</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-04-01T10:24:50+08:00'><span class='date'>2015 年4 月1 日</span> <span class='time'>10:24 am</span></time>
+        
+           | <a href="/blog/20150401/xcode-plugin-collection.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20150401/xcode-plugin-collection.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文主要总结了一下,我在Xcode下经常使用的的插件.</p>
+
+<h2>1.Alcatraz</h2>
+
+<p>Alcatraz是一个Xcode的开源的包管理工具.使用它,我们可以查找和安装各种各样的插件,模板以及配色方案.<br/>
+安装Alcatraz很简单,打开Terminal,把下面一行粘贴进命令行即可,安装之前,友情提示:Alcatraz is available for OSX 10.9+ and Xcode 5+ only.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -fsSL https://raw.githubusercontent.com/supermarin/Alcatraz/master/Scripts/install.sh | sh</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+删除插件命令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+清空Alcatraz缓存的命令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf ~/Library/Application\ Support/Alcatraz</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>安装完成之后 ,最后提示</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Alcatraz successfully installed!!1!🍻   Please restart your Xcode.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+重启Xcode,发现在Windows菜单项下会多出一个Pachage Manager的项,快捷键是⇧⌘9</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/20150401/xcode-plugin-collection.html">阅读全文</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -428,6 +483,10 @@ A blogging framework for hackers.</p></blockquote>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20180501/mac-terminal-shortcut-keys.html">Mac Terminal 快捷键记录</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20180430/git-command-shi-yong-shou-ji.html">Git Commands 使用手记</a>
       </li>
     
@@ -441,10 +500,6 @@ A blogging framework for hackers.</p></blockquote>
     
       <li class="post">
         <a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">iOS 操作系统目录说明</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html">Block 声明语法 简记</a>
       </li>
     
   </ul>
@@ -462,12 +517,14 @@ A blogging framework for hackers.</p></blockquote>
 <li class='category'><a href='/blog/categories/ios/'>ios (7)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
 <li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (1)</a></li>
 <li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
 <li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
 <li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
 <li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
+<li class='category'><a href='/blog/categories/terminal/'>terminal (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 
