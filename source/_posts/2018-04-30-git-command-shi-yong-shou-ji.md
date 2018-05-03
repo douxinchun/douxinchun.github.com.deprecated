@@ -16,7 +16,7 @@ categories: git
   ```
   git push origin --delete dev_1.0
   error: dst refspec dev_1.0 matches more than one.
-  error: failed to push some refs to 'git@code.sohuno.com:ink-ios/SohuInk.git'
+  error: failed to push some refs to 'git@xxxxx:xxx/xxx.git'
   
   ```  
   出现这个错误的原因是在于远程Git服务器上名称为dev_1.0的有两个对象：一个是tag，一个是branch；在执行 git push origin --delete dev_1.0这个命令时Git服务器不知道要删除哪个。  
