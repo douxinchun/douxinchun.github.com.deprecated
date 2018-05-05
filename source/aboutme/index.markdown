@@ -14,3 +14,5 @@ footer: true
 ####原Blog地址:http://blog.csdn.net/douxinchun
 ####最早的Blog:http://hi.baidu.com/douxinchun  坑爹的百度空间,说没就没了
 ####Email:douxinchunlengyu@163.com  
+
+现就职于北京搜狐新媒体
