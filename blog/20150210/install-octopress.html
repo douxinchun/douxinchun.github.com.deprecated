@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <title>在GitHub上搭建Octopress - 冷雨之家</title>
-  <meta name="author" content="NewSpring">
+  <meta name="author" content="Spring">
 
   
   <meta name="description" content="前言 GitHub果真是一个神奇的地方.以前在使用Baidu空间和CSDN来写博客的时候,就听前辈们说过GitHub可以写博客.经过一番Google后终于弄明白了原理.
@@ -23,6 +23,8 @@
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  
   <link href="/atom.xml" rel="alternate" title="冷雨之家" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>&#8211;>
@@ -36,6 +38,16 @@
 <link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
   
 
+  <script>
+  	function addBlankTargetForLinks () {
+  	  $('a[href^="http"]').each(function(){
+  		  $(this).attr('target', '_blank');
+  	  });
+  	}
+  	$(document).bind('DOMNodeInserted', function(event) {
+  	  addBlankTargetForLinks();
+  	});
+  </script>
 </head>
 
 <body   >
@@ -86,9 +98,12 @@
 
 <time class='entry-date' datetime='2015-02-10T18:38:16+08:00'><span class='date'>2015 年2 月10 日</span> <span class='time'>6:38 pm</span></time>
         
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io">Comments</a>
+        
+		<!--
 	    
-	           | <a href="#comments">评论</a>
-	          
+		-->
       </p>
     
   </header>
@@ -97,8 +112,9 @@
 <div class="entry-content"><h2>前言</h2>
 
 <p>GitHub果真是一个神奇的地方.以前在使用<a href="http://hi.baidu.com/douxinchun">Baidu</a>空间和<a href="http://blog.csdn.net/douxinchun">CSDN</a>来写博客的时候,就听前辈们说过GitHub可以写博客.经过一番Google后终于弄明白了原理.<br/>
-首先是github中有一个功能叫做<a href="https://pages.github.com/">Pages</a>,这个功能具体的作用不详,但是其中的一项是能够把你上传的html文件显示为一个网页.其次是有好事者(别的博主都这么称呼)做了一个基于github的管理工具:<a href="http://octopress.org/">Octopress</a>).然后,我们就可以使用Octopress这个开源的框架加上Github Pages服务来搭建自己的Blog.<br/>
-到这里可能你会觉得非常兴奋,恨不得立马就要下手开搞.引用一句Octopress官方网站的标题:</p>
+首先是github中有一个功能叫做<a href="https://pages.github.com/">Pages</a>,这个功能具体的作用不详,但是其中的一项是能够把你上传的html文件显示为一个网页.其次是有好事者(别的博主都这么称呼)做了一个基于github的管理工具:<a href="http://octopress.org/">Octopress</a>.然后,我们就可以使用Octopress这个开源的框架加上Github Pages服务来搭建自己的Blog.</p>
+
+<p>到这里可能你会觉得非常兴奋,恨不得立马就要下手开搞.引用一句<a href="http://octopress.org/">Octopress</a>官方网站的标题:</p>
 
 <blockquote><p>Octopress<br/>
 A blogging framework for hackers.</p></blockquote>
@@ -123,7 +139,7 @@ A blogging framework for hackers.</p></blockquote>
 <p>安装Octopress基本上要按照以下几个步骤:</p>
 
 <pre><code>    1. 注册GitHub账号  
-    2. 安装Ruby1.9.3p125  
+    2. 安装Ruby1.9.3p125 (后来,在更新机器的过程中发现也可以使用ruby-1.9.3-p551,so,大家在安装的时候,执行 rvm install 1.9.3 就行,不要在意小版本)
     3. 安装Octopress     
     4. 部署到GitHub上  
 </code></pre>
@@ -132,70 +148,76 @@ A blogging framework for hackers.</p></blockquote>
 
 <blockquote><p>2.Install Ruby 1.9.3 or greater using either <a href="http://octopress.org/docs/setup/rbenv/">rbenv</a> or <a href="http://octopress.org/docs/setup/rvm/">RVM</a>.</p></blockquote>
 
-<p>提到可以使用更高版本的Ruby,这一点,我在2.0.0下做过验证,没有成功,强烈建议使用版本1.9.3p125或者1.9.3
+<p>提到可以使用更高版本的Ruby,这一点,我在2.0.0下做过验证,没有成功,强烈建议使用版本<strong>1.9.3p125</strong>或者<strong>1.9.3</strong>
 Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中使用的是RVM,这里同时给出两种方式来安装Ruby1.9.3</p>
 
 <p>git呢我们的mac默认安装,<a href="https://github.com/">GitHub</a>账号注册部分,直接跳过.</p>
 
 <h3>安装低版本的Ruby</h3>
 
-<h4>1.通过Ruby安装Ruby1.9.3p125</h4>
+<h4>1.通过Ruby安装Ruby1.9.3</h4>
 
 <h5>安装Homeview</h5>
 
-<p>这里我使用<a href="http://brew.sh/">Homebrew</a>来安装rbenv，如果你没有Homebrew，打开终端，使用以下命令安装吧。</p>
+<p>这里我使用<a href="http://brew.sh/">Homebrew</a>来安装rbenv，如果你没有Homebrew，打开终端,copy 执行以下命令。
+<em>(此处注意请随时关注Homebrew的官网首页的安装命令是否更新)</em></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>/usr/bin/ruby -e <span class="s2">&quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>有了Homebrew就可以安装rbenv了</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ brew update
-</span><span class='line'>$ brew install rbenv
-</span><span class='line'>$ brew install ruby-build</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>brew update
+</span><span class='line'><span class="nv">$ </span>brew install rbenv
+</span><span class='line'><span class="nv">$ </span>brew install ruby-build
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h5>安装Ruby</h5>
 
-<p>使用rbenv安装1.9.3p125版本的ruby</p>
+<p>使用rbenv安装1.9.3版本的ruby</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rbenv install 1.9.3-p125
-</span><span class='line'>$ rbenv local 1.9.3-p125
-</span><span class='line'>$ rbenv rehash
-</span><span class='line'>$ ruby --version #ruby 1.9.3p125 (2012-02-16 revision 34643) [x86_64-darwin13.4.0]</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rbenv install 1.9.3
+</span><span class='line'><span class="nv">$ </span>rbenv <span class="nb">local </span>1.9.3
+</span><span class='line'><span class="nv">$ </span>rbenv rehash
+</span><span class='line'><span class="nv">$ </span>ruby --version <span class="c">#ruby 1.9.3p125 (2012-02-16 revision 34643) [x86_64-darwin13.4.0]</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>安装完成后可以用ruby &ndash;version进行验证</p>
 
 <h4>2.通过Rvm安装Ruby1.9.3p125</h4>
 
-<p>rvm 全称Ruby Version Manager, 是一个非常好用的ruby版本管理以及安装工具.</p>
+<p><a href="http://www.rvm.io/">RVM</a> 全称<a href="http://www.rvm.io/">Ruby Version Manager</a>, 是一个非常好用的ruby版本管理以及安装工具. RVM的安装方法,也可按照官方首页.</p>
 
 <h5>安装rvm</h5>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ curl -L get.rvm.io | bash -s stable
-</span><span class='line'>$ source ~/.bashrc
-</span><span class='line'>$ source ~/.bash_profile</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span><span class="se">\c</span>url -sSL https://get.rvm.io <span class="p">|</span> bash -s stable
+</span><span class='line'><span class="nv">$ </span><span class="nb">source</span> ~/.bashrc
+</span><span class='line'><span class="nv">$ </span><span class="nb">source</span> ~/.bash_profile
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>修改 RVM 的 Ruby 安装源到国内的 淘宝镜像服务器，这样能提高安装速度</p>
+<p>修改 RVM 的 Ruby 下载源到国内的 淘宝镜像服务器，这样能提高安装速度</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sed -i -e 's/ftp\.ruby-lang\.org\/pub\/ruby/ruby\.taobao\.org\/mirrors\/ruby/g' ~/.rvm/config/db</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sed -i .bak -E <span class="s1">&#39;s!https?://cache.ruby-lang.org/pub/ruby!https://ruby.taobao.org/mirrors/ruby!&#39;</span> <span class="nv">$rvm_path</span>/config/db
+</span></code></pre></td></tr></table></div></figure>
 
 
-<h5>Ruby的安装与切换</h5>
+<h5>Ruby的安装与切换 (RVM管理)</h5>
 
 <ul>
 <li>列出已知的ruby版本</li>
@@ -210,7 +232,7 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 </ul>
 
 
-<pre><code class="`">   $ rvm install 1.9.3p125
+<pre><code class="`">   $ rvm install 1.9.3
 </code></pre>
 
 <ul>
@@ -249,7 +271,26 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 
 <p>安装Ruby完成后就按照官方指南安装Octpress</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">## clone octopress</span>
+</span><span class='line'><span class="nv">$ </span>git clone git://github.com/imathis/octopress.git octopress
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd </span>octopress
+</span><span class='line'><span class="c">## 安装依赖</span>
+</span><span class='line'><span class="nv">$ </span>gem install bundler
+</span><span class='line'><span class="nv">$ </span>rbenv rehash
+</span><span class='line'><span class="nv">$ </span>bundle install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>此处,至于如果bundle install的时候,出现类似下面的情况:</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -257,20 +298,47 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>## clone octopress
-</span><span class='line'>$ git clone git://github.com/imathis/octopress.git octopress
-</span><span class='line'>$ cd octopress
-</span><span class='line'>
-</span><span class='line'>## 安装依赖
-</span><span class='line'>$ gem install bundler
-</span><span class='line'>$ rbenv rehash
-</span><span class='line'>$ bundle install
-</span><span class='line'>
-</span><span class='line'>## 安装octopress默认主题
-</span><span class='line'>$ rake install</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>...
+</span><span class='line'>Gem::RemoteFetcher::FetchError: Errno::ECONNRESET: Connection reset by peer - SSL_connect <span class="o">(</span>https://rubygems.org/gems/compass-core-1.0.3.gem<span class="o">)</span>
+</span><span class='line'>...
+</span><span class='line'>此处省略1W字
+</span><span class='line'>...
+</span><span class='line'>An error occurred <span class="k">while</span> installing compass-core <span class="o">(</span>1.0.3<span class="o">)</span>, and Bundler cannot
+</span><span class='line'><span class="k">continue</span>.
+</span><span class='line'>Make sure that <span class="sb">`</span>gem install compass-core -v <span class="s1">&#39;1.0.3&#39;</span><span class="sb">`</span> succeeds before bundling.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>则需要使用 Bundler 的 Gem 源代码镜像命令</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>bundle config mirror.https://rubygems.org https://ruby.taobao.org
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者是在目录下找到Gemfile文件,替换</p>
+
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source 'https://rubygems.org/'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>为</p>
+
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source "https://ruby.taobao.org"</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>当然了,如果你有足够的毅力,你也可以按照最后一行的提示,直接在Terminal中打:gem install compass-core -v &lsquo;1.0.3&rsquo;,然后success后再继续bundle install,然后不断重复这一过程,Believe me,it&rsquo;s not a dead circle.~~</p>
+
+<p>在此,感谢一下万能的淘宝,顺便感谢一下GFW!</p>
+
+<h2>安装octopress默认主题</h2>
+
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake install
+</span></code></pre></td></tr></table></div></figure>
 
 
 <hr />
@@ -281,8 +349,9 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 
 <p>然后运行以下命令，并依照提示建立github和Octopress的关联</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake setup_github_pages</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake setup_github_pages
+</span></code></pre></td></tr></table></div></figure>
 
 
 <hr />
@@ -291,20 +360,22 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 
 <h4>生成博客</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake generate
-</span><span class='line'>$ rake deploy</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake generate
+</span><span class='line'><span class="nv">$ </span>rake deploy
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>把修改完的代码上传到github,repo:douxinchun.github.com下的source分支下</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git add .
-</span><span class='line'>$ git commit -m 'create blog'
-</span><span class='line'>$ git push origin source</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s1">&#39;create blog&#39;</span>
+</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>完成后等待一段时间后就能访问<code>http://username.github.com</code>看到自己的博客了</p>
@@ -313,7 +384,7 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 
 <p>配置文件路径为<code>~/octopress/_config.yml</code></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -324,35 +395,38 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>url:                # For rewriting urls for RSS, etc
-</span><span class='line'>title:              # Used in the header and title tags
-</span><span class='line'>subtitle:           # A description used in the header
-</span><span class='line'>author:             # Your name, for RSS, Copyright, Metadata
-</span><span class='line'>simple_search:      # Search engine for simple site search
-</span><span class='line'>description:        # A default meta description for your site
-</span><span class='line'>date_format:        # Format dates using Ruby's date strftime syntax
-</span><span class='line'>subscribe_rss:      # Url for your blog's feed, defauts to /atom.xml
-</span><span class='line'>subscribe_email:    # Url to subscribe by email (service required)
-</span><span class='line'>category_feeds:     # Enable per category RSS feeds (defaults to false in 2.1)
-</span><span class='line'>email:              # Email address for the RSS feed if you want it.</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>url:                <span class="c"># For rewriting urls for RSS, etc</span>
+</span><span class='line'>title:              <span class="c"># Used in the header and title tags</span>
+</span><span class='line'>subtitle:           <span class="c"># A description used in the header</span>
+</span><span class='line'>author:             <span class="c"># Your name, for RSS, Copyright, Metadata</span>
+</span><span class='line'>simple_search:      <span class="c"># Search engine for simple site search</span>
+</span><span class='line'>description:        <span class="c"># A default meta description for your site</span>
+</span><span class='line'>date_format:        <span class="c"># Format dates using Ruby&#39;s date strftime syntax</span>
+</span><span class='line'>subscribe_rss:      <span class="c"># Url for your blog&#39;s feed, defauts to /atom.xml</span>
+</span><span class='line'>subscribe_email:    <span class="c"># Url to subscribe by email (service required)</span>
+</span><span class='line'>category_feeds:     <span class="c"># Enable per category RSS feeds (defaults to false in 2.1)</span>
+</span><span class='line'>email:              <span class="c"># Email address for the RSS feed if you want it.</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>编辑完成后,执行这个操作部署到GitHub中</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake generate
-</span><span class='line'>$ rake deploy</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake generate
+</span><span class='line'><span class="nv">$ </span>rake deploy
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>将修改保存到GitHub的远程库中</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git add .
-</span><span class='line'>$ git commit -m "simple settings" 
-</span><span class='line'>$ git push origin source</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;simple settings&quot;</span>
+</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <h4>支持中文标签</h4>
@@ -363,14 +437,16 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 
 <p>将<code>plugins/category_list_tag.rb</code>中的</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>category_url = File.join(category_dir, category.gsub(/_|\P{Word}/, '-').gsub(/-{2,}/, '-').downcase)</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">category_url</span> <span class="o">=</span> File.join<span class="o">(</span>category_dir, category.gsub<span class="o">(</span>/_<span class="p">|</span><span class="se">\P</span><span class="o">{</span>Word<span class="o">}</span>/, <span class="s1">&#39;-&#39;</span><span class="o">)</span>.gsub<span class="o">(</span>/-<span class="o">{</span>2,<span class="o">}</span>/, <span class="s1">&#39;-&#39;</span><span class="o">)</span>.downcase<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>替换成</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>category_url = File.join(category_dir, category.to_url.downcase)</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">category_url</span> <span class="o">=</span> File.join<span class="o">(</span>category_dir, category.to_url.downcase<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>这样你的博客就可以支持中文标签的跳转了。</p>
@@ -383,18 +459,35 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 
 <h4>创建博文</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>## 使用终端
-</span><span class='line'>$ rake new_post['title']
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">## 使用终端</span>
+</span><span class='line'><span class="nv">$ </span>rake new_post<span class="o">[</span><span class="s1">&#39;title&#39;</span><span class="o">]</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>生成的文件在<code>~/source/_posts</code>目录下</p>
 
+<p>如果使用的是zsh,可能会遇到下面的情况</p>
+
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>zsh: no matches found: new_post<span class="o">[</span>...<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+原因是诸如[]之类的不是正确的命令字符。当然，我们也可以使用转义符来解决这一问题。但每次都需要敲入转义符，实在是太麻烦了。解决方案是在~/.zshrc文件下，加入这样一行内容：</p>
+
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">alias </span><span class="nv">rake</span><span class="o">=</span><span class="s2">&quot;noglob rake&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>添加在最后一行,即可</p>
+
 <h4>编辑博文</h4>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span>Terminal </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -405,17 +498,18 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>## ...markdown写博文
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">## ...markdown写博文</span>
 </span><span class='line'>
-</span><span class='line'>$ rake preview #localhost:4000
+</span><span class='line'><span class="nv">$ </span>rake preview <span class="c">#localhost:4000</span>
 </span><span class='line'>
-</span><span class='line'>$ rake generate
+</span><span class='line'><span class="nv">$ </span>rake generate
 </span><span class='line'>
-</span><span class='line'>$ git add .
-</span><span class='line'>$ git commit -m "comment" 
-</span><span class='line'>$ git push origin source
+</span><span class='line'><span class="nv">$ </span>git add .
+</span><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;comment&quot;</span>
+</span><span class='line'><span class="nv">$ </span>git push origin <span class="nb">source</span>
 </span><span class='line'>
-</span><span class='line'>$ rake deploy  </span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="nv">$ </span>rake deploy
+</span></code></pre></td></tr></table></div></figure>
 
 
 <hr />
@@ -463,7 +557,7 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">NewSpring</span></span>
+<span class="byline author vcard">Posted by <span class="fn">Spring</span></span>
 
       
 
@@ -498,25 +592,15 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
   </footer>
 </article>
 
-
   <section>
-    <h1>评论</h1>
-    <div id="comments" aria-live="polite">	   <!-- Duoshuo Comment BEGIN -->
-	   <div class="ds-thread" data-title="在GitHub上搭建Octopress"></div>
-	   <script type="text/javascript">
-	     var duoshuoQuery = {short_name:"douxinchun"};
-	     (function() {
-	       var ds = document.createElement('script');
-	       ds.type = 'text/javascript';ds.async = true;
-	       ds.src = 'http://static.duoshuo.com/embed.js';
-	       ds.charset = 'UTF-8';
-	       (document.getElementsByTagName('head')[0] 
-	       || document.getElementsByTagName('body')[0]).appendChild(ds);
-	     })();
-	   </script>
-	   <!-- Duoshuo Comment END --></div>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
   </section>
 
+<!--
+
+-->
 </div>
 
 <aside class="sidebar">
@@ -524,31 +608,31 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
     <section>
   <h1><a href="/aboutme" >About Me</a></h1>
   <img src="/images/head.png" width=200 height=200 style="border-radius:5%" /><br />
-  <b>窦新春, 程序员</b>
-  <p>博观而约取,厚积而薄发</p>
+  <b>Spring, 程序员</b>
+  <p>博观而约取, 厚积而薄发</p>
 </section>
 <section>
   <h1>最近发布</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/20151013/vistormap.html">为Octopress侧边栏增加访客地图</a>
+        <a href="/blog/20180501/mac-terminal-shortcut-keys.html">Mac Terminal 快捷键记录</a>
       </li>
     
       <li class="post">
-        <a href="/blog/20151009/private-api-in-ios.html">iOS SDK中的私有API</a>
+        <a href="/blog/20180430/git-command-shi-yong-shou-ji.html">Git Commands 使用手记</a>
       </li>
     
       <li class="post">
-        <a href="/blog/20150901/cloc.html">Xcode 统计项目中代码的行数</a>
+        <a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a>
       </li>
     
       <li class="post">
-        <a href="/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html">在网页中嵌入css的三种方法</a>
+        <a href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html">MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存</a>
       </li>
     
       <li class="post">
-        <a href="/blog/20150722/distribute-ipa-by-itms-services.html">使用itms-services 协议来发布ipa文件</a>
+        <a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">iOS 操作系统目录说明</a>
       </li>
     
   </ul>
@@ -561,20 +645,29 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (4)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (7)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (1)</a></li>
+<li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
+<li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
-<li class='category'><a href='/blog/categories/xcode/'>xcode (2)</a></li>
+<li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
+<li class='category'><a href='/blog/categories/terminal/'>terminal (1)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 
   </ul>
 </section><section>
-<h1>最新评论</h1>
-<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="0" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
-
-</section><section>
+  <h1>近期评论</h1>
+  <script type="text/javascript" src="http://newspringblog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+  
+</section>
+<section>
 <h1>访客地图</h1>
 <script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;m=0&amp;s=220&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=0" async="async"></script>
 </section>
@@ -585,12 +678,28 @@ Octopress的官方指南推荐使用的是RVM和rbenv。我在安装的过程中
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - NewSpring -
+  Copyright &copy; 2018 - Spring -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'newspringblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://douxinchun.github.io/blog/20150210/install-octopress.html';
+        var disqus_url = 'http://douxinchun.github.io/blog/20150210/install-octopress.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 

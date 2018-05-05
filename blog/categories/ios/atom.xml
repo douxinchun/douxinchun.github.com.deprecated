@@ -1,17 +1,344 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Ios | 冷雨之家]]></title>
+  <title><![CDATA[分类：ios | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2016-03-20T01:20:46+08:00</updated>
+  <updated>2018-05-03T09:58:14+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
-    <name><![CDATA[NewSpring]]></name>
+    <name><![CDATA[Spring]]></name>
     <email><![CDATA[douxinchunlengyu@163.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS 操作系统目录说明]]></title>
+    <link href="http://douxinchun.github.io/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html"/>
+    <updated>2017-01-03T11:28:24+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming</id>
+    <content type="html"><![CDATA[<p>iOS的设备越狱后,安装openssh,可以通过ssh连接工具(Mac OS 下直接使用Terminal)连接到手机上查看相关的系统目录:
+ssh 连接命令常用格式:
+`ssh [-l login_name] [-p port] [user@]hostname<br/>
+示例:<br/>
+$ ssh <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#114;&#111;&#111;&#116;&#x40;&#49;&#x30;&#46;&#50;&#46;&#57;&#x38;&#x2e;&#56;&#x37;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#x31;&#48;&#46;&#x32;&#46;&#x39;&#x38;&#46;&#x38;&#x37;</a><br/>
+默认的openssh连接密码为:alpine</p>
+
+<p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
+
+<!--more-->
+
+
+<p>二、iPhone中其他基本文件的存放文件目录如下：<br/>
+1、/Applications<br/>
+常用软件的安装目录<br/>
+2. /private/var/mobile/Media/iphone video Recorder
+iphone video Recorder录像文件存放目录</p>
+
+<table>
+<thead>
+<tr>
+<th>path     </th>
+<th style="text-align:center;"> description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iphone video Recorderdfsajdfks</td>
+<td style="text-align:center;">的飞机考六级来看看带分了</td>
+</tr>
+</tbody>
+</table>
+
+
+<hr />
+
+<hr />
+
+<table>
+<thead>
+<tr>
+<th>First Header </th>
+<th> Second Header </th>
+<th> Third Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content Cell </td>
+<td> Content Cell  </td>
+<td> Content Cell</td>
+</tr>
+<tr>
+<td>Content Cell </td>
+<td> Content Cell  </td>
+<td> Content Cell</td>
+</tr>
+</tbody>
+</table>
+
+
+<p> 录像文件存放目录 | /private /var/ mobile/Media /iphone video Recorder
+3、/private /var/ mobile/Media /DCIM <br/>
+相机拍摄的照片文件存放目录<br/>
+4、/private/var/ mobile /Media/iTunes_Control/Music <br/>
+iTunes上传的多媒体文件（例如MP3、MP4等）存放目录，文件没有被修改，但是文件名字被修改了，直接下载到电脑即可读取。<br/>
+5、/private /var/root/Media/EBooks<br/>
+熊猫看书存放目录 <br/>
+6、/Library/Ringtones<br/>
+系统自带的来电铃声存放目录（用iTunes将文件转换为ACC文件，把后缀名改成.m4r,用iPhone_PC_Suite传到/Library/Ringtones即可） <br/>
+7、/System/Library/Audio/UISounds<br/>
+短信记其它系统默认效果铃声（m4r铃声文件改扩展名为.caf）短信铃声文件名为sms-received开头的caf文件<br/>
+8、/private/var/ mobile /Library/AddressBook<br/>
+系统电话本的存放目录。<br/>
+9、/private /var/ mobile/Media /iphone Recorder<br/>
+iphone Recorder录音软件文件存放目录<br/>
+10、/Applications/Preferences.app/zh_CN.lproj<br/>
+软件Preferences.app的中文汉化文件存放目录<br/>
+11、/Library/Wallpaper <br/>
+系统q1ang纸的存放目录<br/>
+12、/System/Library/Audio/UISounds <br/>
+系统声音文件的存放目录<br/>
+13、/private/var/root/Media/PXL <br/>
+ibrickr上传安装程序建立的一个数据库，估计和windows的uninstall记录差不多。<br/>
+14、/bin <br/>
+和linux系统差不多，是系统执行指令的存放目录。 <br/>
+15、/private/var/ mobile /Library/SMS <br/>
+系统短信的存放目录<br/>
+16、/private/var/run<br/>
+系统进程运行的临时目录？（查看这里可以看到系统启动的所有进程）<br/>
+17、/private/var/logs/CrashReporter<br/>
+系统错误记录报</p>
+
+<h3>iPhone 特殊文件目录介绍</h3>
+
+<ol>
+<li>/private/var/mobile<br/>
+新刷完的机器，要在这个文件夹下建一个Documents的目录。</li>
+<li>/private/var/mobile/Applications<br/>
+通过AppStore和iTunes安装的程序都在里面。</li>
+<li>/private/var/stash<br/>
+这个文件夹下的Applications目录里面是所有通过Cydia和app安装的程序，Ringtones目录里是所有的手机铃音，自制铃音直接拷在里面即可，Themes目录里是所有Winterboard主题，可以手工修改。</li>
+<li>/var/mobile/Media/ROMs/GBA　<br/>
+gpsPhone模拟器存放rom的目录。</li>
+<li>/var/mobile/Media/textReader<br/>
+textReader看书软件读取的电子书的存放路径。</li>
+<li>/System/Library/Fonts/Cache<br/>
+系统字体目录，要替换的字体放在该目录下，权限644不变</li>
+<li>/private/var/mobile/Media/Maps<br/>
+离线地图目录，把地图文件夹放到该目录下，文件夹赋予777权限</li>
+<li>/private/var/mobile/Library/Downloads<br/>
+ipa文件存放目录，用Installous安装</li>
+<li>/private/var/mobile/Library/Keyboard<br/>
+系统拼音字库文件位置</li>
+<li>/var/stash/Themes.XXXXXX<br/>
+winterboard主题文件存放路径</li>
+<li>/private/var/mobile/Media/DCIM/999APPLE<br/>
+系统自带截屏文件存放路径</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Apple远程推送Pem证书生成-命令备忘]]></title>
+    <link href="http://douxinchun.github.io/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html"/>
+    <updated>2016-08-26T11:12:01+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20160826/apple-remote-notificatoin-push-pem-file-generate</id>
+    <content type="html"><![CDATA[<h3>Develoepr Environment</h3>
+
+<ol>
+<li>去Apple Develop 网站申请Push证书并下载导入到Keychain中.</li>
+<li>从Keychain中分别导出证书和密钥的.p12文件:cer.p12 key.p12<br/>
+交换密码为:123456</li>
+<li><p>使用openssl 将cer.p12及key.p12转成cer.pem和key.pem<br/>
+命令如下:</p>
+
+<pre><code>$ openssl pkcs12 -clcerts -nokeys -out cer.pem -in cer.p12
+$ openssl pkcs12 -nocerts -out key.pem -in key.p12
+</code></pre>
+
+<p>转换密钥文件时候,提示输一个pem的密码,转换完成后清除pem密码的命令:</p>
+
+<pre><code>$ openssl rsa -in key.pem -out key.pem  
+</code></pre></li>
+<li><p>合并cer.pem及key.pem</p>
+
+<pre><code>$ cat cer.pem key.pem &gt; cer_key.pem
+</code></pre></li>
+</ol>
+
+
+<h3>Release Environment 过程同上</h3>
+
+<p>PS.<br/>
+测试生成的cer.pem及key.pem是否可用<br/>
+<code>
+$ openssl s_client -connect gateway.push.apple.com:2195  -cert cer.pem -key key.pem
+</code><br/>
+注：gateway.push.apple.com:2195用于appStore app;<br/>
+   gateway.sandbox.push.apple.com:2195用于沙盒app;<br/>
+   以上命令执行后会打印一大罗信息，最后处于可输入状态，打几个字符回车后自动断开连接即为正常。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志]]></title>
+    <link href="http://douxinchun.github.io/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html"/>
+    <updated>2016-07-28T14:42:39+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi</id>
+    <content type="html"><![CDATA[<p>本文是基于:<a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a> 的改动.</p>
+
+<p>Xcode是一款非常优秀的IDE,但是在日志打印上貌似没有那么多高级的特性，比如分级打印，显示颜色。本博客就介绍下两个开源组件结合使用达到如下效果：
+<img src="/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
+
+<h2>1.CocoaLumberjack</h2>
+
+<h3>1.1基本介绍</h3>
+
+<p>CocoaLumberjack是一个开源工程，为Xcode提供分级打印的策略，源码地址:<a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a></p>
+
+<p>CocoaLumberjack包含几个对象分别可以把Log输出到不同的地方:</p>
+
+<ul>
+<li>DDASLLogger 输出到Console.app</li>
+<li>DDTTYLogger 输出到Xcode控制台</li>
+<li>DDLogFileManager 输出到文件</li>
+<li>DDAbstractDatabaseLogger 输出到DB</li>
+</ul>
+
+
+<p>通过ddLogLevel的int型变量或常量来定义打印等级</p>
+
+<ul>
+<li>LOG_LEVEL_OFF 关闭Log</li>
+<li>LOG_LEVEL_ERROR 只打印Error级别的Log</li>
+<li>LOG_LEVEL_WARN 打印Error和Warning级别的Log</li>
+<li>LOG_LEVEL_INFO 打印Error、Warn、Info级别的Log</li>
+<li>LOG_LEVEL_DEBUG 打印Error、Warn、Info、Debug级别的Log</li>
+<li>LOG_LEVEL_VERBOSE 打印Error、Warn、Info、Debug、Verbose级别的Log</li>
+</ul>
+
+
+<p>使用不同的宏打印不同级别的Log</p>
+
+<ul>
+<li>DDLogError(frmt, …) 打印Error级别的Log</li>
+<li>DDLogWarn(frmt, …) 打印Warn级别的Log</li>
+<li>DDLogInfo(frmt, …) 打印Info级别的Log</li>
+<li>DDLogDebug(frmt, …) 打印Debug级别的Log</li>
+<li>DDLogVerbose(frmt, …) 打印Verbose级别的Log</li>
+</ul>
+
+
+<p>如果,现在想往已有的工程中引入CocoaLumberjack,可以使用下面的宏定义,</p>
+
+<pre><code>#define NSLog(...) DDLogInfo(__VA_ARGS__)
+</code></pre>
+
+<h3>1.2设置LogFormatter</h3>
+
+<p>我们可以定制自己的Log的方式。通过创建一个类实现DDLogFormatter协议的方法<code>- (NSString *)formatLogMessage:(DDLogMessage *)logMessage;</code>,如下创建一个LogFormatter类，并实现如下方法：</p>
+
+<pre><code>...
+NSDateFormatter *threadUnsafeDateFormatter;
+threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
+        [threadUnsafeDateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss:SSS"];
+...  
+
+-(NSString *)formatLogMessage:(DDLogMessage *)logMessage{
+
+    NSString *levelStr = nil;
+    NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage-&gt;_timestamp)];
+
+    switch (logMessage.flag) {
+        case DDLogFlagError:
+        {
+            levelStr=@"[ERROR]";
+            break;
+        }
+        case DDLogFlagWarning:{
+            levelStr=@"[WARN ]";
+            break;
+        }
+        case DDLogFlagDebug:{
+            levelStr=@"[DEBUG]";
+            break;
+        }
+        case DDLogFlagInfo:
+        {
+            levelStr=@"[INFO ]";
+            break;
+        }
+        default:
+            levelStr=@"[VBOSE]";
+            break;
+    }
+
+    return [NSString stringWithFormat:@"%@ %@ &gt; %@ [line %d] %@",levelStr,dateAndTime,logMessage.function,logMessage.line,logMessage.message];
+}
+</code></pre>
+
+<p>上面的例子中我们定制了Log能打印自己的等级、类和方法、代码行数。</p>
+
+<h3>1.3初始化</h3>
+
+<p>CocoaLumberjack的引擎需要我们自己来启动。下面的示例代码</p>
+
+<pre><code> DDFileLogger *filelogger = [[DDFileLogger alloc] init];
+    filelogger.rollingFrequency = 60*60*24;//1h滚动一次
+    filelogger.logFileManager.maximumNumberOfLogFiles = 24;//最大文件数量24个
+
+    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blackColor] backgroundColor:nil forFlag:DDLogFlagVerbose];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blueColor] backgroundColor:nil forFlag:DDLogFlagDebug];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor purpleColor] backgroundColor:nil forFlag:DDLogFlagInfo];
+    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];
+
+    [DDLog addLogger:[DDTTYLogger sharedInstance]];//写入xCode控制台
+    [DDLog addLogger:[DDASLLogger sharedInstance]];//写入到苹果的日志
+    [DDLog addLogger:filelogger];//写入到文件系统 Cache/Library/Log
+    filelogger.logFormatter = [[SHDDLogFormatter alloc] init];
+    [DDTTYLogger sharedInstance].logFormatter = [[SHDDLogFormatter alloc] init];
+
+    DDLogError(@"DDLogError 中文错误");      // red
+    DDLogWarn(@"DDLogWarn 中文警告");        // orange
+    DDLogDebug(@"DDLogDebug 中文调试");      // blue
+    DDLogInfo(@"DDLogInfo 中文信息");        // purple
+    DDLogVerbose(@"DDLogVerbose 中文详细");  // black
+</code></pre>
+
+<h2>2.XcodeColors</h2>
+
+<h3>2.1安装</h3>
+
+<p>XcodeColors是一个Xcode插件，源码地址：<a href="https://github.com/robbiehanson/XcodeColors">XcodeColors</a>; 代码下下来后打开工程run一次，插件就自动安装到了~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/XcodeColors.xcplugin路径下.<br/>
+安装完成重启Xcode<br/>
+也可以通过Alcatraz来安装,具体的参见<a href="/blog/20150401/xcode-plugin-collection.html">Xcode常用插件集合</a></p>
+
+<h3>2.2配置scheme</h3>
+
+<p>在Scheme中配置Environment Variables, 添加参数XcodeColors为YES.如下图
+<img src="/blog_reference_image/2016/7/XcodeColors_scheme.png"></p>
+
+<h3>2.3为DDLog打开颜色</h3>
+
+<pre><code>[[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+</code></pre>
+
+<h3>2.4为特定的Log级别设定颜色</h3>
+
+<pre><code>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];
+</code></pre>
+
+<p>完成以上步骤就可以看到控制台的不同颜色的打印了。。</p>
+
+<h2>参考文章</h2>
+
+<p><a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS SDK中的私有API]]></title>
@@ -104,284 +431,6 @@ Bourne Shell                     1              5              0             65
 -------------------------------------------------------------------------------
 SUM:                           511          10526          12274          33502
 -------------------------------------------------------------------------------
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用itms-services 协议来发布ipa文件]]></title>
-    <link href="http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services.html"/>
-    <updated>2015-07-22T16:45:35+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services</id>
-    <content type="html"><![CDATA[<p>苹果允许用itms-services协议来直接在iphone/ipad上安装应用程序，我们可以直接生成该协议需要的相关文件，这样产品经理和测试都可以直接在设备上安装新版的应用:</p>
-
-<p>需要两个文件，一个是html，另一个是plist。</p>
-
-<p>文件index.html(请自动忽略css部分,我实在不会写前端):
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
-</span><span class='line'>&lt;head>
-</span><span class='line'>    &lt;style>
-</span><span class='line'>        body {
-</span><span class='line'>            font-size: 50px;
-</span><span class='line'>            margin-top:100px;
-</span><span class='line'>            margin-left:auto;
-</span><span class='line'>            margin-right:auto;
-</span><span class='line'>            text-align:center;
-</span><span class='line'>        }
-</span><span class='line'>    &lt;/style>
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>iOS 7.1 and above systems use the following link to install&lt;/p>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;p>&lt;a href="itms-services://?action=download-manifest&amp;url=https://********/**/tue_test.plist">Install TU/e App For Test&lt;/a>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>&lt;p>&lt;/a>&lt;/p>
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure></p>
-
-<p>文件plist:
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
-</span><span class='line'>
-</span><span class='line'>&lt;p>&lt;?xml version=&ldquo;1.0&rdquo; encoding=&ldquo;UTF-8&rdquo;?>
-</span><span class='line'>&lt;!DOCTYPE plist PUBLIC &ldquo;-//Apple//DTD PLIST 1.0//EN&rdquo; &ldquo;&lt;a href="http://www.apple.com/DTDs/PropertyList-1.0.dtd">http://www.apple.com/DTDs/PropertyList-1.0.dtd&lt;/a>&rdquo;>
-</span><span class='line'>&lt;plist version="1.0">
-</span><span class='line'>&lt;dict>
-</span><span class='line'>   &lt;key>items&lt;/key>
-</span><span class='line'>   &lt;array>
-</span><span class='line'>       &lt;dict>
-</span><span class='line'>           &lt;key>assets&lt;/key>
-</span><span class='line'>           &lt;array>
-</span><span class='line'>               &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>software-package&lt;/string>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>&lt;a href="http://****/**/tue_test.ipa">http://****/**/tue_test.ipa&lt;/a>(ipa文件的访问地址)&lt;/string>
-</span><span class='line'>               &lt;/dict>
-</span><span class='line'>               &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>display-image&lt;/string>
-</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
-</span><span class='line'>                   &lt;true/>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
-</span><span class='line'>               &lt;/dict>
-</span><span class='line'>      &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>full-size-image&lt;/string>
-</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
-</span><span class='line'>                   &lt;true/>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
-</span><span class='line'>              &lt;/dict>
-</span><span class='line'>           &lt;/array>
-</span><span class='line'>           &lt;key>metadata&lt;/key>
-</span><span class='line'>           &lt;dict>
-</span><span class='line'>               &lt;key>bundle-identifier&lt;/key>
-</span><span class='line'>               &lt;string>com.xx.xx(bundleID需要ipa中需要保持一致)&lt;/string>
-</span><span class='line'>               &lt;key>bundle-version&lt;/key>
-</span><span class='line'>               &lt;string>1.0(CFBundleVersion需要和ipa中的保持一致)&lt;/string>
-</span><span class='line'>               &lt;key>kind&lt;/key>
-</span><span class='line'>               &lt;string>software&lt;/string>
-</span><span class='line'>               &lt;key>subtitle&lt;/key>
-</span><span class='line'>               &lt;string>&lt;/string>
-</span><span class='line'>               &lt;key>title&lt;/key>
-</span><span class='line'>               &lt;string>TU/e测试版(随便起,用于踊跃alert确认时的提示)&lt;/string>
-</span><span class='line'>           &lt;/dict>
-</span><span class='line'>       &lt;/dict>
-</span><span class='line'>   &lt;/array>
-</span><span class='line'>&lt;/dict>
-</span><span class='line'>&lt;/plist></span></code></pre></td></tr></table></div></figure></p>
-
-<h3>注意</h3>
-
-<p>在iOS7.1之前,协议地址后的url需要使用http协议,</p>
-
-<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="http://********/**/tue_test.plist">http://********/**/tue_test.plist</a></p></blockquote>
-
-<p>在iOS7.1以及以后,这里需要换成https协议,</p>
-
-<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="https://********/**/tue_test.plist">https://********/**/tue_test.plist</a></p></blockquote>
-
-<p>否则使用Safari安装的时候,会提示&#8221;无法安装应用程序，因为“xx.xx.xx” 的证书无效;无法找到主机&#8221;1.2.3.4&#8221;&ldquo;之类的错误.也就是说,原先存放plist的web服务器需要支持https协议.<br/>
-自己动手搭建一个https的web服务的话,其中证书的部分很令人头痛的.我在IIS上整了一个上午,最后的结果上自己生成的证书Safari不认.我去,果断放弃这条路,google了一个简便的方法.利用开源中国(<a href="http://git.oschina.net/">http://git.oschina.net/</a>)提供的代码托管服务,托管一下plist文件,然后ipa的安装包和index.html依旧放在自己的服务器上.itms-services协议后面的url地址,改成在plist文件在开源中国上的url(注意url结束到.plist为止,后面的那一串参数不要带,直接手动把http改为https).</p>
-
-<p>具体的流程参见这里,<a href="http://blog.csdn.net/sy_bz/article/details/33739779">http://blog.csdn.net/sy_bz/article/details/33739779</a></p>
-
-<p>同理,我觉得github也应该可以代替开源中国.</p>
-
-<h3>附</h3>
-
-<p>plist中的字段说明:</p>
-
-<table>
-<thead>
-<tr>
-<th style="text-align:left;"> key值                </th>
-<th style="text-align:left;"> 说明                   </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;"> <strong>assets</strong>           </td>
-<td style="text-align:left;">   </td>
-</tr>
-<tr>
-<td style="text-align:left;"> software-package url </td>
-<td style="text-align:left;"> 要安装的 ipa 地址  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> display-image url    </td>
-<td style="text-align:left;">   安装ipa的时候,桌面显示呃图标  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> <strong>metadata</strong>         </td>
-<td style="text-align:left;">    </td>
-</tr>
-<tr>
-<td style="text-align:left;"> bundle-identifier    </td>
-<td style="text-align:left;"> bundle ID (和ipa保持一致) </td>
-</tr>
-<tr>
-<td style="text-align:left;"> bundle-version       </td>
-<td style="text-align:left;"> CFBundleVersion(和ipa保持一致)  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> title                </td>
-<td style="text-align:left;"> 用户点击时弹框中的AppTitle提示  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> subtitle             </td>
-<td style="text-align:left;"> 不明,应该 也跟弹框的内容相关 </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>以备后用<br/>
-自搭https服务器,可以查看的参照:<a href="http://zengrong.net/post/2108.html">http://zengrong.net/post/2108.html</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AutoLayout 使用总结]]></title>
-    <link href="http://douxinchun.github.io/blog/20150720/autolayout-summary.html"/>
-    <updated>2015-07-20T16:55:20+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150720/autolayout-summary</id>
-    <content type="html"><![CDATA[<h3>1.如何计算UITableViewCell的高度</h3>
-
-<p>在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用<code>sizeWithFont:</code> 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予<code>heightForRow:</code>。</p>
-
-<p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
-理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
-
-<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/</a><br/>
-和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
-
-<p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
-1. UILabel以及UITextField等有<code>preferredMaxLayoutWidth</code>属性的VIew需要设置一下,不然计算出来的高度UILable的部分只有一行文字的高度<br/>
-2. 对于具有<code>intrinsicContentSize</code>的View需要在垂直方向上,将压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)设置为1000,最高级
-3. 要保证Cell在垂直方向上设置的Constraints,理论上可以计算出整个Cell的高度,可以降低某个垂直方向约束的优先级,来消除xib中的约束错误提示</p>
-
-<h3>2.AutoLayout下的动画</h3>
-
-<p>在使用Autolayout时，动画的使用和以前也不同了，以前我们是修改frame，现在我们可以通过修改Constraints, 然后在动画时layoutIfNeeded就行了。</p>
-
-<pre><code>//修改约束
-...
-[UIView animateWithDuration:0.2 animations:^{
-    [view layoutIfNeeded];
-}];
-</code></pre>
-
-<p>Autolayout有时在动画时候会很方便，因为View之间的坐标是相互影响的，在传统frame中，如果改变一个view的frame,那么可能你要更改很多view的frame，才能让页面显得和谐。在Autolayout中可能只需要修改一个Constraint就可以了，在做动画时会很方便。</p>
-
-<h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
-
-<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a><br/>
-API中对应的是:</p>
-
-<pre><code>- (UILayoutPriority)contentHuggingPriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-- (UILayoutPriority)contentCompressionResistancePriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-- (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayout
-- 
 </code></pre>
 ]]></content>
   </entry>

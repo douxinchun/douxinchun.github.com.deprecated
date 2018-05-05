@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Install macOS by U Disk - 冷雨之家</title>
+  <meta name="author" content="Spring">
+
+  
+  <meta name="description" content="动手之前,TimeMachine备份数据!
+动手之前,TimeMachine备份数据!
+动手之前,TimeMachine备份数据! 1.8GB或者更大容量的U盘,Apple建议不小于12G
+2.使用 应用程序&ndash;>实用工具&ndash;>磁盘工具 格盘 (参考图片 格盘) 名称 &hellip;&#8221;>
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  
+  <link href="/atom.xml" rel="alternate" title="冷雨之家" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>&#8211;>
+  <!--<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script>&#8211;>
+  <!--为了添加scroll_to_top.html 提高了js的版本-->
+  <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts-->
+<link href="/stylesheets/pt_serif.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
+  
+
+  <script>
+  	function addBlankTargetForLinks () {
+  	  $('a[href^="http"]').each(function(){
+  		  $(this).attr('target', '_blank');
+  	  });
+  	}
+  	$(document).bind('DOMNodeInserted', function(event) {
+  	  addBlankTargetForLinks();
+  	});
+  </script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/"><img style="border-radius:50%" src="/images/head.png" width=60 height=60 />
+冷雨之家</a></h1>
+  
+    <h2>Dying is the day worth living for</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="douxinchun.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/aboutme">关于我</a></li>
+  
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Install macOS by U Disk</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-29T16:46:55+08:00'><span class='date'>2017 年5 月29 日</span> <span class='time'>4:46 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>动手之前,TimeMachine备份数据!<br/>
+动手之前,TimeMachine备份数据!<br/>
+动手之前,TimeMachine备份数据!</p>
+
+<ul>
+<li>1.8GB或者更大容量的U盘,Apple建议不小于12G</li>
+<li>2.使用 应用程序&ndash;>实用工具&ndash;>磁盘工具 格盘 (参考图片 格盘)
+
+<ul>
+<li> 名称 Sierra 使用其它名称注意在后面的Terminal命令中作出替换</li>
+<li> 格式 Mac OS 扩展 (日志式)</li>
+<li> 方案 GUID 分区图</li>
+</ul>
+</li>
+<li>3.AppStore中下载Sierra系统.下载耗时较长,可以冲杯咖啡,休息一下去了.(参照图片 原版安装包)</li>
+<li>4.使用Terminal(应用程序→实用工具→终端),输入命令<br/>
+<code>
+sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/Sierra --applicationpath /Applications/Install\ macOS\ Sierra.app --nointeraction
+</code>
+耐心等待,直至出现Done.启动U盘制作结束.</li>
+<li>5.重新启动PC,按照Option不放,直到出现启动菜单选项.
+<img src="/blog_reference_image/2017/7/mac_option_boot.jpg" alt="启动菜单项" /></li>
+</ul>
+
+
+<h3>附几张网络图片,仅供参考</h3>
+
+<p>格盘<br/>
+<img src="/blog_reference_image/2017/7/disk_ulitily.jpg" alt="U盘格盘" />
+原版安装包<br/>
+<img src="http://upload-images.jianshu.io/upload_images/3704217-1629bb87e7f7945e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="原版安装包" />
+步骤4,参考图
+<img src="/blog_reference_image/2017/7/terminal.jpg" alt="terminal-createinstallmedia" /></p>
+
+<h3>参考资料</h3>
+
+<p><a href="https://support.apple.com/zh-cn/HT201372">创建可引导的macOS安装器,https://support.apple.com/zh-cn/HT201372</a><br/>
+<a href="http://www.iplaysoft.com/macos-usb-install-drive.html">iPlaySoft简单制作 macOS Sierra 正式版U盘USB启动安装盘方法教程</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Spring</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2017-05-29T16:46:55+08:00'><span class='date'>2017 年5 月29 日</span> <span class='time'>4:46 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/macos/'>macos</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html" title="Previous Post: MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存">&laquo; MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/20180430/git-command-shi-yong-shou-ji.html" title="Next Post: Git Commands 使用手记">Git Commands 使用手记 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+<!--
+
+-->
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1><a href="/aboutme" >About Me</a></h1>
+  <img src="/images/head.png" width=200 height=200 style="border-radius:5%" /><br />
+  <b>Spring, 程序员</b>
+  <p>博观而约取, 厚积而薄发</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/20180501/mac-terminal-shortcut-keys.html">Mac Terminal 快捷键记录</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180430/git-command-shi-yong-shou-ji.html">Git Commands 使用手记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html">MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">iOS 操作系统目录说明</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>文章分类</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
+<li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (7)</a></li>
+<li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (1)</a></li>
+<li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
+<li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
+<li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
+<li class='category'><a href='/blog/categories/terminal/'>terminal (1)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
+<li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>近期评论</h1>
+  <script type="text/javascript" src="http://newspringblog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+  
+</section>
+<section>
+<h1>访客地图</h1>
+<script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;m=0&amp;s=220&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=0" async="async"></script>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Spring -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'newspringblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk.html';
+        var disqus_url = 'http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="http://arrow.scrolltotop.com/arrow78.js"></script>
+<noscript>Not seeing a <a href="http://www.scrolltotop.com/">Scroll to Top Button</a>? Go to our FAQ page for more info.</noscript>
+
+</body>
+</html>

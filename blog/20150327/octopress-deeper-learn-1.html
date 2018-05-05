@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <title>Octopress学习旅程(1) - 冷雨之家</title>
-  <meta name="author" content="NewSpring">
+  <meta name="author" content="Spring">
 
   
   <meta name="description" content="1.rake -T 主要用来记录学习Octopress中的一些知识点. 先记录一个命令,rake -T 可以查看命令rake的介绍: octopress-bash 1
@@ -42,6 +42,8 @@ localhost: &hellip;">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  
   <link href="/atom.xml" rel="alternate" title="冷雨之家" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>&#8211;>
@@ -55,6 +57,16 @@ localhost: &hellip;">
 <link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
   
 
+  <script>
+  	function addBlankTargetForLinks () {
+  	  $('a[href^="http"]').each(function(){
+  		  $(this).attr('target', '_blank');
+  	  });
+  	}
+  	$(document).bind('DOMNodeInserted', function(event) {
+  	  addBlankTargetForLinks();
+  	});
+  </script>
 </head>
 
 <body   >
@@ -105,9 +117,12 @@ localhost: &hellip;">
 
 <time class='entry-date' datetime='2015-03-27T15:08:02+08:00'><span class='date'>2015 年3 月27 日</span> <span class='time'>3:08 pm</span></time>
         
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io">Comments</a>
+        
+		<!--
 	    
-	           | <a href="#comments">评论</a>
-	          
+		-->
       </p>
     
   </header>
@@ -246,7 +261,7 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
       
   
 
-<span class="byline author vcard">Posted by <span class="fn">NewSpring</span></span>
+<span class="byline author vcard">Posted by <span class="fn">Spring</span></span>
 
       
 
@@ -283,25 +298,15 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
   </footer>
 </article>
 
-
   <section>
-    <h1>评论</h1>
-    <div id="comments" aria-live="polite">	   <!-- Duoshuo Comment BEGIN -->
-	   <div class="ds-thread" data-title="Octopress学习旅程(1)"></div>
-	   <script type="text/javascript">
-	     var duoshuoQuery = {short_name:"douxinchun"};
-	     (function() {
-	       var ds = document.createElement('script');
-	       ds.type = 'text/javascript';ds.async = true;
-	       ds.src = 'http://static.duoshuo.com/embed.js';
-	       ds.charset = 'UTF-8';
-	       (document.getElementsByTagName('head')[0] 
-	       || document.getElementsByTagName('body')[0]).appendChild(ds);
-	     })();
-	   </script>
-	   <!-- Duoshuo Comment END --></div>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
   </section>
 
+<!--
+
+-->
 </div>
 
 <aside class="sidebar">
@@ -309,31 +314,31 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
     <section>
   <h1><a href="/aboutme" >About Me</a></h1>
   <img src="/images/head.png" width=200 height=200 style="border-radius:5%" /><br />
-  <b>窦新春, 程序员</b>
-  <p>博观而约取,厚积而薄发</p>
+  <b>Spring, 程序员</b>
+  <p>博观而约取, 厚积而薄发</p>
 </section>
 <section>
   <h1>最近发布</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/20151013/vistormap.html">为Octopress侧边栏增加访客地图</a>
+        <a href="/blog/20180501/mac-terminal-shortcut-keys.html">Mac Terminal 快捷键记录</a>
       </li>
     
       <li class="post">
-        <a href="/blog/20151009/private-api-in-ios.html">iOS SDK中的私有API</a>
+        <a href="/blog/20180430/git-command-shi-yong-shou-ji.html">Git Commands 使用手记</a>
       </li>
     
       <li class="post">
-        <a href="/blog/20150901/cloc.html">Xcode 统计项目中代码的行数</a>
+        <a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a>
       </li>
     
       <li class="post">
-        <a href="/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html">在网页中嵌入css的三种方法</a>
+        <a href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html">MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存</a>
       </li>
     
       <li class="post">
-        <a href="/blog/20150722/distribute-ipa-by-itms-services.html">使用itms-services 协议来发布ipa文件</a>
+        <a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">iOS 操作系统目录说明</a>
       </li>
     
   </ul>
@@ -346,20 +351,29 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
   <h1>文章分类</h1>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (4)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (7)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (1)</a></li>
+<li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
+<li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
-<li class='category'><a href='/blog/categories/xcode/'>xcode (2)</a></li>
+<li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
+<li class='category'><a href='/blog/categories/terminal/'>terminal (1)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 
   </ul>
 </section><section>
-<h1>最新评论</h1>
-<ul class="ds-recent-comments" data-num-items="10" data-show-avatars="0" data-show-time="0" data-show-title="0" data-show-admin="0" data-excerpt-length="18"></ul>
-
-</section><section>
+  <h1>近期评论</h1>
+  <script type="text/javascript" src="http://newspringblog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+  
+</section>
+<section>
 <h1>访客地图</h1>
 <script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;m=0&amp;s=220&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=0" async="async"></script>
 </section>
@@ -370,12 +384,28 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - NewSpring -
+  Copyright &copy; 2018 - Spring -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'newspringblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://douxinchun.github.io/blog/20150327/octopress-deeper-learn-1.html';
+        var disqus_url = 'http://douxinchun.github.io/blog/20150327/octopress-deeper-learn-1.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 

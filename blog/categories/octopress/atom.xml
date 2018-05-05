@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Octopress | 冷雨之家]]></title>
+  <title><![CDATA[分类：octopress | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2016-03-20T01:20:46+08:00</updated>
+  <updated>2018-05-03T09:58:14+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
-    <name><![CDATA[NewSpring]]></name>
+    <name><![CDATA[Spring]]></name>
     <email><![CDATA[douxinchunlengyu@163.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -460,12 +460,25 @@ default_asides: [custom/asides/about.html,asides/recent_posts.html, asides/githu
 文件位置</code>source/_layouts/default.html`</p>
 
 <pre><code class="css">  &lt;footer role="contentinfo"&gt;<p>
-  Copyright &copy; 2016 - NewSpring -
+  Copyright &copy; 2018 - Spring -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
 &lt;/footer&gt;
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'newspringblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
@@ -507,7 +520,12 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
     <link href="http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html"/>
     <updated>2015-03-26T14:51:19+08:00</updated>
     <id>http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong</id>
-    <content type="html"><![CDATA[<p>octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件<a href="http://duoshuo.com/">多说</a>来替代disqus</p>
+    <content type="html"><![CDATA[<p>Update:<br/>
+最新消息,多说将于2017年6月1日正式关停服务,还是切换回disqus吧.</p>
+
+<hr />
+
+<p>octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件<a href="http://duoshuo.com/">多说</a>来替代disqus</p>
 
 <p>添加的过程主要是参照了Havee&rsquo;s Space中的Blog<a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">为 Octopress 添加多说评论系统</a></p>
 
