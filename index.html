@@ -407,6 +407,7 @@
       
   <header>
     
+<<<<<<< HEAD
       <h1 class="entry-title"><a href="/blog/20171202/get-mobileprovison-uuid.html">获取mobileprovision文件的UUID</a></h1>
     
     
@@ -552,6 +553,8 @@ mobileprovision-read -f &ldquo;provisoning-profile-file-path&rdquo; -o Provision
       
   <header>
     
+=======
+>>>>>>> 8656955adb0d78fabfe11ff01ff7df1f8aedc286
       <h1 class="entry-title"><a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a></h1>
     
     
@@ -840,7 +843,11 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
+<<<<<<< HEAD
 $ ssh <a href="&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#x72;&#x6f;&#111;&#x74;&#x40;&#49;&#48;&#x2e;&#x32;&#46;&#x39;&#x38;&#46;&#x38;&#55;">&#x72;&#111;&#111;&#x74;&#x40;&#49;&#x30;&#46;&#50;&#x2e;&#x39;&#x38;&#46;&#x38;&#55;</a><br/>
+=======
+$ ssh <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#x3a;&#x72;&#x6f;&#x6f;&#116;&#x40;&#x31;&#x30;&#46;&#x32;&#46;&#x39;&#x38;&#x2e;&#56;&#x37;">&#114;&#111;&#x6f;&#116;&#64;&#x31;&#48;&#46;&#50;&#46;&#x39;&#56;&#46;&#x38;&#x37;</a><br/>
+>>>>>>> 8656955adb0d78fabfe11ff01ff7df1f8aedc286
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -1295,6 +1302,102 @@ Widget获取地址在这里:<br/>
 
     </article>
   
+<<<<<<< HEAD
+=======
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20151009/private-api-in-ios.html">iOS SDK中的私有API</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-09T14:37:39+08:00'><span class='date'>2015 年10 月9 日</span> <span class='time'>2:37 pm</span></time>
+        
+           | <a href="/blog/20151009/private-api-in-ios.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20151009/private-api-in-ios.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>由于是私有API,再键入的时候不会有提示,注意在提交AppStore之前需要全部删除.</p>
+
+<p>1.查看View的层次结构</p>
+
+<blockquote><p>recursiveDescription</p></blockquote>
+
+<p>eg:查看UISearchBar的View层级,找到Cancel-Button的位置并修改该按钮的样式</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">UISearchBar</span> <span class="o">*</span><span class="n">searchBarView</span>  <span class="o">=</span> <span class="p">[[</span><span class="bp">UISearchBar</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">375</span><span class="p">,</span> <span class="mi">44</span><span class="p">)];</span>
+</span><span class='line'><span class="n">searchBarView</span><span class="p">.</span><span class="n">showsCancelButton</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//私有API,直接发消息给searchBarView的吧,编译器是不会过的,不信你试试看~~</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,[</span><span class="n">searchBarView</span> <span class="nl">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">recursiveDescription</span><span class="p">)]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+打印结果如下:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2015</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">09</span> <span class="mi">15</span><span class="o">:</span><span class="mi">12</span><span class="o">:</span><span class="mf">20.568</span> <span class="n">findAward</span><span class="p">[</span><span class="mi">5625</span><span class="o">:</span><span class="mi">756750</span><span class="p">]</span> <span class="o">&lt;</span><span class="nl">UISearchBar</span><span class="p">:</span> <span class="mh">0x144574710</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">375</span> <span class="mi">44</span><span class="p">);</span> <span class="n">text</span> <span class="o">=</span> <span class="err">&#39;&#39;</span><span class="p">;</span> <span class="n">gestureRecognizers</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">NSArray</span><span class="p">:</span> <span class="mh">0x174247b90</span><span class="o">&gt;</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x174430040</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UIView</span><span class="p">:</span> <span class="mh">0x17418d750</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">375</span> <span class="mi">44</span><span class="p">);</span> <span class="n">clipsToBounds</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span> <span class="n">autoresize</span> <span class="o">=</span> <span class="n">W</span><span class="o">+</span><span class="n">H</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x17442ff80</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UISearchBarBackground</span><span class="p">:</span> <span class="mh">0x1445a4240</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">375</span> <span class="mi">44</span><span class="p">);</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x174431200</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UINavigationButton</span><span class="p">:</span> <span class="mh">0x14452b250</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">34</span> <span class="mi">30</span><span class="p">);</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x17442e4c0</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UISearchBarTextField</span><span class="p">:</span> <span class="mh">0x144645db0</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">);</span> <span class="n">text</span> <span class="o">=</span> <span class="err">&#39;&#39;</span><span class="p">;</span> <span class="n">clipsToBounds</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x1702213a0</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">_UISearchBarSearchFieldBackgroundView</span><span class="p">:</span> <span class="mh">0x1445732c0</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">);</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">autoresize</span> <span class="o">=</span> <span class="n">W</span><span class="o">+</span><span class="n">H</span><span class="p">;</span> <span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x17442fac0</span><span class="o">&gt;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>根据打印的结果,我们可以看出,UISearchBar的二级subview里有一个,<code>UINavigationButton</code>随便猜猜,这个也是<code>UIButton</code>的子类了.故要获得它并修改他的样式的code如下:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="k">for</span> <span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="n">view</span> <span class="k">in</span> <span class="p">[[</span><span class="n">searchBarView</span><span class="p">.</span><span class="n">subviews</span> <span class="n">lastObject</span><span class="p">]</span> <span class="n">subviews</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="p">([</span><span class="n">view</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">UIButton</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="bp">UIButton</span> <span class="o">*</span><span class="n">cancelBtn</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">view</span><span class="p">;</span>
+</span><span class='line'>                    <span class="p">[</span><span class="n">cancelBtn</span> <span class="nl">setTitle</span><span class="p">:</span><span class="s">@&quot;取消&quot;</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>                    <span class="p">[</span><span class="n">cancelBtn</span> <span class="nl">setTitleColor</span><span class="p">:</span><span class="n">COLOR_EA4426</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>                    <span class="p">[</span><span class="n">cancelBtn</span> <span class="nl">setTitleColor</span><span class="p">:</span><span class="n">COLOR_EA4426</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateHighlighted</span><span class="p">];</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+>>>>>>> 8656955adb0d78fabfe11ff01ff7df1f8aedc286
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1324,6 +1427,7 @@ Widget获取地址在这里:<br/>
       </li>
     
       <li class="post">
+<<<<<<< HEAD
         <a href="/blog/20171202/get-mobileprovison-uuid.html">获取mobileprovision文件的UUID</a>
       </li>
     
@@ -1333,6 +1437,17 @@ Widget获取地址在这里:<br/>
     
       <li class="post">
         <a href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html">MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存</a>
+=======
+        <a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html">MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">iOS 操作系统目录说明</a>
+>>>>>>> 8656955adb0d78fabfe11ff01ff7df1f8aedc286
       </li>
     
   </ul>
@@ -1347,7 +1462,11 @@ Widget获取地址在这里:<br/>
     <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
+<<<<<<< HEAD
 <li class='category'><a href='/blog/categories/ios/'>ios (8)</a></li>
+=======
+<li class='category'><a href='/blog/categories/ios/'>ios (7)</a></li>
+>>>>>>> 8656955adb0d78fabfe11ff01ff7df1f8aedc286
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
@@ -1356,10 +1475,16 @@ Widget获取地址在这里:<br/>
 <li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
 <li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
 <li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
+<<<<<<< HEAD
 <li class='category'><a href='/blog/categories/provisioning-profile/'>provisioning profile (1)</a></li>
 <li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
 <li class='category'><a href='/blog/categories/terminal/'>terminal (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>xcode (4)</a></li>
+=======
+<li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
+<li class='category'><a href='/blog/categories/terminal/'>terminal (1)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (3)</a></li>
+>>>>>>> 8656955adb0d78fabfe11ff01ff7df1f8aedc286
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 
   </ul>

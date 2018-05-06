@@ -4,7 +4,11 @@
   <title><![CDATA[分类：ios | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
+<<<<<<< HEAD
   <updated>2018-05-06T13:19:47+08:00</updated>
+=======
+  <updated>2018-05-03T09:58:14+08:00</updated>
+>>>>>>> 8656955adb0d78fabfe11ff01ff7df1f8aedc286
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -14,6 +18,7 @@
 
   
   <entry>
+<<<<<<< HEAD
     <title type="html"><![CDATA[获取mobileprovision文件的UUID]]></title>
     <link href="http://douxinchun.github.io/blog/20171202/get-mobileprovison-uuid.html"/>
     <updated>2017-12-02T13:06:26+08:00</updated>
@@ -95,6 +100,8 @@ UUID is:
   </entry>
   
   <entry>
+=======
+>>>>>>> 8656955adb0d78fabfe11ff01ff7df1f8aedc286
     <title type="html"><![CDATA[iOS 操作系统目录说明]]></title>
     <link href="http://douxinchun.github.io/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html"/>
     <updated>2017-01-03T11:28:24+08:00</updated>
@@ -103,7 +110,11 @@ UUID is:
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
+<<<<<<< HEAD
 $ ssh <a href="&#109;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#x72;&#x6f;&#x6f;&#x74;&#x40;&#49;&#x30;&#x2e;&#50;&#x2e;&#x39;&#56;&#x2e;&#56;&#x37;">&#x72;&#111;&#111;&#x74;&#x40;&#x31;&#x30;&#46;&#50;&#x2e;&#x39;&#56;&#46;&#56;&#55;</a><br/>
+=======
+$ ssh <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#114;&#111;&#111;&#116;&#x40;&#49;&#x30;&#46;&#50;&#46;&#57;&#x38;&#x2e;&#56;&#x37;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#x31;&#48;&#46;&#x32;&#46;&#x39;&#x38;&#46;&#x38;&#x37;</a><br/>
+>>>>>>> 8656955adb0d78fabfe11ff01ff7df1f8aedc286
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -464,4 +475,59 @@ threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
 ]]></content>
   </entry>
   
+<<<<<<< HEAD
+=======
+  <entry>
+    <title type="html"><![CDATA[Xcode 统计项目中代码的行数]]></title>
+    <link href="http://douxinchun.github.io/blog/20150901/cloc.html"/>
+    <updated>2015-09-01T10:09:12+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20150901/cloc</id>
+    <content type="html"><![CDATA[<h3>方法一:</h3>
+
+<p>终端命令进入项目目录下，命令如下<br/>
+<code>
+find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l  
+</code><br/>
+列出每个文件的行数<br/>
+<code>
+find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs grep -v "^$"|wc -l  
+</code>
+列出代码行数总和</p>
+
+<pre><code>grep -v "^$"是去掉空行
+</code></pre>
+
+<p>注释也统计在代码量之内</p>
+
+<h3>方法二:</h3>
+
+<p>使用CLOC,项目说明地址:<a href="http://cloc.sourceforge.net/">http://cloc.sourceforge.net/</a><br/>
+  1.64 Perl脚本下载地址,<a href="https://github.com/douxinchun/CLOC">https://github.com/douxinchun/CLOC</a></p>
+
+<p>使用方法:<br/>
+perl cloc-1.64.pl ./YourProjectName</p>
+
+<p>result:</p>
+
+<pre><code>     200 files
+     744 text files.
+     630 unique files.                                          
+     315 files ignored.
+
+http://cloc.sourceforge.net v 1.64  T=2.56 s (199.8 files/s, 22014.2 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+Objective C                    242           6916           4208          28460
+C/C++ Header                   265           3605           8066           4870
+JSON                             3              0              0            107
+Bourne Shell                     1              5              0             65
+-------------------------------------------------------------------------------
+SUM:                           511          10526          12274          33502
+-------------------------------------------------------------------------------
+</code></pre>
+]]></content>
+  </entry>
+  
+>>>>>>> 8656955adb0d78fabfe11ff01ff7df1f8aedc286
 </feed>
