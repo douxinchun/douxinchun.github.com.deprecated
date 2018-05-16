@@ -4,7 +4,7 @@
   <title><![CDATA[分类：provisioning Profile | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/provisioning-profile/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-05-06T13:19:47+08:00</updated>
+  <updated>2018-05-16T11:53:36+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -23,8 +23,6 @@
 <h3>Provision Profile 文件在Mac OS中的默认存放位置:</h3>
 
 <blockquote><p>~/Library/MobileDevice/Provisioning Profiles</p></blockquote>
-
-<h2>Test clear cache</h2>
 
 <h3>1.通过GUI的工具查看:</h3>
 

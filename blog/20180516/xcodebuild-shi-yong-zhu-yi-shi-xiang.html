@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>分类：冰与火之歌 - 冷雨之家</title>
+  <title>Xcodebuild 使用注意事项 - 冷雨之家</title>
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="Category: 冰与火之歌">
+  <meta name="description" content="1.xcodebuild cocoapod CONFIGURATION_BUILD_DIR 现象 xcodebuild命令用法示例1
+xcodebuild -sdk iphoneos -configuration ${BUILD_CONFIGURATION} -derivedDataPath=& &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://douxinchun.github.io/blog/categories/bing-yu-huo-zhi-ge/index.html">
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
@@ -82,36 +83,134 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">分类：冰与火之歌</h1>
+    
+      <h1 class="entry-title">Xcodebuild 使用注意事项</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-05-16T11:17:34+08:00'><span class='date'>2018 年5 月16 日</span> <span class='time'>11:17 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><h2>1.xcodebuild cocoapod CONFIGURATION_BUILD_DIR</h2>
 
-  
-  <h2>2015</h2>
+<h3>现象</h3>
 
-<article>
-  
-<h1><a href="/blog/20150612/night-watcher-swear.html">冰与火之歌 守夜人誓言</a></h1>
-<time datetime="2015-06-12T15:10:52+08:00" pubdate><span class='month'>Jun</span> <span class='day'>12</span> <span class='year'>2015</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌</a></span>
-</footer>
+<figure class='code'><figcaption><span>xcodebuild命令用法示例</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>xcodebuild -sdk iphoneos -configuration <span class="k">${</span><span class="nv">BUILD_CONFIGURATION</span><span class="k">}</span> -derivedDataPath<span class="o">=</span><span class="s2">&quot;../build&quot;</span> -workspace <span class="s1">&#39;../SohuInk.xcworkspace&#39;</span> -scheme <span class="s1">&#39;SohuInk_Jenkins&#39;</span> -archivePath <span class="s2">&quot;../SohuInk_Jenkins.xcarchive&quot;</span> archive
+</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>如果项目中使用了cocoapod并且xcodebuild 命令参数中指定了CONFIGURATION_BUILD_DIR并且值为相对路径,此时在Xcode Tools Version 5.0下的xcodebuild构建会报如下错误:</p>
 
+<figure class='code'><figcaption><span>error_info</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ld: warning: directory not found <span class="k">for</span> option <span class="s1">&#39;-L/XXXX/XXXX/pop&#39;</span>
+</span><span class='line'>ld: library not found <span class="k">for</span> -lAFNetworking
+</span><span class='line'>clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>** ARCHIVE FAILED **
+</span><span class='line'>
+</span><span class='line'>The following build commands failed:
+</span><span class='line'>  Ld /Users/XXXX/XXXX/Objects-normal/arm64/SohuInk normal arm64
+</span><span class='line'>  Ld /Users/XXXX/XXXX normal armv7
+</span><span class='line'><span class="o">(</span><span class="m">2</span> failures<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>解决方案</h3>
+
+<h4>方案1,不好用</h4>
+
+<p>Xcode Tools version 5.0 支持参数 derivedDataPath 可以放弃CONFIGURATION_BUILD_DIR配置指定该参数,我实际操作是发现使用相对路径的情况下,虽然可以archive success,但是build的目录没有改变,依然在xcode默认的derivedData目录下.</p>
+
+<h4>方案2,OK</h4>
+
+<p>CONFIGURATION_BUILD_DIR的值指定为绝对路径,一切OK,可成功archive.</p>
+
+<h3>结论</h3>
+
+<blockquote><p>xcodebuild中的CONFIGURATION_BUILD_DIR值需要使用绝对路径</p></blockquote>
+
+<h2>参考链接</h2>
+
+<p><a href="https://stackoverflow.com/questions/11965040/xcodebuilding-a-workspace-and-setting-a-custom-build-path/12259098#12259098">Stackoverflow上关于使用xcodebuild CONFIGURATION_BUILD_DIR最好使用绝对路径的说明 @Chilloutman</a><br/>
+<a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html">https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html</a></p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Spring</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2018-05-16T11:17:34+08:00'><span class='date'>2018 年5 月16 日</span> <span class='time'>11:17 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/xcode/'>xcode</a>, <a class='category' href='/blog/categories/xcodebuild/'>xcodebuild</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/20180501/mac-terminal-shortcut-keys.html" title="Previous Post: Mac Terminal 快捷键记录">&laquo; Mac Terminal 快捷键记录</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 <!--
 
@@ -206,7 +305,10 @@
       var disqus_shortname = 'newspringblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://douxinchun.github.io/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html';
+        var disqus_url = 'http://douxinchun.github.io/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
