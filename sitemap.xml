@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://douxinchun.github.io/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html</loc>
+<lastmod>2018-07-13T17:10:45+08:00</lastmod>
+</url>
+<url>
 <loc>http://douxinchun.github.io/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html</loc>
 <lastmod>2018-05-16T11:17:34+08:00</lastmod>
 </url>

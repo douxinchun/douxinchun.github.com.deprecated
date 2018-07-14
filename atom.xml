@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-05-16T11:53:36+08:00</updated>
+  <updated>2018-07-14T16:16:17+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[低版本Xcode调试高版本的iOS系统]]></title>
+    <link href="http://douxinchun.github.io/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html"/>
+    <updated>2018-07-13T17:10:45+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode</id>
+    <content type="html"><![CDATA[<p>在使用Xcode作为iOS开发的主IDE的情况下,遇到这种情况最好是AppStore中安装最新版本的Xcode.</p>
+
+<p>下面的方案只是一个临时debug的方案</p>
+
+<h5>1.找到不支持的iOS版本,Xcode中可以使用快捷键: Cmd+Shift+2 ,下图表示不支持的版本是 iOS 12.0 (16A5318d)</h5>
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/7/1-1.png" alt="Could not locate device support files" /></p>
+
+<h5>2.Terminal cd 到Xcode DeviceSupport 目录下</h5>
+
+<blockquote><p>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜ <span class="nb">cd</span> /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport
+</span><span class='line'>➜  DeviceSupport ls
+</span><span class='line'>10.0         10.3         11.2         8.0          8.3          9.1
+</span><span class='line'>10.1         11.0         11.3         8.1          8.4          9.2
+</span><span class='line'>10.2         11.1         11.4 <span class="o">(</span>15F79<span class="o">)</span> 8.2          9.0          9.3
+</span><span class='line'>➜  DeviceSupport
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>3.Important 去网上搜索真机支持包,可以输出关键字&#8221;xcode 12.0 (16A5318d) 真机支持包&#8221;,一般情况下百度网盘中都会有,下载下来,copy到2的目录下,然后重启Xcode,搞定</h5>
+
+<h5>4.不下载真机支持包的方案</h5>
+
+<p>直接拷贝一个DeviceSupport现有的支持版本,重命名为 12.0 (16A5318d), 重启Xcode后搞定.<br/>
+注意这里需要用到root权限,命令前加sudo即可.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  DeviceSupport sudo cp -rf 11.4<span class="se">\ \(</span>15F79<span class="se">\)</span> 12.0<span class="se">\ \(</span>16A5318d<span class="se">\)</span>
+</span><span class='line'>Password:
+</span><span class='line'>➜  DeviceSupport ls
+</span><span class='line'>10.0            11.0            11.4 <span class="o">(</span>15F79<span class="o">)</span>    8.2             9.1
+</span><span class='line'>10.1            11.1            12.0 <span class="o">(</span>16A5318d<span class="o">)</span> 8.3             9.2
+</span><span class='line'>10.2            11.2            8.0             8.4             9.3
+</span><span class='line'>10.3            11.3            8.1             9.0             xinchun
+</span><span class='line'>➜  DeviceSupport
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/7/1-2.png" alt="success screenshot" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Xcodebuild 使用注意事项]]></title>
@@ -677,7 +739,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x72;&#x6f;&#111;&#116;&#x40;&#x31;&#x30;&#46;&#50;&#x2e;&#57;&#56;&#46;&#56;&#55;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#x31;&#48;&#46;&#50;&#x2e;&#57;&#x38;&#46;&#x38;&#x37;</a><br/>
+$ ssh <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x72;&#111;&#x6f;&#116;&#x40;&#x31;&#x30;&#x2e;&#50;&#x2e;&#x39;&#x38;&#x2e;&#56;&#x37;">&#114;&#x6f;&#111;&#x74;&#x40;&#49;&#48;&#46;&#x32;&#x2e;&#x39;&#56;&#x2e;&#x38;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -1893,29 +1955,6 @@ SwitchyOmega在Goagent的安装包local目录下自带,并且带有备份文件<
 </span><span class='line'>$ cd ./_deploy  #进入_deploy目录
 </span><span class='line'>$ git pull origin master  # 更新本地master branch和远程库的 master保持同步</span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[冰与火之歌 守夜人誓言]]></title>
-    <link href="http://douxinchun.github.io/blog/20150612/night-watcher-swear.html"/>
-    <updated>2015-06-12T15:10:52+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150612/night-watcher-swear</id>
-    <content type="html"><![CDATA[<p>最近重温了一遍Game of Throne , 感觉守夜人的誓词太霸气了。翻译的也是信达雅.</p>
-
-<p>Night watcher swear(
-&ldquo;Night gathers, and now my watch begins. It shall not end until my death. I shall take no wife, hold no lands, father no children. I shall wear no crowns and win no glory. I shall live and die at my post. I am the sword in the darkness. I am the watcher on the walls. I am the fire that burns against the cold, the light that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men. I pledge my life and honor to the Night&rsquo;s Watch, for this night and all the nights to come.&rdquo;)</p>
-
-<p>　守夜人誓言：「长夜将至，我从今开始守望，至死方休。我将不娶妻、不封地、不生子。我将不戴宝冠，不争荣宠。我将尽忠职守，生死於斯。我是黑暗中的利剑，长城上的守卫。我是抵御寒冷的烈焰，破晓时分的光线，唤醒眠者的号角，守护王国的坚盾。我将生命与荣耀献给守夜人，今夜如此，夜夜皆然。」<br/>
-　<br/>
-　<br/>
-　
-繁体版: <br/>
-　　永夜终至，吾辈铭记，巍巍大任，死亦无终。 <br/>
-　　无享妻爱，不履寸土，决绝子嗣，身归兄弟。 <br/>
-　　何言无冕，兄弟所望，何争俗荣，袍泽同心，尽忠职守，生死于斯，心念所归，无惧无退.<br/>
-　　铸兵利剑，暗夜无当；凝聚础石，长城屹立；腾焰熊熊，炽烈华光；耀耀破晓，璨以晨光；鸣无尽之号角，警外患之袭扰；锻坚钢之神盾，固王国之永宁.<br/>
-　　于今挺身，奉以生命，以夜为始，死亦无终。</p>
 ]]></content>
   </entry>
   

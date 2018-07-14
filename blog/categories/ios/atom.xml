@@ -4,7 +4,7 @@
   <title><![CDATA[分类：ios | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-05-16T11:53:36+08:00</updated>
+  <updated>2018-07-14T16:16:17+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -12,6 +12,52 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[低版本Xcode调试高版本的iOS系统]]></title>
+    <link href="http://douxinchun.github.io/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html"/>
+    <updated>2018-07-13T17:10:45+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode</id>
+    <content type="html"><![CDATA[<p>在使用Xcode作为iOS开发的主IDE的情况下,遇到这种情况最好是AppStore中安装最新版本的Xcode.</p>
+
+<p>下面的方案只是一个临时debug的方案</p>
+
+<h5>1.找到不支持的iOS版本,Xcode中可以使用快捷键: Cmd+Shift+2 ,下图表示不支持的版本是 iOS 12.0 (16A5318d)</h5>
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/7/1-1.png" alt="Could not locate device support files" /></p>
+
+<h5>2.Terminal cd 到Xcode DeviceSupport 目录下</h5>
+
+<blockquote><p>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport</p></blockquote>
+
+<pre><code class="bash">➜ cd /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport
+➜  DeviceSupport ls
+10.0         10.3         11.2         8.0          8.3          9.1         
+10.1         11.0         11.3         8.1          8.4          9.2
+10.2         11.1         11.4 (15F79) 8.2          9.0          9.3
+➜  DeviceSupport 
+</code></pre>
+
+<h5>3.Important 去网上搜索真机支持包,可以输出关键字&#8221;xcode 12.0 (16A5318d) 真机支持包&#8221;,一般情况下百度网盘中都会有,下载下来,copy到2的目录下,然后重启Xcode,搞定</h5>
+
+<h5>4.不下载真机支持包的方案</h5>
+
+<p>直接拷贝一个DeviceSupport现有的支持版本,重命名为 12.0 (16A5318d), 重启Xcode后搞定.<br/>
+注意这里需要用到root权限,命令前加sudo即可.</p>
+
+<pre><code class="bash  ">➜  DeviceSupport sudo cp -rf 11.4\ \(15F79\) 12.0\ \(16A5318d\) 
+Password:
+➜  DeviceSupport ls
+10.0            11.0            11.4 (15F79)    8.2             9.1
+10.1            11.1            12.0 (16A5318d) 8.3             9.2
+10.2            11.2            8.0             8.4             9.3
+10.3            11.3            8.1             9.0             xinchun
+➜  DeviceSupport 
+</code></pre>
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/7/1-2.png" alt="success screenshot" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[获取mobileprovision文件的UUID]]></title>
@@ -101,7 +147,7 @@ UUID is:
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#114;&#x6f;&#x6f;&#116;&#x40;&#x31;&#48;&#x2e;&#50;&#x2e;&#x39;&#x38;&#x2e;&#56;&#55;">&#114;&#x6f;&#x6f;&#x74;&#x40;&#49;&#48;&#46;&#50;&#x2e;&#x39;&#x38;&#x2e;&#56;&#55;</a><br/>
+$ ssh <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#x72;&#111;&#111;&#116;&#64;&#x31;&#x30;&#x2e;&#50;&#46;&#x39;&#x38;&#x2e;&#56;&#x37;">&#114;&#x6f;&#x6f;&#x74;&#64;&#x31;&#x30;&#x2e;&#50;&#46;&#x39;&#56;&#x2e;&#56;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -416,49 +462,6 @@ threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
 <h2>参考文章</h2>
 
 <p><a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS SDK中的私有API]]></title>
-    <link href="http://douxinchun.github.io/blog/20151009/private-api-in-ios.html"/>
-    <updated>2015-10-09T14:37:39+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20151009/private-api-in-ios</id>
-    <content type="html"><![CDATA[<p>由于是私有API,再键入的时候不会有提示,注意在提交AppStore之前需要全部删除.</p>
-
-<p>1.查看View的层次结构</p>
-
-<blockquote><p>recursiveDescription</p></blockquote>
-
-<p>eg:查看UISearchBar的View层级,找到Cancel-Button的位置并修改该按钮的样式</p>
-
-<pre><code class="objc">    UISearchBar *searchBarView  = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 375, 44)];
-    searchBarView.showsCancelButton = YES;
-    //私有API,直接发消息给searchBarView的吧,编译器是不会过的,不信你试试看~~
-    NSLog(@"%@",[searchBarView performSelector:@selector(recursiveDescription)]);
-</code></pre>
-
-<p>打印结果如下:</p>
-
-<pre><code>2015-10-09 15:12:20.568 findAward[5625:756750] &lt;UISearchBar: 0x144574710; frame = (0 0; 375 44); text = ''; gestureRecognizers = &lt;NSArray: 0x174247b90&gt;; layer = &lt;CALayer: 0x174430040&gt;&gt;
-   | &lt;UIView: 0x17418d750; frame = (0 0; 375 44); clipsToBounds = YES; autoresize = W+H; layer = &lt;CALayer: 0x17442ff80&gt;&gt;
-   |    | &lt;UISearchBarBackground: 0x1445a4240; frame = (0 0; 375 44); opaque = NO; userInteractionEnabled = NO; layer = &lt;CALayer: 0x174431200&gt;&gt;
-   |    | &lt;UINavigationButton: 0x14452b250; frame = (0 0; 34 30); opaque = NO; layer = &lt;CALayer: 0x17442e4c0&gt;&gt;
-   |    | &lt;UISearchBarTextField: 0x144645db0; frame = (0 0; 0 0); text = ''; clipsToBounds = YES; opaque = NO; layer = &lt;CALayer: 0x1702213a0&gt;&gt;
-   |    |    | &lt;_UISearchBarSearchFieldBackgroundView: 0x1445732c0; frame = (0 0; 0 0); opaque = NO; autoresize = W+H; userInteractionEnabled = NO; layer = &lt;CALayer: 0x17442fac0&gt;&gt;  
-</code></pre>
-
-<p>根据打印的结果,我们可以看出,UISearchBar的二级subview里有一个,<code>UINavigationButton</code>随便猜猜,这个也是<code>UIButton</code>的子类了.故要获得它并修改他的样式的code如下:<br/>
-<code>objc  
- for (UIView *view in [[searchBarView.subviews lastObject] subviews]) {
-                if ([view isKindOfClass:[UIButton class]]) {
-                    UIButton *cancelBtn = (UIButton *)view;
-                    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
-                    [cancelBtn setTitleColor:COLOR_EA4426 forState:UIControlStateNormal];
-                    [cancelBtn setTitleColor:COLOR_EA4426 forState:UIControlStateHighlighted];
-                }
-            }
-</code></p>
 ]]></content>
   </entry>
   

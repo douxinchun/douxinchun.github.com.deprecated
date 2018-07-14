@@ -9,8 +9,7 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="1.xcodebuild cocoapod CONFIGURATION_BUILD_DIR 现象 xcodebuild命令用法示例1
-xcodebuild -sdk iphoneos -configuration ${BUILD_CONFIGURATION} -derivedDataPath=& &hellip;">
+  <meta name="description" content="在使用Xcode作为iOS开发的主IDE的情况下,遇到这种情况最好是AppStore中安装最新版本的Xcode. 下面的方案只是一个临时debug的方案 1.找到不支持的iOS版本,Xcode中可以使用快捷键: Cmd+Shift+2 ,下图表示不支持的版本是 iOS 12.0 (16A5318d &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -84,6 +83,94 @@ xcodebuild -sdk iphoneos -configuration ${BUILD_CONFIGURATION} -derivedDataPath=
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html">低版本Xcode调试高版本的iOS系统</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-07-13T17:10:45+08:00'><span class='date'>2018 年7 月13 日</span> <span class='time'>5:10 pm</span></time>
+        
+           | <a href="/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在使用Xcode作为iOS开发的主IDE的情况下,遇到这种情况最好是AppStore中安装最新版本的Xcode.</p>
+
+<p>下面的方案只是一个临时debug的方案</p>
+
+<h5>1.找到不支持的iOS版本,Xcode中可以使用快捷键: Cmd+Shift+2 ,下图表示不支持的版本是 iOS 12.0 (16A5318d)</h5>
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/7/1-1.png" alt="Could not locate device support files" /></p>
+
+<h5>2.Terminal cd 到Xcode DeviceSupport 目录下</h5>
+
+<blockquote><p>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜ <span class="nb">cd</span> /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport
+</span><span class='line'>➜  DeviceSupport ls
+</span><span class='line'>10.0         10.3         11.2         8.0          8.3          9.1
+</span><span class='line'>10.1         11.0         11.3         8.1          8.4          9.2
+</span><span class='line'>10.2         11.1         11.4 <span class="o">(</span>15F79<span class="o">)</span> 8.2          9.0          9.3
+</span><span class='line'>➜  DeviceSupport
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>3.Important 去网上搜索真机支持包,可以输出关键字&#8221;xcode 12.0 (16A5318d) 真机支持包&#8221;,一般情况下百度网盘中都会有,下载下来,copy到2的目录下,然后重启Xcode,搞定</h5>
+
+<h5>4.不下载真机支持包的方案</h5>
+
+<p>直接拷贝一个DeviceSupport现有的支持版本,重命名为 12.0 (16A5318d), 重启Xcode后搞定.<br/>
+注意这里需要用到root权限,命令前加sudo即可.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  DeviceSupport sudo cp -rf 11.4<span class="se">\ \(</span>15F79<span class="se">\)</span> 12.0<span class="se">\ \(</span>16A5318d<span class="se">\)</span>
+</span><span class='line'>Password:
+</span><span class='line'>➜  DeviceSupport ls
+</span><span class='line'>10.0            11.0            11.4 <span class="o">(</span>15F79<span class="o">)</span>    8.2             9.1
+</span><span class='line'>10.1            11.1            12.0 <span class="o">(</span>16A5318d<span class="o">)</span> 8.3             9.2
+</span><span class='line'>10.2            11.2            8.0             8.4             9.3
+</span><span class='line'>10.3            11.3            8.1             9.0             xinchun
+</span><span class='line'>➜  DeviceSupport
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/7/1-2.png" alt="success screenshot" /></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -927,7 +1014,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x72;&#x6f;&#111;&#116;&#x40;&#x31;&#x30;&#46;&#50;&#x2e;&#57;&#56;&#46;&#56;&#55;">&#x72;&#x6f;&#x6f;&#116;&#x40;&#x31;&#48;&#46;&#50;&#x2e;&#57;&#x38;&#46;&#x38;&#x37;</a><br/>
+$ ssh <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x72;&#111;&#x6f;&#116;&#x40;&#x31;&#x30;&#x2e;&#50;&#x2e;&#x39;&#x38;&#x2e;&#56;&#x37;">&#114;&#x6f;&#111;&#x74;&#x40;&#49;&#48;&#46;&#x32;&#x2e;&#x39;&#56;&#x2e;&#x38;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -1075,252 +1162,6 @@ $ openssl pkcs12 -nocerts -out key.pem -in key.p12
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2016-07-28T14:42:39+08:00'><span class='date'>2016 年7 月28 日</span> <span class='time'>2:42 pm</span></time>
-        
-           | <a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本文是基于:<a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a> 的改动.</p>
-
-<p>Xcode是一款非常优秀的IDE,但是在日志打印上貌似没有那么多高级的特性，比如分级打印，显示颜色。本博客就介绍下两个开源组件结合使用达到如下效果：
-<img src="/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
-
-<h2>1.CocoaLumberjack</h2>
-
-<h3>1.1基本介绍</h3>
-
-<p>CocoaLumberjack是一个开源工程，为Xcode提供分级打印的策略，源码地址:<a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a></p>
-
-<p>CocoaLumberjack包含几个对象分别可以把Log输出到不同的地方:</p>
-
-<ul>
-<li>DDASLLogger 输出到Console.app</li>
-<li>DDTTYLogger 输出到Xcode控制台</li>
-<li>DDLogFileManager 输出到文件</li>
-<li>DDAbstractDatabaseLogger 输出到DB</li>
-</ul>
-
-
-<p>通过ddLogLevel的int型变量或常量来定义打印等级</p>
-
-<ul>
-<li>LOG_LEVEL_OFF 关闭Log</li>
-<li>LOG_LEVEL_ERROR 只打印Error级别的Log</li>
-<li>LOG_LEVEL_WARN 打印Error和Warning级别的Log</li>
-<li>LOG_LEVEL_INFO 打印Error、Warn、Info级别的Log</li>
-<li>LOG_LEVEL_DEBUG 打印Error、Warn、Info、Debug级别的Log</li>
-<li>LOG_LEVEL_VERBOSE 打印Error、Warn、Info、Debug、Verbose级别的Log</li>
-</ul>
-
-
-<p>使用不同的宏打印不同级别的Log</p>
-
-<ul>
-<li>DDLogError(frmt, …) 打印Error级别的Log</li>
-<li>DDLogWarn(frmt, …) 打印Warn级别的Log</li>
-<li>DDLogInfo(frmt, …) 打印Info级别的Log</li>
-<li>DDLogDebug(frmt, …) 打印Debug级别的Log</li>
-<li>DDLogVerbose(frmt, …) 打印Verbose级别的Log</li>
-</ul>
-
-
-<p>如果,现在想往已有的工程中引入CocoaLumberjack,可以使用下面的宏定义,</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#define NSLog(...) DDLogInfo(__VA_ARGS__)</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>1.2设置LogFormatter</h3>
-
-<p>我们可以定制自己的Log的方式。通过创建一个类实现DDLogFormatter协议的方法<code>- (NSString *)formatLogMessage:(DDLogMessage *)logMessage;</code>,如下创建一个LogFormatter类，并实现如下方法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>...
-</span><span class='line'>NSDateFormatter *threadUnsafeDateFormatter;
-</span><span class='line'>threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
-</span><span class='line'>        [threadUnsafeDateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss:SSS"];
-</span><span class='line'>...  
-</span><span class='line'>    
-</span><span class='line'>-(NSString *)formatLogMessage:(DDLogMessage *)logMessage{
-</span><span class='line'>    
-</span><span class='line'>    NSString *levelStr = nil;
-</span><span class='line'>    NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage-&gt;_timestamp)];
-</span><span class='line'>    
-</span><span class='line'>    switch (logMessage.flag) {
-</span><span class='line'>        case DDLogFlagError:
-</span><span class='line'>        {
-</span><span class='line'>            levelStr=@"[ERROR]";
-</span><span class='line'>            break;
-</span><span class='line'>        }
-</span><span class='line'>        case DDLogFlagWarning:{
-</span><span class='line'>            levelStr=@"[WARN ]";
-</span><span class='line'>            break;
-</span><span class='line'>        }
-</span><span class='line'>        case DDLogFlagDebug:{
-</span><span class='line'>            levelStr=@"[DEBUG]";
-</span><span class='line'>            break;
-</span><span class='line'>        }
-</span><span class='line'>        case DDLogFlagInfo:
-</span><span class='line'>        {
-</span><span class='line'>            levelStr=@"[INFO ]";
-</span><span class='line'>            break;
-</span><span class='line'>        }
-</span><span class='line'>        default:
-</span><span class='line'>            levelStr=@"[VBOSE]";
-</span><span class='line'>            break;
-</span><span class='line'>    }
-</span><span class='line'>    
-</span><span class='line'>    return [NSString stringWithFormat:@"%@ %@ &gt; %@ [line %d] %@",levelStr,dateAndTime,logMessage.function,logMessage.line,logMessage.message];
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面的例子中我们定制了Log能打印自己的等级、类和方法、代码行数。</p>
-
-<h3>1.3初始化</h3>
-
-<p>CocoaLumberjack的引擎需要我们自己来启动。下面的示例代码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> DDFileLogger *filelogger = [[DDFileLogger alloc] init];
-</span><span class='line'>    filelogger.rollingFrequency = 60*60*24;//1h滚动一次
-</span><span class='line'>    filelogger.logFileManager.maximumNumberOfLogFiles = 24;//最大文件数量24个
-</span><span class='line'>    
-</span><span class='line'>    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
-</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blackColor] backgroundColor:nil forFlag:DDLogFlagVerbose];
-</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blueColor] backgroundColor:nil forFlag:DDLogFlagDebug];
-</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor purpleColor] backgroundColor:nil forFlag:DDLogFlagInfo];
-</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];
-</span><span class='line'>
-</span><span class='line'>    [DDLog addLogger:[DDTTYLogger sharedInstance]];//写入xCode控制台
-</span><span class='line'>    [DDLog addLogger:[DDASLLogger sharedInstance]];//写入到苹果的日志
-</span><span class='line'>    [DDLog addLogger:filelogger];//写入到文件系统 Cache/Library/Log
-</span><span class='line'>    filelogger.logFormatter = [[SHDDLogFormatter alloc] init];
-</span><span class='line'>    [DDTTYLogger sharedInstance].logFormatter = [[SHDDLogFormatter alloc] init];
-</span><span class='line'>    
-</span><span class='line'>    DDLogError(@"DDLogError 中文错误");      // red
-</span><span class='line'>    DDLogWarn(@"DDLogWarn 中文警告");        // orange
-</span><span class='line'>    DDLogDebug(@"DDLogDebug 中文调试");      // blue
-</span><span class='line'>    DDLogInfo(@"DDLogInfo 中文信息");        // purple
-</span><span class='line'>    DDLogVerbose(@"DDLogVerbose 中文详细");  // black
-</span><span class='line'>    </span></code></pre></td></tr></table></div></figure>
-
-
-<h2>2.XcodeColors</h2>
-
-<h3>2.1安装</h3>
-
-<p>XcodeColors是一个Xcode插件，源码地址：<a href="https://github.com/robbiehanson/XcodeColors">XcodeColors</a>; 代码下下来后打开工程run一次，插件就自动安装到了~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/XcodeColors.xcplugin路径下.<br/>
-安装完成重启Xcode<br/>
-也可以通过Alcatraz来安装,具体的参见<a href="/blog/20150401/xcode-plugin-collection.html">Xcode常用插件集合</a></p>
-
-<h3>2.2配置scheme</h3>
-
-<p>在Scheme中配置Environment Variables, 添加参数XcodeColors为YES.如下图
-<img src="/blog_reference_image/2016/7/XcodeColors_scheme.png"></p>
-
-<h3>2.3为DDLog打开颜色</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[DDTTYLogger sharedInstance] setColorsEnabled:YES];</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2.4为特定的Log级别设定颜色</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>完成以上步骤就可以看到控制台的不同颜色的打印了。。</p>
-
-<h2>参考文章</h2>
-
-<p><a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1342,6 +1183,10 @@ $ openssl pkcs12 -nocerts -out key.pem -in key.p12
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html">低版本Xcode调试高版本的iOS系统</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html">Xcodebuild 使用注意事项</a>
       </li>
     
@@ -1357,10 +1202,6 @@ $ openssl pkcs12 -nocerts -out key.pem -in key.p12
         <a href="/blog/20171202/get-mobileprovison-uuid.html">获取mobileprovision文件的UUID</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -1373,7 +1214,7 @@ $ openssl pkcs12 -nocerts -out key.pem -in key.p12
     <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>ios (8)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (9)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
@@ -1385,7 +1226,7 @@ $ openssl pkcs12 -nocerts -out key.pem -in key.p12
 <li class='category'><a href='/blog/categories/provisioning-profile/'>provisioning profile (1)</a></li>
 <li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
 <li class='category'><a href='/blog/categories/terminal/'>terminal (1)</a></li>
-<li class='category'><a href='/blog/categories/xcode/'>xcode (5)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (6)</a></li>
 <li class='category'><a href='/blog/categories/xcodebuild/'>xcodebuild (1)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 
