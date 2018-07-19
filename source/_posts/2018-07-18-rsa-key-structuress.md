@@ -59,17 +59,19 @@ PEM全称是Privacy Enhanced     ，该标准定义了加密一个准备要发�
 
     在这些信息的后面加上如下形式尾标注信息：     
 
-   -----END PRIVACY-ENHANCED MESSAGE-----     上面是openssl的PEM文件的基本结构，需要注意的是，Openssl并没有实现PEM的全 部标准，它只是对openssl中需要使用的一些选项做了实现，详细的PEM格式，请参考RF C1421－1424。     
+   -----END PRIVACY-ENHANCED MESSAGE-----     
+
+上面是openssl的PEM文件的基本结构，需要注意的是，Openssl并没有实现PEM的全 部标准，它只是对openssl中需要使用的一些选项做了实现，详细的PEM格式，请参考RF C1421－1424。     
 
    下面是一个PEM编码的经过加密的DSA私钥的例子：    
 
-   ```` 
+``` 
 -----BEGIN DSA PRIVATE KEY-----     
 Proc-Type: 4,ENCRYPTED     
 DEK-Info: DES-EDE3-CBC,F80EEEBEEA7386C4     
 BASE64 ENCODED DATA
 -----END DSA PRIVATE KEY-----   
-   ````
+```
 
    
 
