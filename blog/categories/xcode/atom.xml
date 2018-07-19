@@ -4,7 +4,7 @@
   <title><![CDATA[分类：xcode | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-07-14T16:16:17+08:00</updated>
+  <updated>2018-07-19T09:42:10+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -193,7 +193,7 @@ UUID is:
     <content type="html"><![CDATA[<p>本文是基于:<a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a> 的改动.</p>
 
 <p>Xcode是一款非常优秀的IDE,但是在日志打印上貌似没有那么多高级的特性，比如分级打印，显示颜色。本博客就介绍下两个开源组件结合使用达到如下效果：
-<img src="/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
+{% img /blog_reference_image/2016/7/xcode_console_colorful_logs.png %}</p>
 
 <h2>1.CocoaLumberjack</h2>
 
@@ -322,7 +322,7 @@ threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
 <h3>2.2配置scheme</h3>
 
 <p>在Scheme中配置Environment Variables, 添加参数XcodeColors为YES.如下图
-<img src="/blog_reference_image/2016/7/XcodeColors_scheme.png"></p>
+{% img /blog_reference_image/2016/7/XcodeColors_scheme.png %}</p>
 
 <h3>2.3为DDLog打开颜色</h3>
 
@@ -353,14 +353,14 @@ threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
 <h3>1.查看某个变量的值</h3>
 
 <p> <em>print</em><br/>
- <img class="<a" src="href="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png">http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png</a>&#8221;><br/>
+ {% img <a href="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png">http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png</a> %}<br/>
  LLDB会做前缀匹配,一把简写为p,<br/>
  使用po可以查看NSObject的description</p>
 
 <h3>2.改变某个变量的值</h3>
 
 <p><em>expression</em><br/>
-<img class="<a" src="href="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png">http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png</a>&#8221;><br/>
+{% img <a href="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png">http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png</a> %}<br/>
 简写为expr或者是e(还能再懒一点吗~~)</p>
 ]]></content>
   </entry>

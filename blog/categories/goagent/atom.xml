@@ -4,7 +4,7 @@
   <title><![CDATA[分类：goagent | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/goagent/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-07-14T16:16:17+08:00</updated>
+  <updated>2018-07-19T09:42:10+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -48,8 +48,8 @@
 <li><p>在会员中心面板上 点击 我的信件 标签 然后打开<strong>New Account Information</strong>
 里面有系统生成的 Domain Username Password
 注意如果连续7天没有访问流量 则此空间会被删除<br/>
-<img src="/blog_reference_image/2015/7/ecvps_my_letter.png"><br/>
-<img src="/blog_reference_image/2015/7/ecvps_newaccount.png"></p></li>
+{%img /blog_reference_image/2015/7/ecvps_my_letter.png %}<br/>
+{%img /blog_reference_image/2015/7/ecvps_newaccount.png %}</p></li>
 <li><p>下载安装FileZilla 或者其他的FTP软件
 打开FileZilla 填写远程主机的一些信息 全部根据<strong>New Account Information</strong>来</p>
 
@@ -65,16 +65,15 @@ username<br/>
 
 
 <p>如果FTP连接不上的,可以使用EcVps Control中自带的FileManager功能<br/>
-<img src="/blog_reference_image/2015/7/ecvps_control.png"></p>
+{%img /blog_reference_image/2015/7/ecvps_control.png %}</p>
 
 <p>打开goagent/local/proxy.ini文件 对于其中的[php]部分
 改动两行就可以了 分别是
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[php]
-</span><span class='line'>enable = 1
-</span><span class='line'>fetchserver = &lt;a href="http://username.ecvps.net/index.php">http://username.ecvps.net/index.php&lt;/a></span></code></pre></td></tr></table></div></figure>
+{%codeblock%}
+[php]
+enable = 1
+fetchserver = <a href="http://username.ecvps.net/index.php">http://username.ecvps.net/index.php</a>
+{% endcodeblock %}
 密码用可以用默认的
 也可以不用 则要统一修改goagent/server/php路径下所有文件内设定的默认密码
 网上一些文章用的是fetch.php 但注意新版goagent 3.2.3用的是index.php
@@ -85,11 +84,12 @@ username<br/>
 <h2>启动</h2>
 
 <p>用Terminal cd到goagent的local目录:
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ python proxy.py</span></code></pre></td></tr></table></div></figure></p>
+{%codeblock%}
+$ python proxy.py
+{% endcodeblock %}</p>
 
 <p>然后就没有然后,<br/>
-<img src="/blog_reference_image/2015/7/ecvps_google.png"></p>
+{%img /blog_reference_image/2015/7/ecvps_google.png%}</p>
 
 <h2>开机启动</h2>
 
