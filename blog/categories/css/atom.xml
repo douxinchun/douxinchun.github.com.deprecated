@@ -4,7 +4,7 @@
   <title><![CDATA[分类：css | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/css/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-07-19T09:46:48+08:00</updated>
+  <updated>2018-07-19T09:48:11+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -20,55 +20,78 @@
     <id>http://douxinchun.github.io/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa</id>
     <content type="html"><![CDATA[<p>留存备忘<br/>
 假如有一段HTML代码如下：
-{% codeblock %}
-<html>
-<head>
-<title>Hi</title>
-</head>
-<body>
-  <div id="myid" class="myclass"></div>
-</body>
-</html>
-{% endcodeblock %}</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
+</span><span class='line'>&lt;head>
+</span><span class='line'>&lt;title>Hi&lt;/title>
+</span><span class='line'>&lt;/head>
+</span><span class='line'>&lt;body>
+</span><span class='line'>  &lt;div id="myid" class="myclass">&lt;/div>
+</span><span class='line'>&lt;/body>
+</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure></p>
 
 <p>在HTML代码中嵌入CSS有一下三种方法：</p>
 
 <p>1.外链式CSS。编写一个.css文件并且命名为style.css,内容如下：
-{% codeblock %}
-    #myid{
-     padding:5px;
-    }
-{% endcodeblock %}<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#myid{
+</span><span class='line'>     padding:5px;
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure><br/>
 然后在HTML代码的&lt;head>标签对,&lt;title>下面改成这样:
-{% codeblock %}
-   <head>
-   <title>HI</title>
-   <link rel="stylesheet" type="text/css" href="style.css">
-   </head>
-{% endcodeblock %}<br/>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
+</span><span class='line'>   &lt;title>HI&lt;/title>
+</span><span class='line'>   &lt;link rel="stylesheet" type="text/css" href="style.css">
+</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure><br/>
 这样就OK了</p>
 
 <p>2.内嵌式CSS。直接在&lt;title>标签加成这样：
-{% codeblock %}
-   <head>
-   <title>HI</title>
-   <style type="text/css">
-   <!--
-    #myid{
-     padding:5px;
-     }
-    -->
-   </style>
-   </head>
- {% endcodeblock %}</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
+</span><span class='line'>   &lt;title>HI&lt;/title>
+</span><span class='line'>   &lt;style type="text/css">
+</span><span class='line'>   &lt;!--
+</span><span class='line'>    #myid{
+</span><span class='line'>     padding:5px;
+</span><span class='line'>     }
+</span><span class='line'>    -->
+</span><span class='line'>   &lt;/style>
+</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure></p>
 
 <p>3.直接式CSS。直接为DIV添加style属性如下：
-{% codeblock %}</p>
-
-<div id="myid" class="myclass" style="padding:5px;"></div>
-
-
-<p>{% endcodeblock %}</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;div id="myid" class="myclass" style="padding:5px;">&lt;/div>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></p>
 ]]></content>
   </entry>
   

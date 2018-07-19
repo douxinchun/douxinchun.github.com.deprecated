@@ -5,11 +5,32 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>获取mobileprovision文件的UUID - 冷雨之家</title>
+  <title>Mac OS X 下生成RSA密钥对 - 冷雨之家</title>
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="Provision Profile 文件在Mac OS中的默认存放位置: ~/Library/MobileDevice/Provisioning Profiles 1.通过GUI的工具查看: iPhone配置实用工具 2.命令行工具 0xc010d/mobileprovision-read &hellip;">
+  <meta name="description" content="Mac自带OpenSSL,可以利用openssl来生成RSA密钥对 1.生成私钥,1024指密钥的长度 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+➜ test openssl genrsa -out private_key.pem &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +39,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://douxinchun.github.io/blog/20171202/get-mobileprovison-uuid.html">
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20180718/generate-rsa-key-on-mac-os-x.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
@@ -86,7 +107,7 @@
   
   <header>
     
-      <h1 class="entry-title">获取mobileprovision文件的UUID</h1>
+      <h1 class="entry-title">Mac OS X 下生成RSA密钥对</h1>
     
     
       <p class="meta">
@@ -95,7 +116,7 @@
 
 
 
-<time class='entry-date' datetime='2017-12-02T13:06:26+08:00'><span class='date'>2017 年12 月2 日</span> <span class='time'>1:06 pm</span></time>
+<time class='entry-date' datetime='2018-07-18T15:15:18+08:00'><span class='date'>2018 年7 月18 日</span> <span class='time'>3:15 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://douxinchun.github.io">Comments</a>
@@ -108,32 +129,11 @@
   </header>
 
 
-<div class="entry-content"><hr />
+<div class="entry-content"><p>Mac自带OpenSSL,可以利用openssl来生成RSA密钥对</p>
 
-<h3>Provision Profile 文件在Mac OS中的默认存放位置:</h3>
+<p>1.生成私钥,1024指密钥的长度</p>
 
-<blockquote><p>~/Library/MobileDevice/Provisioning Profiles</p></blockquote>
-
-<h3>1.通过GUI的工具查看:</h3>
-
-<p>iPhone配置实用工具</p>
-
-<h3>2.命令行工具</h3>
-
-<p><a href="https://github.com/0xc010d/mobileprovision-read">0xc010d/mobileprovision-read</a><br/>
-安装方法<br/>
-在 Terminal中键入下面的命令并回车</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl https://raw.githubusercontent.com/0xc010d/mobileprovision-read/master/main.m <span class="p">|</span> clang -framework Foundation -framework Security -o /usr/local/bin/mobileprovision-read -x objective-c -
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h4>mobileprovision-read 命令介绍</h4>
-
-<figure class='code'><figcaption><span>Terminal  </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -154,69 +154,91 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  ~ mobileprovision-read
-</span><span class='line'>mobileprovision-read -- mobileprovision files querying tool.
-</span><span class='line'>
-</span><span class='line'>USAGE
-</span><span class='line'>mobileprovision-read -f fileName <span class="o">[</span>-o option<span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'>OPTIONS
-</span><span class='line'>    <span class="nb">type</span> – prints mobileprovision profile <span class="nb">type</span> <span class="o">(</span>debug, ad-hoc, enterprise, appstore<span class="o">)</span>
-</span><span class='line'>    appid – prints application identifier
-</span><span class='line'>Will print raw provision<span class="s1">&#39;s plist if option is not specified.</span>
-</span><span class='line'><span class="s1">You can also use key path as an option.</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">EXAMPLES</span>
-</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o type</span>
-</span><span class='line'><span class="s1">    Prints profile type</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o UUID</span>
-</span><span class='line'><span class="s1">    Prints profile UUID</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o ProvisionedDevices</span>
-</span><span class='line'><span class="s1">    Prints provisioned devices UDIDs</span>
-</span><span class='line'>
-</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o Entitlements.get-task-allow</span>
-</span><span class='line'><span class="s1">    Prints 0 if profile doesn&#39;</span>t allow debugging <span class="m">1</span> otherwise
-</span><span class='line'>➜  ~
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  <span class="nb">test </span>openssl genrsa -out private_key.pem 1024
+</span><span class='line'>Generating RSA private key, <span class="m">1024</span> bit long modulus
+</span><span class='line'>.......................................................................++++++
+</span><span class='line'>.......................................................................++++++
+</span><span class='line'>e is <span class="m">65537</span> <span class="o">(</span>0x10001<span class="o">)</span>
+</span><span class='line'>➜  <span class="nb">test </span>cat private_key.pem
+</span><span class='line'>-----BEGIN RSA PRIVATE KEY-----
+</span><span class='line'>MIICXQIBAAKBgQDJrT1W3ZyBAYIMNb0XDBQTIGw4TpbrLelQ/K6Yl6abciAUAZNn
+</span><span class='line'>j5EHlFhMvpe3iHU0xPIcTM0IM9ZnMjecikHC4lBJ0JmXEsHf4j6Cf2+KRFHTaxPP
+</span><span class='line'>hqf65wiGvduTf70xOCvaPeyYVu4x69jm2rtxOeVvF1PJSrV+ZDCoDmYD3QIDAQAB
+</span><span class='line'>AoGAToUwmJ13zZJ0u6RAlrSRLFE3UUTn5XDeojV/FNIWf/cTHjbu2SdAZB8Rse+S
+</span><span class='line'>ylZKq9zyFqqgOU1VcKBQnpYFu9XFvpoP/xGC/T99MN3chBaQY4wY80FM8NEjWZbP
+</span><span class='line'>ZPTczE/HypE+J14/0i0x6jujhFiAAmcE/1ivRzRGvo6qC9ECQQDmcki4jO4VTju7
+</span><span class='line'>+WWINatj36pPn/JVUFH8Tqw98tQLg5VMPFfPNsl9L7CSqACCFvl1wiERuxfunRB0
+</span><span class='line'>9dNHb4sHAkEA4ApECRgqo+/7Smd2WTa4hSQ+aYs6J7+9e8zjgfIuYBn5ONOsuIuV
+</span><span class='line'>VntHyhSc2Xzbp1wkakCzTy/Tyw02kGCs+wJBAMFLHPpHo7AVRf9+yo48zjzgr99H
+</span><span class='line'>/yFWVN54MvtnQjtCLKmcd97kSo+Jv+bTqlFz6dy/b7OKpiFMdzBTvdtOkWMCQQC6
+</span><span class='line'>21ULUMCfopQv5kLq/ZzATw5O8PQ8Gstq6eQGiXrsZD1cjA9Oi/yt+HxTqwV2z5BT
+</span><span class='line'>8aHdjMEAlp9Kh2au3DLpAkB+koitVpjxmWyzQ/Sl4Xa843oR+qneofZZ3m9johtn
+</span><span class='line'>+7NQu3JXI1xBckxmZ4DtODtC7MUIqlOEej5OT9QVwljv
+</span><span class='line'>-----END RSA PRIVATE KEY-----
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>
-eg:<br/>
-mobileprovision-read -f &ldquo;filepath&rdquo; -o UUID  -> 打印输出mobileprovision的UUID<br/>
-mobileprovision-read -f &ldquo;provisoning-profile-file-path&rdquo; -o ProvisionedDevices  -> 列出描述文件所包含的device UUID列表</p>
+<p>2.生成公钥</p>
 
-<h3>3.自定义脚本</h3>
-
-<p>使用了苹果的security和PlistBuddy工具.<br/>
-<a href="https://github.com/douxinchun/MyBackupForMacOSX/blob/master/shell/mobilapp.sh">mobileapp.sh</a><br/>
-使用方法:<br/>
-./mobileapp.sh &ldquo;provisoning-profile-file-path&rdquo;<br/>
-注意,如果filepath中含有空格,请将filepath加上双引号.</p>
-
-<p>eg:</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  Desktop ./mobilepp.sh <span class="s2">&quot;/Users/newspring/Library/MobileDevice/Provisioning Profiles/1213b96b-4ac1-4365-ae45-350eb6beadf2.mobileprovision&quot;</span>
-</span><span class='line'>security: SecPolicySetValue: One or more parameters passed to a <span class="k">function</span> were not valid.
-</span><span class='line'>UUID is:
-</span><span class='line'>1213b96b-4ac1-4365-ae45-350eb6beadf2
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  <span class="nb">test </span>openssl rsa -in private_key.pem -pubout -out public_key.pem
+</span><span class='line'>writing RSA key
+</span><span class='line'>➜  <span class="nb">test </span>cat public_key.pem
+</span><span class='line'>-----BEGIN PUBLIC KEY-----
+</span><span class='line'>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDJrT1W3ZyBAYIMNb0XDBQTIGw4
+</span><span class='line'>TpbrLelQ/K6Yl6abciAUAZNnj5EHlFhMvpe3iHU0xPIcTM0IM9ZnMjecikHC4lBJ
+</span><span class='line'>0JmXEsHf4j6Cf2+KRFHTaxPPhqf65wiGvduTf70xOCvaPeyYVu4x69jm2rtxOeVv
+</span><span class='line'>F1PJSrV+ZDCoDmYD3QIDAQAB
+</span><span class='line'>-----END PUBLIC KEY-----
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p></p>
+<p>3.使用pkcs8命令转换私钥格式 PKCS标准</p>
 
-<h3>参考链接</h3>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  <span class="nb">test </span>openssl pkcs8 -topk8 -inform PEM -in private_key.pem -outform PEM -nocrypt
+</span><span class='line'>-----BEGIN PRIVATE KEY-----
+</span><span class='line'>MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMmtPVbdnIEBggw1
+</span><span class='line'>vRcMFBMgbDhOlust6VD8rpiXpptyIBQBk2ePkQeUWEy+l7eIdTTE8hxMzQgz1mcy
+</span><span class='line'>N5yKQcLiUEnQmZcSwd/iPoJ/b4pEUdNrE8+Gp/rnCIa925N/vTE4K9o97JhW7jHr
+</span><span class='line'>2Obau3E55W8XU8lKtX5kMKgOZgPdAgMBAAECgYBOhTCYnXfNknS7pECWtJEsUTdR
+</span><span class='line'>ROflcN6iNX8U0hZ/9xMeNu7ZJ0BkHxGx75LKVkqr3PIWqqA5TVVwoFCelgW71cW+
+</span><span class='line'>mg//EYL9P30w3dyEFpBjjBjzQUzw0SNZls9k9NzMT8fKkT4nXj/SLTHqO6OEWIAC
+</span><span class='line'>ZwT/WK9HNEa+jqoL0QJBAOZySLiM7hVOO7v5ZYg1q2Pfqk+f8lVQUfxOrD3y1AuD
+</span><span class='line'>lUw8V882yX0vsJKoAIIW+XXCIRG7F+6dEHT100dviwcCQQDgCkQJGCqj7/tKZ3ZZ
+</span><span class='line'>NriFJD5pizonv717zOOB8i5gGfk406y4i5VWe0fKFJzZfNunXCRqQLNPL9PLDTaQ
+</span><span class='line'>YKz7AkEAwUsc+kejsBVF/37KjjzOPOCv30f/IVZU3ngy+2dCO0IsqZx33uRKj4m/
+</span><span class='line'>5tOqUXPp3L9vs4qmIUx3MFO9206RYwJBALrbVQtQwJ+ilC/mQur9nMBPDk7w9Dwa
+</span><span class='line'>y2rp5AaJeuxkPVyMD06L/K34fFOrBXbPkFPxod2MwQCWn0qHZq7cMukCQH6SiK1W
+</span><span class='line'>mPGZbLND9KXhdrzjehH6qd6h9lneb2OiG2f7s1C7clcjXEFyTGZngO04O0LsxQiq
+</span><span class='line'><span class="nv">U4R6Pk5P1BXCWO8</span><span class="o">=</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p><a href="https://my.oschina.net/ioslighter/blog/494342">https://my.oschina.net/ioslighter/blog/494342</a></p>
+
+
 </div>
 
 
@@ -232,12 +254,12 @@ mobileprovision-read -f &ldquo;provisoning-profile-file-path&rdquo; -o Provision
 
 
 
-<time class='entry-date' datetime='2017-12-02T13:06:26+08:00'><span class='date'>2017 年12 月2 日</span> <span class='time'>1:06 pm</span></time>
+<time class='entry-date' datetime='2018-07-18T15:15:18+08:00'><span class='date'>2018 年7 月18 日</span> <span class='time'>3:15 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/provisioning-profile/'>provisioning profile</a>, <a class='category' href='/blog/categories/xcode/'>xcode</a>
+    <a class='category' href='/blog/categories/mac-os-x/'>mac os x</a>, <a class='category' href='/blog/categories/rsa/'>rsa</a>, <a class='category' href='/blog/categories/terminal/'>terminal</a>
   
 </span>
 
@@ -253,10 +275,10 @@ mobileprovision-read -f &ldquo;provisoning-profile-file-path&rdquo; -o Provision
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/20170529/install-macos-by-u-disk.html" title="Previous Post: Install macOS by U Disk">&laquo; Install macOS by U Disk</a>
+        <a class="basic-alignment left" href="/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html" title="Previous Post: 低版本Xcode调试高版本的iOS系统">&laquo; 低版本Xcode调试高版本的iOS系统</a>
       
       
-        <a class="basic-alignment right" href="/blog/20180430/git-command-shi-yong-shou-ji.html" title="Next Post: Git Commands 使用手记">Git Commands 使用手记 &raquo;</a>
+        <a class="basic-alignment right" href="/blog/20180718/rsa-key-structuress.html" title="Next Post: 秘钥格式 证书">秘钥格式 证书 &raquo;</a>
       
     </p>
   </footer>
@@ -366,8 +388,8 @@ mobileprovision-read -f &ldquo;provisoning-profile-file-path&rdquo; -o Provision
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://douxinchun.github.io/blog/20171202/get-mobileprovison-uuid.html';
-        var disqus_url = 'http://douxinchun.github.io/blog/20171202/get-mobileprovison-uuid.html';
+        var disqus_identifier = 'http://douxinchun.github.io/blog/20180718/generate-rsa-key-on-mac-os-x.html';
+        var disqus_url = 'http://douxinchun.github.io/blog/20180718/generate-rsa-key-on-mac-os-x.html';
         var disqus_script = 'embed.js';
       
     (function () {
