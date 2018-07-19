@@ -4,7 +4,7 @@
   <title><![CDATA[分类：pem | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/pem/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-07-19T09:48:11+08:00</updated>
+  <updated>2018-07-19T09:53:09+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -68,9 +68,13 @@ yQjtQ8mbDOsiLLvh7wIDAQAB
 
 <p> 在这些信息的后面加上如下形式尾标注信息：  </p>
 
-<p>&mdash;&ndash;END PRIVACY-ENHANCED MESSAGE&mdash;&ndash;     上面是openssl的PEM文件的基本结构，需要注意的是，Openssl并没有实现PEM的全 部标准，它只是对openssl中需要使用的一些选项做了实现，详细的PEM格式，请参考RF C1421－1424。  </p>
+<p>&mdash;&ndash;END PRIVACY-ENHANCED MESSAGE&mdash;&ndash;  </p></li>
+</ol>
 
-<p>下面是一个PEM编码的经过加密的DSA私钥的例子：  </p>
+
+<p>上面是openssl的PEM文件的基本结构，需要注意的是，Openssl并没有实现PEM的全 部标准，它只是对openssl中需要使用的一些选项做了实现，详细的PEM格式，请参考RF C1421－1424。  </p>
+
+<p>   下面是一个PEM编码的经过加密的DSA私钥的例子：  </p>
 
 <pre><code class="">-----BEGIN DSA PRIVATE KEY-----     
 Proc-Type: 4,ENCRYPTED     
@@ -79,9 +83,7 @@ BASE64 ENCODED DATA
 -----END DSA PRIVATE KEY-----   
 </code></pre>
 
-<p>  有时候PEM编码的东西并没有经过加密，只是简单进行了BASE64编码，下面是一个没 有加密的证书请求的例子：</p></li>
-</ol>
-
+<p>     有时候PEM编码的东西并没有经过加密，只是简单进行了BASE64编码，下面是一个没 有加密的证书请求的例子：</p>
 
 <pre><code class="">-----BEGIN CERTIFICATE REQUEST-----     
 BASE64 ENCODED DATA

@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-07-19T09:48:11+08:00</updated>
+  <updated>2018-07-19T09:53:09+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -74,20 +74,27 @@
 
 <p> 在这些信息的后面加上如下形式尾标注信息：  </p>
 
-<p>&mdash;&ndash;END PRIVACY-ENHANCED MESSAGE&mdash;&ndash;     上面是openssl的PEM文件的基本结构，需要注意的是，Openssl并没有实现PEM的全 部标准，它只是对openssl中需要使用的一些选项做了实现，详细的PEM格式，请参考RF C1421－1424。  </p>
-
-<p>下面是一个PEM编码的经过加密的DSA私钥的例子：  </p>
-
-<pre><code class="">-----BEGIN DSA PRIVATE KEY-----     
-Proc-Type: 4,ENCRYPTED     
-DEK-Info: DES-EDE3-CBC,F80EEEBEEA7386C4     
-BASE64 ENCODED DATA
------END DSA PRIVATE KEY-----   
-</code></pre>
-
-<p>  有时候PEM编码的东西并没有经过加密，只是简单进行了BASE64编码，下面是一个没 有加密的证书请求的例子：</p></li>
+<p>&mdash;&ndash;END PRIVACY-ENHANCED MESSAGE&mdash;&ndash;  </p></li>
 </ol>
 
+
+<p>上面是openssl的PEM文件的基本结构，需要注意的是，Openssl并没有实现PEM的全 部标准，它只是对openssl中需要使用的一些选项做了实现，详细的PEM格式，请参考RF C1421－1424。  </p>
+
+<p>   下面是一个PEM编码的经过加密的DSA私钥的例子：  </p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-----BEGIN DSA PRIVATE KEY-----     
+</span><span class='line'>Proc-Type: 4,ENCRYPTED     
+</span><span class='line'>DEK-Info: DES-EDE3-CBC,F80EEEBEEA7386C4     
+</span><span class='line'>BASE64 ENCODED DATA
+</span><span class='line'>-----END DSA PRIVATE KEY-----   </span></code></pre></td></tr></table></div></figure>
+
+
+<p>     有时候PEM编码的东西并没有经过加密，只是简单进行了BASE64编码，下面是一个没 有加密的证书请求的例子：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -1175,7 +1182,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#114;&#111;&#111;&#116;&#64;&#49;&#48;&#46;&#x32;&#46;&#57;&#x38;&#46;&#x38;&#55;">&#114;&#x6f;&#111;&#x74;&#x40;&#x31;&#x30;&#46;&#x32;&#x2e;&#x39;&#56;&#46;&#x38;&#x37;</a><br/>
+$ ssh <a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#x72;&#x6f;&#111;&#116;&#64;&#49;&#48;&#46;&#x32;&#46;&#57;&#56;&#46;&#56;&#x37;">&#x72;&#111;&#x6f;&#116;&#64;&#49;&#48;&#x2e;&#x32;&#46;&#x39;&#56;&#46;&#x38;&#x37;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>

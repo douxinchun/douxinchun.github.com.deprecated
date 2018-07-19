@@ -165,20 +165,27 @@ PEM DER DER: Distinguished Encoding Rules(可辨别编码规则)，是ASN.1的�
 
 <p> 在这些信息的后面加上如下形式尾标注信息：  </p>
 
-<p>&mdash;&ndash;END PRIVACY-ENHANCED MESSAGE&mdash;&ndash;     上面是openssl的PEM文件的基本结构，需要注意的是，Openssl并没有实现PEM的全 部标准，它只是对openssl中需要使用的一些选项做了实现，详细的PEM格式，请参考RF C1421－1424。  </p>
-
-<p>下面是一个PEM编码的经过加密的DSA私钥的例子：  </p>
-
-<pre><code class="">-----BEGIN DSA PRIVATE KEY-----     
-Proc-Type: 4,ENCRYPTED     
-DEK-Info: DES-EDE3-CBC,F80EEEBEEA7386C4     
-BASE64 ENCODED DATA
------END DSA PRIVATE KEY-----   
-</code></pre>
-
-<p>  有时候PEM编码的东西并没有经过加密，只是简单进行了BASE64编码，下面是一个没 有加密的证书请求的例子：</p></li>
+<p>&mdash;&ndash;END PRIVACY-ENHANCED MESSAGE&mdash;&ndash;  </p></li>
 </ol>
 
+
+<p>上面是openssl的PEM文件的基本结构，需要注意的是，Openssl并没有实现PEM的全 部标准，它只是对openssl中需要使用的一些选项做了实现，详细的PEM格式，请参考RF C1421－1424。  </p>
+
+<p>   下面是一个PEM编码的经过加密的DSA私钥的例子：  </p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-----BEGIN DSA PRIVATE KEY-----     
+</span><span class='line'>Proc-Type: 4,ENCRYPTED     
+</span><span class='line'>DEK-Info: DES-EDE3-CBC,F80EEEBEEA7386C4     
+</span><span class='line'>BASE64 ENCODED DATA
+</span><span class='line'>-----END DSA PRIVATE KEY-----   </span></code></pre></td></tr></table></div></figure>
+
+
+<p>     有时候PEM编码的东西并没有经过加密，只是简单进行了BASE64编码，下面是一个没 有加密的证书请求的例子：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
