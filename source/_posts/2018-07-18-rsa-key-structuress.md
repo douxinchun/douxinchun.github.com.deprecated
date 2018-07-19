@@ -75,7 +75,7 @@ BASE64 ENCODED DATA
 
      有时候PEM编码的东西并没有经过加密，只是简单进行了BASE64编码，下面是一个没 有加密的证书请求的例子：  
 
-``` pem
+``` 
 -----BEGIN CERTIFICATE REQUEST-----     
 BASE64 ENCODED DATA
 -----END CERTIFICATE REQUEST----- 
