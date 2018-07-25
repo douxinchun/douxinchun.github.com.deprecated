@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-07-19T09:53:09+08:00</updated>
+  <updated>2018-07-25T19:14:23+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -12,6 +12,328 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Lipo 使用简介]]></title>
+    <link href="http://douxinchun.github.io/blog/20180725/introduction-to-lipo.html"/>
+    <updated>2018-07-25T17:25:25+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180725/introduction-to-lipo</id>
+    <content type="html"><![CDATA[<p>最近在开发iOS SDK, 需要使用到lipo命令, 在此简单做一下记录:</p>
+
+<p>lipo的使用手册</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  ~  man lipo
+</span><span class='line'>
+</span><span class='line'>LIPO<span class="o">(</span>1<span class="o">)</span>                                                                     LIPO<span class="o">(</span>1<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>NAME
+</span><span class='line'>       lipo - create or operate on universal files
+</span><span class='line'>
+</span><span class='line'>SYNOPSIS
+</span><span class='line'>       lipo   <span class="o">[</span>-info<span class="o">]</span>   <span class="o">[</span>-detailed_info<span class="o">]</span>   <span class="o">[</span>-arch   arch_type  input_file<span class="o">]</span>  ...   <span class="o">[</span>
+</span><span class='line'>       input_file<span class="o">]</span>  ...   <span class="o">[</span>-arch_blank  arch_type<span class="o">]</span>  <span class="o">[</span>-create<span class="o">]</span>   <span class="o">[</span>-thin   arch_type<span class="o">]</span>
+</span><span class='line'>       <span class="o">[</span>-replace  arch_type  filename<span class="o">]</span>  ...   <span class="o">[</span>-remove  arch_type<span class="o">]</span>  ...lio   <span class="o">[</span>-extract
+</span><span class='line'>       arch_type<span class="o">]</span> ...  <span class="o">[</span>-extract_family  arch_type<span class="o">]</span>  ...   <span class="o">[</span>-verify_arch  arch_type
+</span><span class='line'>       ...<span class="o">]</span>  <span class="o">[</span>-output output_file<span class="o">]</span> <span class="o">[</span>-segalign arch_type value<span class="o">]</span> ...
+</span><span class='line'>
+</span><span class='line'>DESCRIPTION
+</span><span class='line'>       The  lipo  <span class="nb">command </span>creates or operates on <span class="sb">``</span>universal<span class="s1">&#39;&#39;</span> <span class="o">(</span>multi-architecture<span class="o">)</span>
+</span><span class='line'>       files.  It only ever produces one output file, and never  alters  the  input
+</span><span class='line'>       file.  The operations that lipo performs are: listing the architecture types
+</span><span class='line'>       in a universal file<span class="p">;</span> creating a single universal file from one or more input
+</span><span class='line'>       files<span class="p">;</span>  thinning  out  a single universal file to one specified architecture
+</span><span class='line'>       <span class="nb">type</span><span class="p">;</span> and extracting, replacing, and/or removing  architectures  types  from
+</span><span class='line'>       the input file to create a single new universal output file.
+</span><span class='line'>
+</span><span class='line'>       Only  one option can be specified, with the exception of -arch, -arch_blank,
+</span><span class='line'>       -output, and -segalign, which are used in combination  with  other  options.
+</span><span class='line'>       The input_file argument is required, and only the -create option allows more
+</span><span class='line'>       than one input_file to be specified.  The -output flag must be used,  except
+</span><span class='line'>       with the -info and -detailed_info flags.
+</span><span class='line'>
+</span><span class='line'>       The  arch_type  arguments  may  be  any  of the supported architecture names
+</span><span class='line'>       listed in the man page arch<span class="o">(</span>3<span class="o">)</span>.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>简单说,lipo就是用来操作universal file的命令,也可以说成是 fat file(因为这种文件确实比较大).在iOS中其实就是用来操作静态链接库(以.a为后缀的文件 )的命令.</p>
+
+<p>fat file一般是指包含两种及以上CPU架构的静态链接库</p>
+
+<p>lipo命令的功能:</p>
+
+<ul>
+<li>列举 .a文件 支持的architecture types.(架构类型,eg: armv7, armv7s, i386, x86_64, arm64)</li>
+<li>合并多个 .a文件为一个.a文件</li>
+<li>给一个 .a文件 瘦身.(剔除某一项CPU的架构类型)</li>
+<li>提取, 替换或者移除 .a文件 文件中的某种架构</li>
+</ul>
+
+
+<p>使用lipo命令的注意事项</p>
+
+<ul>
+<li>除了 -arch, -arch_black, -output, -segalign选项外,其余的选项只能指定一个. 这几个选选项需要和其它的选项混合使用</li>
+<li>除了 -create 选项外, 其余的选项只能指定一个input file作为参数</li>
+<li>除了 -info 和 - detailed_info 选项外, 其余的选项必须指定 -output, 可以简写为 -o</li>
+</ul>
+
+
+<h3>lipo命令的使用eg,以WechatSDK 1.8.2作为举例对象</h3>
+
+<h4>1.查看.a文件支持的CPU架构</h4>
+
+<blockquote><p>lipo -info <em>input_file</em></p>
+
+<p>lipo -detailed_info <em>input_file</em></p></blockquote>
+
+<pre><code class="bash">➜  workspace lipo -info libWeChatSDK.a 
+Architectures in the .a文件: libWeChatSDK.a are: i386 armv7 armv7s x86_64 arm64 
+
+➜  workspace lipo -detailed_info libWeChatSDK.a
+Fat header in: libWeChatSDK.a
+fat_magic 0xcafebabe
+nfat_arch 5
+architecture i386
+    cputype CPU_TYPE_I386
+    cpusubtype CPU_SUBTYPE_I386_ALL
+    offset 108
+    size 3247680
+    align 2^2 (4)
+architecture armv7
+    cputype CPU_TYPE_ARM
+    cpusubtype CPU_SUBTYPE_ARM_V7
+    offset 3247788
+    size 3256064
+    align 2^2 (4)
+architecture armv7s
+    cputype CPU_TYPE_ARM
+    cpusubtype CPU_SUBTYPE_ARM_V7S
+    offset 6503852
+    size 3255048
+    align 2^2 (4)
+architecture x86_64
+    cputype CPU_TYPE_X86_64
+    cpusubtype CPU_SUBTYPE_X86_64_ALL
+    offset 9758904
+    size 3363856
+    align 2^3 (8)
+architecture arm64
+    cputype CPU_TYPE_ARM64
+    cpusubtype CPU_SUBTYPE_ARM64_ALL
+    offset 13122760
+    size 3704912
+    align 2^3 (8)
+➜  workspace 
+</code></pre>
+
+<h4>2..a文件 CPU架构拆分</h4>
+
+<blockquote><p>lipo 静态库源文件路径 -thin CPU架构名称 -output 拆分后文件存放路径</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace lipo -info libWeChatSDK-armv7
+</span><span class='line'>input file libWeChatSDK-armv7 is not a fat file
+</span><span class='line'>Non-fat file: libWeChatSDK-armv7 is architecture: armv7
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>3.合并两个 .a文件s</h4>
+
+<blockquote><p>lipo -create 静态库存放路径1  静态库存放路径2 &hellip;  -output 整合后存放的路径</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace lipo -create libWeChatSDK-armv7 libWeChatSDK-i386 -o libWeChatSDK-i386+armv7
+</span><span class='line'>➜  workspace lipo -info libWeChatSDK-i386+armv7
+</span><span class='line'>Architectures in the fat file: libWeChatSDK-i386+armv7 are: armv7 i386
+</span><span class='line'>➜  workspace
+</span><span class='line'>
+</span><span class='line'>➜  workspace lipo -create libWeChatSDK.a TYRZSD.a -o combine-library.a
+</span><span class='line'>fatal error: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo: libWeChatSDK.a and TYRZSD.a have the same architectures <span class="o">(</span>i386<span class="o">)</span> and can<span class="err">&#39;</span>t be in the same fat output file
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里需要注意一下,如果要合并的两个.a 文件含有相同的架构的话,会报如上的错误. 这种情况下怎么合并,可参照下一个章节</p>
+
+<h4>4.用 lipo 删除某些平台</h4>
+
+<blockquote><p>$ lipo input_file -remove i386 -output output_file</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace lipo libWeChatSDK.a -remove i386 -o libWeChatSDK-noi386
+</span><span class='line'>➜  workspace lipo -info libWeChatSDK-noi386
+</span><span class='line'>Architectures in the fat file: libWeChatSDK-noi386 are: armv7 armv7s x86_64 arm64
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>lipo命令合并.a文件, detail</h3>
+
+<h4>1.分离出上述不同 .a 文件单独支持的架构版本，比如上述 libWeChatSDK.a 和 TYRZSD.a 支持 armv7 armv7s i386 x86_64 arm64，那么就需要分离出单独支持armv7 armv7s i386 x86_64 arm64的 .a 文件</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace lipo libWeChatSDK.a -thin armv7 -o libWeChatSDK-armv7
+</span><span class='line'>➜  workspace lipo TYRZSD.a -thin armv7 -o TYRZSD-armv7
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>2.分离出.a库的目标文件（.o)</h4>
+
+<blockquote><p> ar -x 静态链接库</p></blockquote>
+
+<p>因为 .a 库分离出来的目标文件 .o  会很多, 所以, 最好是在工作空间根据不同的CPU建立不同的文件夹</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace mkdir armv7
+</span><span class='line'>➜  workspace <span class="nb">cd </span>armv7
+</span><span class='line'>➜  armv7
+</span><span class='line'>➜  armv7 ar -x ../libWeChatSDK-armv7
+</span><span class='line'>➜  armv7 ls
+</span><span class='line'>AppCommunicate.o          MTAPlugin.o               OpenUDID.o
+</span><span class='line'>AppCommunicateData.o      MTAPluginIDFA.o           WXApi.o
+</span><span class='line'>GCDAsyncSocket.o          MTAPluginInstall.o        WXApiObject.o
+</span><span class='line'>MTA.o                     MTAPluginNotify.o         WXLogUtil.o
+</span><span class='line'>MTABaseFunction.o         MTAReachability.o         WapAuthHandler.o
+</span><span class='line'>MTAConfig.o               MTASendItem.o             WeChatApiUtil.o
+</span><span class='line'>MTADataConfigHolder.o     MTASocket.o               WeChatRegister.o
+</span><span class='line'>MTAEnv.o                  MTASpeedTestPlugin.o      WechatAuthSDK.o
+</span><span class='line'>MTAEvent.o                MTAStore.o                __.SYMDEF
+</span><span class='line'>MTAExtStoragePlugin.o     MTATempID.o               base64.o
+</span><span class='line'>MTAHelper.o               MTAWX.o
+</span><span class='line'>MTAMidPlugin.o            NSMutableArray+MTAQueue.o
+</span><span class='line'>➜  armv7 ar -x ../TYRZSD-armv7
+</span><span class='line'>➜  armv7 ls
+</span><span class='line'>AppCommunicate.o          MTAReachability.o         UAOpenInfo.o
+</span><span class='line'>AppCommunicateData.o      MTASendItem.o             UASession.o
+</span><span class='line'>GCDAsyncSocket.o          MTASocket.o               UATimer.o
+</span><span class='line'>MTA.o                     MTASpeedTestPlugin.o      UAUtil.o
+</span><span class='line'>MTABaseFunction.o         MTAStore.o                WXApi.o
+</span><span class='line'>MTAConfig.o               MTATempID.o               WXApiObject.o
+</span><span class='line'>MTADataConfigHolder.o     MTAWX.o                   WXLogUtil.o
+</span><span class='line'>MTAEnv.o                  NSMutableArray+MTAQueue.o WapAuthHandler.o
+</span><span class='line'>MTAEvent.o                OpenUDID.o                WeChatApiUtil.o
+</span><span class='line'>MTAExtStoragePlugin.o     TYRZSDK.o                 WeChatRegister.o
+</span><span class='line'>MTAHelper.o               TYRZSDK_vers.o            WechatAuthSDK.o
+</span><span class='line'>MTAMidPlugin.o            UAAuthViewController.o    __.SYMDEF
+</span><span class='line'>MTAPlugin.o               UACrypto.o                __.SYMDEF SORTED
+</span><span class='line'>MTAPluginIDFA.o           UAHTTP.o                  base64.o
+</span><span class='line'>MTAPluginInstall.o        UALogReport.o
+</span><span class='line'>MTAPluginNotify.o         UANetwork.o
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>3.对支持同个架构的.o文件，进行合并成静态库。</h4>
+
+<blockquote><p>libtool -static -o output_file *.o</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  armv7 libtool -static -o ../combine-library-armv7 *.o
+</span><span class='line'>➜  armv7 ls ..
+</span><span class='line'>TYRZSD-armv7          armv7                 libWeChatSDK-armv7    libWeChatSDK.a
+</span><span class='line'>TYRZSD.a              combine-library-armv7 libWeChatSDK-i386
+</span><span class='line'>➜  armv7
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>4.合成支持全部架构的通用静态库</h4>
+
+<p>如果之前的步骤不出错, 就会得到5个.a文件; combine-library-armv7 combine-library-armv7s combine-library-i386 combine-library-x86_64 combine-library-arm64</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace lipo -create combine-library-armv7 combine-library-armv7s combine-library-i386 combine-library-x86_64 combine-library-arm64 -o combine-library
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>​    combine-library 就是最终需要的 .a 库</p>
+
+<h3>参考链接</h3>
+
+<p><a href="https://blog.csdn.net/qq_26968709/article/details/51164104">合并多个.a文件</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[秘钥格式 证书]]></title>
@@ -1182,7 +1504,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#x72;&#x6f;&#111;&#116;&#64;&#49;&#48;&#46;&#x32;&#46;&#57;&#56;&#46;&#56;&#x37;">&#x72;&#111;&#x6f;&#116;&#64;&#49;&#48;&#x2e;&#x32;&#46;&#x39;&#56;&#46;&#x38;&#x37;</a><br/>
+$ ssh <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#114;&#111;&#x6f;&#116;&#x40;&#49;&#x30;&#46;&#50;&#46;&#57;&#56;&#x2e;&#x38;&#x37;">&#114;&#111;&#x6f;&#x74;&#64;&#49;&#48;&#46;&#x32;&#x2e;&#x39;&#56;&#46;&#x38;&#x37;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -2116,64 +2438,6 @@ perl cloc-1.64.pl ./YourProjectName</p>
 <p><em>expression</em><br/>
 <img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png"><br/>
 简写为expr或者是e(还能再懒一点吗~~)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AutoLayout 使用总结]]></title>
-    <link href="http://douxinchun.github.io/blog/20150720/autolayout-summary.html"/>
-    <updated>2015-07-20T16:55:20+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150720/autolayout-summary</id>
-    <content type="html"><![CDATA[<h3>1.如何计算UITableViewCell的高度</h3>
-
-<p>在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用<code>sizeWithFont:</code> 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予<code>heightForRow:</code>。</p>
-
-<p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
-理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
-
-<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/</a><br/>
-和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
-
-<p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
-1. UILabel以及UITextField等有<code>preferredMaxLayoutWidth</code>属性的VIew需要设置一下,不然计算出来的高度UILable的部分只有一行文字的高度<br/>
-2. 对于具有<code>intrinsicContentSize</code>的View需要在垂直方向上,将压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)设置为1000,最高级
-3. 要保证Cell在垂直方向上设置的Constraints,理论上可以计算出整个Cell的高度,可以降低某个垂直方向约束的优先级,来消除xib中的约束错误提示</p>
-
-<h3>2.AutoLayout下的动画</h3>
-
-<p>在使用Autolayout时，动画的使用和以前也不同了，以前我们是修改frame，现在我们可以通过修改Constraints, 然后在动画时layoutIfNeeded就行了。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//修改约束
-</span><span class='line'>...
-</span><span class='line'>[UIView animateWithDuration:0.2 animations:^{
-</span><span class='line'>    [view layoutIfNeeded];
-</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-Autolayout有时在动画时候会很方便，因为View之间的坐标是相互影响的，在传统frame中，如果改变一个view的frame,那么可能你要更改很多view的frame，才能让页面显得和谐。在Autolayout中可能只需要修改一个Constraint就可以了，在做动画时会很方便。</p>
-
-<h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
-
-<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a><br/>
-API中对应的是:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (UILayoutPriority)contentHuggingPriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (UILayoutPriority)contentCompressionResistancePriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayout
-</span><span class='line'>- </span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   

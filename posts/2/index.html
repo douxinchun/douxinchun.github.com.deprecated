@@ -9,7 +9,11 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="本地变量(Local Variable) returnType (^blockName)(parameterTypes) = ^returnType(parameters) {&hellip;}; 属性(Property) @property (nonatomic, copy, &hellip;">
+  <meta name="description" content="iOS的设备越狱后,安装openssh,可以通过ssh连接工具(Mac OS 下直接使用Terminal)连接到手机上查看相关的系统目录:
+ssh 连接命令常用格式:
+`ssh [-l login_name] [-p port] [user@]hostname
+示例:
+$ ssh &#114;&# &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +87,53 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">iOS 操作系统目录说明</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-01-03T11:28:24+08:00'><span class='date'>2017 年1 月3 日</span> <span class='time'>11:28 am</span></time>
+        
+           | <a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS的设备越狱后,安装openssh,可以通过ssh连接工具(Mac OS 下直接使用Terminal)连接到手机上查看相关的系统目录:
+ssh 连接命令常用格式:
+`ssh [-l login_name] [-p port] [user@]hostname<br/>
+示例:<br/>
+$ ssh <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#114;&#111;&#x6f;&#116;&#x40;&#49;&#x30;&#46;&#50;&#46;&#57;&#56;&#x2e;&#x38;&#x37;">&#114;&#111;&#x6f;&#x74;&#64;&#49;&#48;&#46;&#x32;&#x2e;&#x39;&#56;&#46;&#x38;&#x37;</a><br/>
+默认的openssh连接密码为:alpine</p>
+
+<p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">阅读全文</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -1136,90 +1187,6 @@ perl cloc-1.64.pl ./YourProjectName</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150720/autolayout-summary.html">AutoLayout 使用总结</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-20T16:55:20+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>4:55 pm</span></time>
-        
-           | <a href="/blog/20150720/autolayout-summary.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20150720/autolayout-summary.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>1.如何计算UITableViewCell的高度</h3>
-
-<p>在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用<code>sizeWithFont:</code> 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予<code>heightForRow:</code>。</p>
-
-<p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
-理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
-
-<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/</a><br/>
-和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
-
-<p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
-1. UILabel以及UITextField等有<code>preferredMaxLayoutWidth</code>属性的VIew需要设置一下,不然计算出来的高度UILable的部分只有一行文字的高度<br/>
-2. 对于具有<code>intrinsicContentSize</code>的View需要在垂直方向上,将压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)设置为1000,最高级
-3. 要保证Cell在垂直方向上设置的Constraints,理论上可以计算出整个Cell的高度,可以降低某个垂直方向约束的优先级,来消除xib中的约束错误提示</p>
-
-<h3>2.AutoLayout下的动画</h3>
-
-<p>在使用Autolayout时，动画的使用和以前也不同了，以前我们是修改frame，现在我们可以通过修改Constraints, 然后在动画时layoutIfNeeded就行了。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//修改约束
-</span><span class='line'>...
-</span><span class='line'>[UIView animateWithDuration:0.2 animations:^{
-</span><span class='line'>    [view layoutIfNeeded];
-</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-Autolayout有时在动画时候会很方便，因为View之间的坐标是相互影响的，在传统frame中，如果改变一个view的frame,那么可能你要更改很多view的frame，才能让页面显得和谐。在Autolayout中可能只需要修改一个Constraint就可以了，在做动画时会很方便。</p>
-
-<h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
-
-<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a><br/>
-API中对应的是:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (UILayoutPriority)contentHuggingPriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (UILayoutPriority)contentCompressionResistancePriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayout
-</span><span class='line'>- </span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1243,6 +1210,10 @@ API中对应的是:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20180725/introduction-to-lipo.html">Lipo 使用简介</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20180718/rsa-key-structuress.html">秘钥格式 证书</a>
       </li>
     
@@ -1256,10 +1227,6 @@ API中对应的是:</p>
     
       <li class="post">
         <a href="/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html">Xcodebuild 使用注意事项</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20180501/mac-terminal-shortcut-keys.html">Mac Terminal 快捷键记录</a>
       </li>
     
   </ul>
@@ -1278,6 +1245,7 @@ API中对应的是:</p>
 <li class='category'><a href='/blog/categories/ios/'>ios (9)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/lipo/'>lipo (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
 <li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (2)</a></li>
 <li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
@@ -1289,7 +1257,8 @@ API中对应的是:</p>
 <li class='category'><a href='/blog/categories/provisioning-profile/'>provisioning profile (1)</a></li>
 <li class='category'><a href='/blog/categories/rsa/'>rsa (2)</a></li>
 <li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
-<li class='category'><a href='/blog/categories/terminal/'>terminal (2)</a></li>
+<li class='category'><a href='/blog/categories/static-library/'>static library (1)</a></li>
+<li class='category'><a href='/blog/categories/terminal/'>terminal (3)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>xcode (6)</a></li>
 <li class='category'><a href='/blog/categories/xcodebuild/'>xcodebuild (1)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://douxinchun.github.io/blog/20180725/introduction-to-lipo.html</loc>
+<lastmod>2018-07-25T17:25:25+08:00</lastmod>
+</url>
+<url>
 <loc>http://douxinchun.github.io/blog/20180718/rsa-key-structuress.html</loc>
 <lastmod>2018-07-18T17:17:34+08:00</lastmod>
 </url>
@@ -197,6 +201,12 @@
 </url>
 <url>
 <loc>http://douxinchun.github.io/blog/categories/openssl/</loc>
+</url>
+<url>
+<loc>http://douxinchun.github.io/blog/categories/lipo/</loc>
+</url>
+<url>
+<loc>http://douxinchun.github.io/blog/categories/static-library/</loc>
 </url>
 <url>
 <loc>http://douxinchun.github.io/googled64ca099c8848d46.html</loc>
