@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-07-25T19:14:23+08:00</updated>
+  <updated>2018-09-20T16:55:39+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -12,6 +12,95 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode 使用技巧]]></title>
+    <link href="http://douxinchun.github.io/blog/20180918/tips-of-xcode.html"/>
+    <updated>2018-09-18T17:03:09+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180918/tips-of-xcode</id>
+    <content type="html"><![CDATA[<h2>Alcatraz</h2>
+
+<p><a href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>是一款开源的用于Xcode7的包管理工具.Xcode8以及以后版本需要配合下面的工具来使用.</p>
+
+<h2>update_xcode_plugins</h2>
+
+<p><a href="https://github.com/inket/update_xcode_plugins">update_xcode_plugins</a>可以为Xcode中安装的插件添加UUID, 同时还能够 为Xcode8以及以上的版本解除签名,这样就可以随心所欲的使用各种Xcode插件了.</p>
+
+<h2>Reset Xcode’s “Load Bundles” warning</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>defaults delete com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-10.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行该命令,重启Xcode,可以使Xcode弹出&#8221;Load Bundles&#8221;的提示,可以重新load所有的插件.注意command末尾处的Xcode的版本号.</p>
+
+<h2>添加删除行 快捷键 Opt+D</h2>
+
+<ol>
+<li><p>修改配置文件(plist)权限</p>
+
+<pre><code class="ba&#39;sh">sudo chmod 666 /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/IDETextKeyBindingSet.plist
+sudo chmod 777 /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/
+</code></pre></li>
+<li><p>打开plist文件进行修改</p>
+
+<pre><code class="bash">open /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/IDETextKeyBindingSet.plist
+</code></pre>
+
+<p>找到<strong>root</strong>下的<strong>Deletions</strong>,在<strong>Deletions</strong>下添加一个Key: <strong>Delete Current Line</strong> 值为<strong>deleteToBeginningOfLine:, moveToEndOfLine:, deleteToBeginningOfLine:, deleteBackward:, moveDown:, moveToBeginningOfLine:</strong></p></li>
+<li><p>重启Xcode,设置快捷键</p></li>
+</ol>
+
+
+<p>   <strong>Preference</strong> -> <strong>Key Bindings</strong> ,找到 <strong>Delete Current Line</strong> 选项,设置快捷键为 <strong>Opt+D</strong></p>
+
+<h2>Xcode Release Build 版本号自动增加</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="nv">$CONFIGURATION</span> <span class="o">==</span> Release <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Bumping build number...&quot;</span>
+</span><span class='line'><span class="nv">plist</span><span class="o">=</span><span class="k">${</span><span class="nv">PROJECT_DIR</span><span class="k">}</span>/<span class="k">${</span><span class="nv">INFOPLIST_FILE</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">buildnum</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy -c <span class="s2">&quot;Print CFBundleVersion&quot;</span> <span class="s2">&quot;${plist}&quot;</span><span class="k">)</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;${buildnum}&quot;</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;No build number in $plist&quot;</span>
+</span><span class='line'><span class="nb">exit </span>2
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">buildnum</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$buildnum</span> + 1<span class="k">)</span>
+</span><span class='line'>/usr/libexec/Plistbuddy -c <span class="s2">&quot;Set CFBundleVersion $buildnum&quot;</span> <span class="s2">&quot;${plist}&quot;</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Bumped build number to $buildnum&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="nb">echo</span> <span class="nv">$CONFIGURATION</span> <span class="s2">&quot; build - Not bumping build number.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用方法 Xcode&ndash;>Projet&ndash;>Target&ndash;>Build Phases&ndash;>&ldquo;+&rdquo;&ndash;>New Run Script Phase. 顺序放在Target Dependencies之后即可,尽量靠前.</p>
+
+<p>过程, 查找 Info.plist 文件的位置,使用工具 /usr/libexec/PlistBuddy 读取 CFBundleVersion 的值,+1后再写会 Info.plist 文件.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Lipo 使用简介]]></title>
@@ -1504,7 +1593,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#114;&#111;&#x6f;&#116;&#x40;&#49;&#x30;&#46;&#50;&#46;&#57;&#56;&#x2e;&#x38;&#x37;">&#114;&#111;&#x6f;&#x74;&#64;&#49;&#48;&#46;&#x32;&#x2e;&#x39;&#56;&#46;&#x38;&#x37;</a><br/>
+$ ssh <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#x72;&#111;&#x6f;&#x74;&#64;&#49;&#x30;&#x2e;&#x32;&#46;&#57;&#x38;&#x2e;&#56;&#x37;">&#x72;&#111;&#x6f;&#116;&#x40;&#x31;&#x30;&#46;&#50;&#46;&#57;&#x38;&#46;&#56;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -2415,29 +2504,6 @@ perl cloc-1.64.pl ./YourProjectName</p>
 
 <p>以备后用<br/>
 自搭https服务器,可以查看的参照:<a href="http://zengrong.net/post/2108.html">http://zengrong.net/post/2108.html</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xcode中的调试器LLDB]]></title>
-    <link href="http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html"/>
-    <updated>2015-07-20T17:40:46+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb</id>
-    <content type="html"><![CDATA[<p>原文地址:<a href="http://objccn.io/issue-19-2/">http://objccn.io/issue-19-2/</a><br/>
-里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
-
-<h3>1.查看某个变量的值</h3>
-
-<p> <em>print</em><br/>
- <img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png"><br/>
- LLDB会做前缀匹配,一把简写为p,<br/>
- 使用po可以查看NSObject的description</p>
-
-<h3>2.改变某个变量的值</h3>
-
-<p><em>expression</em><br/>
-<img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png"><br/>
-简写为expr或者是e(还能再懒一点吗~~)</p>
 ]]></content>
   </entry>
   

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://douxinchun.github.io/blog/20180918/tips-of-xcode.html</loc>
+<lastmod>2018-09-18T17:03:09+08:00</lastmod>
+</url>
+<url>
 <loc>http://douxinchun.github.io/blog/20180725/introduction-to-lipo.html</loc>
 <lastmod>2018-07-25T17:25:25+08:00</lastmod>
 </url>

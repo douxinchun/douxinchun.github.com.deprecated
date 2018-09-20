@@ -9,7 +9,8 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="1.如何计算UITableViewCell的高度 在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用sizeWithFont: 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予heightForRow &hellip;">
+  <meta name="description" content="原文地址:http://objccn.io/issue-19-2/
+里面内容很多,本着实用主义,这里只记录我自己常用的命令: 1.查看某个变量的值 print LLDB会做前缀匹配,一把简写为p, 使用po可以查看NSObject的description 2.改变某个变量的值 expression &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +84,55 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html">Xcode中的调试器LLDB</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-07-20T17:40:46+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>5:40 pm</span></time>
+        
+           | <a href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>原文地址:<a href="http://objccn.io/issue-19-2/">http://objccn.io/issue-19-2/</a><br/>
+里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
+
+<h3>1.查看某个变量的值</h3>
+
+<p> <em>print</em><br/>
+ <img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png"><br/>
+ LLDB会做前缀匹配,一把简写为p,<br/>
+ 使用po可以查看NSObject的description</p>
+
+<h3>2.改变某个变量的值</h3>
+
+<p><em>expression</em><br/>
+<img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png"><br/>
+简写为expr或者是e(还能再懒一点吗~~)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -678,55 +728,6 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html">为 Octopress 添加多说评论系统</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-26T14:51:19+08:00'><span class='date'>2015 年3 月26 日</span> <span class='time'>2:51 pm</span></time>
-        
-           | <a href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Update:<br/>
-最新消息,多说将于2017年6月1日正式关停服务,还是切换回disqus吧.</p>
-
-<hr />
-
-<p>octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件<a href="http://duoshuo.com/">多说</a>来替代disqus</p>
-
-<p>添加的过程主要是参照了Havee&rsquo;s Space中的Blog<a href="http://havee.me/internet/2013-02/add-duoshuo-commemt-system-into-octopress.html">为 Octopress 添加多说评论系统</a></p>
-
-<p>其中有几点需要注意的事情是:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html">阅读全文</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -750,6 +751,10 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20180918/tips-of-xcode.html">Xcode 使用技巧</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20180725/introduction-to-lipo.html">Lipo 使用简介</a>
       </li>
     
@@ -763,10 +768,6 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
     
       <li class="post">
         <a href="/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html">低版本Xcode调试高版本的iOS系统</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html">Xcodebuild 使用注意事项</a>
       </li>
     
   </ul>
@@ -799,7 +800,7 @@ Octopress默认的为所有的div添加了一个背景，所以上述完成之�
 <li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
 <li class='category'><a href='/blog/categories/static-library/'>static library (1)</a></li>
 <li class='category'><a href='/blog/categories/terminal/'>terminal (3)</a></li>
-<li class='category'><a href='/blog/categories/xcode/'>xcode (6)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (7)</a></li>
 <li class='category'><a href='/blog/categories/xcodebuild/'>xcodebuild (1)</a></li>
 <li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[分类：xcode | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-07-25T19:14:23+08:00</updated>
+  <updated>2018-09-20T16:55:39+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -12,6 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode 使用技巧]]></title>
+    <link href="http://douxinchun.github.io/blog/20180918/tips-of-xcode.html"/>
+    <updated>2018-09-18T17:03:09+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180918/tips-of-xcode</id>
+    <content type="html"><![CDATA[<h2>Alcatraz</h2>
+
+<p><a href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>是一款开源的用于Xcode7的包管理工具.Xcode8以及以后版本需要配合下面的工具来使用.</p>
+
+<h2>update_xcode_plugins</h2>
+
+<p><a href="https://github.com/inket/update_xcode_plugins">update_xcode_plugins</a>可以为Xcode中安装的插件添加UUID, 同时还能够 为Xcode8以及以上的版本解除签名,这样就可以随心所欲的使用各种Xcode插件了.</p>
+
+<h2>Reset Xcode’s “Load Bundles” warning</h2>
+
+<pre><code class="bash">defaults delete com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-10.0
+</code></pre>
+
+<p>执行该命令,重启Xcode,可以使Xcode弹出&#8221;Load Bundles&#8221;的提示,可以重新load所有的插件.注意command末尾处的Xcode的版本号.</p>
+
+<h2>添加删除行 快捷键 Opt+D</h2>
+
+<ol>
+<li><p>修改配置文件(plist)权限</p>
+
+<pre><code class="ba&#39;sh">sudo chmod 666 /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/IDETextKeyBindingSet.plist
+sudo chmod 777 /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/
+</code></pre></li>
+<li><p>打开plist文件进行修改</p>
+
+<pre><code class="bash">open /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/IDETextKeyBindingSet.plist
+</code></pre>
+
+<p>找到<strong>root</strong>下的<strong>Deletions</strong>,在<strong>Deletions</strong>下添加一个Key: <strong>Delete Current Line</strong> 值为<strong>deleteToBeginningOfLine:, moveToEndOfLine:, deleteToBeginningOfLine:, deleteBackward:, moveDown:, moveToBeginningOfLine:</strong></p></li>
+<li><p>重启Xcode,设置快捷键</p></li>
+</ol>
+
+
+<p>   <strong>Preference</strong> -> <strong>Key Bindings</strong> ,找到 <strong>Delete Current Line</strong> 选项,设置快捷键为 <strong>Opt+D</strong></p>
+
+<h2>Xcode Release Build 版本号自动增加</h2>
+
+<pre><code class="bash">if [ $CONFIGURATION == Release ]; then
+echo "Bumping build number..."
+plist=${PROJECT_DIR}/${INFOPLIST_FILE}
+
+buildnum=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${plist}")
+if [[ "${buildnum}" == "" ]]; then
+echo "No build number in $plist"
+exit 2
+fi
+
+buildnum=$(expr $buildnum + 1)
+/usr/libexec/Plistbuddy -c "Set CFBundleVersion $buildnum" "${plist}"
+echo "Bumped build number to $buildnum"
+
+else
+echo $CONFIGURATION " build - Not bumping build number."
+
+fi
+</code></pre>
+
+<p>使用方法 Xcode&ndash;>Projet&ndash;>Target&ndash;>Build Phases&ndash;>&ldquo;+&rdquo;&ndash;>New Run Script Phase. 顺序放在Target Dependencies之后即可,尽量靠前.</p>
+
+<p>过程, 查找 Info.plist 文件的位置,使用工具 /usr/libexec/PlistBuddy 读取 CFBundleVersion 的值,+1后再写会 Info.plist 文件.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[低版本Xcode调试高版本的iOS系统]]></title>
@@ -339,29 +407,6 @@ threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
 <h2>参考文章</h2>
 
 <p><a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xcode中的调试器LLDB]]></title>
-    <link href="http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html"/>
-    <updated>2015-07-20T17:40:46+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb</id>
-    <content type="html"><![CDATA[<p>原文地址:<a href="http://objccn.io/issue-19-2/">http://objccn.io/issue-19-2/</a><br/>
-里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
-
-<h3>1.查看某个变量的值</h3>
-
-<p> <em>print</em><br/>
- <img class="<a" src="href="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png">http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png</a>&#8221;><br/>
- LLDB会做前缀匹配,一把简写为p,<br/>
- 使用po可以查看NSObject的description</p>
-
-<h3>2.改变某个变量的值</h3>
-
-<p><em>expression</em><br/>
-<img class="<a" src="href="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png">http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png</a>&#8221;><br/>
-简写为expr或者是e(还能再懒一点吗~~)</p>
 ]]></content>
   </entry>
   
