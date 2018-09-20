@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-09-20T16:55:39+08:00</updated>
+  <updated>2018-09-20T17:47:11+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -14,13 +14,39 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Chrome中使用英文关键词搜索中文结果]]></title>
+    <link href="http://douxinchun.github.io/blog/20180920/tips-of-google-search.html"/>
+    <updated>2018-09-20T17:28:46+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180920/tips-of-google-search</id>
+    <content type="html"><![CDATA[<p>在国内,访问Google需要用一点小技巧.有时候,我们使用英文的关键词,但是搜索结果想要查看中文的.由于的这点小技巧的原因,导致Google不能够正确的识别国家和地区的设置.</p>
+
+<p>知乎中有一篇帖子介绍了几个修改的方法: <a href="https://www.zhihu.com/question/37498305">如何修改Chrome里Google搜索的国家和地区设置？</a> 这里我采取另外的一种方法来实现.</p>
+
+<ol>
+<li>chrome地址栏中输入 chrome://settings/searchEngines 打开chrome中的管理搜索引擎</li>
+<li>复制默认搜索引擎的查询网址: {google:baseURL}search?q=%s&amp;{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:contextualSearchVersion}ie={inputEncoding}</li>
+<li>在上面的String后面追加 &amp;lr=lang_zh-CN, 然后添加一个搜索引擎,
+名字:  Google 中文
+关键词: cn
+查询网址: {google:baseURL}search?q=%s&amp;{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:contextualSearchVersion}ie={inputEncoding}&amp;lr=lang_zh-CN
+<img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/9/1-1.png" alt="增加搜索引擎" /></li>
+</ol>
+
+
+<p>4.保存后,在地址栏中输入 cn+空格 ,然后再输入搜索关键字,OK,展示的搜索结果已经变成中文结果了.</p>
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/9/1-2.png" alt="使用介绍" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Xcode 使用技巧]]></title>
     <link href="http://douxinchun.github.io/blog/20180918/tips-of-xcode.html"/>
     <updated>2018-09-18T17:03:09+08:00</updated>
     <id>http://douxinchun.github.io/blog/20180918/tips-of-xcode</id>
     <content type="html"><![CDATA[<h2>Alcatraz</h2>
 
-<p><a href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>是一款开源的用于Xcode7的包管理工具.Xcode8以及以后版本需要配合下面的工具来使用.</p>
+<p><a href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>是一款开源的用于Xcode7的插件管理工具.Xcode8以及以后版本需要配合下面的工具来使用.</p>
 
 <h2>update_xcode_plugins</h2>
 
@@ -1593,7 +1619,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#x72;&#111;&#x6f;&#x74;&#64;&#49;&#x30;&#x2e;&#x32;&#46;&#57;&#x38;&#x2e;&#56;&#x37;">&#x72;&#111;&#x6f;&#116;&#x40;&#x31;&#x30;&#46;&#50;&#46;&#57;&#x38;&#46;&#56;&#55;</a><br/>
+$ ssh <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x72;&#x6f;&#111;&#116;&#x40;&#49;&#48;&#x2e;&#50;&#46;&#57;&#56;&#46;&#56;&#x37;">&#x72;&#x6f;&#111;&#x74;&#64;&#x31;&#x30;&#x2e;&#50;&#x2e;&#57;&#x38;&#x2e;&#56;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -2279,231 +2305,6 @@ perl cloc-1.64.pl ./YourProjectName</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div id="myid" class="myclass" style="padding:5px;">&lt;/div></span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用itms-services 协议来发布ipa文件]]></title>
-    <link href="http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services.html"/>
-    <updated>2015-07-22T16:45:35+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services</id>
-    <content type="html"><![CDATA[<p>苹果允许用itms-services协议来直接在iphone/ipad上安装应用程序，我们可以直接生成该协议需要的相关文件，这样产品经理和测试都可以直接在设备上安装新版的应用:</p>
-
-<p>需要两个文件，一个是html，另一个是plist。</p>
-
-<p>文件index.html(请自动忽略css部分,我实在不会写前端):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
-</span><span class='line'>&lt;head>
-</span><span class='line'>    &lt;style>
-</span><span class='line'>        body {
-</span><span class='line'>            font-size: 50px;
-</span><span class='line'>            margin-top:100px;
-</span><span class='line'>            margin-left:auto;
-</span><span class='line'>            margin-right:auto;
-</span><span class='line'>            text-align:center;
-</span><span class='line'>        }
-</span><span class='line'>    &lt;/style>
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body>
-</span><span class='line'>&lt;p>iOS 7.1 and above systems use the following link to install&lt;/p>
-</span><span class='line'>&lt;p>&lt;a href="itms-services://?action=download-manifest&amp;url=https://********/**/tue_test.plist">Install TU/e App For Test&lt;/a>&lt;/p>
-</span><span class='line'>&lt;/a>&lt;/p>
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>文件plist:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?>
-</span><span class='line'>&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-</span><span class='line'>&lt;plist version="1.0">
-</span><span class='line'>&lt;dict>
-</span><span class='line'>   &lt;key>items&lt;/key>
-</span><span class='line'>   &lt;array>
-</span><span class='line'>       &lt;dict>
-</span><span class='line'>           &lt;key>assets&lt;/key>
-</span><span class='line'>           &lt;array>
-</span><span class='line'>               &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>software-package&lt;/string>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>http://****/**/tue_test.ipa(ipa文件的访问地址)&lt;/string>
-</span><span class='line'>               &lt;/dict>
-</span><span class='line'>               &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>display-image&lt;/string>
-</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
-</span><span class='line'>                   &lt;true/>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
-</span><span class='line'>               &lt;/dict>
-</span><span class='line'>      &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>full-size-image&lt;/string>
-</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
-</span><span class='line'>                   &lt;true/>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
-</span><span class='line'>              &lt;/dict>
-</span><span class='line'>           &lt;/array>
-</span><span class='line'>           &lt;key>metadata&lt;/key>
-</span><span class='line'>           &lt;dict>
-</span><span class='line'>               &lt;key>bundle-identifier&lt;/key>
-</span><span class='line'>               &lt;string>com.xx.xx(bundleID需要ipa中需要保持一致)&lt;/string>
-</span><span class='line'>               &lt;key>bundle-version&lt;/key>
-</span><span class='line'>               &lt;string>1.0(CFBundleVersion需要和ipa中的保持一致)&lt;/string>
-</span><span class='line'>               &lt;key>kind&lt;/key>
-</span><span class='line'>               &lt;string>software&lt;/string>
-</span><span class='line'>               &lt;key>subtitle&lt;/key>
-</span><span class='line'>               &lt;string>&lt;/string>
-</span><span class='line'>               &lt;key>title&lt;/key>
-</span><span class='line'>               &lt;string>TU/e测试版(随便起,用于踊跃alert确认时的提示)&lt;/string>
-</span><span class='line'>           &lt;/dict>
-</span><span class='line'>       &lt;/dict>
-</span><span class='line'>   &lt;/array>
-</span><span class='line'>&lt;/dict>
-</span><span class='line'>&lt;/plist></span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h3>注意</h3>
-
-<p>在iOS7.1之前,协议地址后的url需要使用http协议,</p>
-
-<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="http://********/**/tue_test.plist">http://********/**/tue_test.plist</a></p></blockquote>
-
-<p>在iOS7.1以及以后,这里需要换成https协议,</p>
-
-<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="https://********/**/tue_test.plist">https://********/**/tue_test.plist</a></p></blockquote>
-
-<p>否则使用Safari安装的时候,会提示&#8221;无法安装应用程序，因为“xx.xx.xx” 的证书无效;无法找到主机&#8221;1.2.3.4&#8221;&ldquo;之类的错误.也就是说,原先存放plist的web服务器需要支持https协议.<br/>
-自己动手搭建一个https的web服务的话,其中证书的部分很令人头痛的.我在IIS上整了一个上午,最后的结果上自己生成的证书Safari不认.我去,果断放弃这条路,google了一个简便的方法.利用开源中国(<a href="http://git.oschina.net/">http://git.oschina.net/</a>)提供的代码托管服务,托管一下plist文件,然后ipa的安装包和index.html依旧放在自己的服务器上.itms-services协议后面的url地址,改成在plist文件在开源中国上的url(注意url结束到.plist为止,后面的那一串参数不要带,直接手动把http改为https).</p>
-
-<p>具体的流程参见这里,<a href="http://blog.csdn.net/sy_bz/article/details/33739779">http://blog.csdn.net/sy_bz/article/details/33739779</a></p>
-
-<p>同理,我觉得github也应该可以代替开源中国.</p>
-
-<h3>附</h3>
-
-<p>plist中的字段说明:</p>
-
-<table>
-<thead>
-<tr>
-<th style="text-align:left;"> key值                </th>
-<th style="text-align:left;"> 说明                   </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;"> <strong>assets</strong>           </td>
-<td style="text-align:left;">   </td>
-</tr>
-<tr>
-<td style="text-align:left;"> software-package url </td>
-<td style="text-align:left;"> 要安装的 ipa 地址  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> display-image url    </td>
-<td style="text-align:left;">   安装ipa的时候,桌面显示呃图标  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> <strong>metadata</strong>         </td>
-<td style="text-align:left;">    </td>
-</tr>
-<tr>
-<td style="text-align:left;"> bundle-identifier    </td>
-<td style="text-align:left;"> bundle ID (和ipa保持一致) </td>
-</tr>
-<tr>
-<td style="text-align:left;"> bundle-version       </td>
-<td style="text-align:left;"> CFBundleVersion(和ipa保持一致)  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> title                </td>
-<td style="text-align:left;"> 用户点击时弹框中的AppTitle提示  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> subtitle             </td>
-<td style="text-align:left;"> 不明,应该 也跟弹框的内容相关 </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>以备后用<br/>
-自搭https服务器,可以查看的参照:<a href="http://zengrong.net/post/2108.html">http://zengrong.net/post/2108.html</a></p>
 ]]></content>
   </entry>
   

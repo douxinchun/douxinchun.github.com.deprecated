@@ -9,8 +9,8 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="Update:
-最新消息,多说将于2017年6月1日正式关停服务,还是切换回disqus吧. octopress自带的disqus自定义的选项非常少,由于国内的原因,加载的速度巨慢,对中文的支持非常不好,于是参照其他博主的意见找了一个国内的社会化评论插件多说来替代disqus &hellip;">
+  <meta name="description" content="1.iOS7 下UIScrollView 无法滑动的解决办法 环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview
+接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,12 +78,55 @@
   <li><a href="/aboutme">关于我</a></li>
   
 </ul>
-
 </nav>
   <div id="main">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150327/ios-bug-collection.html">iOS开发过程中遇到的Bug处理集合</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-27T15:00:07+08:00'><span class='date'>2015 年3 月27 日</span> <span class='time'>3:00 pm</span></time>
+        
+           | <a href="/blog/20150327/ios-bug-collection.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20150327/ios-bug-collection.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1.iOS7 下UIScrollView 无法滑动的解决办法</h2>
+
+<p>环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview<br/>
+接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+都出了,感觉以后使用AutoLayout会是主流),刚开始一切OK,跑起来顺畅的很,在3.5和4的屏幕上适应的都不错,后来不知道怎么调整了一下UI,结果悲剧发生了,Scrollview死活滑动不了了,导致Scrollview上的下拉刷新也不好用了.<br/>
+第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail&hellip; &hellip;Fuck Google上清一水的解决方案都是这个,说好的滑动呢&hellip;</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/20150327/ios-bug-collection.html">阅读全文</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -208,6 +251,10 @@ A blogging framework for hackers.</p></blockquote>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20180920/tips-of-google-search.html">Chrome中使用英文关键词搜索中文结果</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20180918/tips-of-xcode.html">Xcode 使用技巧</a>
       </li>
     
@@ -223,10 +270,6 @@ A blogging framework for hackers.</p></blockquote>
         <a href="/blog/20180718/generate-rsa-key-on-mac-os-x.html">Mac OS X 下生成RSA密钥对</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html">低版本Xcode调试高版本的iOS系统</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -240,6 +283,7 @@ A blogging framework for hackers.</p></blockquote>
 <li class='category'><a href='/blog/categories/der/'>der (1)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
+<li class='category'><a href='/blog/categories/google/'>google (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (9)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>

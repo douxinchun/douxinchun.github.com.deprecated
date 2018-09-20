@@ -4,7 +4,7 @@
   <title><![CDATA[分类：xcode | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/xcode/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-09-20T16:55:39+08:00</updated>
+  <updated>2018-09-20T17:47:11+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -20,7 +20,7 @@
     <id>http://douxinchun.github.io/blog/20180918/tips-of-xcode</id>
     <content type="html"><![CDATA[<h2>Alcatraz</h2>
 
-<p><a href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>是一款开源的用于Xcode7的包管理工具.Xcode8以及以后版本需要配合下面的工具来使用.</p>
+<p><a href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>是一款开源的用于Xcode7的插件管理工具.Xcode8以及以后版本需要配合下面的工具来使用.</p>
 
 <h2>update_xcode_plugins</h2>
 

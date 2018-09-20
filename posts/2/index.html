@@ -9,11 +9,10 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="我的MacBook Pro 电脑配置
-机器型号: MacBook Pro (13-inch, Mid 2012) 普通屏
-根据苹果官网的查询 苹果官网的MBP型号查询 型号应该是MD101或者MD102
-处理器: 2.5 GHz Intel Core i5
-原配内存: 2G*2 1600Hz &hellip;">
+  <meta name="description" content="动手之前,TimeMachine备份数据!
+动手之前,TimeMachine备份数据!
+动手之前,TimeMachine备份数据! 1.8GB或者更大容量的U盘,Apple建议不小于12G
+2.使用 应用程序&ndash;>实用工具&ndash;>磁盘工具 格盘 (参考图片 格盘) 名称 &hellip;&#8221;>
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,12 +80,83 @@
   <li><a href="/aboutme">关于我</a></li>
   
 </ul>
-
 </nav>
   <div id="main">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-29T16:46:55+08:00'><span class='date'>2017 年5 月29 日</span> <span class='time'>4:46 pm</span></time>
+        
+           | <a href="/blog/20170529/install-macos-by-u-disk.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>动手之前,TimeMachine备份数据!<br/>
+动手之前,TimeMachine备份数据!<br/>
+动手之前,TimeMachine备份数据!</p>
+
+<ul>
+<li>1.8GB或者更大容量的U盘,Apple建议不小于12G</li>
+<li>2.使用 应用程序&ndash;>实用工具&ndash;>磁盘工具 格盘 (参考图片 格盘)
+
+<ul>
+<li> 名称 Sierra 使用其它名称注意在后面的Terminal命令中作出替换</li>
+<li> 格式 Mac OS 扩展 (日志式)</li>
+<li> 方案 GUID 分区图</li>
+</ul>
+</li>
+<li>3.AppStore中下载Sierra系统.下载耗时较长,可以冲杯咖啡,休息一下去了.(参照图片 原版安装包)</li>
+<li>4.使用Terminal(应用程序→实用工具→终端),输入命令<br/>
+<code>
+sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/Sierra --applicationpath /Applications/Install\ macOS\ Sierra.app --nointeraction
+</code>
+耐心等待,直至出现Done.启动U盘制作结束.</li>
+<li>5.重新启动PC,按照Option不放,直到出现启动菜单选项.
+<img src="/blog_reference_image/2017/7/mac_option_boot.jpg" alt="启动菜单项" /></li>
+</ul>
+
+
+<h3>附几张网络图片,仅供参考</h3>
+
+<p>格盘<br/>
+<img src="/blog_reference_image/2017/7/disk_ulitily.jpg" alt="U盘格盘" />
+原版安装包<br/>
+<img src="http://upload-images.jianshu.io/upload_images/3704217-1629bb87e7f7945e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="原版安装包" />
+步骤4,参考图
+<img src="/blog_reference_image/2017/7/terminal.jpg" alt="terminal-createinstallmedia" /></p>
+
+<h3>参考资料</h3>
+
+<p><a href="https://support.apple.com/zh-cn/HT201372">创建可引导的macOS安装器,https://support.apple.com/zh-cn/HT201372</a><br/>
+<a href="http://www.iplaysoft.com/macos-usb-install-drive.html">iPlaySoft简单制作 macOS Sierra 正式版U盘USB启动安装盘方法教程</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -309,7 +379,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#58;&#x72;&#111;&#x6f;&#x74;&#64;&#49;&#x30;&#x2e;&#x32;&#46;&#57;&#x38;&#x2e;&#56;&#x37;">&#x72;&#111;&#x6f;&#116;&#x40;&#x31;&#x30;&#46;&#50;&#46;&#57;&#x38;&#46;&#56;&#55;</a><br/>
+$ ssh <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x72;&#x6f;&#111;&#116;&#x40;&#49;&#48;&#x2e;&#50;&#46;&#57;&#56;&#46;&#56;&#x37;">&#x72;&#x6f;&#111;&#x74;&#64;&#x31;&#x30;&#x2e;&#50;&#x2e;&#57;&#x38;&#x2e;&#56;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -1077,257 +1147,6 @@ perl cloc-1.64.pl ./YourProjectName</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150722/distribute-ipa-by-itms-services.html">使用itms-services 协议来发布ipa文件</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-22T16:45:35+08:00'><span class='date'>2015 年7 月22 日</span> <span class='time'>4:45 pm</span></time>
-        
-           | <a href="/blog/20150722/distribute-ipa-by-itms-services.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>苹果允许用itms-services协议来直接在iphone/ipad上安装应用程序，我们可以直接生成该协议需要的相关文件，这样产品经理和测试都可以直接在设备上安装新版的应用:</p>
-
-<p>需要两个文件，一个是html，另一个是plist。</p>
-
-<p>文件index.html(请自动忽略css部分,我实在不会写前端):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
-</span><span class='line'>&lt;head>
-</span><span class='line'>    &lt;style>
-</span><span class='line'>        body {
-</span><span class='line'>            font-size: 50px;
-</span><span class='line'>            margin-top:100px;
-</span><span class='line'>            margin-left:auto;
-</span><span class='line'>            margin-right:auto;
-</span><span class='line'>            text-align:center;
-</span><span class='line'>        }
-</span><span class='line'>    &lt;/style>
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body>
-</span><span class='line'>&lt;p>iOS 7.1 and above systems use the following link to install&lt;/p>
-</span><span class='line'>&lt;p>&lt;a href="itms-services://?action=download-manifest&amp;url=https://********/**/tue_test.plist">Install TU/e App For Test&lt;/a>&lt;/p>
-</span><span class='line'>&lt;/a>&lt;/p>
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>文件plist:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?>
-</span><span class='line'>&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-</span><span class='line'>&lt;plist version="1.0">
-</span><span class='line'>&lt;dict>
-</span><span class='line'>   &lt;key>items&lt;/key>
-</span><span class='line'>   &lt;array>
-</span><span class='line'>       &lt;dict>
-</span><span class='line'>           &lt;key>assets&lt;/key>
-</span><span class='line'>           &lt;array>
-</span><span class='line'>               &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>software-package&lt;/string>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>http://****/**/tue_test.ipa(ipa文件的访问地址)&lt;/string>
-</span><span class='line'>               &lt;/dict>
-</span><span class='line'>               &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>display-image&lt;/string>
-</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
-</span><span class='line'>                   &lt;true/>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
-</span><span class='line'>               &lt;/dict>
-</span><span class='line'>      &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>full-size-image&lt;/string>
-</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
-</span><span class='line'>                   &lt;true/>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
-</span><span class='line'>              &lt;/dict>
-</span><span class='line'>           &lt;/array>
-</span><span class='line'>           &lt;key>metadata&lt;/key>
-</span><span class='line'>           &lt;dict>
-</span><span class='line'>               &lt;key>bundle-identifier&lt;/key>
-</span><span class='line'>               &lt;string>com.xx.xx(bundleID需要ipa中需要保持一致)&lt;/string>
-</span><span class='line'>               &lt;key>bundle-version&lt;/key>
-</span><span class='line'>               &lt;string>1.0(CFBundleVersion需要和ipa中的保持一致)&lt;/string>
-</span><span class='line'>               &lt;key>kind&lt;/key>
-</span><span class='line'>               &lt;string>software&lt;/string>
-</span><span class='line'>               &lt;key>subtitle&lt;/key>
-</span><span class='line'>               &lt;string>&lt;/string>
-</span><span class='line'>               &lt;key>title&lt;/key>
-</span><span class='line'>               &lt;string>TU/e测试版(随便起,用于踊跃alert确认时的提示)&lt;/string>
-</span><span class='line'>           &lt;/dict>
-</span><span class='line'>       &lt;/dict>
-</span><span class='line'>   &lt;/array>
-</span><span class='line'>&lt;/dict>
-</span><span class='line'>&lt;/plist></span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h3>注意</h3>
-
-<p>在iOS7.1之前,协议地址后的url需要使用http协议,</p>
-
-<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="http://********/**/tue_test.plist">http://********/**/tue_test.plist</a></p></blockquote>
-
-<p>在iOS7.1以及以后,这里需要换成https协议,</p>
-
-<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="https://********/**/tue_test.plist">https://********/**/tue_test.plist</a></p></blockquote>
-
-<p>否则使用Safari安装的时候,会提示&#8221;无法安装应用程序，因为“xx.xx.xx” 的证书无效;无法找到主机&#8221;1.2.3.4&#8221;&ldquo;之类的错误.也就是说,原先存放plist的web服务器需要支持https协议.<br/>
-自己动手搭建一个https的web服务的话,其中证书的部分很令人头痛的.我在IIS上整了一个上午,最后的结果上自己生成的证书Safari不认.我去,果断放弃这条路,google了一个简便的方法.利用开源中国(<a href="http://git.oschina.net/">http://git.oschina.net/</a>)提供的代码托管服务,托管一下plist文件,然后ipa的安装包和index.html依旧放在自己的服务器上.itms-services协议后面的url地址,改成在plist文件在开源中国上的url(注意url结束到.plist为止,后面的那一串参数不要带,直接手动把http改为https).</p>
-
-<p>具体的流程参见这里,<a href="http://blog.csdn.net/sy_bz/article/details/33739779">http://blog.csdn.net/sy_bz/article/details/33739779</a></p>
-
-<p>同理,我觉得github也应该可以代替开源中国.</p>
-
-<h3>附</h3>
-
-<p>plist中的字段说明:</p>
-
-<table>
-<thead>
-<tr>
-<th style="text-align:left;"> key值                </th>
-<th style="text-align:left;"> 说明                   </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;"> <strong>assets</strong>           </td>
-<td style="text-align:left;">   </td>
-</tr>
-<tr>
-<td style="text-align:left;"> software-package url </td>
-<td style="text-align:left;"> 要安装的 ipa 地址  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> display-image url    </td>
-<td style="text-align:left;">   安装ipa的时候,桌面显示呃图标  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> <strong>metadata</strong>         </td>
-<td style="text-align:left;">    </td>
-</tr>
-<tr>
-<td style="text-align:left;"> bundle-identifier    </td>
-<td style="text-align:left;"> bundle ID (和ipa保持一致) </td>
-</tr>
-<tr>
-<td style="text-align:left;"> bundle-version       </td>
-<td style="text-align:left;"> CFBundleVersion(和ipa保持一致)  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> title                </td>
-<td style="text-align:left;"> 用户点击时弹框中的AppTitle提示  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> subtitle             </td>
-<td style="text-align:left;"> 不明,应该 也跟弹框的内容相关 </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>以备后用<br/>
-自搭https服务器,可以查看的参照:<a href="http://zengrong.net/post/2108.html">http://zengrong.net/post/2108.html</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1351,6 +1170,10 @@ perl cloc-1.64.pl ./YourProjectName</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20180920/tips-of-google-search.html">Chrome中使用英文关键词搜索中文结果</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20180918/tips-of-xcode.html">Xcode 使用技巧</a>
       </li>
     
@@ -1366,10 +1189,6 @@ perl cloc-1.64.pl ./YourProjectName</p>
         <a href="/blog/20180718/generate-rsa-key-on-mac-os-x.html">Mac OS X 下生成RSA密钥对</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html">低版本Xcode调试高版本的iOS系统</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -1383,6 +1202,7 @@ perl cloc-1.64.pl ./YourProjectName</p>
 <li class='category'><a href='/blog/categories/der/'>der (1)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
+<li class='category'><a href='/blog/categories/google/'>google (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (9)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
