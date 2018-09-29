@@ -4,7 +4,7 @@
   <title><![CDATA[分类：ios | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-09-29T11:54:15+08:00</updated>
+  <updated>2018-09-29T13:22:27+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -147,7 +147,7 @@ UUID is:
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#114;&#x6f;&#111;&#x74;&#x40;&#49;&#x30;&#x2e;&#50;&#x2e;&#57;&#x38;&#46;&#56;&#x37;">&#114;&#111;&#x6f;&#x74;&#x40;&#x31;&#x30;&#x2e;&#x32;&#x2e;&#57;&#56;&#46;&#56;&#x37;</a><br/>
+$ ssh <a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#114;&#111;&#111;&#x74;&#64;&#49;&#48;&#x2e;&#x32;&#46;&#57;&#56;&#46;&#56;&#x37;">&#x72;&#111;&#x6f;&#x74;&#64;&#x31;&#x30;&#x2e;&#x32;&#x2e;&#57;&#x38;&#x2e;&#x38;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>

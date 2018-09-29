@@ -4,7 +4,7 @@
   <title><![CDATA[分类：c | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/c/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-09-29T11:54:15+08:00</updated>
+  <updated>2018-09-29T13:22:27+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -29,13 +29,17 @@ return 0;
 }
 </code></pre>
 
-<p>在 [] 标记内加入一条语句，使得：
-1、程序编译通过，无错误（警告随意）；链接通过，无错误（警告随意）
-2、程序能够运行，无崩溃和运行时错误
-3、源代码为.c 文件
-4、如果用 vs，则使用 Release 配置；用 gcc 也行
-5、加入的语句不能忽略分号
-6、printf 一句必须能够正常输出内容</p>
+<p>在 [] 标记内加入一条语句，使得：</p>
+
+<ol>
+<li>程序编译通过，无错误（警告随意）；链接通过，无错误（警告随意）</li>
+<li>程序能够运行，无崩溃和运行时错误</li>
+<li>源代码为.c 文件</li>
+<li>如果用 vs，则使用 Release 配置；用 gcc 也行</li>
+<li>加入的语句不能忽略分号</li>
+<li>printf 一句必须能够正常输出内容</li>
+</ol>
+
 
 <p>答案如下表</p>
 
