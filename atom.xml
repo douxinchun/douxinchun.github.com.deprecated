@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-09-20T17:47:11+08:00</updated>
+  <updated>2018-09-29T11:51:48+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -12,6 +12,201 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[C 语言函数指针小测试]]></title>
+    <link href="http://douxinchun.github.io/blog/20180928/function-pointer-test.html"/>
+    <updated>2018-09-28T15:10:54+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180928/function-pointer-test</id>
+    <content type="html"><![CDATA[<p>首先看一道趣味题,来源:<a href="https://www.v2ex.com/t/492705">https://www.v2ex.com/t/492705</a></p>
+
+<h1>include &lt;stdio.h></h1>
+
+<p>int main() {
+[]
+printf(&ldquo;%p\n&rdquo;, **************************************************************p);
+return 0;
+}</p>
+
+<p>在 [] 标记内加入一条语句，使得：
+1、程序编译通过，无错误（警告随意）；链接通过，无错误（警告随意）
+2、程序能够运行，无崩溃和运行时错误
+3、源代码为.c 文件
+4、如果用 vs，则使用 Release 配置；用 gcc 也行
+5、加入的语句不能忽略分号
+6、printf 一句必须能够正常输出内容</p>
+
+<p>答案如下表</p>
+
+<table>
+<thead>
+<tr>
+<th> int(*p)(); </th>
+<th> 10个字符 </th>
+<th> 兼容 gcc、g++、vs        </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> int p(){}  </td>
+<td> 9个字符  </td>
+<td> 兼容 gcc，不兼容 g++、vs </td>
+</tr>
+<tr>
+<td> p();}p(){  </td>
+<td> 9个字符  </td>
+<td> 兼容 gcc、g++、vs        </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>本文主要针对第一种答案来说明一下为什么函数指针可以被无线次解引用.</p>
+
+<h2>&amp; *</h2>
+
+<p>说到指针,首先就一定要介绍两个操作符.</p>
+
+<blockquote><p>&amp; 地址操作符(address operators) 单目前缀操作符,操作数为跟在后面的表达式. eg:&amp;a,表示取操作数a的地址,也可以理解为取对象a的地址,或者取变量a的地址等等.</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="c1">// 在64处理器的系统模式下,地址的长度为8个字节</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sizeof(&amp;a)=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">**********</span><span class="n">result</span><span class="o">**********</span>
+</span><span class='line'><span class="k">sizeof</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">)</span><span class="o">=</span><span class="mi">8</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>* 间接操作符 (indirection operators) 单目前缀操作数,同样也是跟在后面的表达式为操作数,可以使用间接操作符通过指针对象间接地访问它所指向对象的值. eg: *a,表示取<strong>指针对象</strong>a中存的地址所指向的值. (这里的表达非常绕,下面举个例子,请自行脑补)</p></blockquote>
+
+<p><em>a的举例: 超市的储物柜,每个格子都有一个唯一对应的条形码,我们认为这就是每个格子的地址,格子本身就是实实在在的三维空间,是可以放物品的.现在有两个格子a格和b格,我们把背包放进了b格,然后把印有b格条码的纸条放进了a格, 那么,a格就相当于一个指针变量, b格就相当于一个普通的变量. </em>a的意思就是 分两步,第一步找到a格,取出a格中存放的条码,第二步,按照条码找到b格,取出b格中的背包.  最终简化一下, *a就是背包.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">666</span><span class="p">;</span>
+</span><span class='line'><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">;</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">;</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;*a=%d sizeof(*a)=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">*</span><span class="n">a</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">**********</span><span class="n">result</span><span class="o">**********</span>
+</span><span class='line'><span class="o">*</span><span class="n">a</span><span class="o">=</span><span class="mi">666</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span><span class="o">=</span><span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>对于间接操作符,需要特别注意的有两点:</p>
+
+<p>第一,间接操作符(*)与用来声明之神类别对象的&#8221;*&ldquo;不属于同种功能,虽然它们两者确实是同一个字符,unicode码点都是 \u002a</p>
+
+<p>第二,间接操作符只作用于指针类型的对象,也就是说简介操作符的的操作数必须是一个指针类型的对象.</p></blockquote>
+
+<h2>&ldquo;取地址&#8221;与&#8221;解引用&rdquo;</h2>
+
+<p>通俗的讲,对一个变量的 &amp; 操作称为&#8221;取地址&#8221;</p>
+
+<p>对一个指针变量的 * 操作称作&#8221;解引用&#8221;.</p>
+
+<p>换一种角度去理解解引用，&#8221;*&ldquo;的作用是引用指针指向的变量值，引用其实就是引用该变量的地址，“解”就是把该地址对应的东西解开，解出来，就像打开一个包裹一样，那就是该变量的值了，所以称为“解引用”。也就是说，解引用是返回内存地址中保存的值。这个值可以是另一个地址。</p>
+
+<h2>多级指针.</h2>
+
+<p>如果一个指针变量存的是一个普通变量的地址,比如 int <em>a,只能存放一个整型变量的地址,那么这个指针叫做一级指针;如果一个指针变量存放的是另一个指针变量的地址,比如 int **, 里面存放的是一个(int </em>a)类型的指针变量的地址,那么这个指针变量叫二级指针,依次往下推,可以有三级指针,四级指针&hellip;.直到多级指针.</p>
+
+<h2>函数指针</h2>
+
+<p>简单理解就是指向函数地址的指针。比如我们声明的一个C函数</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="kt">void</span> <span class="nf">func</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span><span class='line'><span class="c1">//函数调用</span>
+</span><span class='line'><span class="n">func</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么对于函数调用表达式 func() 而言， func后缀表达式就已经表示了一个指向返回类型为void，且参数列表为空的函数的指针：</p>
+
+<blockquote><p>void (*) (void)</p></blockquote>
+
+<p>函数指针的通用表达形式为：</p>
+
+<blockquote><p>返回类型 （* cv限定符 ）（形参列表）</p></blockquote>
+
+<p>其中，cv限定符为可选项。</p>
+
+<p>直接上code</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)();</span>
+</span><span class='line'><span class="n">p</span><span class="o">=&amp;</span><span class="n">func</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sizeof(func)= %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">func</span><span class="p">));</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sizeof(p)= %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;func</span><span class="se">\t</span><span class="s"> %p = %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">func</span><span class="p">,</span><span class="n">func</span><span class="p">);</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;p *p</span><span class="se">\t</span><span class="s"> %p = %p = %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">p</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="o">*</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;p多次解引用 %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">**********************</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">pNull</span><span class="p">)();</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;pNull *p</span><span class="se">\t</span><span class="s"> %p = %p = %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">pNull</span><span class="p">,</span><span class="n">pNull</span><span class="p">,</span><span class="o">*</span><span class="n">pNull</span><span class="p">);</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;pNull多次解引用 %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">**********************</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">**********</span><span class="n">result</span><span class="o">**********</span>
+</span><span class='line'><span class="k">sizeof</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">=</span> <span class="mi">8</span>
+</span><span class='line'><span class="n">func</span>    <span class="mh">0x100000df0</span> <span class="o">=</span> <span class="mh">0x100000df0</span>
+</span><span class='line'><span class="n">p</span> <span class="o">*</span><span class="n">p</span>  <span class="mh">0x7ffeefbff568</span> <span class="o">=</span> <span class="mh">0x100000df0</span> <span class="o">=</span> <span class="mh">0x100000df0</span>
+</span><span class='line'><span class="n">p</span><span class="err">多次解引用</span> <span class="mh">0x100000df0</span>
+</span><span class='line'><span class="n">pNull</span> <span class="o">*</span><span class="n">p</span>  <span class="mh">0x7ffeefbff560</span> <span class="o">=</span> <span class="mh">0x0</span> <span class="o">=</span> <span class="mh">0x0</span>
+</span><span class='line'><span class="n">pNull</span><span class="err">多次解引用</span> <span class="mh">0x0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看出：</p>
+
+<ol>
+<li><p>函数指针变量在64位系统下的大小是8，函数指针常量的大小是1。</p></li>
+<li><p>函数指针常量中存储的内容是自身的地址（这是为什么函数指针可以被无限次解引用的关键，因为解到最后一层以后，继续解就陷入了”自己找自己“的循环）。</p></li>
+<li><p>未赋值的函数指针变量默认指向的是地址是0x0，对存储在该地址的指针对象解引用的结果依旧是0x0，所以可以认为0x0地址的内存单元中存的是地址0x0（此处上可能有误，尚需以后讨论）。</p></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Chrome中使用英文关键词搜索中文结果]]></title>
@@ -23,15 +218,16 @@
 <p>知乎中有一篇帖子介绍了几个修改的方法: <a href="https://www.zhihu.com/question/37498305">如何修改Chrome里Google搜索的国家和地区设置？</a> 这里我采取另外的一种方法来实现.</p>
 
 <ol>
-<li>chrome地址栏中输入 chrome://settings/searchEngines 打开chrome中的管理搜索引擎</li>
-<li>复制默认搜索引擎的查询网址: {google:baseURL}search?q=%s&amp;{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:contextualSearchVersion}ie={inputEncoding}</li>
-<li>在上面的String后面追加 &amp;lr=lang_zh-CN, 然后添加一个搜索引擎,
+<li><p>chrome地址栏中输入 chrome://settings/searchEngines 打开chrome中的管理搜索引擎</p></li>
+<li><p>复制默认搜索引擎的查询网址:   {google:baseURL}search?q=%s&amp;{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:contextualSearchVersion}ie={inputEncoding}</p></li>
+<li><p>在上面的String后面追加 &amp;lr=lang_zh-CN, 然后添加一个搜索引擎,
 名字:  Google 中文
 关键词: cn
-查询网址: {google:baseURL}search?q=%s&amp;{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:contextualSearchVersion}ie={inputEncoding}&amp;lr=lang_zh-CN
-<img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/9/1-1.png" alt="增加搜索引擎" /></li>
+查询网址:  {google:baseURL}search?q=%s&amp;{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:contextualSearchVersion}ie={inputEncoding}&amp;lr=lang_zh-CN</p></li>
 </ol>
 
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/9/1-1.png" alt="增加搜索引擎" /></p>
 
 <p>4.保存后,在地址栏中输入 cn+空格 ,然后再输入搜索关键字,OK,展示的搜索结果已经变成中文结果了.</p>
 
@@ -1619,7 +1815,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x72;&#x6f;&#111;&#116;&#x40;&#49;&#48;&#x2e;&#50;&#46;&#57;&#56;&#46;&#56;&#x37;">&#x72;&#x6f;&#111;&#x74;&#64;&#x31;&#x30;&#x2e;&#50;&#x2e;&#57;&#x38;&#x2e;&#56;&#55;</a><br/>
+$ ssh <a href="&#109;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x72;&#111;&#x6f;&#116;&#x40;&#49;&#48;&#x2e;&#50;&#x2e;&#x39;&#x38;&#x2e;&#x38;&#55;">&#114;&#111;&#x6f;&#116;&#64;&#49;&#48;&#x2e;&#x32;&#46;&#x39;&#x38;&#46;&#56;&#x37;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -2215,96 +2411,6 @@ perl cloc-1.64.pl ./YourProjectName</p>
 
 
 <p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在网页中嵌入css的三种方法]]></title>
-    <link href="http://douxinchun.github.io/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html"/>
-    <updated>2015-07-22T18:42:32+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa</id>
-    <content type="html"><![CDATA[<p>留存备忘<br/>
-假如有一段HTML代码如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
-</span><span class='line'>&lt;head>
-</span><span class='line'>&lt;title>Hi&lt;/title>
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body>
-</span><span class='line'>  &lt;div id="myid" class="myclass">&lt;/div>
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>在HTML代码中嵌入CSS有一下三种方法：</p>
-
-<p>1.外链式CSS。编写一个.css文件并且命名为style.css,内容如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#myid{
-</span><span class='line'>     padding:5px;
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-然后在HTML代码的&lt;head>标签对,&lt;title>下面改成这样:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
-</span><span class='line'>   &lt;title>HI&lt;/title>
-</span><span class='line'>   &lt;link rel="stylesheet" type="text/css" href="style.css">
-</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-这样就OK了</p>
-
-<p>2.内嵌式CSS。直接在&lt;title>标签加成这样：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
-</span><span class='line'>   &lt;title>HI&lt;/title>
-</span><span class='line'>   &lt;style type="text/css">
-</span><span class='line'>   &lt;!--
-</span><span class='line'>    #myid{
-</span><span class='line'>     padding:5px;
-</span><span class='line'>     }
-</span><span class='line'>    -->
-</span><span class='line'>   &lt;/style>
-</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>3.直接式CSS。直接为DIV添加style属性如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div id="myid" class="myclass" style="padding:5px;">&lt;/div></span></code></pre></td></tr></table></div></figure>
-
 ]]></content>
   </entry>
   
