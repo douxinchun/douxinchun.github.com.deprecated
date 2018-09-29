@@ -4,7 +4,7 @@
   <title><![CDATA[分类：c | 冷雨之家]]></title>
   <link href="http://douxinchun.github.io/blog/categories/c/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-09-29T11:51:48+08:00</updated>
+  <updated>2018-09-29T11:54:15+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -20,13 +20,14 @@
     <id>http://douxinchun.github.io/blog/20180928/function-pointer-test</id>
     <content type="html"><![CDATA[<p>首先看一道趣味题,来源:<a href="https://www.v2ex.com/t/492705">https://www.v2ex.com/t/492705</a></p>
 
-<h1>include &lt;stdio.h></h1>
+<pre><code class="C">#include &lt;stdio.h&gt;
 
-<p>int main() {
-[]
-printf(&ldquo;%p\n&rdquo;, **************************************************************p);
+int main() {
+[] 
+printf("%p\n", **********************p);
 return 0;
-}</p>
+}
+</code></pre>
 
 <p>在 [] 标记内加入一条语句，使得：
 1、程序编译通过，无错误（警告随意）；链接通过，无错误（警告随意）

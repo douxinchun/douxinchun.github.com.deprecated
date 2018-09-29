@@ -9,9 +9,16 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="首先看一道趣味题,来源:https://www.v2ex.com/t/492705 include &lt;stdio.h> int main() {
+  <meta name="description" content="首先看一道趣味题,来源:https://www.v2ex.com/t/492705 1
+2
+3
+4
+5
+6
+7
+#include &lt;stdio.h&gt; int main() {
 []
-printf(&ldquo;%p\n&rdquo &hellip;&#8221;>
+printf(&quot;%p\n&quot;, **********************p); &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -111,13 +118,22 @@ printf(&ldquo;%p\n&rdquo &hellip;&#8221;>
 
 <div class="entry-content"><p>首先看一道趣味题,来源:<a href="https://www.v2ex.com/t/492705">https://www.v2ex.com/t/492705</a></p>
 
-<h1>include &lt;stdio.h></h1>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="p">[]</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">**********************</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'><span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>int main() {
-[]
-printf(&ldquo;%p\n&rdquo;, **************************************************************p);
-return 0;
-}</p>
 
 <p>在 [] 标记内加入一条语句，使得：
 1、程序编译通过，无错误（警告随意）；链接通过，无错误（警告随意）
