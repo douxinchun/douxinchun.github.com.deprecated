@@ -9,16 +9,7 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="首先看一道趣味题,来源:https://www.v2ex.com/t/492705 1
-2
-3
-4
-5
-6
-7
-#include &lt;stdio.h&gt; int main() {
-[]
-printf(&quot;%p\n&quot;, **********************p); &hellip;">
+  <meta name="description" content="本文主要记录一下自己学习RFC8484 DNS Queries over HTTPS (DoH)时的简单翻译。 1.Introduction RFC8484 定义了一种通过https链路来发送DNS请求和接受DNS响应的协议。每一对DNS的请求和响应对应一次http的交换。 This &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -91,6 +82,196 @@ printf(&quot;%p\n&quot;, **********************p); &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20181129/dns-over-https.html">DNS Over Https RFC8484</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-11-29T22:31:53+08:00'><span class='date'>2018 年11 月29 日</span> <span class='time'>10:31 pm</span></time>
+        
+           | <a href="/blog/20181129/dns-over-https.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20181129/dns-over-https.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文主要记录一下自己学习RFC8484 DNS Queries over HTTPS (DoH)时的简单翻译。</p>
+
+<h2>1.Introduction</h2>
+
+<p>RFC8484 定义了一种通过https链路来发送DNS请求和接受DNS响应的协议。每一对DNS的请求和响应对应一次http的交换。</p>
+
+<blockquote><p>This document defines a protocol for sending DNS queries and getting   DNS responses over HTTPS.  Each DNS query-response pair is mapped   into an HTTP exchange.</p></blockquote>
+
+<p>本文描述的方法不仅仅是基于http的隧道。DoH为请求和响应增加了默认的媒体格式类型（meida formatting type），使用http内容协商机制来选择替代品，因为终端可能会更希望能服务于新的使用场景（水平有限，这句搞不定）。除此之外，DoH具有http的特性，比如，缓存，重定向，代理，认证和压缩。</p>
+
+<blockquote><pre><code>The described approach is more than a tunnel over HTTP.  It establishes default media formatting types for requests and responses but uses normal HTTP content negotiation mechanisms for selecting alternatives that endpoints may prefer in anticipation of serving new use cases.  In addition to this media type negotiation, it aligns itself with HTTP features such as caching, redirection, proxying, authentication, and compression.
+</code></pre></blockquote>
+
+<p>这种与http的集成为现有的DNS客户端和web应用的dns查询提供一种传输层的适配。</p>
+
+<blockquote><pre><code>The integration with HTTP provides a transport suitable for both existing DNS clients and native web applications seeking access to the DNS.
+</code></pre></blockquote>
+
+<p>在协议的开发过程中主要考虑了两点，一是阻止路径上的其它设备对DNS操作产生妨碍，二是允许web应用以现有的浏览器API用一种安全的方式来获取DNS信息，而且与CORS（这个概念不清楚）保持一致。其余方面未做额外的工作。该文档着重说明在DNS客户端（eg，操作系统的根解析器）和递归解析服务器之间的通信过程。</p>
+
+<blockquote><pre><code>Two primary use cases were considered during this protocol's development.  These use cases are preventing on-path devices from interfering with DNS operations, and also allowing web applications to access DNS information via existing browser APIs in a safe way consistent with Cross Origin Resource Sharing (CORS).  No special effort has been taken to enable or prevent application to other use cases.  This document focuses on communication between DNS clients (such as operating system stub resolvers) and recursive resolvers.
+</code></pre></blockquote>
+
+<h2>2.  Terminology</h2>
+
+<p>DoH Server:  支持DoH协议的服务器。</p>
+
+<p>DNS Server：普通的传输层协议的DNS服务器，UDP 53 端口</p>
+
+<p>DoH Clieng： 支持DoH协议的客户端</p>
+
+<p>must 一定要， must not 绝对不能，required 必要的， shall 应该， shall not 不应该，should 应该（语气轻），should not 不应该（语气轻），recommend 建议，recommend not 建议不要， may 可以， optional 可选</p>
+
+<h2>3.Selection of DoH Server</h2>
+
+<p>这段没用，主要是讲DoH Server支持客户端各种URI的配置，只要client的配置符合URI规范就行。</p>
+
+<blockquote><pre><code>The DoH client is configured with a URI Template [RFC6570], which describes how to construct the URL to use for resolution. Configuration, discovery, and updating of the URI Template is done out of band from this protocol.  Note that configuration might be manual (such as a user typing URI Templates in a user interface for "options") or automatic (such as URI Templates being supplied in responses from DHCP or similar protocols).  DoH servers MAY support more than one URI Template.  This allows the different endpoints to have different properties, such as different authentication requirements or service-level guarantees.
+</code></pre></blockquote>
+
+<p>这段也没用，[rfc2818]描述了https协议是怎样确认DoH Server的主机身份的。</p>
+
+<blockquote><pre><code>A DoH client uses configuration to select the URI, and thus the DoH server, that is to be used for resolution.  [RFC2818] defines how HTTPS verifies the DoH server's identity.
+</code></pre></blockquote>
+
+<p>一个Client一定不能使用两个不同的URI。这里看不懂</p>
+
+<blockquote><pre><code>A DoH client MUST NOT use a different URI simply because it was discovered outside of the client's configuration (such as through HTTP/2 server push) or because a server offers an unsolicited response that appears to be a valid answer to a DNS query.  This specification does not extend DNS resolution privileges to URIs that are not recognized by the DoH client as configured URIs.  Such scenarios may create additional operational, tracking, and security hazards that require limitations for safe usage.  A future specification may support this use case.
+</code></pre></blockquote>
+
+<h2>4，The HTTP Exchange</h2>
+
+<h3>4.1 The HTTP Request</h3>
+
+<p>Doh Client 使用GET或者POST 方法来封装DNS请求到http请求中。</p>
+
+<blockquote><pre><code>A DoH client encodes a single DNS query into an HTTP request usingeither the HTTP GET or POST method and the other requirements of this section.  The DoH server defines the URI used by the request through the use of a URI Template.
+</code></pre></blockquote>
+
+<p>当http method为POST时，DNS请求中的URI不能携带任何参数；当为GET时，DNS请求中需要一个名为“dns”的参数（详情参见第6节），需要使用base64进行编码。</p>
+
+<blockquote><pre><code>The URI Template defined in this document is processed without any variables when the HTTP method is POST.  When the HTTP method is GET,the single variable "dns" is defined as the content of the DNS request (as described in Section 6), encoded with base64url [RFC4648].
+</code></pre></blockquote>
+
+<p>将来有关DoH的新的媒体类型一定会定义URI模板使用的参数。DoH需要同时实现GET方法和POST方法。</p>
+
+<blockquote><pre><code>Future specifications for new media types for DoH MUST define the variables used for URI Template processing with this protocol.
+
+DoH servers MUST implement both the POST and GET methods.
+</code></pre></blockquote>
+
+<p>使用POST方法，DNS请求被放在http请求的body体中。http request中Content-Type会指明body中message的类型。通常来讲，同等条件下，post请求比get的要小。</p>
+
+<blockquote><pre><code>When using the POST method, the DNS query is included as the message body of the HTTP request, and the Content-Type request header field indicates the media type of the message.  POSTed requests are generally smaller than their GET equivalents.
+</code></pre></blockquote>
+
+<p>使用GET方法有利于http缓存的实现（可能是因为幂等性）。</p>
+
+<blockquote><pre><code>Using the GET method is friendlier to many HTTP cache implementations.
+</code></pre></blockquote>
+
+<p>DoH Client 应该在http的rquest字段中制定一个Accept字段，用来表明在返回的响应中哪种类型的内容可以被接受。不管request中的Accept的字段是什么值，Client一定要处理“application/dns-message”类型（详情参见章节6），也可以处理其它dns相关的媒体类型。</p>
+
+<blockquote><pre><code> The DoH client SHOULD include an HTTP Accept request header field to indicate what type of content can be understood in response.Irrespective of the value of the Accept request header field, the client MUST be prepared to process "application/dns-message" (as
+described in Section 6) responses but MAY also process other DNS-related media types it receives.
+</code></pre></blockquote>
+
+<p>为了最大化的利用http缓存。DoH Client使用含有DNS报文中的ID字段的媒体类型。后续不是很理解，以后有机会再看。</p>
+
+<blockquote><pre><code>In order to maximize HTTP cache friendliness, DoH clients using media formats that include the ID field from the DNS message header, such as "application/dns-message", SHOULD use a DNS ID of 0 in every DNS request.  HTTP correlates the request and response, thus eliminating the need for the ID in a media type such as "application/dns-message".  The use of a varying DNS ID can cause semantically equivalent DNS queries to be cached separately.
+</code></pre></blockquote>
+
+<p>可以使用http/2中的padding和compressing特性。</p>
+
+<blockquote><pre><code>DoH clients can use HTTP/2 padding and compression [RFC7540] in the same way that other HTTP/2 clients use (or don't use) them.
+</code></pre></blockquote>
+
+<h2>4.1.1 HTTP Request Example</h2>
+
+<p>HTTP/2-style [rfc7540]</p>
+
+<p>请求解析一个A记录</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"https://dnsserver.example.net/dns-query{?dns}" to resolve IN A records.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>请求解析域名 &ldquo;www.example.com&rdquo;</p>
+
+<p>GET</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:method = GET
+</span><span class='line'>:scheme = https
+</span><span class='line'>:authority = dnsserver.example.net
+</span><span class='line'>:path = /dns-query?dns=AAABAAABAAAAAAAAA3d3dwdleGFtcGxlA2NvbQAAAQAB
+</span><span class='line'>accept = application/dns-message</span></code></pre></td></tr></table></div></figure>
+
+
+<p>POST</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:method = POST
+</span><span class='line'>:scheme = https
+</span><span class='line'>:authority = dnsserver.example.net
+</span><span class='line'>:path = /dns-query
+</span><span class='line'>accept = application/dns-message
+</span><span class='line'>content-type = application/dns-message
+</span><span class='line'>content-length = 33
+</span><span class='line'>
+</span><span class='line'>&lt;33 bytes represented by the following hex encoding&gt;
+</span><span class='line'>00 00 01 00 00 01 00 00  00 00 00 00 03 77 77 77
+</span><span class='line'>07 65 78 61 6d 70 6c 65  03 63 6f 6d 00 00 01 00
+</span><span class='line'>01</span></code></pre></td></tr></table></div></figure>
+
+
+<p>采用的是DNS wire format的形式，body中放的是33字节的DMS报文，从DNS协议头开始。</p>
+
+<h2>4.2  The HTTP Response</h2>
+
+<p> 文档中定义的唯一的response type是“application/dns-message”.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1766,71 +1947,6 @@ openssl pkcs12 -in for-iis.pfx -out for-iis.pem -nodes
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20180430/git-command-shi-yong-shou-ji.html">Git Commands 使用手记</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-04-30T17:44:10+08:00'><span class='date'>2018 年4 月30 日</span> <span class='time'>5:44 pm</span></time>
-        
-           | <a href="/blog/20180430/git-command-shi-yong-shou-ji.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20180430/git-command-shi-yong-shou-ji.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本文主要用来记录自己在使用Git的过程遇到的一些问题及解决方案.</p>
-
-<h2>1.Git push error: dst refspec dev_1.0 matches more than one.</h2>
-
-<h3>导火索</h3>
-
-<p>  Git 删除远程库中的一个分支的时候报错,如下:</p>
-
-<pre><code class="``">  git push origin --delete dev_1.0
-  error: dst refspec dev_1.0 matches more than one.
-  error: failed to push some refs to 'git@xxxxx:xxx/xxx.git'
-</code></pre>
-
-<p>  出现这个错误的原因是在于远程Git服务器上名称为dev_1.0的有两个对象：一个是tag，一个是branch；在执行 git push origin &ndash;delete dev_1.0这个命令时Git服务器不知道要删除哪个。</p>
-
-<h3>解决办法</h3>
-
-<p>删除名称为dev_1.0的branch：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git push origin :refs/heads/dev_1.0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-删除名称为dev_1.0的tag:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>git push origin :refs/tags/dev_1.0</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -1852,6 +1968,10 @@ openssl pkcs12 -in for-iis.pfx -out for-iis.pem -nodes
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20181129/dns-over-https.html">DNS Over Https RFC8484</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20180928/function-pointer-test.html">C 语言函数指针小测试</a>
       </li>
     
@@ -1867,10 +1987,6 @@ openssl pkcs12 -in for-iis.pfx -out for-iis.pem -nodes
         <a href="/blog/20180725/introduction-to-lipo.html">Lipo 使用简介</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/20180718/rsa-key-structuress.html">秘钥格式 证书</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -1883,6 +1999,8 @@ openssl pkcs12 -in for-iis.pfx -out for-iis.pem -nodes
     <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
 <li class='category'><a href='/blog/categories/der/'>der (1)</a></li>
+<li class='category'><a href='/blog/categories/dns/'>dns (1)</a></li>
+<li class='category'><a href='/blog/categories/doh/'>doh (1)</a></li>
 <li class='category'><a href='/blog/categories/function-pointer/'>function pointer (1)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>

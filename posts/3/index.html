@@ -9,21 +9,9 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="留存备忘
-假如有一段HTML代码如下： 1
-2
-3
-4
-5
-6
-7
-8
-&lt;html>
-&lt;head>
-&lt;title>Hi&lt;/title>
-&lt;/head>
-&lt;body> &lt;div id=&#8221;myid&#8221; class=&#8221;myclass&#8221;>&lt;/div>
-&lt &hellip;&#8221;>
+  <meta name="description" content="方法一: 终端命令进入项目目录下，命令如下 1
+find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l 列出每个文件的行数 1
+find . -name "*.m" -or -name &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -96,6 +84,110 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20150901/cloc.html">Xcode 统计项目中代码的行数</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-09-01T10:09:12+08:00'><span class='date'>2015 年9 月1 日</span> <span class='time'>10:09 am</span></time>
+        
+           | <a href="/blog/20150901/cloc.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20150901/cloc.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>方法一:</h3>
+
+<p>终端命令进入项目目录下，命令如下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+列出每个文件的行数</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs grep -v "^$"|wc -l  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>列出代码行数总和</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>grep -v "^$"是去掉空行</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>注释也统计在代码量之内</p>
+
+<h3>方法二:</h3>
+
+<p>使用CLOC,项目说明地址:<a href="http://cloc.sourceforge.net/">http://cloc.sourceforge.net/</a><br/>
+  1.64 Perl脚本下载地址,<a href="https://github.com/douxinchun/CLOC">https://github.com/douxinchun/CLOC</a></p>
+
+<p>使用方法:<br/>
+perl cloc-1.64.pl ./YourProjectName</p>
+
+<p>result:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> 200 files
+</span><span class='line'> 744 text files.
+</span><span class='line'> 630 unique files.                                          
+</span><span class='line'> 315 files ignored.
+</span><span class='line'>
+</span><span class='line'>http://cloc.sourceforge.net v 1.64  T=2.56 s (199.8 files/s, 22014.2 lines/s)
+</span><span class='line'>-------------------------------------------------------------------------------
+</span><span class='line'>Language                     files          blank        comment           code
+</span><span class='line'>-------------------------------------------------------------------------------
+</span><span class='line'>Objective C                    242           6916           4208          28460
+</span><span class='line'>C/C++ Header                   265           3605           8066           4870
+</span><span class='line'>JSON                             3              0              0            107
+</span><span class='line'>Bourne Shell                     1              5              0             65
+</span><span class='line'>-------------------------------------------------------------------------------
+</span><span class='line'>SUM:                           511          10526          12274          33502
+</span><span class='line'>-------------------------------------------------------------------------------</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -830,80 +922,6 @@ API中对应的是:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150401/xcode-plugin-collection.html">Xcode常用的插件集合</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-04-01T10:24:50+08:00'><span class='date'>2015 年4 月1 日</span> <span class='time'>10:24 am</span></time>
-        
-           | <a href="/blog/20150401/xcode-plugin-collection.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20150401/xcode-plugin-collection.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>本文主要总结了一下,我在Xcode下经常使用的的插件.</p>
-
-<h2>1.Alcatraz</h2>
-
-<p>Alcatraz是一个Xcode的开源的包管理工具.使用它,我们可以查找和安装各种各样的插件,模板以及配色方案.<br/>
-安装Alcatraz很简单,打开Terminal,把下面一行粘贴进命令行即可,安装之前,友情提示:Alcatraz is available for OSX 10.9+ and Xcode 5+ only.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>curl -fsSL https://raw.githubusercontent.com/supermarin/Alcatraz/master/Scripts/install.sh | sh</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-删除插件命令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf ~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/Alcatraz.xcplugin</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-清空Alcatraz缓存的命令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rm -rf ~/Library/Application\ Support/Alcatraz</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>安装完成之后 ,最后提示</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Alcatraz successfully installed!!1!🍻   Please restart your Xcode.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-重启Xcode,发现在Windows菜单项下会多出一个Pachage Manager的项,快捷键是⇧⌘9</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/20150401/xcode-plugin-collection.html">阅读全文</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -927,6 +945,10 @@ API中对应的是:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20181129/dns-over-https.html">DNS Over Https RFC8484</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20180928/function-pointer-test.html">C 语言函数指针小测试</a>
       </li>
     
@@ -942,10 +964,6 @@ API中对应的是:</p>
         <a href="/blog/20180725/introduction-to-lipo.html">Lipo 使用简介</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/20180718/rsa-key-structuress.html">秘钥格式 证书</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -958,6 +976,8 @@ API中对应的是:</p>
     <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
 <li class='category'><a href='/blog/categories/der/'>der (1)</a></li>
+<li class='category'><a href='/blog/categories/dns/'>dns (1)</a></li>
+<li class='category'><a href='/blog/categories/doh/'>doh (1)</a></li>
 <li class='category'><a href='/blog/categories/function-pointer/'>function pointer (1)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>

@@ -9,7 +9,7 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="Provision Profile 文件在Mac OS中的默认存放位置: ~/Library/MobileDevice/Provisioning Profiles 1.通过GUI的工具查看: iPhone配置实用工具 2.命令行工具 0xc010d/mobileprovision-read &hellip;">
+  <meta name="description" content="本文主要用来记录自己在使用Git的过程遇到的一些问题及解决方案. 1.Git push error: dst refspec dev_1.0 matches more than one. 导火索 Git 删除远程库中的一个分支的时候报错,如下: git push origin --delete &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +88,71 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/20180430/git-command-shi-yong-shou-ji.html">Git Commands 使用手记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-04-30T17:44:10+08:00'><span class='date'>2018 年4 月30 日</span> <span class='time'>5:44 pm</span></time>
+        
+           | <a href="/blog/20180430/git-command-shi-yong-shou-ji.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20180430/git-command-shi-yong-shou-ji.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文主要用来记录自己在使用Git的过程遇到的一些问题及解决方案.</p>
+
+<h2>1.Git push error: dst refspec dev_1.0 matches more than one.</h2>
+
+<h3>导火索</h3>
+
+<p>  Git 删除远程库中的一个分支的时候报错,如下:</p>
+
+<pre><code class="``">  git push origin --delete dev_1.0
+  error: dst refspec dev_1.0 matches more than one.
+  error: failed to push some refs to 'git@xxxxx:xxx/xxx.git'
+</code></pre>
+
+<p>  出现这个错误的原因是在于远程Git服务器上名称为dev_1.0的有两个对象：一个是tag，一个是branch；在执行 git push origin &ndash;delete dev_1.0这个命令时Git服务器不知道要删除哪个。</p>
+
+<h3>解决办法</h3>
+
+<p>删除名称为dev_1.0的branch：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git push origin :refs/heads/dev_1.0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+删除名称为dev_1.0的tag:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git push origin :refs/tags/dev_1.0</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/20171202/get-mobileprovison-uuid.html">获取mobileprovision文件的UUID</a></h1>
     
     
@@ -115,6 +180,8 @@
 <h3>Provision Profile 文件在Mac OS中的默认存放位置:</h3>
 
 <blockquote><p>~/Library/MobileDevice/Provisioning Profiles</p></blockquote>
+
+<h2>Test clear cache</h2>
 
 <h3>1.通过GUI的工具查看:</h3>
 
@@ -519,7 +586,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#114;&#111;&#x6f;&#x74;&#x40;&#x31;&#48;&#x2e;&#x32;&#46;&#57;&#56;&#46;&#x38;&#55;">&#x72;&#111;&#x6f;&#x74;&#64;&#49;&#48;&#x2e;&#x32;&#x2e;&#x39;&#x38;&#46;&#x38;&#x37;</a><br/>
+$ ssh <a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#114;&#111;&#x6f;&#116;&#x40;&#49;&#48;&#46;&#x32;&#x2e;&#57;&#56;&#x2e;&#56;&#x37;">&#114;&#111;&#x6f;&#x74;&#x40;&#49;&#x30;&#x2e;&#x32;&#46;&#x39;&#x38;&#46;&#x38;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -1067,110 +1134,6 @@ Widget获取地址在这里:<br/>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150901/cloc.html">Xcode 统计项目中代码的行数</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-09-01T10:09:12+08:00'><span class='date'>2015 年9 月1 日</span> <span class='time'>10:09 am</span></time>
-        
-           | <a href="/blog/20150901/cloc.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20150901/cloc.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>方法一:</h3>
-
-<p>终端命令进入项目目录下，命令如下</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-列出每个文件的行数</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs grep -v "^$"|wc -l  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>列出代码行数总和</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grep -v "^$"是去掉空行</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>注释也统计在代码量之内</p>
-
-<h3>方法二:</h3>
-
-<p>使用CLOC,项目说明地址:<a href="http://cloc.sourceforge.net/">http://cloc.sourceforge.net/</a><br/>
-  1.64 Perl脚本下载地址,<a href="https://github.com/douxinchun/CLOC">https://github.com/douxinchun/CLOC</a></p>
-
-<p>使用方法:<br/>
-perl cloc-1.64.pl ./YourProjectName</p>
-
-<p>result:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> 200 files
-</span><span class='line'> 744 text files.
-</span><span class='line'> 630 unique files.                                          
-</span><span class='line'> 315 files ignored.
-</span><span class='line'>
-</span><span class='line'>http://cloc.sourceforge.net v 1.64  T=2.56 s (199.8 files/s, 22014.2 lines/s)
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>Language                     files          blank        comment           code
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>Objective C                    242           6916           4208          28460
-</span><span class='line'>C/C++ Header                   265           3605           8066           4870
-</span><span class='line'>JSON                             3              0              0            107
-</span><span class='line'>Bourne Shell                     1              5              0             65
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>SUM:                           511          10526          12274          33502
-</span><span class='line'>-------------------------------------------------------------------------------</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1194,6 +1157,10 @@ perl cloc-1.64.pl ./YourProjectName</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20181129/dns-over-https.html">DNS Over Https RFC8484</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20180928/function-pointer-test.html">C 语言函数指针小测试</a>
       </li>
     
@@ -1209,10 +1176,6 @@ perl cloc-1.64.pl ./YourProjectName</p>
         <a href="/blog/20180725/introduction-to-lipo.html">Lipo 使用简介</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/20180718/rsa-key-structuress.html">秘钥格式 证书</a>
-      </li>
-    
   </ul>
 </section>
 
@@ -1225,6 +1188,8 @@ perl cloc-1.64.pl ./YourProjectName</p>
     <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
 <li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
 <li class='category'><a href='/blog/categories/der/'>der (1)</a></li>
+<li class='category'><a href='/blog/categories/dns/'>dns (1)</a></li>
+<li class='category'><a href='/blog/categories/doh/'>doh (1)</a></li>
 <li class='category'><a href='/blog/categories/function-pointer/'>function pointer (1)</a></li>
 <li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
 <li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
