@@ -1,0 +1,416 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS开发过程中遇到的Bug处理集合 - 冷雨之家</title>
+  <meta name="author" content="Spring">
+
+  
+  <meta name="description" content="1.iOS7 下UIScrollView 无法滑动的解决办法 环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview
+接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20150327/ios-bug-collection.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  
+  <link href="/atom.xml" rel="alternate" title="冷雨之家" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>&#8211;>
+  <!--<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script>&#8211;>
+  <!--为了添加scroll_to_top.html 提高了js的版本-->
+  <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts-->
+<link href="/stylesheets/pt_serif.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
+  
+
+  <script>
+  	function addBlankTargetForLinks () {
+  	  $('a[href^="http"]').each(function(){
+  		  $(this).attr('target', '_blank');
+  	  });
+  	}
+  	$(document).bind('DOMNodeInserted', function(event) {
+  	  addBlankTargetForLinks();
+  	});
+  </script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/"><img style="border-radius:50%" src="/images/head.png" width=60 height=60 />
+冷雨之家</a></h1>
+  
+    <h2>Dying is the day worth living for</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="douxinchun.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/aboutme">关于我</a></li>
+  
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS开发过程中遇到的Bug处理集合</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-27T15:00:07+08:00'><span class='date'>2015 年3 月27 日</span> <span class='time'>3:00 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>1.iOS7 下UIScrollView 无法滑动的解决办法</h2>
+
+<p>环境:Xcode6.2 iOS7 开启了AutoLayout 在Storyboard中拖入的一个UIScrollview<br/>
+接收的别人的code,在这个基础上开发了一个新的界面,然后手贱脑残的想用一下AutoLayout练练手(6和6+都出了,感觉以后使用AutoLayout会是主流),刚开始一切OK,跑起来顺畅的很,在3.5和4的屏幕上适应的都不错,后来不知道怎么调整了一下UI,结果悲剧发生了,Scrollview死活滑动不了了,导致Scrollview上的下拉刷新也不好用了.<br/>
+第一反应是AutoLayout的问题,禁用了AutoLayout,Run,一切OK,能滑动了.但是这丫的是Storyboard啊,一个ViewControll禁用课AutoLayout,整个文件都禁用.Google解决方案,结果果然受AutoLayout的影响,然后解决方案都是说要在viewdidAppear中重设contentSize,好吧,把contentSize的设定从viewdidload移到viewdidAppear中,Run,Fail&hellip; &hellip;Fuck Google上清一水的解决方案都是这个,说好的滑动呢&hellip;</p>
+
+<!--more-->
+
+
+<p>最后,纠结了1分钟,在viewdidload,viewwillapear,viewdidappear,viewlayoutsubviews中都设置一次contentSize,Run,神奇的事情发生了,Scrollview动起来了,然后一个一个的去除contentSize,最终确定,只有在viewlayoutsubviews设置才会有效,,坑爹啊.<br/>
+具体的code如下:</p>
+
+<figure class='code'><figcaption><span>viewDidLayoutSubviews </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// Called just before the view controller&#39;s view&#39;s layoutSubviews method is invoked. Subclasses can implement as necessary. The default is a nop.</span>
+</span><span class='line'><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewWillLayoutSubviews</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;viewWillLayoutSubviews&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="n">scrollview</span><span class="p">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="n">CGSizeMake</span><span class="p">(</span><span class="n">CGRectGetWidth</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">),</span> <span class="n">CGRectGetHeight</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">view</span><span class="p">.</span><span class="n">frame</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>坑爹啊,问题虽然解决了,但是这不科学啊,于是重新查看UIViewController的生命周期:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>2015-03-27 16:17:35.887 BugDemo[3195:937760] viewDidLoad
+</span><span class='line'>2015-03-27 16:17:35.888 BugDemo[3195:937760] viewWillAppear
+</span><span class='line'>2015-03-27 16:17:35.891 BugDemo[3195:937760] viewWillLayoutSubviews
+</span><span class='line'>2015-03-27 16:17:35.892 BugDemo[3195:937760] viewDidLayoutSubviews
+</span><span class='line'>2015-03-27 16:17:35.900 BugDemo[3195:937760] viewDidAppear</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+发现生命周期的最后一个方法是viewDidAppear,只好理解为涉及了Autolayout,在viewDidAppear中设置已经晚了,可能是由于AutoLayout的某些原因,到了viewDidAppear的时候再设置contentSize属性已经不被scrllview接受或者被AutoLayout的某些机制给拦截了重设为另一个自适应的数值了.<br/>
+最后,总结,AutoLayout真是坑,界面还是乖乖的用code手写吧,这样出了问题好定位分析,解决.</p>
+
+<h2>2.UIScrollView不能响应UITouch事件的解决办法</h2>
+
+<p>原因是：UIView的touch事件被UIScrollView捕获了。</p>
+
+<p>解决办法：让UIScrollView将事件传递过去。于是最简单的解决办法就是加一个UIScrollView的category。这样每个用到UIScrollView的地方只要导入这个category就可以直接响应相关的touch事件了。</p>
+
+<figure class='code'><figcaption><span>UIScrollView+UITouch </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cp">#import &quot;UIScrollView+UITouch.h&quot;       </span>
+</span><span class='line'> <span class="k">@implementation</span> <span class="bp">UIScrollView</span> <span class="nl">(UITouch)</span>
+</span><span class='line'> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">touchesBegan</span><span class="p">:(</span><span class="bp">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">{</span>
+</span><span class='line'>   <span class="p">[[</span><span class="nb">self</span> <span class="n">nextResponder</span><span class="p">]</span> <span class="nl">touchesBegan</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="nb">super</span> <span class="nl">touchesBegan</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="o">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">touchesMoved</span><span class="p">:(</span><span class="bp">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">{</span>
+</span><span class='line'>   <span class="p">[[</span><span class="nb">self</span> <span class="n">nextResponder</span><span class="p">]</span> <span class="nl">touchesMoved</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="nb">super</span> <span class="nl">touchesMoved</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="o">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nl">touchesEnded</span><span class="p">:(</span><span class="bp">NSSet</span> <span class="o">*</span><span class="p">)</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:(</span><span class="bp">UIEvent</span> <span class="o">*</span><span class="p">)</span><span class="n">event</span> <span class="p">{</span>
+</span><span class='line'>   <span class="p">[[</span><span class="nb">self</span> <span class="n">nextResponder</span><span class="p">]</span> <span class="nl">touchesEnded</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'>   <span class="p">[</span><span class="nb">super</span> <span class="nl">touchesEnded</span><span class="p">:</span><span class="n">touches</span> <span class="nl">withEvent</span><span class="p">:</span><span class="n">event</span><span class="p">];</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="k">@end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>3.UITableview点击背景隐藏键盘</h2>
+
+<p>由于UITableview是UIScrollview的子类,如果按照2中的方式话,会响应touchbegin方法,但是UITablevieDelegate中的didSelectRowAtIndexPath就会不响应了.<br/>
+解决方法参照:<a href="http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview">http://stackoverflow.com/questions/2321038/dismiss-keyboard-by-touching-background-of-uitableview</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">UITapGestureRecognizer</span> <span class="o">*</span><span class="n">gestureRecognizer</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">UITapGestureRecognizer</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithTarget</span><span class="p">:</span><span class="nb">self</span> <span class="nl">action</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">hideKeyboard</span><span class="p">)];</span>
+</span><span class='line'><span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="n">tableView</span> <span class="nl">addGestureRecognizer</span><span class="p">:</span><span class="n">gestureRecognizer</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//The UITapGestureRecognizer solution works with table cell selection if you set:</span>
+</span><span class='line'><span class="c1">//加入这一句,不会影响到tableview的didSelectRowAtIndexPath方法</span>
+</span><span class='line'><span class="n">gestureRecognizer</span><span class="p">.</span><span class="n">cancelsTouchesInView</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+然后,添加hideKeyboard方法,想下面这样</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void) hideKeyboard {
+</span><span class='line'>    [self.view endEditing:YES];
+</span><span class='line'>    ...
+</span><span class='line'>    ...
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>此外,还有一种可以响应touchbegin的方案参见这里 <a href="http://www.cnblogs.com/tangbinblog/p/4066930.html">http://www.cnblogs.com/tangbinblog/p/4066930.html</a> ,不过这种方案看上去需要以子类的方式重写hitTest方法,暂时没有考证可行性.先Mark一下,等以后再来看看.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Spring</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-03-27T15:00:07+08:00'><span class='date'>2015 年3 月27 日</span> <span class='time'>3:00 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/20150326/wei-octopress-tian-jia-duo-shuo-ping-lun-xi-tong.html" title="Previous Post: 为 Octopress 添加多说评论系统">&laquo; 为 Octopress 添加多说评论系统</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/20150327/octopress-deeper-learn-1.html" title="Next Post: Octopress学习旅程(1)">Octopress学习旅程(1) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+<!--
+
+-->
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1><a href="/aboutme" >About Me</a></h1>
+  <img src="/images/head.png" width=200 height=200 style="border-radius:5%" /><br />
+  <b>Spring, 程序员</b>
+  <p>博观而约取, 厚积而薄发</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/20190131/rule-of-gitignore-file.html">Gitignore 文件屏蔽规则</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180928/function-pointer-test.html">C 语言函数指针小测试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180920/tips-of-google-search.html">Chrome中使用英文关键词搜索中文结果</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180918/tips-of-xcode.html">Xcode 使用技巧</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180725/introduction-to-lipo.html">Lipo 使用简介</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>文章分类</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
+<li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
+<li class='category'><a href='/blog/categories/der/'>der (1)</a></li>
+<li class='category'><a href='/blog/categories/function-pointer/'>function pointer (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (2)</a></li>
+<li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
+<li class='category'><a href='/blog/categories/google/'>google (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (9)</a></li>
+<li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/lipo/'>lipo (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (2)</a></li>
+<li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
+<li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
+<li class='category'><a href='/blog/categories/openssl/'>openssl (1)</a></li>
+<li class='category'><a href='/blog/categories/pem/'>pem (1)</a></li>
+<li class='category'><a href='/blog/categories/provisioning-profile/'>provisioning profile (1)</a></li>
+<li class='category'><a href='/blog/categories/rsa/'>rsa (2)</a></li>
+<li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
+<li class='category'><a href='/blog/categories/static-library/'>static library (1)</a></li>
+<li class='category'><a href='/blog/categories/terminal/'>terminal (3)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (7)</a></li>
+<li class='category'><a href='/blog/categories/xcodebuild/'>xcodebuild (1)</a></li>
+<li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>近期评论</h1>
+  <script type="text/javascript" src="http://newspringblog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+  
+</section>
+<section>
+<h1>访客地图</h1>
+<script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;m=0&amp;s=220&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=0" async="async"></script>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Spring -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'newspringblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://douxinchun.github.io/blog/20150327/ios-bug-collection.html';
+        var disqus_url = 'http://douxinchun.github.io/blog/20150327/ios-bug-collection.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="http://arrow.scrolltotop.com/arrow78.js"></script>
+<noscript>Not seeing a <a href="http://www.scrolltotop.com/">Scroll to Top Button</a>? Go to our FAQ page for more info.</noscript>
+
+</body>
+</html>

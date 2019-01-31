@@ -1,0 +1,1264 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>冷雨之家</title>
+  <meta name="author" content="Spring">
+
+  
+  <meta name="description" content="本文主要用来记录自己在使用Git的过程遇到的一些问题及解决方案. 1.Git push error: dst refspec dev_1.0 matches more than one. 导火索 Git 删除远程库中的一个分支的时候报错,如下: git push origin --delete &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://douxinchun.github.io/posts/2/index.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  
+  <link href="/atom.xml" rel="alternate" title="冷雨之家" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>&#8211;>
+  <!--<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script>&#8211;>
+  <!--为了添加scroll_to_top.html 提高了js的版本-->
+  <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts-->
+<link href="/stylesheets/pt_serif.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
+  
+
+  <script>
+  	function addBlankTargetForLinks () {
+  	  $('a[href^="http"]').each(function(){
+  		  $(this).attr('target', '_blank');
+  	  });
+  	}
+  	$(document).bind('DOMNodeInserted', function(event) {
+  	  addBlankTargetForLinks();
+  	});
+  </script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/"><img style="border-radius:50%" src="/images/head.png" width=60 height=60 />
+冷雨之家</a></h1>
+  
+    <h2>Dying is the day worth living for</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="douxinchun.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/aboutme">关于我</a></li>
+  
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20180430/git-command-shi-yong-shou-ji.html">Git Commands 使用手记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-04-30T17:44:10+08:00'><span class='date'>2018 年4 月30 日</span> <span class='time'>5:44 pm</span></time>
+        
+           | <a href="/blog/20180430/git-command-shi-yong-shou-ji.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20180430/git-command-shi-yong-shou-ji.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文主要用来记录自己在使用Git的过程遇到的一些问题及解决方案.</p>
+
+<h2>1.Git push error: dst refspec dev_1.0 matches more than one.</h2>
+
+<h3>导火索</h3>
+
+<p>  Git 删除远程库中的一个分支的时候报错,如下:</p>
+
+<pre><code class="``">  git push origin --delete dev_1.0
+  error: dst refspec dev_1.0 matches more than one.
+  error: failed to push some refs to 'git@xxxxx:xxx/xxx.git'
+</code></pre>
+
+<p>  出现这个错误的原因是在于远程Git服务器上名称为dev_1.0的有两个对象：一个是tag，一个是branch；在执行 git push origin &ndash;delete dev_1.0这个命令时Git服务器不知道要删除哪个。</p>
+
+<h3>解决办法</h3>
+
+<p>删除名称为dev_1.0的branch：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git push origin :refs/heads/dev_1.0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+删除名称为dev_1.0的tag:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git push origin :refs/tags/dev_1.0</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20171202/get-mobileprovison-uuid.html">获取mobileprovision文件的UUID</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-12-02T13:06:26+08:00'><span class='date'>2017 年12 月2 日</span> <span class='time'>1:06 pm</span></time>
+        
+           | <a href="/blog/20171202/get-mobileprovison-uuid.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20171202/get-mobileprovison-uuid.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><hr />
+
+<h3>Provision Profile 文件在Mac OS中的默认存放位置:</h3>
+
+<blockquote><p>~/Library/MobileDevice/Provisioning Profiles</p></blockquote>
+
+<h3>1.通过GUI的工具查看:</h3>
+
+<p>iPhone配置实用工具</p>
+
+<h3>2.命令行工具</h3>
+
+<p><a href="https://github.com/0xc010d/mobileprovision-read">0xc010d/mobileprovision-read</a><br/>
+安装方法<br/>
+在 Terminal中键入下面的命令并回车</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl https://raw.githubusercontent.com/0xc010d/mobileprovision-read/master/main.m <span class="p">|</span> clang -framework Foundation -framework Security -o /usr/local/bin/mobileprovision-read -x objective-c -
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h4>mobileprovision-read 命令介绍</h4>
+
+<figure class='code'><figcaption><span>Terminal  </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  ~ mobileprovision-read
+</span><span class='line'>mobileprovision-read -- mobileprovision files querying tool.
+</span><span class='line'>
+</span><span class='line'>USAGE
+</span><span class='line'>mobileprovision-read -f fileName <span class="o">[</span>-o option<span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>OPTIONS
+</span><span class='line'>    <span class="nb">type</span> – prints mobileprovision profile <span class="nb">type</span> <span class="o">(</span>debug, ad-hoc, enterprise, appstore<span class="o">)</span>
+</span><span class='line'>    appid – prints application identifier
+</span><span class='line'>Will print raw provision<span class="s1">&#39;s plist if option is not specified.</span>
+</span><span class='line'><span class="s1">You can also use key path as an option.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">EXAMPLES</span>
+</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o type</span>
+</span><span class='line'><span class="s1">    Prints profile type</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o UUID</span>
+</span><span class='line'><span class="s1">    Prints profile UUID</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o ProvisionedDevices</span>
+</span><span class='line'><span class="s1">    Prints provisioned devices UDIDs</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o Entitlements.get-task-allow</span>
+</span><span class='line'><span class="s1">    Prints 0 if profile doesn&#39;</span>t allow debugging <span class="m">1</span> otherwise
+</span><span class='line'>➜  ~
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+eg:<br/>
+mobileprovision-read -f &ldquo;filepath&rdquo; -o UUID  -> 打印输出mobileprovision的UUID<br/>
+mobileprovision-read -f &ldquo;provisoning-profile-file-path&rdquo; -o ProvisionedDevices  -> 列出描述文件所包含的device UUID列表</p>
+
+<h3>3.自定义脚本</h3>
+
+<p>使用了苹果的security和PlistBuddy工具.<br/>
+<a href="https://github.com/douxinchun/MyBackupForMacOSX/blob/master/shell/mobilapp.sh">mobileapp.sh</a><br/>
+使用方法:<br/>
+./mobileapp.sh &ldquo;provisoning-profile-file-path&rdquo;<br/>
+注意,如果filepath中含有空格,请将filepath加上双引号.</p>
+
+<p>eg:</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  Desktop ./mobilepp.sh <span class="s2">&quot;/Users/newspring/Library/MobileDevice/Provisioning Profiles/1213b96b-4ac1-4365-ae45-350eb6beadf2.mobileprovision&quot;</span>
+</span><span class='line'>security: SecPolicySetValue: One or more parameters passed to a <span class="k">function</span> were not valid.
+</span><span class='line'>UUID is:
+</span><span class='line'>1213b96b-4ac1-4365-ae45-350eb6beadf2
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>参考链接</h3>
+
+<p><a href="https://my.oschina.net/ioslighter/blog/494342">https://my.oschina.net/ioslighter/blog/494342</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20170529/install-macos-by-u-disk.html">Install macOS by U Disk</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-29T16:46:55+08:00'><span class='date'>2017 年5 月29 日</span> <span class='time'>4:46 pm</span></time>
+        
+           | <a href="/blog/20170529/install-macos-by-u-disk.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>动手之前,TimeMachine备份数据!<br/>
+动手之前,TimeMachine备份数据!<br/>
+动手之前,TimeMachine备份数据!</p>
+
+<ul>
+<li>1.8GB或者更大容量的U盘,Apple建议不小于12G</li>
+<li>2.使用 应用程序&ndash;>实用工具&ndash;>磁盘工具 格盘 (参考图片 格盘)
+
+<ul>
+<li> 名称 Sierra 使用其它名称注意在后面的Terminal命令中作出替换</li>
+<li> 格式 Mac OS 扩展 (日志式)</li>
+<li> 方案 GUID 分区图</li>
+</ul>
+</li>
+<li>3.AppStore中下载Sierra系统.下载耗时较长,可以冲杯咖啡,休息一下去了.(参照图片 原版安装包)</li>
+<li>4.使用Terminal(应用程序→实用工具→终端),输入命令<br/>
+<code>
+sudo /Applications/Install\ macOS\ Sierra.app/Contents/Resources/createinstallmedia --volume /Volumes/Sierra --applicationpath /Applications/Install\ macOS\ Sierra.app --nointeraction
+</code>
+耐心等待,直至出现Done.启动U盘制作结束.</li>
+<li>5.重新启动PC,按照Option不放,直到出现启动菜单选项.
+<img src="/blog_reference_image/2017/7/mac_option_boot.jpg" alt="启动菜单项" /></li>
+</ul>
+
+
+<h3>附几张网络图片,仅供参考</h3>
+
+<p>格盘<br/>
+<img src="/blog_reference_image/2017/7/disk_ulitily.jpg" alt="U盘格盘" />
+原版安装包<br/>
+<img src="http://upload-images.jianshu.io/upload_images/3704217-1629bb87e7f7945e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="原版安装包" />
+步骤4,参考图
+<img src="/blog_reference_image/2017/7/terminal.jpg" alt="terminal-createinstallmedia" /></p>
+
+<h3>参考资料</h3>
+
+<p><a href="https://support.apple.com/zh-cn/HT201372">创建可引导的macOS安装器,https://support.apple.com/zh-cn/HT201372</a><br/>
+<a href="http://www.iplaysoft.com/macos-usb-install-drive.html">iPlaySoft简单制作 macOS Sierra 正式版U盘USB启动安装盘方法教程</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html">MacBook Pro (13-inch Mid 2012) 升级SSD和16G内存</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-05-29T11:52:22+08:00'><span class='date'>2017 年5 月29 日</span> <span class='time'>11:52 am</span></time>
+        
+           | <a href="/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20170529/update-ssd-and-meomory-for-macbook-pro-13-inch-mid-2012.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>我的MacBook Pro</h2>
+
+<p>电脑配置<br/>
+机器型号: MacBook Pro (13-inch, Mid 2012) 普通屏<br/>
+根据苹果官网的查询 <a href="https://support.apple.com/zh-cn/HT201300">苹果官网的MBP型号查询</a> 型号应该是MD101或者MD102<br/>
+处理器: 2.5 GHz Intel Core i5<br/>
+原配内存: 2G*2 1600Hz DDR3<br/>
+原配硬盘: 500G 机械硬盘</p>
+
+<p>虽然现在来看,这个配置可以卡出翔来,厚度堪当砖,但是回想一下,对于当时还是在装有Windows系统的Samsung本子上, 用GNUstep来Build&amp;Run Objective_C 的我来说, 这简直就是女神一般的存在.</p>
+
+<p>在升级到macOS Sierra后,我已经再也无法忍受启动Xcode时候的无限风火轮.原来打算购买新的MacBook Pro,去官网看了一下,新的本子为了追求超薄,内存什么的都采用了焊接的工艺,换句话说,要买就得直接上顶配,不然以后没法升级.大体预算了一下,需要软妹币小两万.摸了摸自己的口袋,想了想老丈人的礼金,含着泪默默地关闭了apple.com.打开了京东.</p>
+
+<h2>升级方案</h2>
+
+<p>SSD的升级方案,按照网上的介绍有三种:</p>
+
+<ul>
+<li>1.主硬盘位保持原装机械硬盘不动,光驱位替换为SSD</li>
+<li>2.主硬盘位换为SSD,光驱位换为拆下来的机械硬盘</li>
+<li>3.主硬盘位换为SSD,光驱位不动.</li>
+</ul>
+
+
+<p>在此,我的建议是,如果是Fusion类型的话(机械硬盘和SSD混用,方案1或者方案2),首先查看一下光驱位和主硬盘位的SATA串口的类型.<br/>
+如果只有一个是SATA3,那么SSD放在SATA3串口的位置.<br/>
+如果都是SATA3,那么主硬盘位放机械硬盘,光驱位放SSD,因为主硬盘会有SMS保护(SMS是什么后面会有介绍).但具体的要根据自己的实际情况,比如说因为光驱位的供电模式等原因造成的SSD不识别,那只能把SSD放在主硬盘位.<br/>
+对我来说,我采用的是方案3,主要原因有下:<br/>
+1.主硬盘位对于硬盘的保护比较好,垂直位置上和键盘不重叠,而光驱位位于键盘的正下方,相对来说不如主硬盘位稳定.<br/>
+2.哥是一个纯粹的人,要什么Fusion啊,要存储的话直接上外置硬盘就好了.</p>
+
+<h3>查看主硬盘位和光驱位SATA类型的方法</h3>
+
+<p>关于本机&ndash;>概览&ndash;>系统报告&ndash;>SATA/SATA Express. 如图,看<strong>链接速度</strong>,SATA3为6千兆位. SATA2为3千兆位. 我的CD-ROM的<strong>协商的链接速度</strong>:1.5 千兆位. 原装硬盘的<strong>协商的链接速度</strong>为3千兆位,说明原装的机械硬盘上的串口速度最高到SATA2.<br/>
+<img src="/blog_reference_image/2017/5/disk_sata.jpg" alt="SATA_disk" /><br/>
+<img src="/blog_reference_image/2017/5/cd-rom_sata.jpg" alt="SATA_cd-rom" /></p>
+
+<h2>购买的SSD和内存</h2>
+
+<p>购买时间正巧赶上了京东618店庆搞活动.<br/>
+SSD我买的是 SAMSUNG 850 EVO 250G SATA3<br/>
+<img src="/blog_reference_image/2017/5/jd_ssd.jpg" alt="JD Samsumg SSD" /><br/>
+内存我买的是金士顿的8G内存条.买两条.按照Apple官网的<a href="https://support.apple.com/zh-cn/HT201165">内存升级指南</a>2012Mid的MBP最高可以升级到4G*2,可能是当年的单条8G还不是很流行,我实测直接升级到8G*2没有任何问题.<br/>
+<img src="/blog_reference_image/2017/5/jd_memory.jpg" alt="JD Kingston Memory" /><br/>
+另外还购买了SSK的2.5英寸的USB 3.0硬盘盒,用于装替换下来的原装硬盘.</p>
+
+<hr />
+
+<h2>替换SSD</h2>
+
+<p>先来一张拆机前的准备图:<br/>
+<img src="/blog_reference_image/2017/5/IMG_4026.jpg" alt="ready" /><br/>
+做好Time Machine后,开始更换SSD,先拆开后盖,注意拆机前先洗手,祷告,触摸金属,释放自身静电,祈求上帝保佑:<br/>
+<img src="https://support.apple.com/library/content/dam/edam/applecare/images/zh_CN/macbookpro/13_bottom_case_removal.png" alt="The location of screws" /><br/>
+拆下来的螺丝,按照相对位置放好,便于以后重新安装上去. 后壳周边没有任何的暗扣,用塑料吸盘轻轻一吸就能起来.
+<img src="/blog_reference_image/2017/5/IMG_4027.jpg" alt="螺丝排列" /><br/>
+我曾经拆过三星,宏碁还有联想的笔记本(为了清灰,说多了都是泪),但是不得不说MBP内部光驱,硬盘,主板,风扇,电池的排列和构造简直是太完美了, 没有一处的细节不完美,没有一处的空间被浪费掉,且容我慢慢欣赏20s.<br/>
+断开内存条右边的电池电源线,撬开光驱右边最下面的硬盘数据线.
+<img src="/blog_reference_image/2017/5/IMG_4028.jpg" alt="拆开后盖总览" /><br/>
+拆下硬盘上方的小的固定条,一共两个螺丝.<br/>
+<img src="/blog_reference_image/2017/5/IMG_4032.jpg" alt="硬盘固定条" /><br/>
+利用翘起的塑料小片, 轻轻拉出硬盘(注意藏在硬盘下面的排线,不要扯断了).<br/>
+轻轻拔出左侧的SATA3接口,整个机械硬盘就完全拆下来了.
+<img src="/blog_reference_image/2017/5/IMG_4033.jpg" alt="被拉出来的硬盘" /><br/>
+按照上图的1,2,3,4的位置,把这四个螺丝拆下来,同样的位置安装到SSD上.<br/>
+将SSD轻轻的装回原硬盘的位置,如下图所示,安装好以后,SSD会比原有的机械硬盘略薄一些,不过有螺丝的固定,没有影响. <br/>
+<img src="/blog_reference_image/2017/5/IMG_4035.jpg" alt="换为SSD以后效果图" /></p>
+
+<hr />
+
+<h2>替换内存</h2>
+
+<p>内存条的替换没有什么可说的,具体的可以参加Apple的指南.<a href="https://support.apple.com/zh-cn/HT201165">Apple MBP 安装和拆卸内存指南</a><br/>
+这里放一张基本流程的图:<br/>
+<img src="https://support.apple.com/library/content/dam/edam/applecare/images/zh_CN/macbookpro/13_insert_memory.png" alt="替换内存条基本流程,引用自Apple" /><br/>
+需要注意的一点是,一共上下两根条子,由于这两根条子挨得过于靠近,安装下面的条子的时候,不要把上面的条子的两边的压脚给弄坏了,金手指对齐插好以后,两边轻轻一按就能就位,要用巧劲,不要用蛮力.
+<img src="/blog_reference_image/2017/5/IMG_4030.jpg" alt="替换内存" /></p>
+
+<hr />
+
+<h2>数据恢复</h2>
+
+<p>插入启动U盘,开机启动,先利用磁盘工具将SSD抹掉格式化为:OS X 扩展 (日志式),GUID 分区图.然后插入Time Machine的外置硬盘,选择将Time Machine备份的最新内容恢复到刚刚格式化的SSD分区中.<br/>
+小技巧:合上后盖后,先不要着急上螺丝,先插U盘,点亮机器,识别出来SSD,确认机器不报警以后,再断电上螺丝.<br/>
+制作启动U盘,参见另一篇blog 传送门<a href="/blog/20170529/install-macos-by-u-disk.html">U盘安装macOS系统</a></p>
+
+<hr />
+
+<h2>后续配置</h2>
+
+<h3>开启Trim</h3>
+
+<p>TRIM 是系统级的命令，可以允许操作系统与固态硬盘通信，判断 SSD 上哪些区域没有使用，并准备好擦除和复写。如果缺少 TRIM 支持，系统会在 SSD 可用容量减少时遇到写入速度变慢的现象.<br/>
+可以在「关于本机」里查看系统有没有开启 TRIM 支持：<br/>
+<img src="/blog_reference_image/2017/5/disk_sata.jpg" alt="SATA_disk" /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo trimforce enable</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+命令执行后会出现警告语，根据提示输入两次「Y」以后，如图显示，就说明 TRIM 支持开启成功了（命令执行完成后会自动重启) :<br/>
+<img src="/blog_reference_image/2017/5/trim_start.jpg" alt="Trim_Start" /></p>
+
+<p>注意,旧版本的OS X系统可能需要先禁用rootless</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo nvram boot-args=rootless=0</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+据说 OS X El Capitan以后不需要,我当前用的Sierra不需要这个.</p>
+
+<h3>关闭突发移动感应器(Sudden Motion Sensor, SMS)</h3>
+
+<p>突发移动感应器 (SMS) 技术是针对硬盘设计的内建保护功能，有助于防止电脑在掉落或遭遇异常强烈的振动时出现磁盘问题。目前普遍的观点是MBP的SMS功能在主硬盘位上有,光驱位上没有,由于SMS对SSD没有任何的保护作用,为了防止SMS对主硬盘位上SSD造成数据损坏,建议关闭.<br/>
+SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://support.apple.com/zh-cn/HT201666">Mac 笔记本电脑：关于突发移动感应器</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo pmset -g  //查看看sms的状态,1为开启,0位关闭  
+</span><span class='line'>sudo pmset sms -a 0 //关闭sms  
+</span><span class='line'>sudo pmset -g  //重新查看sms的状态是否为0.  </span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+<img src="/blog_reference_image/2017/5/shutdown_pmset.jpg" alt="SMS_shutdown" /></p>
+
+<p>关于是否需要关闭SMS的讨论,可以参见这里,<a href="http://bbs.feng.com/read-htm-tid-4285975.html">http://bbs.feng.com/read-htm-tid-4285975.html</a></p>
+
+<h3>关闭Time Machine的本地快照</h3>
+
+<p>本地快照的详情,同样参见<a href="https://support.apple.com/kb/PH25723?viewlocale=zh_CN&amp;locale=zh_CN">Apple Time Machine 官方介绍</a><br/>
+这个功能会增加SSD的写入量,降低SSD的寿命.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo tmutil disablelocal //禁用本地快照
+</span><span class='line'>sudo tmutil enablelocal  //启用本地快照</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+在Time Machine的偏好设置中可以查看,本地快照的状态,出现了红色的部分即为启用,不出现即为禁用.<br/>
+<img src="/blog_reference_image/2017/5/timemachine_local.jpg" alt="timemachine_local_shutdown" /></p>
+
+<h2>最终成果</h2>
+
+<p>开机10s以内,Xcode工程秒开,硬盘读写速度爽的飞起.<br/>
+<img src="/blog_reference_image/2017/5/IMG_4036.jpg" alt="SSD_Speed" /></p>
+
+<h2>参考链接</h2>
+
+<p><a href="http://www.superqq.com/blog/2015/08/27/macbook-replace-ssd-solid-state/">http://www.superqq.com/blog/2015/08/27/macbook-replace-ssd-solid-state/</a><br/>
+<a href="http://chaishiwei.com/blog/972.html">http://chaishiwei.com/blog/972.html</a><br/>
+<a href="https://www.zhihu.com/question/21100176">https://www.zhihu.com/question/21100176</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">iOS 操作系统目录说明</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2017-01-03T11:28:24+08:00'><span class='date'>2017 年1 月3 日</span> <span class='time'>11:28 am</span></time>
+        
+           | <a href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS的设备越狱后,安装openssh,可以通过ssh连接工具(Mac OS 下直接使用Terminal)连接到手机上查看相关的系统目录:
+ssh 连接命令常用格式:
+`ssh [-l login_name] [-p port] [user@]hostname<br/>
+示例:<br/>
+$ ssh <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#114;&#111;&#111;&#116;&#64;&#x31;&#48;&#46;&#50;&#46;&#57;&#56;&#46;&#56;&#x37;">&#114;&#111;&#111;&#x74;&#64;&#x31;&#x30;&#x2e;&#50;&#46;&#57;&#56;&#x2e;&#56;&#55;</a><br/>
+默认的openssh连接密码为:alpine</p>
+
+<p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/20170103/ios-cao-zuo-xi-tong-mu-lu-shuo-ming.html">阅读全文</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html">Block 声明语法 简记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-11-10T10:55:09+08:00'><span class='date'>2016 年11 月10 日</span> <span class='time'>10:55 am</span></time>
+        
+           | <a href="/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h4>本地变量(Local Variable)</h4>
+
+<blockquote><p>returnType (^blockName)(parameterTypes) = ^returnType(parameters) {&hellip;};</p></blockquote>
+
+<h4>属性(Property)</h4>
+
+<blockquote><p>@property (nonatomic, copy, nullability) returnType (^blockName)(parameterTypes);</p></blockquote>
+
+<h4>方法参数(method parameter)</h4>
+
+<blockquote><ul>
+<li>(void)someMethodThatTakesABlock:(returnType (^nullability)(parameterTypes))blockName;</li>
+</ul>
+</blockquote>
+
+<h4>方法调用的时候的参数</h4>
+
+<blockquote><p>[someObject someMethodThatTakesABlock:^returnType (parameters) {&hellip;}];</p></blockquote>
+
+<h4>重定义(typedef)</h4>
+
+<blockquote><p>typedef returnType (^TypeName)(parameterTypes);
+TypeName blockName = ^returnType(parameters) {&hellip;};</p></blockquote>
+
+<h2>参考资料</h2>
+
+<p><a href="http://fuckingblocksyntax.com/">http://fuckingblocksyntax.com/</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">Apple远程推送Pem证书生成-命令备忘</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-08-26T11:12:01+08:00'><span class='date'>2016 年8 月26 日</span> <span class='time'>11:12 am</span></time>
+        
+           | <a href="/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20160826/apple-remote-notificatoin-push-pem-file-generate.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Develoepr Environment</h3>
+
+<ol>
+<li>去Apple Develop 网站申请Push证书并下载导入到Keychain中.</li>
+<li>从Keychain中分别导出证书和密钥的.p12文件:cer.p12 key.p12<br/>
+交换密码为:123456</li>
+<li><p>使用openssl 将cer.p12及key.p12转成cer.pem和key.pem<br/>
+命令如下:</p>
+
+<pre><code>$ openssl pkcs12 -clcerts -nokeys -out cer.pem -in cer.p12
+$ openssl pkcs12 -nocerts -out key.pem -in key.p12
+</code></pre>
+
+<p>转换密钥文件时候,提示输一个pem的密码,转换完成后清除pem密码的命令:</p>
+
+<pre><code>$ openssl rsa -in key.pem -out key.pem  
+</code></pre></li>
+<li><p>合并cer.pem及key.pem</p>
+
+<pre><code>$ cat cer.pem key.pem &gt; cer_key.pem
+</code></pre></li>
+</ol>
+
+
+<h3>Release Environment 过程同上</h3>
+
+<p>PS.<br/>
+测试生成的cer.pem及key.pem是否可用</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ openssl s_client -connect gateway.push.apple.com:2195  -cert cer.pem -key key.pem </span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+注：gateway.push.apple.com:2195用于appStore app;<br/>
+   gateway.sandbox.push.apple.com:2195用于沙盒app;<br/>
+   以上命令执行后会打印一大罗信息，最后处于可输入状态，打几个字符回车后自动断开连接即为正常。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">使用CocoaLumberjack和XcodeColors实现分级Log和控制台打印彩色日志</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2016-07-28T14:42:39+08:00'><span class='date'>2016 年7 月28 日</span> <span class='time'>2:42 pm</span></time>
+        
+           | <a href="/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20160728/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-da-yin-cai-se-ri-zhi.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文是基于:<a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a> 的改动.</p>
+
+<p>Xcode是一款非常优秀的IDE,但是在日志打印上貌似没有那么多高级的特性，比如分级打印，显示颜色。本博客就介绍下两个开源组件结合使用达到如下效果：
+<img src="/blog_reference_image/2016/7/xcode_console_colorful_logs.png"></p>
+
+<h2>1.CocoaLumberjack</h2>
+
+<h3>1.1基本介绍</h3>
+
+<p>CocoaLumberjack是一个开源工程，为Xcode提供分级打印的策略，源码地址:<a href="https://github.com/CocoaLumberjack/CocoaLumberjack">CocoaLumberjack</a></p>
+
+<p>CocoaLumberjack包含几个对象分别可以把Log输出到不同的地方:</p>
+
+<ul>
+<li>DDASLLogger 输出到Console.app</li>
+<li>DDTTYLogger 输出到Xcode控制台</li>
+<li>DDLogFileManager 输出到文件</li>
+<li>DDAbstractDatabaseLogger 输出到DB</li>
+</ul>
+
+
+<p>通过ddLogLevel的int型变量或常量来定义打印等级</p>
+
+<ul>
+<li>LOG_LEVEL_OFF 关闭Log</li>
+<li>LOG_LEVEL_ERROR 只打印Error级别的Log</li>
+<li>LOG_LEVEL_WARN 打印Error和Warning级别的Log</li>
+<li>LOG_LEVEL_INFO 打印Error、Warn、Info级别的Log</li>
+<li>LOG_LEVEL_DEBUG 打印Error、Warn、Info、Debug级别的Log</li>
+<li>LOG_LEVEL_VERBOSE 打印Error、Warn、Info、Debug、Verbose级别的Log</li>
+</ul>
+
+
+<p>使用不同的宏打印不同级别的Log</p>
+
+<ul>
+<li>DDLogError(frmt, …) 打印Error级别的Log</li>
+<li>DDLogWarn(frmt, …) 打印Warn级别的Log</li>
+<li>DDLogInfo(frmt, …) 打印Info级别的Log</li>
+<li>DDLogDebug(frmt, …) 打印Debug级别的Log</li>
+<li>DDLogVerbose(frmt, …) 打印Verbose级别的Log</li>
+</ul>
+
+
+<p>如果,现在想往已有的工程中引入CocoaLumberjack,可以使用下面的宏定义,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define NSLog(...) DDLogInfo(__VA_ARGS__)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>1.2设置LogFormatter</h3>
+
+<p>我们可以定制自己的Log的方式。通过创建一个类实现DDLogFormatter协议的方法<code>- (NSString *)formatLogMessage:(DDLogMessage *)logMessage;</code>,如下创建一个LogFormatter类，并实现如下方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>...
+</span><span class='line'>NSDateFormatter *threadUnsafeDateFormatter;
+</span><span class='line'>threadUnsafeDateFormatter = [[NSDateFormatter alloc] init];
+</span><span class='line'>        [threadUnsafeDateFormatter setDateFormat:@"yyyy/MM/dd HH:mm:ss:SSS"];
+</span><span class='line'>...  
+</span><span class='line'>    
+</span><span class='line'>-(NSString *)formatLogMessage:(DDLogMessage *)logMessage{
+</span><span class='line'>    
+</span><span class='line'>    NSString *levelStr = nil;
+</span><span class='line'>    NSString *dateAndTime = [threadUnsafeDateFormatter stringFromDate:(logMessage-&gt;_timestamp)];
+</span><span class='line'>    
+</span><span class='line'>    switch (logMessage.flag) {
+</span><span class='line'>        case DDLogFlagError:
+</span><span class='line'>        {
+</span><span class='line'>            levelStr=@"[ERROR]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        case DDLogFlagWarning:{
+</span><span class='line'>            levelStr=@"[WARN ]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        case DDLogFlagDebug:{
+</span><span class='line'>            levelStr=@"[DEBUG]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        case DDLogFlagInfo:
+</span><span class='line'>        {
+</span><span class='line'>            levelStr=@"[INFO ]";
+</span><span class='line'>            break;
+</span><span class='line'>        }
+</span><span class='line'>        default:
+</span><span class='line'>            levelStr=@"[VBOSE]";
+</span><span class='line'>            break;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    return [NSString stringWithFormat:@"%@ %@ &gt; %@ [line %d] %@",levelStr,dateAndTime,logMessage.function,logMessage.line,logMessage.message];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子中我们定制了Log能打印自己的等级、类和方法、代码行数。</p>
+
+<h3>1.3初始化</h3>
+
+<p>CocoaLumberjack的引擎需要我们自己来启动。下面的示例代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> DDFileLogger *filelogger = [[DDFileLogger alloc] init];
+</span><span class='line'>    filelogger.rollingFrequency = 60*60*24;//1h滚动一次
+</span><span class='line'>    filelogger.logFileManager.maximumNumberOfLogFiles = 24;//最大文件数量24个
+</span><span class='line'>    
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setColorsEnabled:YES];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blackColor] backgroundColor:nil forFlag:DDLogFlagVerbose];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor blueColor] backgroundColor:nil forFlag:DDLogFlagDebug];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor purpleColor] backgroundColor:nil forFlag:DDLogFlagInfo];
+</span><span class='line'>    [[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];
+</span><span class='line'>
+</span><span class='line'>    [DDLog addLogger:[DDTTYLogger sharedInstance]];//写入xCode控制台
+</span><span class='line'>    [DDLog addLogger:[DDASLLogger sharedInstance]];//写入到苹果的日志
+</span><span class='line'>    [DDLog addLogger:filelogger];//写入到文件系统 Cache/Library/Log
+</span><span class='line'>    filelogger.logFormatter = [[SHDDLogFormatter alloc] init];
+</span><span class='line'>    [DDTTYLogger sharedInstance].logFormatter = [[SHDDLogFormatter alloc] init];
+</span><span class='line'>    
+</span><span class='line'>    DDLogError(@"DDLogError 中文错误");      // red
+</span><span class='line'>    DDLogWarn(@"DDLogWarn 中文警告");        // orange
+</span><span class='line'>    DDLogDebug(@"DDLogDebug 中文调试");      // blue
+</span><span class='line'>    DDLogInfo(@"DDLogInfo 中文信息");        // purple
+</span><span class='line'>    DDLogVerbose(@"DDLogVerbose 中文详细");  // black
+</span><span class='line'>    </span></code></pre></td></tr></table></div></figure>
+
+
+<h2>2.XcodeColors</h2>
+
+<h3>2.1安装</h3>
+
+<p>XcodeColors是一个Xcode插件，源码地址：<a href="https://github.com/robbiehanson/XcodeColors">XcodeColors</a>; 代码下下来后打开工程run一次，插件就自动安装到了~/Library/Application\ Support/Developer/Shared/Xcode/Plug-ins/XcodeColors.xcplugin路径下.<br/>
+安装完成重启Xcode<br/>
+也可以通过Alcatraz来安装,具体的参见<a href="/blog/20150401/xcode-plugin-collection.html">Xcode常用插件集合</a></p>
+
+<h3>2.2配置scheme</h3>
+
+<p>在Scheme中配置Environment Variables, 添加参数XcodeColors为YES.如下图
+<img src="/blog_reference_image/2016/7/XcodeColors_scheme.png"></p>
+
+<h3>2.3为DDLog打开颜色</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[DDTTYLogger sharedInstance] setColorsEnabled:YES];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.4为特定的Log级别设定颜色</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[DDTTYLogger sharedInstance] setForegroundColor:[UIColor orangeColor] backgroundColor:nil forFlag:DDLogFlagWarning];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>完成以上步骤就可以看到控制台的不同颜色的打印了。。</p>
+
+<h2>参考文章</h2>
+
+<p><a href="https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/">https://blog.cnbluebox.com/blog/2014/06/06/shi-yong-cocoalumberjackhe-xcodecolorsshi-xian-fen-ji-loghe-kong-zhi-tai-yan-se/</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20151013/vistormap.html">为Octopress侧边栏增加访客地图</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-13T13:33:13+08:00'><span class='date'>2015 年10 月13 日</span> <span class='time'>1:33 pm</span></time>
+        
+           | <a href="/blog/20151013/vistormap.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20151013/vistormap.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>效果图我的Blog右下角那个旋转的3D地图,可以显示地域和访客的数量.<br/>
+Widget获取地址在这里:<br/>
+<a href="https://www.revolvermaps.com/?target=setupgl">https://www.revolvermaps.com/?target=setupgl</a><br/>
+可以根据自己的喜好设定.
+分两步添加到Octopress的侧边栏中:<br/>
+1,获取code,并创建文件<br/>
+<code>source/_includes/custom/asides/earth.html</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;section&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>访客地图<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;amp;m=0&amp;amp;s=220&amp;amp;c=ff0000&amp;amp;cr1=ffffff&amp;amp;f=arial&amp;amp;l=0&quot;</span> <span class="na">async=</span><span class="s">&quot;async&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;/section&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+2,修改配置文件<br/>
+<code>_config.yml</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">default_asides</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">custom/asides/about.html</span><span class="p-Indicator">,</span><span class="nv">asides/recent_posts.html</span><span class="p-Indicator">,</span> <span class="nv">asides/github.html</span><span class="p-Indicator">,</span> <span class="nv">asides/delicious.html</span><span class="p-Indicator">,</span> <span class="nv">asides/pinboard.html</span><span class="p-Indicator">,</span> <span class="nv">asides/googleplus.html</span><span class="p-Indicator">,</span><span class="nv">asides/category_list.html</span><span class="p-Indicator">,</span><span class="nv">custom/asides/recent_comments.html</span><span class="p-Indicator">,</span><span class="nv">custom/asides/earth.html</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20151009/private-api-in-ios.html">iOS SDK中的私有API</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-09T14:37:39+08:00'><span class='date'>2015 年10 月9 日</span> <span class='time'>2:37 pm</span></time>
+        
+           | <a href="/blog/20151009/private-api-in-ios.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20151009/private-api-in-ios.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>由于是私有API,再键入的时候不会有提示,注意在提交AppStore之前需要全部删除.</p>
+
+<p>1.查看View的层次结构</p>
+
+<blockquote><p>recursiveDescription</p></blockquote>
+
+<p>eg:查看UISearchBar的View层级,找到Cancel-Button的位置并修改该按钮的样式</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="bp">UISearchBar</span> <span class="o">*</span><span class="n">searchBarView</span>  <span class="o">=</span> <span class="p">[[</span><span class="bp">UISearchBar</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithFrame</span><span class="p">:</span><span class="n">CGRectMake</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">375</span><span class="p">,</span> <span class="mi">44</span><span class="p">)];</span>
+</span><span class='line'><span class="n">searchBarView</span><span class="p">.</span><span class="n">showsCancelButton</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span>
+</span><span class='line'><span class="c1">//私有API,直接发消息给searchBarView的吧,编译器是不会过的,不信你试试看~~</span>
+</span><span class='line'><span class="n">NSLog</span><span class="p">(</span><span class="s">@&quot;%@&quot;</span><span class="p">,[</span><span class="n">searchBarView</span> <span class="nl">performSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="n">recursiveDescription</span><span class="p">)]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+打印结果如下:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2015</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">09</span> <span class="mi">15</span><span class="o">:</span><span class="mi">12</span><span class="o">:</span><span class="mf">20.568</span> <span class="n">findAward</span><span class="p">[</span><span class="mi">5625</span><span class="o">:</span><span class="mi">756750</span><span class="p">]</span> <span class="o">&lt;</span><span class="nl">UISearchBar</span><span class="p">:</span> <span class="mh">0x144574710</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">375</span> <span class="mi">44</span><span class="p">);</span> <span class="n">text</span> <span class="o">=</span> <span class="err">&#39;&#39;</span><span class="p">;</span> <span class="n">gestureRecognizers</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">NSArray</span><span class="p">:</span> <span class="mh">0x174247b90</span><span class="o">&gt;</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x174430040</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UIView</span><span class="p">:</span> <span class="mh">0x17418d750</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">375</span> <span class="mi">44</span><span class="p">);</span> <span class="n">clipsToBounds</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span> <span class="n">autoresize</span> <span class="o">=</span> <span class="n">W</span><span class="o">+</span><span class="n">H</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x17442ff80</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UISearchBarBackground</span><span class="p">:</span> <span class="mh">0x1445a4240</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">375</span> <span class="mi">44</span><span class="p">);</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x174431200</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UINavigationButton</span><span class="p">:</span> <span class="mh">0x14452b250</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">34</span> <span class="mi">30</span><span class="p">);</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x17442e4c0</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">UISearchBarTextField</span><span class="p">:</span> <span class="mh">0x144645db0</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">);</span> <span class="n">text</span> <span class="o">=</span> <span class="err">&#39;&#39;</span><span class="p">;</span> <span class="n">clipsToBounds</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x1702213a0</span><span class="o">&gt;&gt;</span>
+</span><span class='line'>   <span class="o">|</span>    <span class="o">|</span>    <span class="o">|</span> <span class="o">&lt;</span><span class="nl">_UISearchBarSearchFieldBackgroundView</span><span class="p">:</span> <span class="mh">0x1445732c0</span><span class="p">;</span> <span class="n">frame</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">);</span> <span class="n">opaque</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">autoresize</span> <span class="o">=</span> <span class="n">W</span><span class="o">+</span><span class="n">H</span><span class="p">;</span> <span class="n">userInteractionEnabled</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span> <span class="n">layer</span> <span class="o">=</span> <span class="o">&lt;</span><span class="nl">CALayer</span><span class="p">:</span> <span class="mh">0x17442fac0</span><span class="o">&gt;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>根据打印的结果,我们可以看出,UISearchBar的二级subview里有一个,<code>UINavigationButton</code>随便猜猜,这个也是<code>UIButton</code>的子类了.故要获得它并修改他的样式的code如下:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="k">for</span> <span class="p">(</span><span class="bp">UIView</span> <span class="o">*</span><span class="n">view</span> <span class="k">in</span> <span class="p">[[</span><span class="n">searchBarView</span><span class="p">.</span><span class="n">subviews</span> <span class="n">lastObject</span><span class="p">]</span> <span class="n">subviews</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>                <span class="k">if</span> <span class="p">([</span><span class="n">view</span> <span class="nl">isKindOfClass</span><span class="p">:[</span><span class="bp">UIButton</span> <span class="k">class</span><span class="p">]])</span> <span class="p">{</span>
+</span><span class='line'>                    <span class="bp">UIButton</span> <span class="o">*</span><span class="n">cancelBtn</span> <span class="o">=</span> <span class="p">(</span><span class="bp">UIButton</span> <span class="o">*</span><span class="p">)</span><span class="n">view</span><span class="p">;</span>
+</span><span class='line'>                    <span class="p">[</span><span class="n">cancelBtn</span> <span class="nl">setTitle</span><span class="p">:</span><span class="s">@&quot;取消&quot;</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>                    <span class="p">[</span><span class="n">cancelBtn</span> <span class="nl">setTitleColor</span><span class="p">:</span><span class="n">COLOR_EA4426</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateNormal</span><span class="p">];</span>
+</span><span class='line'>                    <span class="p">[</span><span class="n">cancelBtn</span> <span class="nl">setTitleColor</span><span class="p">:</span><span class="n">COLOR_EA4426</span> <span class="nl">forState</span><span class="p">:</span><span class="n">UIControlStateHighlighted</span><span class="p">];</span>
+</span><span class='line'>                <span class="p">}</span>
+</span><span class='line'>            <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/3">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/index.html">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1><a href="/aboutme" >About Me</a></h1>
+  <img src="/images/head.png" width=200 height=200 style="border-radius:5%" /><br />
+  <b>Spring, 程序员</b>
+  <p>博观而约取, 厚积而薄发</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/20190131/rule-of-gitignore-file.html">Gitignore 文件屏蔽规则</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180928/function-pointer-test.html">C 语言函数指针小测试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180920/tips-of-google-search.html">Chrome中使用英文关键词搜索中文结果</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180918/tips-of-xcode.html">Xcode 使用技巧</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180725/introduction-to-lipo.html">Lipo 使用简介</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>文章分类</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
+<li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
+<li class='category'><a href='/blog/categories/der/'>der (1)</a></li>
+<li class='category'><a href='/blog/categories/function-pointer/'>function pointer (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (2)</a></li>
+<li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
+<li class='category'><a href='/blog/categories/google/'>google (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (9)</a></li>
+<li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/lipo/'>lipo (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (2)</a></li>
+<li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
+<li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
+<li class='category'><a href='/blog/categories/openssl/'>openssl (1)</a></li>
+<li class='category'><a href='/blog/categories/pem/'>pem (1)</a></li>
+<li class='category'><a href='/blog/categories/provisioning-profile/'>provisioning profile (1)</a></li>
+<li class='category'><a href='/blog/categories/rsa/'>rsa (2)</a></li>
+<li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
+<li class='category'><a href='/blog/categories/static-library/'>static library (1)</a></li>
+<li class='category'><a href='/blog/categories/terminal/'>terminal (3)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (7)</a></li>
+<li class='category'><a href='/blog/categories/xcodebuild/'>xcodebuild (1)</a></li>
+<li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>近期评论</h1>
+  <script type="text/javascript" src="http://newspringblog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+  
+</section>
+<section>
+<h1>访客地图</h1>
+<script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;m=0&amp;s=220&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=0" async="async"></script>
+</section>
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - Spring -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'newspringblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="http://arrow.scrolltotop.com/arrow78.js"></script>
+<noscript>Not seeing a <a href="http://www.scrolltotop.com/">Scroll to Top Button</a>? Go to our FAQ page for more info.</noscript>
+
+</body>
+</html>
