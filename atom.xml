@@ -4,7 +4,7 @@
   <title><![CDATA[冷雨之家]]></title>
   <link href="http://douxinchun.github.io/atom.xml" rel="self"/>
   <link href="http://douxinchun.github.io/"/>
-  <updated>2018-05-03T09:58:14+08:00</updated>
+  <updated>2018-11-30T00:59:01+08:00</updated>
   <id>http://douxinchun.github.io/</id>
   <author>
     <name><![CDATA[Spring]]></name>
@@ -12,6 +12,1367 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[DNS Over Https RFC8484]]></title>
+    <link href="http://douxinchun.github.io/blog/20181129/dns-over-https.html"/>
+    <updated>2018-11-29T22:31:53+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20181129/dns-over-https</id>
+    <content type="html"><![CDATA[<p>本文主要记录一下自己学习RFC8484 DNS Queries over HTTPS (DoH)时的简单翻译。</p>
+
+<h2>1.Introduction</h2>
+
+<p>RFC8484 定义了一种通过https链路来发送DNS请求和接受DNS响应的协议。每一对DNS的请求和响应对应一次http的交换。</p>
+
+<blockquote><p>This document defines a protocol for sending DNS queries and getting   DNS responses over HTTPS.  Each DNS query-response pair is mapped   into an HTTP exchange.</p></blockquote>
+
+<p>本文描述的方法不仅仅是基于http的隧道。DoH为请求和响应增加了默认的媒体格式类型（meida formatting type），使用http内容协商机制来选择替代品，因为终端可能会更希望能服务于新的使用场景（水平有限，这句搞不定）。除此之外，DoH具有http的特性，比如，缓存，重定向，代理，认证和压缩。</p>
+
+<blockquote><p>The described approach is more than a tunnel over HTTP.It establishes default media formatting types for requests and responses but uses normal HTTP content negotiation mechanisms for selecting alternatives that endpoints may prefer in anticipation of serving new use cases.  In addition to this media type negotiation, it aligns itself with HTTP features such as caching, redirection, proxying, authentication, and compression.</p></blockquote>
+
+<p>这种与http的集成为现有的DNS客户端和web应用的dns查询提供一种传输层的适配。</p>
+
+<blockquote><p>The integration with HTTP provides a transport suitable for both existing DNS clients and native web applications seeking access to the DNS.</p></blockquote>
+
+<p>在协议的开发过程中主要考虑了两点，一是阻止路径上的其它设备对DNS操作产生妨碍，二是允许web应用以现有的浏览器API用一种安全的方式来获取DNS信息，而且与CORS（这个概念不清楚）保持一致。其余方面未做额外的工作。该文档着重说明在DNS客户端（eg，操作系统的根解析器）和递归解析服务器之间的通信过程。</p>
+
+<blockquote><p>Two primary use cases were considered during this protocol&rsquo;s development.  These use cases are preventing on-path devices from interfering with DNS operations, and also allowing web applications to access DNS information via existing browser APIs in a safe way consistent with Cross Origin Resource Sharing (CORS).  No special effort has been taken to enable or prevent application to other use cases.  This document focuses on communication between DNS clients (such as operating system stub resolvers) and recursive resolvers.</p></blockquote>
+
+<h2>2.  Terminology</h2>
+
+<p>DoH Server:  支持DoH协议的服务器。</p>
+
+<p>DNS Server：普通的传输层协议的DNS服务器，UDP 53 端口</p>
+
+<p>DoH Clieng： 支持DoH协议的客户端</p>
+
+<p>must 一定要， must not 绝对不能，required 必要的， shall 应该， shall not 不应该，should 应该（语气轻），should not 不应该（语气轻），recommend 建议，recommend not 建议不要， may 可以， optional 可选</p>
+
+<h2>3.Selection of DoH Server</h2>
+
+<p>这段没用，主要是讲DoH Server支持客户端各种URI的配置，只要client的配置符合URI规范就行。</p>
+
+<blockquote><p>The DoH client is configured with a URI Template [RFC6570], which describes how to construct the URL to use for resolution. Configuration, discovery, and updating of the URI Template is done out of band from this protocol.  Note that configuration might be manual (such as a user typing URI Templates in a user interface for &ldquo;options&rdquo;) or automatic (such as URI Templates being supplied in responses from DHCP or similar protocols).  DoH servers MAY support more than one URI Template.  This allows the different endpoints to have different properties, such as different authentication requirements or service-level guarantees.</p></blockquote>
+
+<p>这段也没用，[rfc2818]描述了https协议是怎样确认DoH Server的主机身份的。</p>
+
+<blockquote><p>A DoH client uses configuration to select the URI, and thus the DoH server, that is to be used for resolution.  [RFC2818] defines how HTTPS verifies the DoH server&rsquo;s identity.</p></blockquote>
+
+<p>一个Client一定不能使用两个不同的URI。这里看不懂</p>
+
+<blockquote><p>A DoH client MUST NOT use a different URI simply because it was discovered outside of the client&rsquo;s configuration (such as through HTTP/2 server push) or because a server offers an unsolicited response that appears to be a valid answer to a DNS query.  This specification does not extend DNS resolution privileges to URIs that are not recognized by the DoH client as configured URIs.  Such scenarios may create additional operational, tracking, and security hazards that require limitations for safe usage.  A future specification may support this use case.</p></blockquote>
+
+<h2>4，The HTTP Exchange</h2>
+
+<h3>4.1 The HTTP Request</h3>
+
+<p>Doh Client 使用GET或者POST 方法来封装DNS请求到http请求中。</p>
+
+<blockquote><p>A DoH client encodes a single DNS query into an HTTP request usingeither the HTTP GET or POST method and the other requirements of this section.  The DoH server defines the URI used by the request through the use of a URI Template.</p></blockquote>
+
+<p>当http method为POST时，DNS请求中的URI不能携带任何参数；当为GET时，DNS请求中需要一个名为“dns”的参数（详情参见第6节），需要使用base64进行编码。</p>
+
+<blockquote><p>The URI Template defined in this document is processed without any variables when the HTTP method is POST.  When the HTTP method is GET,the single variable &ldquo;dns&rdquo; is defined as the content of the DNS request (as described in Section 6), encoded with base64url [RFC4648].</p></blockquote>
+
+<p>将来有关DoH的新的媒体类型一定会定义URI模板使用的参数。DoH需要同时实现GET方法和POST方法。</p>
+
+<blockquote><p>Future specifications for new media types for DoH MUST define the variables used for URI Template processing with this protocol.</p>
+
+<p>DoH servers MUST implement both the POST and GET methods.</p></blockquote>
+
+<p>使用POST方法，DNS请求被放在http请求的body体中。http request中Content-Type会指明body中message的类型。通常来讲，同等条件下，post请求比get的要小。</p>
+
+<blockquote><p>When using the POST method, the DNS query is included as the message body of the HTTP request, and the Content-Type request header field indicates the media type of the message.  POSTed requests are generally smaller than their GET equivalents.</p></blockquote>
+
+<p>使用GET方法有利于http缓存的实现（可能是因为幂等性）。</p>
+
+<blockquote><p>Using the GET method is friendlier to many HTTP cache implementations.</p></blockquote>
+
+<p>DoH Client 应该在http的rquest字段中制定一个Accept字段，用来表明在返回的响应中哪种类型的内容可以被接受。不管request中的Accept的字段是什么值，Client一定要处理“application/dns-message”类型（详情参见章节6），也可以处理其它dns相关的媒体类型。</p>
+
+<blockquote><p> The DoH client SHOULD include an HTTP Accept request header field to indicate what type of content can be understood in response.Irrespective of the value of the Accept request header field, the client MUST be prepared to process &ldquo;application/dns-message&rdquo; (as
+described in Section 6) responses but MAY also process other DNS-related media types it receives.</p></blockquote>
+
+<p>为了最大化的利用http缓存。DoH Client使用含有DNS报文中的ID字段的媒体类型。后续不是很理解，以后有机会再看。</p>
+
+<blockquote><p>In order to maximize HTTP cache friendliness, DoH clients using media formats that include the ID field from the DNS message header, such as &ldquo;application/dns-message&rdquo;, SHOULD use a DNS ID of 0 in every DNS request.  HTTP correlates the request and response, thus eliminating the need for the ID in a media type such as &ldquo;application/dns-message&rdquo;.  The use of a varying DNS ID can cause semantically equivalent DNS queries to be cached separately.</p></blockquote>
+
+<p>可以使用http/2中的padding和compressing特性。</p>
+
+<blockquote><p>DoH clients can use HTTP/2 padding and compression [RFC7540] in the same way that other HTTP/2 clients use (or don&rsquo;t use) them.</p></blockquote>
+
+<h2>4.1.1 HTTP Request Example</h2>
+
+<p>HTTP/2-style [rfc7540]</p>
+
+<p>请求解析一个A记录</p>
+
+<p><a href="https://dnsserver.example.net/dns-query">https://dnsserver.example.net/dns-query</a>{?dns}</p>
+
+<p>请求解析域名 &ldquo;www.example.com&rdquo;</p>
+
+<p>GET</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:method = GET
+</span><span class='line'>:scheme = https
+</span><span class='line'>:authority = dnsserver.example.net
+</span><span class='line'>:path = /dns-query?dns=AAABAAABAAAAAAAAA3d3dwdleGFtcGxlA2NvbQAAAQAB
+</span><span class='line'>accept = application/dns-message</span></code></pre></td></tr></table></div></figure>
+
+
+<p>POST</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>:method = POST
+</span><span class='line'>:scheme = https
+</span><span class='line'>:authority = dnsserver.example.net
+</span><span class='line'>:path = /dns-query
+</span><span class='line'>accept = application/dns-message
+</span><span class='line'>content-type = application/dns-message
+</span><span class='line'>content-length = 33
+</span><span class='line'>
+</span><span class='line'>&lt;33 bytes represented by the following hex encoding&gt;
+</span><span class='line'>00 00 01 00 00 01 00 00  00 00 00 00 03 77 77 77
+</span><span class='line'>07 65 78 61 6d 70 6c 65  03 63 6f 6d 00 00 01 00
+</span><span class='line'>01</span></code></pre></td></tr></table></div></figure>
+
+
+<p>采用的是DNS wire format的形式，body中放的是33字节的DMS报文，从DNS协议头开始。</p>
+
+<h2>4.2  The HTTP Response</h2>
+
+<p> 文档中定义的唯一的response type是“application/dns-message”.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[C 语言函数指针小测试]]></title>
+    <link href="http://douxinchun.github.io/blog/20180928/function-pointer-test.html"/>
+    <updated>2018-09-28T15:10:54+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180928/function-pointer-test</id>
+    <content type="html"><![CDATA[<p>首先看一道趣味题,来源:<a href="https://www.v2ex.com/t/492705">https://www.v2ex.com/t/492705</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="p">[]</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">**********************</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'><span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在 [] 标记内加入一条语句，使得：</p>
+
+<ol>
+<li>程序编译通过，无错误（警告随意）；链接通过，无错误（警告随意）</li>
+<li>程序能够运行，无崩溃和运行时错误</li>
+<li>源代码为.c 文件</li>
+<li>如果用 vs，则使用 Release 配置；用 gcc 也行</li>
+<li>加入的语句不能忽略分号</li>
+<li>printf 一句必须能够正常输出内容</li>
+</ol>
+
+
+<p>答案如下表</p>
+
+<table>
+<thead>
+<tr>
+<th> int(*p)(); </th>
+<th> 10个字符 </th>
+<th> 兼容 gcc、g++、vs        </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> int p(){}  </td>
+<td> 9个字符  </td>
+<td> 兼容 gcc，不兼容 g++、vs </td>
+</tr>
+<tr>
+<td> p();}p(){  </td>
+<td> 9个字符  </td>
+<td> 兼容 gcc、g++、vs        </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>本文主要针对第一种答案来说明一下为什么函数指针可以被无线次解引用.</p>
+
+<h2>&amp; *</h2>
+
+<p>说到指针,首先就一定要介绍两个操作符.</p>
+
+<blockquote><p>&amp; 地址操作符(address operators) 单目前缀操作符,操作数为跟在后面的表达式. eg:&amp;a,表示取操作数a的地址,也可以理解为取对象a的地址,或者取变量a的地址等等.</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="c1">// 在64处理器的系统模式下,地址的长度为8个字节</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sizeof(&amp;a)=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">**********</span><span class="n">result</span><span class="o">**********</span>
+</span><span class='line'><span class="k">sizeof</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">)</span><span class="o">=</span><span class="mi">8</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>* 间接操作符 (indirection operators) 单目前缀操作数,同样也是跟在后面的表达式为操作数,可以使用间接操作符通过指针对象间接地访问它所指向对象的值. eg: *a,表示取<strong>指针对象</strong>a中存的地址所指向的值. (这里的表达非常绕,下面举个例子,请自行脑补)</p></blockquote>
+
+<p><em>a的举例: 超市的储物柜,每个格子都有一个唯一对应的条形码,我们认为这就是每个格子的地址,格子本身就是实实在在的三维空间,是可以放物品的.现在有两个格子a格和b格,我们把背包放进了b格,然后把印有b格条码的纸条放进了a格, 那么,a格就相当于一个指针变量, b格就相当于一个普通的变量. </em>a的意思就是 分两步,第一步找到a格,取出a格中存放的条码,第二步,按照条码找到b格,取出b格中的背包.  最终简化一下, *a就是背包.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">666</span><span class="p">;</span>
+</span><span class='line'><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">;</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">;</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;*a=%d sizeof(*a)=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">*</span><span class="n">a</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">**********</span><span class="n">result</span><span class="o">**********</span>
+</span><span class='line'><span class="o">*</span><span class="n">a</span><span class="o">=</span><span class="mi">666</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span><span class="o">=</span><span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>对于间接操作符,需要特别注意的有两点:</p>
+
+<p>第一,间接操作符(*)与用来声明之神类别对象的&#8221;*&ldquo;不属于同种功能,虽然它们两者确实是同一个字符,unicode码点都是 \u002a</p>
+
+<p>第二,间接操作符只作用于指针类型的对象,也就是说简介操作符的的操作数必须是一个指针类型的对象.</p></blockquote>
+
+<h2>&ldquo;取地址&#8221;与&#8221;解引用&rdquo;</h2>
+
+<p>通俗的讲,对一个变量的 &amp; 操作称为&#8221;取地址&#8221;</p>
+
+<p>对一个指针变量的 * 操作称作&#8221;解引用&#8221;.</p>
+
+<p>换一种角度去理解解引用，&#8221;*&ldquo;的作用是引用指针指向的变量值，引用其实就是引用该变量的地址，“解”就是把该地址对应的东西解开，解出来，就像打开一个包裹一样，那就是该变量的值了，所以称为“解引用”。也就是说，解引用是返回内存地址中保存的值。这个值可以是另一个地址。</p>
+
+<h2>多级指针.</h2>
+
+<p>如果一个指针变量存的是一个普通变量的地址,比如 int <em>a,只能存放一个整型变量的地址,那么这个指针叫做一级指针;如果一个指针变量存放的是另一个指针变量的地址,比如 int **, 里面存放的是一个(int </em>a)类型的指针变量的地址,那么这个指针变量叫二级指针,依次往下推,可以有三级指针,四级指针&hellip;.直到多级指针.</p>
+
+<h2>函数指针</h2>
+
+<p>简单理解就是指向函数地址的指针。比如我们声明的一个C函数</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="kt">void</span> <span class="nf">func</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span><span class='line'><span class="c1">//函数调用</span>
+</span><span class='line'><span class="n">func</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么对于函数调用表达式 func() 而言， func后缀表达式就已经表示了一个指向返回类型为void，且参数列表为空的函数的指针：</p>
+
+<blockquote><p>void (*) (void)</p></blockquote>
+
+<p>函数指针的通用表达形式为：</p>
+
+<blockquote><p>返回类型 （* cv限定符 ）（形参列表）</p></blockquote>
+
+<p>其中，cv限定符为可选项。</p>
+
+<p>直接上code</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)();</span>
+</span><span class='line'><span class="n">p</span><span class="o">=&amp;</span><span class="n">func</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sizeof(func)= %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">func</span><span class="p">));</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sizeof(p)= %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;func</span><span class="se">\t</span><span class="s"> %p = %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">func</span><span class="p">,</span><span class="n">func</span><span class="p">);</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;p *p</span><span class="se">\t</span><span class="s"> %p = %p = %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">p</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="o">*</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;p多次解引用 %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">**********************</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">pNull</span><span class="p">)();</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;pNull *p</span><span class="se">\t</span><span class="s"> %p = %p = %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">pNull</span><span class="p">,</span><span class="n">pNull</span><span class="p">,</span><span class="o">*</span><span class="n">pNull</span><span class="p">);</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;pNull多次解引用 %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">**********************</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">**********</span><span class="n">result</span><span class="o">**********</span>
+</span><span class='line'><span class="k">sizeof</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">=</span> <span class="mi">8</span>
+</span><span class='line'><span class="n">func</span>    <span class="mh">0x100000df0</span> <span class="o">=</span> <span class="mh">0x100000df0</span>
+</span><span class='line'><span class="n">p</span> <span class="o">*</span><span class="n">p</span>  <span class="mh">0x7ffeefbff568</span> <span class="o">=</span> <span class="mh">0x100000df0</span> <span class="o">=</span> <span class="mh">0x100000df0</span>
+</span><span class='line'><span class="n">p</span><span class="err">多次解引用</span> <span class="mh">0x100000df0</span>
+</span><span class='line'><span class="n">pNull</span> <span class="o">*</span><span class="n">p</span>  <span class="mh">0x7ffeefbff560</span> <span class="o">=</span> <span class="mh">0x0</span> <span class="o">=</span> <span class="mh">0x0</span>
+</span><span class='line'><span class="n">pNull</span><span class="err">多次解引用</span> <span class="mh">0x0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看出：</p>
+
+<ol>
+<li><p>函数指针变量在64位系统下的大小是8，函数指针常量的大小是1。</p></li>
+<li><p>函数指针常量中存储的内容是自身的地址（这是为什么函数指针可以被无限次解引用的关键，因为解到最后一层以后，继续解就陷入了”自己找自己“的循环）。</p></li>
+<li><p>未赋值的函数指针变量默认指向的是地址是0x0，对存储在该地址的指针对象解引用的结果依旧是0x0，所以可以认为0x0地址的内存单元中存的是地址0x0（此处上可能有误，尚需以后讨论）。</p></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chrome中使用英文关键词搜索中文结果]]></title>
+    <link href="http://douxinchun.github.io/blog/20180920/tips-of-google-search.html"/>
+    <updated>2018-09-20T17:28:46+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180920/tips-of-google-search</id>
+    <content type="html"><![CDATA[<p>在国内,访问Google需要用一点小技巧.有时候,我们使用英文的关键词,但是搜索结果想要查看中文的.由于的这点小技巧的原因,导致Google不能够正确的识别国家和地区的设置.</p>
+
+<p>知乎中有一篇帖子介绍了几个修改的方法: <a href="https://www.zhihu.com/question/37498305">如何修改Chrome里Google搜索的国家和地区设置？</a> 这里我采取另外的一种方法来实现.</p>
+
+<ol>
+<li><p>chrome地址栏中输入 chrome://settings/searchEngines 打开chrome中的管理搜索引擎</p></li>
+<li><p>复制默认搜索引擎的查询网址:   {google:baseURL}search?q=%s&amp;{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:contextualSearchVersion}ie={inputEncoding}</p></li>
+<li><p>在上面的String后面追加 &amp;lr=lang_zh-CN, 然后添加一个搜索引擎,
+名字:  Google 中文
+关键词: cn
+查询网址:  {google:baseURL}search?q=%s&amp;{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:contextualSearchVersion}ie={inputEncoding}&amp;lr=lang_zh-CN</p></li>
+</ol>
+
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/9/1-1.png" alt="增加搜索引擎" /></p>
+
+<p>4.保存后,在地址栏中输入 cn+空格 ,然后再输入搜索关键字,OK,展示的搜索结果已经变成中文结果了.</p>
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/9/1-2.png" alt="使用介绍" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode 使用技巧]]></title>
+    <link href="http://douxinchun.github.io/blog/20180918/tips-of-xcode.html"/>
+    <updated>2018-09-18T17:03:09+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180918/tips-of-xcode</id>
+    <content type="html"><![CDATA[<h2>Alcatraz</h2>
+
+<p><a href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>是一款开源的用于Xcode7的插件管理工具.Xcode8以及以后版本需要配合下面的工具来使用.</p>
+
+<h2>update_xcode_plugins</h2>
+
+<p><a href="https://github.com/inket/update_xcode_plugins">update_xcode_plugins</a>可以为Xcode中安装的插件添加UUID, 同时还能够 为Xcode8以及以上的版本解除签名,这样就可以随心所欲的使用各种Xcode插件了.</p>
+
+<h2>Reset Xcode’s “Load Bundles” warning</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>defaults delete com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-10.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行该命令,重启Xcode,可以使Xcode弹出&#8221;Load Bundles&#8221;的提示,可以重新load所有的插件.注意command末尾处的Xcode的版本号.</p>
+
+<h2>添加删除行 快捷键 Opt+D</h2>
+
+<ol>
+<li><p>修改配置文件(plist)权限</p>
+
+<pre><code class="ba&#39;sh">sudo chmod 666 /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/IDETextKeyBindingSet.plist
+sudo chmod 777 /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/
+</code></pre></li>
+<li><p>打开plist文件进行修改</p>
+
+<pre><code class="bash">open /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/IDETextKeyBindingSet.plist
+</code></pre>
+
+<p>找到<strong>root</strong>下的<strong>Deletions</strong>,在<strong>Deletions</strong>下添加一个Key: <strong>Delete Current Line</strong> 值为<strong>deleteToBeginningOfLine:, moveToEndOfLine:, deleteToBeginningOfLine:, deleteBackward:, moveDown:, moveToBeginningOfLine:</strong></p></li>
+<li><p>重启Xcode,设置快捷键</p></li>
+</ol>
+
+
+<p>   <strong>Preference</strong> -> <strong>Key Bindings</strong> ,找到 <strong>Delete Current Line</strong> 选项,设置快捷键为 <strong>Opt+D</strong></p>
+
+<h2>Xcode Release Build 版本号自动增加</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="nv">$CONFIGURATION</span> <span class="o">==</span> Release <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Bumping build number...&quot;</span>
+</span><span class='line'><span class="nv">plist</span><span class="o">=</span><span class="k">${</span><span class="nv">PROJECT_DIR</span><span class="k">}</span>/<span class="k">${</span><span class="nv">INFOPLIST_FILE</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">buildnum</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy -c <span class="s2">&quot;Print CFBundleVersion&quot;</span> <span class="s2">&quot;${plist}&quot;</span><span class="k">)</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;${buildnum}&quot;</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;No build number in $plist&quot;</span>
+</span><span class='line'><span class="nb">exit </span>2
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">buildnum</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$buildnum</span> + 1<span class="k">)</span>
+</span><span class='line'>/usr/libexec/Plistbuddy -c <span class="s2">&quot;Set CFBundleVersion $buildnum&quot;</span> <span class="s2">&quot;${plist}&quot;</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Bumped build number to $buildnum&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="nb">echo</span> <span class="nv">$CONFIGURATION</span> <span class="s2">&quot; build - Not bumping build number.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用方法 Xcode&ndash;>Projet&ndash;>Target&ndash;>Build Phases&ndash;>&ldquo;+&rdquo;&ndash;>New Run Script Phase. 顺序放在Target Dependencies之后即可,尽量靠前.</p>
+
+<p>过程, 查找 Info.plist 文件的位置,使用工具 /usr/libexec/PlistBuddy 读取 CFBundleVersion 的值,+1后再写会 Info.plist 文件.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Lipo 使用简介]]></title>
+    <link href="http://douxinchun.github.io/blog/20180725/introduction-to-lipo.html"/>
+    <updated>2018-07-25T17:25:25+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180725/introduction-to-lipo</id>
+    <content type="html"><![CDATA[<p>最近在开发iOS SDK, 需要使用到lipo命令, 在此简单做一下记录:</p>
+
+<p>lipo的使用手册</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  ~  man lipo
+</span><span class='line'>
+</span><span class='line'>LIPO<span class="o">(</span>1<span class="o">)</span>                                                                     LIPO<span class="o">(</span>1<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>NAME
+</span><span class='line'>       lipo - create or operate on universal files
+</span><span class='line'>
+</span><span class='line'>SYNOPSIS
+</span><span class='line'>       lipo   <span class="o">[</span>-info<span class="o">]</span>   <span class="o">[</span>-detailed_info<span class="o">]</span>   <span class="o">[</span>-arch   arch_type  input_file<span class="o">]</span>  ...   <span class="o">[</span>
+</span><span class='line'>       input_file<span class="o">]</span>  ...   <span class="o">[</span>-arch_blank  arch_type<span class="o">]</span>  <span class="o">[</span>-create<span class="o">]</span>   <span class="o">[</span>-thin   arch_type<span class="o">]</span>
+</span><span class='line'>       <span class="o">[</span>-replace  arch_type  filename<span class="o">]</span>  ...   <span class="o">[</span>-remove  arch_type<span class="o">]</span>  ...lio   <span class="o">[</span>-extract
+</span><span class='line'>       arch_type<span class="o">]</span> ...  <span class="o">[</span>-extract_family  arch_type<span class="o">]</span>  ...   <span class="o">[</span>-verify_arch  arch_type
+</span><span class='line'>       ...<span class="o">]</span>  <span class="o">[</span>-output output_file<span class="o">]</span> <span class="o">[</span>-segalign arch_type value<span class="o">]</span> ...
+</span><span class='line'>
+</span><span class='line'>DESCRIPTION
+</span><span class='line'>       The  lipo  <span class="nb">command </span>creates or operates on <span class="sb">``</span>universal<span class="s1">&#39;&#39;</span> <span class="o">(</span>multi-architecture<span class="o">)</span>
+</span><span class='line'>       files.  It only ever produces one output file, and never  alters  the  input
+</span><span class='line'>       file.  The operations that lipo performs are: listing the architecture types
+</span><span class='line'>       in a universal file<span class="p">;</span> creating a single universal file from one or more input
+</span><span class='line'>       files<span class="p">;</span>  thinning  out  a single universal file to one specified architecture
+</span><span class='line'>       <span class="nb">type</span><span class="p">;</span> and extracting, replacing, and/or removing  architectures  types  from
+</span><span class='line'>       the input file to create a single new universal output file.
+</span><span class='line'>
+</span><span class='line'>       Only  one option can be specified, with the exception of -arch, -arch_blank,
+</span><span class='line'>       -output, and -segalign, which are used in combination  with  other  options.
+</span><span class='line'>       The input_file argument is required, and only the -create option allows more
+</span><span class='line'>       than one input_file to be specified.  The -output flag must be used,  except
+</span><span class='line'>       with the -info and -detailed_info flags.
+</span><span class='line'>
+</span><span class='line'>       The  arch_type  arguments  may  be  any  of the supported architecture names
+</span><span class='line'>       listed in the man page arch<span class="o">(</span>3<span class="o">)</span>.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>简单说,lipo就是用来操作universal file的命令,也可以说成是 fat file(因为这种文件确实比较大).在iOS中其实就是用来操作静态链接库(以.a为后缀的文件 )的命令.</p>
+
+<p>fat file一般是指包含两种及以上CPU架构的静态链接库</p>
+
+<p>lipo命令的功能:</p>
+
+<ul>
+<li>列举 .a文件 支持的architecture types.(架构类型,eg: armv7, armv7s, i386, x86_64, arm64)</li>
+<li>合并多个 .a文件为一个.a文件</li>
+<li>给一个 .a文件 瘦身.(剔除某一项CPU的架构类型)</li>
+<li>提取, 替换或者移除 .a文件 文件中的某种架构</li>
+</ul>
+
+
+<p>使用lipo命令的注意事项</p>
+
+<ul>
+<li>除了 -arch, -arch_black, -output, -segalign选项外,其余的选项只能指定一个. 这几个选选项需要和其它的选项混合使用</li>
+<li>除了 -create 选项外, 其余的选项只能指定一个input file作为参数</li>
+<li>除了 -info 和 - detailed_info 选项外, 其余的选项必须指定 -output, 可以简写为 -o</li>
+</ul>
+
+
+<h3>lipo命令的使用eg,以WechatSDK 1.8.2作为举例对象</h3>
+
+<h4>1.查看.a文件支持的CPU架构</h4>
+
+<blockquote><p>lipo -info <em>input_file</em></p>
+
+<p>lipo -detailed_info <em>input_file</em></p></blockquote>
+
+<pre><code class="bash">➜  workspace lipo -info libWeChatSDK.a 
+Architectures in the .a文件: libWeChatSDK.a are: i386 armv7 armv7s x86_64 arm64 
+
+➜  workspace lipo -detailed_info libWeChatSDK.a
+Fat header in: libWeChatSDK.a
+fat_magic 0xcafebabe
+nfat_arch 5
+architecture i386
+    cputype CPU_TYPE_I386
+    cpusubtype CPU_SUBTYPE_I386_ALL
+    offset 108
+    size 3247680
+    align 2^2 (4)
+architecture armv7
+    cputype CPU_TYPE_ARM
+    cpusubtype CPU_SUBTYPE_ARM_V7
+    offset 3247788
+    size 3256064
+    align 2^2 (4)
+architecture armv7s
+    cputype CPU_TYPE_ARM
+    cpusubtype CPU_SUBTYPE_ARM_V7S
+    offset 6503852
+    size 3255048
+    align 2^2 (4)
+architecture x86_64
+    cputype CPU_TYPE_X86_64
+    cpusubtype CPU_SUBTYPE_X86_64_ALL
+    offset 9758904
+    size 3363856
+    align 2^3 (8)
+architecture arm64
+    cputype CPU_TYPE_ARM64
+    cpusubtype CPU_SUBTYPE_ARM64_ALL
+    offset 13122760
+    size 3704912
+    align 2^3 (8)
+➜  workspace 
+</code></pre>
+
+<h4>2..a文件 CPU架构拆分</h4>
+
+<blockquote><p>lipo 静态库源文件路径 -thin CPU架构名称 -output 拆分后文件存放路径</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace lipo -info libWeChatSDK-armv7
+</span><span class='line'>input file libWeChatSDK-armv7 is not a fat file
+</span><span class='line'>Non-fat file: libWeChatSDK-armv7 is architecture: armv7
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>3.合并两个 .a文件s</h4>
+
+<blockquote><p>lipo -create 静态库存放路径1  静态库存放路径2 &hellip;  -output 整合后存放的路径</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace lipo -create libWeChatSDK-armv7 libWeChatSDK-i386 -o libWeChatSDK-i386+armv7
+</span><span class='line'>➜  workspace lipo -info libWeChatSDK-i386+armv7
+</span><span class='line'>Architectures in the fat file: libWeChatSDK-i386+armv7 are: armv7 i386
+</span><span class='line'>➜  workspace
+</span><span class='line'>
+</span><span class='line'>➜  workspace lipo -create libWeChatSDK.a TYRZSD.a -o combine-library.a
+</span><span class='line'>fatal error: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/lipo: libWeChatSDK.a and TYRZSD.a have the same architectures <span class="o">(</span>i386<span class="o">)</span> and can<span class="err">&#39;</span>t be in the same fat output file
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里需要注意一下,如果要合并的两个.a 文件含有相同的架构的话,会报如上的错误. 这种情况下怎么合并,可参照下一个章节</p>
+
+<h4>4.用 lipo 删除某些平台</h4>
+
+<blockquote><p>$ lipo input_file -remove i386 -output output_file</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace lipo libWeChatSDK.a -remove i386 -o libWeChatSDK-noi386
+</span><span class='line'>➜  workspace lipo -info libWeChatSDK-noi386
+</span><span class='line'>Architectures in the fat file: libWeChatSDK-noi386 are: armv7 armv7s x86_64 arm64
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>lipo命令合并.a文件, detail</h3>
+
+<h4>1.分离出上述不同 .a 文件单独支持的架构版本，比如上述 libWeChatSDK.a 和 TYRZSD.a 支持 armv7 armv7s i386 x86_64 arm64，那么就需要分离出单独支持armv7 armv7s i386 x86_64 arm64的 .a 文件</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace lipo libWeChatSDK.a -thin armv7 -o libWeChatSDK-armv7
+</span><span class='line'>➜  workspace lipo TYRZSD.a -thin armv7 -o TYRZSD-armv7
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>2.分离出.a库的目标文件（.o)</h4>
+
+<blockquote><p> ar -x 静态链接库</p></blockquote>
+
+<p>因为 .a 库分离出来的目标文件 .o  会很多, 所以, 最好是在工作空间根据不同的CPU建立不同的文件夹</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace mkdir armv7
+</span><span class='line'>➜  workspace <span class="nb">cd </span>armv7
+</span><span class='line'>➜  armv7
+</span><span class='line'>➜  armv7 ar -x ../libWeChatSDK-armv7
+</span><span class='line'>➜  armv7 ls
+</span><span class='line'>AppCommunicate.o          MTAPlugin.o               OpenUDID.o
+</span><span class='line'>AppCommunicateData.o      MTAPluginIDFA.o           WXApi.o
+</span><span class='line'>GCDAsyncSocket.o          MTAPluginInstall.o        WXApiObject.o
+</span><span class='line'>MTA.o                     MTAPluginNotify.o         WXLogUtil.o
+</span><span class='line'>MTABaseFunction.o         MTAReachability.o         WapAuthHandler.o
+</span><span class='line'>MTAConfig.o               MTASendItem.o             WeChatApiUtil.o
+</span><span class='line'>MTADataConfigHolder.o     MTASocket.o               WeChatRegister.o
+</span><span class='line'>MTAEnv.o                  MTASpeedTestPlugin.o      WechatAuthSDK.o
+</span><span class='line'>MTAEvent.o                MTAStore.o                __.SYMDEF
+</span><span class='line'>MTAExtStoragePlugin.o     MTATempID.o               base64.o
+</span><span class='line'>MTAHelper.o               MTAWX.o
+</span><span class='line'>MTAMidPlugin.o            NSMutableArray+MTAQueue.o
+</span><span class='line'>➜  armv7 ar -x ../TYRZSD-armv7
+</span><span class='line'>➜  armv7 ls
+</span><span class='line'>AppCommunicate.o          MTAReachability.o         UAOpenInfo.o
+</span><span class='line'>AppCommunicateData.o      MTASendItem.o             UASession.o
+</span><span class='line'>GCDAsyncSocket.o          MTASocket.o               UATimer.o
+</span><span class='line'>MTA.o                     MTASpeedTestPlugin.o      UAUtil.o
+</span><span class='line'>MTABaseFunction.o         MTAStore.o                WXApi.o
+</span><span class='line'>MTAConfig.o               MTATempID.o               WXApiObject.o
+</span><span class='line'>MTADataConfigHolder.o     MTAWX.o                   WXLogUtil.o
+</span><span class='line'>MTAEnv.o                  NSMutableArray+MTAQueue.o WapAuthHandler.o
+</span><span class='line'>MTAEvent.o                OpenUDID.o                WeChatApiUtil.o
+</span><span class='line'>MTAExtStoragePlugin.o     TYRZSDK.o                 WeChatRegister.o
+</span><span class='line'>MTAHelper.o               TYRZSDK_vers.o            WechatAuthSDK.o
+</span><span class='line'>MTAMidPlugin.o            UAAuthViewController.o    __.SYMDEF
+</span><span class='line'>MTAPlugin.o               UACrypto.o                __.SYMDEF SORTED
+</span><span class='line'>MTAPluginIDFA.o           UAHTTP.o                  base64.o
+</span><span class='line'>MTAPluginInstall.o        UALogReport.o
+</span><span class='line'>MTAPluginNotify.o         UANetwork.o
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>3.对支持同个架构的.o文件，进行合并成静态库。</h4>
+
+<blockquote><p>libtool -static -o output_file *.o</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  armv7 libtool -static -o ../combine-library-armv7 *.o
+</span><span class='line'>➜  armv7 ls ..
+</span><span class='line'>TYRZSD-armv7          armv7                 libWeChatSDK-armv7    libWeChatSDK.a
+</span><span class='line'>TYRZSD.a              combine-library-armv7 libWeChatSDK-i386
+</span><span class='line'>➜  armv7
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>4.合成支持全部架构的通用静态库</h4>
+
+<p>如果之前的步骤不出错, 就会得到5个.a文件; combine-library-armv7 combine-library-armv7s combine-library-i386 combine-library-x86_64 combine-library-arm64</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  workspace lipo -create combine-library-armv7 combine-library-armv7s combine-library-i386 combine-library-x86_64 combine-library-arm64 -o combine-library
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>​    combine-library 就是最终需要的 .a 库</p>
+
+<h3>参考链接</h3>
+
+<p><a href="https://blog.csdn.net/qq_26968709/article/details/51164104">合并多个.a文件</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[秘钥格式 证书]]></title>
+    <link href="http://douxinchun.github.io/blog/20180718/rsa-key-structuress.html"/>
+    <updated>2018-07-18T17:17:34+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180718/rsa-key-structuress</id>
+    <content type="html"><![CDATA[<p>RSA秘钥存储一般有两种格式</p>
+
+<ul>
+<li>DER</li>
+<li>PEM</li>
+</ul>
+
+
+<h3>DER</h3>
+
+<p> DER: Distinguished Encoding Rules(可辨别编码规则)，是ASN.1的一种。
+ ASN.1: Abstract Syntax Notation One(抽象语法标记)，ASN.1是一种 ISO/ITU-T 标准，描述了一种对数据进行表示、编码、传输和解码的数据格式。它提供了一整套正规的格式用于描述对象的结构，而不管语言上如何执行及这些数据的具体指代，也不用去管到底是什么样的应用程序。
+证书信息一般以二进制的DER格式存储在文件中以供RSA，SSL使用。</p>
+
+<h3>PEM ( Privacy Enhanced Mail )</h3>
+
+<p>DER一般是二进制文件形式存储，打印性较差，因此对DER内容进行base64编码，并补充说明key类型的头和尾就构成了PEM</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-----BEGIN PUBLIC KEY-----
+</span><span class='line'>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMYfnvWtC8Id5bPKae5yXSxQTt
+</span><span class='line'>+Zpul6AnnZWfI2TtIarvjHBFUtXRo96y7hoL4VWOPKGCsRqMFDkrbeUjRrx8iL91
+</span><span class='line'>4/srnyf6sh9c8Zk04xEOpK1ypvBz+Ks4uZObtjnnitf0NBGdjMKxveTq+VE7BWUI
+</span><span class='line'>yQjtQ8mbDOsiLLvh7wIDAQAB
+</span><span class='line'>-----END PUBLIC KEY-----</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因此PEM,DER实质内容是相同的。</p>
+
+<blockquote><p>上面提到key以一定的结构存储的，不同的结构，补充的元信息也不同主要有两种组织形式PKCS#1,PKCS#8</p></blockquote>
+
+<h3>PEM的简单介绍</h3>
+
+<p>PEM全称是Privacy Enhanced     ，该标准定义了加密一个准备要发送邮件的标准 。它的基本流程是这样的：</p>
+
+<ol>
+<li><p>信息转换为ASCII码或其它编码方式；  </p></li>
+<li><p>使用对称算法加密转换了的邮件信息；  </p></li>
+<li><p>使用BASE64对加密后的邮件信息进行编码；  </p></li>
+<li><p>使用一些头定义对信息进行封装，这些头信息格式如下（不一定都需要，可选的 ）：    </p>
+
+<blockquote><p>Proc-Type,4:ENCRYPTED   <br/>
+ DEK-Info: cipher-name, ivec    </p></blockquote>
+
+<p>其中，第一个头信息标注了该文件是否进行了加密，该头信息可能的值包括ENCRY PTED(信息已经加密和签名)、MIC-ONLY(信息经过数字签名但没有加密)、MIC-CLEAR(信 息经过数字签名但是没有加密、也没有进行编码，可使用非PEM格式阅读)以及CLEAR(信 息没有签名和加密并且没有进行编码，该项好象是openssl自身的扩展，但是并没有真正 实现)；；第二个头信息标注了加密的算法以及使用的ivec参量，ivec其实在这儿提供的 应该是一个随机产生的数据序列，与块加密算法中要使用到的初始化变量（IV）不一样 。  </p></li>
+<li><p>在这些信息的前面加上如下形式头标注信息：  </p>
+
+<p> &mdash;&ndash;BEGIN PRIVACY-ENHANCED MESSAGE&mdash;&ndash;  </p>
+
+<p> 在这些信息的后面加上如下形式尾标注信息：  </p>
+
+<p>&mdash;&ndash;END PRIVACY-ENHANCED MESSAGE&mdash;&ndash;  </p></li>
+</ol>
+
+
+<p>上面是openssl的PEM文件的基本结构，需要注意的是，Openssl并没有实现PEM的全 部标准，它只是对openssl中需要使用的一些选项做了实现，详细的PEM格式，请参考RF C1421－1424。  </p>
+
+<p>   下面是一个PEM编码的经过加密的DSA私钥的例子：  </p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-----BEGIN DSA PRIVATE KEY-----     
+</span><span class='line'>Proc-Type: 4,ENCRYPTED     
+</span><span class='line'>DEK-Info: DES-EDE3-CBC,F80EEEBEEA7386C4     
+</span><span class='line'>BASE64 ENCODED DATA
+</span><span class='line'>-----END DSA PRIVATE KEY-----   </span></code></pre></td></tr></table></div></figure>
+
+
+<p>     有时候PEM编码的东西并没有经过加密，只是简单进行了BASE64编码，下面是一个没 有加密的证书请求的例子：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-----BEGIN CERTIFICATE REQUEST-----     
+</span><span class='line'>BASE64 ENCODED DATA
+</span><span class='line'>-----END CERTIFICATE REQUEST----- </span></code></pre></td></tr></table></div></figure>
+
+
+<p>    可以看到，该文件没有了前面两个头信息。大家如果经常使用openssl的应用程序， 就对这些文件格式很熟悉了。</p>
+
+<h3>PKCS#1</h3>
+
+<p>PKCS#1结构仅为RSA设计</p>
+
+<ul>
+<li>PEM形式</li>
+</ul>
+
+
+<p>PublicKey</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-----BEGIN RSA PUBLIC KEY-----
+</span><span class='line'>BASE64 ENCODED DATA
+</span><span class='line'>-----END RSA PUBLIC KEY-----</span></code></pre></td></tr></table></div></figure>
+
+
+<p>PrivateKey</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-----BEGIN RSA PRIVATE KEY-----
+</span><span class='line'>BASE64 ENCODED DATA
+</span><span class='line'>-----END RSA PRIVATE KEY-----</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>DER的结构</li>
+</ul>
+
+
+<p>PublicKey</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RSAPublicKey ::= SEQUENCE {
+</span><span class='line'>modulus           INTEGER,  -- n
+</span><span class='line'>publicExponent    INTEGER   -- e
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>PrivateKey</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RSAPrivateKey ::= SEQUENCE {
+</span><span class='line'>version           Version,
+</span><span class='line'>modulus           INTEGER,  -- n
+</span><span class='line'>publicExponent    INTEGER,  -- e
+</span><span class='line'>privateExponent   INTEGER,  -- d
+</span><span class='line'>prime1            INTEGER,  -- p
+</span><span class='line'>prime2            INTEGER,  -- q
+</span><span class='line'>exponent1         INTEGER,  -- d mod (p-1)
+</span><span class='line'>exponent2         INTEGER,  -- d mod (q-1)
+</span><span class='line'>coefficient       INTEGER,  -- (inverse of q) mod p
+</span><span class='line'>otherPrimeInfos   OtherPrimeInfos OPTIONAL
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>PKCS#8</h3>
+
+<p>X509,SSL支持的算法不仅仅是RSA，因此产生了更具有通用性的PKCS#8</p>
+
+<ul>
+<li>PEM</li>
+</ul>
+
+
+<p>PublicKey</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-----BEGIN PUBLIC KEY-----
+</span><span class='line'>BASE64 ENCODED DATA
+</span><span class='line'>-----END PUBLIC KEY-----</span></code></pre></td></tr></table></div></figure>
+
+
+<p>PrivateKey</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-----BEGIN PRIVATE KEY-----
+</span><span class='line'>BASE64 ENCODED DATA
+</span><span class='line'>-----END PRIVATE KEY-----</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>DER</li>
+</ul>
+
+
+<p>PublicKey</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PublicKeyInfo ::= SEQUENCE {
+</span><span class='line'>    algorithm       AlgorithmIdentifier,
+</span><span class='line'>    PublicKey       BIT STRING
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>AlgorithmIdentifier ::= SEQUENCE {
+</span><span class='line'>    algorithm       OBJECT IDENTIFIER,
+</span><span class='line'>    parameters      ANY DEFINED BY algorithm OPTIONAL
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>RSA公钥的OID 为 1.2.840.113549.1.1.1</p>
+
+<p>PrivateKey</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PrivateKeyInfo ::= SEQUENCE {
+</span><span class='line'>    version         Version,
+</span><span class='line'>    algorithm       AlgorithmIdentifier,
+</span><span class='line'>    PrivateKey      BIT STRING
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>AlgorithmIdentifier ::= SEQUENCE {
+</span><span class='line'>    algorithm       OBJECT IDENTIFIER,
+</span><span class='line'>    parameters      ANY DEFINED BY algorithm OPTIONAL
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>RSA私钥的OID 为 1.2.840.113549.1.1.1</p>
+
+<p>与PKCS#1相比将文件包含的加密算法和Key分开存储，因此可以存储其他加密算法的Key</p>
+
+<h3>SSL</h3>
+
+<p><strong>SSL</strong> - Secure Sockets Layer,现在应该叫&#8221;TLS&#8221;,但由于习惯问题,我们还是叫&#8221;SSL&#8221;比较多.http协议默认情况下是不加密内容的,这样就很可能在内容传播的时候被别人监听到,对于安全性要求较高的场合,必须要加密,https就是带加密的http协议,而https的加密是基于SSL的,它执行的是一个比较下层的加密,也就是说,在加密前,你的服务器程序在干嘛,加密后也一样在干嘛,不用动,这个加密对用户和开发者来说都是透明的.More:[<a href="http://en.wikipedia.org/wiki/Transport_Layer_Security">维基百科</a>]</p>
+
+<p><strong>OpenSSL</strong> - 简单地说,OpenSSL是SSL的一个实现,SSL只是一种规范.理论上来说,SSL这种规范是安全的,目前的技术水平很难破解,但SSL的实现就可能有些漏洞,如著名的&#8221;心脏出血&#8221;.OpenSSL还提供了一大堆强大的工具软件,强大到90%我们都用不到.</p>
+
+<h3>证书标准</h3>
+
+<p><strong>X.509</strong> - 这是一种证书标准,主要定义了证书中应该包含哪些内容.其详情可以参考RFC5280,SSL使用的就是这种证书标准.</p>
+
+<h3>相关的文件扩展名</h3>
+
+<p>这是比较误导人的地方,虽然我们已经知道有PEM和DER这两种编码格式,但文件扩展名并不一定就叫&#8221;PEM&#8221;或者&#8221;DER&#8221;,常见的扩展名除了PEM和DER还有以下这些,它们除了编码格式可能不同之外,内容也有差别,但大多数都能相互转换编码格式.</p>
+
+<p><strong>CRT</strong> - CRT应该是certificate的三个字母,其实还是证书的意思,常见于*NIX系统,有可能是PEM编码,也有可能是DER编码,大多数应该是PEM编码,相信你已经知道怎么辨别.</p>
+
+<p><strong>CER</strong> - 还是certificate,还是证书,常见于Windows系统,同样的,可能是PEM编码,也可能是DER编码,大多数应该是DER编码.</p>
+
+<p><strong>KEY</strong> - 通常用来存放一个公钥或者私钥,并非X.509证书,编码同样的,可能是PEM,也可能是DER.
+查看KEY的办法: openssl rsa -in mykey.key -text -noout
+如果是DER格式的话,同理应该这样了: openssl rsa -in mykey.key -text -noout <strong>-inform der</strong></p>
+
+<p><strong>CSR</strong> - Certificate Signing Request,即证书签名请求,这个并不是证书,而是向权威证书颁发机构获得签名证书的申请,其核心内容是一个公钥(当然还附带了一些别的信息),在生成这个申请的时候,同时也会生成一个私钥,私钥要自己保管好.做过iOS APP的朋友都应该知道是怎么向苹果申请开发者证书的吧.
+查看的办法: openssl req -noout -text -in my.csr (如果是DER格式的话照旧加上-inform der,这里不写了)</p>
+
+<p><strong>PFX/P12</strong> - predecessor of PKCS#12,对*nix服务器来说,一般CRT和KEY是分开存放在不同文件中的,但Windows的IIS则将它们存在一个PFX文件中,(因此这个文件包含了证书及私钥)这样会不会不安全？应该不会,PFX通常会有一个&#8221;提取密码&#8221;,你想把里面的东西读取出来的话,它就要求你提供提取密码,PFX使用的时DER编码,如何把PFX转换为PEM编码？
+openssl pkcs12 -in for-iis.pfx -out for-iis.pem -nodes
+这个时候会提示你输入提取代码. for-iis.pem就是可读的文本.
+生成pfx的命令类似这样:openssl pkcs12 -export -in certificate.crt -inkey privateKey.key -out certificate.pfx -certfile CACert.crt</p>
+
+<p>其中CACert.crt是CA(权威证书颁发机构)的根证书,有的话也通过-certfile参数一起带进去.这么看来,PFX其实是个证书密钥库.</p>
+
+<p><strong>JKS</strong> - 即Java Key Storage,这是Java的专利,跟OpenSSL关系不大,利用Java的一个叫&#8221;keytool&#8221;的工具,可以将PFX转为JKS,当然了,keytool也能直接生成JKS,不过在此就不多表了.</p>
+
+<h3>证书编码的转换</h3>
+
+<p><strong>PEM转为DER</strong> openssl x509 -in cert.crt -outform der -out cert.der</p>
+
+<p><strong>DER转为PEM</strong> openssl x509 -in cert.crt -inform der -outform pem -out cert.pem</p>
+
+<p>(提示:要转换KEY文件也类似,只不过把x509换成rsa,要转CSR的话,把x509换成req&hellip;)</p>
+
+<h3>使用openssl生成秘钥</h3>
+
+<p>生成2048位RSA秘钥，使用3des加密秘钥文件private.pem</p>
+
+<blockquote><p>openssl genrsa -des3 -out private.pem 2048</p></blockquote>
+
+<p>导出公钥，默认为PKCS#8结构</p>
+
+<blockquote><p>openssl rsa -in private.pem -outform PEM -pubout -out public.pem</p></blockquote>
+
+<p>导出PKCS#1结构的公钥，注意openssl版本，老版本可能不支持</p>
+
+<blockquote><p>openssl rsa -in private.pem -outform DER <strong>-RSAPublicKey_out</strong> -out public_pcks1.cer</p></blockquote>
+
+<p>导出无加密保护的私钥</p>
+
+<blockquote><p>openssl rsa -in private.pem -out private_unencrypted.pem -outform PEM</p></blockquote>
+
+<h3>参考资料</h3>
+
+<p><a href="https://medium.com/@oyrxx/rsa%E7%A7%98%E9%92%A5%E4%BB%8B%E7%BB%8D%E5%8F%8Aopenssl%E7%94%9F%E6%88%90%E5%91%BD%E4%BB%A4-d3fcc689513f">秘钥格式</a></p>
+
+<p><a href="https://tls.mbed.org/kb/cryptography/asn1-key-structures-in-der-and-pem">ASN.1 key structures in DER and PEM</a></p>
+
+<p><a href="https://www.cnblogs.com/guogangj/p/4118605.html">[那些证书相关的玩意儿(SSL,X.509,PEM,DER,CRT,CER,KEY,CSR,P12等)](https://www.cnblogs.com/guogangj/p/4118605.html)</a></p>
+
+<p><a href="https://groups.google.com/forum/#!topic/cn.bbs.comp.security/90Z0inkJ3lo">openssl之PEM系列之1&mdash;PEM编码文件结构介绍</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac OS X 下生成RSA密钥对]]></title>
+    <link href="http://douxinchun.github.io/blog/20180718/generate-rsa-key-on-mac-os-x.html"/>
+    <updated>2018-07-18T15:15:18+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180718/generate-rsa-key-on-mac-os-x</id>
+    <content type="html"><![CDATA[<p>Mac自带OpenSSL,可以利用openssl来生成RSA密钥对</p>
+
+<p>1.生成私钥,1024指密钥的长度</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  <span class="nb">test </span>openssl genrsa -out private_key.pem 1024
+</span><span class='line'>Generating RSA private key, <span class="m">1024</span> bit long modulus
+</span><span class='line'>.......................................................................++++++
+</span><span class='line'>.......................................................................++++++
+</span><span class='line'>e is <span class="m">65537</span> <span class="o">(</span>0x10001<span class="o">)</span>
+</span><span class='line'>➜  <span class="nb">test </span>cat private_key.pem
+</span><span class='line'>-----BEGIN RSA PRIVATE KEY-----
+</span><span class='line'>MIICXQIBAAKBgQDJrT1W3ZyBAYIMNb0XDBQTIGw4TpbrLelQ/K6Yl6abciAUAZNn
+</span><span class='line'>j5EHlFhMvpe3iHU0xPIcTM0IM9ZnMjecikHC4lBJ0JmXEsHf4j6Cf2+KRFHTaxPP
+</span><span class='line'>hqf65wiGvduTf70xOCvaPeyYVu4x69jm2rtxOeVvF1PJSrV+ZDCoDmYD3QIDAQAB
+</span><span class='line'>AoGAToUwmJ13zZJ0u6RAlrSRLFE3UUTn5XDeojV/FNIWf/cTHjbu2SdAZB8Rse+S
+</span><span class='line'>ylZKq9zyFqqgOU1VcKBQnpYFu9XFvpoP/xGC/T99MN3chBaQY4wY80FM8NEjWZbP
+</span><span class='line'>ZPTczE/HypE+J14/0i0x6jujhFiAAmcE/1ivRzRGvo6qC9ECQQDmcki4jO4VTju7
+</span><span class='line'>+WWINatj36pPn/JVUFH8Tqw98tQLg5VMPFfPNsl9L7CSqACCFvl1wiERuxfunRB0
+</span><span class='line'>9dNHb4sHAkEA4ApECRgqo+/7Smd2WTa4hSQ+aYs6J7+9e8zjgfIuYBn5ONOsuIuV
+</span><span class='line'>VntHyhSc2Xzbp1wkakCzTy/Tyw02kGCs+wJBAMFLHPpHo7AVRf9+yo48zjzgr99H
+</span><span class='line'>/yFWVN54MvtnQjtCLKmcd97kSo+Jv+bTqlFz6dy/b7OKpiFMdzBTvdtOkWMCQQC6
+</span><span class='line'>21ULUMCfopQv5kLq/ZzATw5O8PQ8Gstq6eQGiXrsZD1cjA9Oi/yt+HxTqwV2z5BT
+</span><span class='line'>8aHdjMEAlp9Kh2au3DLpAkB+koitVpjxmWyzQ/Sl4Xa843oR+qneofZZ3m9johtn
+</span><span class='line'>+7NQu3JXI1xBckxmZ4DtODtC7MUIqlOEej5OT9QVwljv
+</span><span class='line'>-----END RSA PRIVATE KEY-----
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.生成公钥</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  <span class="nb">test </span>openssl rsa -in private_key.pem -pubout -out public_key.pem
+</span><span class='line'>writing RSA key
+</span><span class='line'>➜  <span class="nb">test </span>cat public_key.pem
+</span><span class='line'>-----BEGIN PUBLIC KEY-----
+</span><span class='line'>MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDJrT1W3ZyBAYIMNb0XDBQTIGw4
+</span><span class='line'>TpbrLelQ/K6Yl6abciAUAZNnj5EHlFhMvpe3iHU0xPIcTM0IM9ZnMjecikHC4lBJ
+</span><span class='line'>0JmXEsHf4j6Cf2+KRFHTaxPPhqf65wiGvduTf70xOCvaPeyYVu4x69jm2rtxOeVv
+</span><span class='line'>F1PJSrV+ZDCoDmYD3QIDAQAB
+</span><span class='line'>-----END PUBLIC KEY-----
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.使用pkcs8命令转换私钥格式 PKCS标准</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  <span class="nb">test </span>openssl pkcs8 -topk8 -inform PEM -in private_key.pem -outform PEM -nocrypt
+</span><span class='line'>-----BEGIN PRIVATE KEY-----
+</span><span class='line'>MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMmtPVbdnIEBggw1
+</span><span class='line'>vRcMFBMgbDhOlust6VD8rpiXpptyIBQBk2ePkQeUWEy+l7eIdTTE8hxMzQgz1mcy
+</span><span class='line'>N5yKQcLiUEnQmZcSwd/iPoJ/b4pEUdNrE8+Gp/rnCIa925N/vTE4K9o97JhW7jHr
+</span><span class='line'>2Obau3E55W8XU8lKtX5kMKgOZgPdAgMBAAECgYBOhTCYnXfNknS7pECWtJEsUTdR
+</span><span class='line'>ROflcN6iNX8U0hZ/9xMeNu7ZJ0BkHxGx75LKVkqr3PIWqqA5TVVwoFCelgW71cW+
+</span><span class='line'>mg//EYL9P30w3dyEFpBjjBjzQUzw0SNZls9k9NzMT8fKkT4nXj/SLTHqO6OEWIAC
+</span><span class='line'>ZwT/WK9HNEa+jqoL0QJBAOZySLiM7hVOO7v5ZYg1q2Pfqk+f8lVQUfxOrD3y1AuD
+</span><span class='line'>lUw8V882yX0vsJKoAIIW+XXCIRG7F+6dEHT100dviwcCQQDgCkQJGCqj7/tKZ3ZZ
+</span><span class='line'>NriFJD5pizonv717zOOB8i5gGfk406y4i5VWe0fKFJzZfNunXCRqQLNPL9PLDTaQ
+</span><span class='line'>YKz7AkEAwUsc+kejsBVF/37KjjzOPOCv30f/IVZU3ngy+2dCO0IsqZx33uRKj4m/
+</span><span class='line'>5tOqUXPp3L9vs4qmIUx3MFO9206RYwJBALrbVQtQwJ+ilC/mQur9nMBPDk7w9Dwa
+</span><span class='line'>y2rp5AaJeuxkPVyMD06L/K34fFOrBXbPkFPxod2MwQCWn0qHZq7cMukCQH6SiK1W
+</span><span class='line'>mPGZbLND9KXhdrzjehH6qd6h9lneb2OiG2f7s1C7clcjXEFyTGZngO04O0LsxQiq
+</span><span class='line'><span class="nv">U4R6Pk5P1BXCWO8</span><span class="o">=</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[低版本Xcode调试高版本的iOS系统]]></title>
+    <link href="http://douxinchun.github.io/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode.html"/>
+    <updated>2018-07-13T17:10:45+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180713/debug-application-on-newer-ios-from-an-older-xcode</id>
+    <content type="html"><![CDATA[<p>在使用Xcode作为iOS开发的主IDE的情况下,遇到这种情况最好是AppStore中安装最新版本的Xcode.</p>
+
+<p>下面的方案只是一个临时debug的方案</p>
+
+<h5>1.找到不支持的iOS版本,Xcode中可以使用快捷键: Cmd+Shift+2 ,下图表示不支持的版本是 iOS 12.0 (16A5318d)</h5>
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/7/1-1.png" alt="Could not locate device support files" /></p>
+
+<h5>2.Terminal cd 到Xcode DeviceSupport 目录下</h5>
+
+<blockquote><p>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜ <span class="nb">cd</span> /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport
+</span><span class='line'>➜  DeviceSupport ls
+</span><span class='line'>10.0         10.3         11.2         8.0          8.3          9.1
+</span><span class='line'>10.1         11.0         11.3         8.1          8.4          9.2
+</span><span class='line'>10.2         11.1         11.4 <span class="o">(</span>15F79<span class="o">)</span> 8.2          9.0          9.3
+</span><span class='line'>➜  DeviceSupport
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>3.Important 去网上搜索真机支持包,可以输出关键字&#8221;xcode 12.0 (16A5318d) 真机支持包&#8221;,一般情况下百度网盘中都会有,下载下来,copy到2的目录下,然后重启Xcode,搞定</h5>
+
+<h5>4.不下载真机支持包的方案</h5>
+
+<p>直接拷贝一个DeviceSupport现有的支持版本,重命名为 12.0 (16A5318d), 重启Xcode后搞定.<br/>
+注意这里需要用到root权限,命令前加sudo即可.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  DeviceSupport sudo cp -rf 11.4<span class="se">\ \(</span>15F79<span class="se">\)</span> 12.0<span class="se">\ \(</span>16A5318d<span class="se">\)</span>
+</span><span class='line'>Password:
+</span><span class='line'>➜  DeviceSupport ls
+</span><span class='line'>10.0            11.0            11.4 <span class="o">(</span>15F79<span class="o">)</span>    8.2             9.1
+</span><span class='line'>10.1            11.1            12.0 <span class="o">(</span>16A5318d<span class="o">)</span> 8.3             9.2
+</span><span class='line'>10.2            11.2            8.0             8.4             9.3
+</span><span class='line'>10.3            11.3            8.1             9.0             xinchun
+</span><span class='line'>➜  DeviceSupport
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://p64xrfkn6.bkt.clouddn.com/blog_reference_image/2018/7/1-2.png" alt="success screenshot" /></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Xcodebuild 使用注意事项]]></title>
+    <link href="http://douxinchun.github.io/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html"/>
+    <updated>2018-05-16T11:17:34+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang</id>
+    <content type="html"><![CDATA[<h2>1.xcodebuild cocoapod CONFIGURATION_BUILD_DIR</h2>
+
+<h3>现象</h3>
+
+<figure class='code'><figcaption><span>xcodebuild命令用法示例</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>xcodebuild -sdk iphoneos -configuration <span class="k">${</span><span class="nv">BUILD_CONFIGURATION</span><span class="k">}</span> -derivedDataPath<span class="o">=</span><span class="s2">&quot;../build&quot;</span> -workspace <span class="s1">&#39;../SohuInk.xcworkspace&#39;</span> -scheme <span class="s1">&#39;SohuInk_Jenkins&#39;</span> -archivePath <span class="s2">&quot;../SohuInk_Jenkins.xcarchive&quot;</span> archive
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果项目中使用了cocoapod并且xcodebuild 命令参数中指定了CONFIGURATION_BUILD_DIR并且值为相对路径,此时在Xcode Tools Version 5.0下的xcodebuild构建会报如下错误:</p>
+
+<figure class='code'><figcaption><span>error_info</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ld: warning: directory not found <span class="k">for</span> option <span class="s1">&#39;-L/XXXX/XXXX/pop&#39;</span>
+</span><span class='line'>ld: library not found <span class="k">for</span> -lAFNetworking
+</span><span class='line'>clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>** ARCHIVE FAILED **
+</span><span class='line'>
+</span><span class='line'>The following build commands failed:
+</span><span class='line'>  Ld /Users/XXXX/XXXX/Objects-normal/arm64/SohuInk normal arm64
+</span><span class='line'>  Ld /Users/XXXX/XXXX normal armv7
+</span><span class='line'><span class="o">(</span><span class="m">2</span> failures<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>解决方案</h3>
+
+<h4>方案1,不好用</h4>
+
+<p>Xcode Tools version 5.0 支持参数 derivedDataPath 可以放弃CONFIGURATION_BUILD_DIR配置指定该参数,我实际操作是发现使用相对路径的情况下,虽然可以archive success,但是build的目录没有改变,依然在xcode默认的derivedData目录下.</p>
+
+<h4>方案2,OK</h4>
+
+<p>CONFIGURATION_BUILD_DIR的值指定为绝对路径,一切OK,可成功archive.</p>
+
+<h3>结论</h3>
+
+<blockquote><p>xcodebuild中的CONFIGURATION_BUILD_DIR值需要使用绝对路径</p></blockquote>
+
+<h2>参考链接</h2>
+
+<p><a href="https://stackoverflow.com/questions/11965040/xcodebuilding-a-workspace-and-setting-a-custom-build-path/12259098#12259098">Stackoverflow上关于使用xcodebuild CONFIGURATION_BUILD_DIR最好使用绝对路径的说明 @Chilloutman</a><br/>
+<a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html">https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac Terminal 快捷键记录]]></title>
@@ -280,6 +1641,125 @@
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[获取mobileprovision文件的UUID]]></title>
+    <link href="http://douxinchun.github.io/blog/20171202/get-mobileprovison-uuid.html"/>
+    <updated>2017-12-02T13:06:26+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20171202/get-mobileprovison-uuid</id>
+    <content type="html"><![CDATA[<hr />
+
+<h3>Provision Profile 文件在Mac OS中的默认存放位置:</h3>
+
+<blockquote><p>~/Library/MobileDevice/Provisioning Profiles</p></blockquote>
+
+<h2>Test clear cache</h2>
+
+<h3>1.通过GUI的工具查看:</h3>
+
+<p>iPhone配置实用工具</p>
+
+<h3>2.命令行工具</h3>
+
+<p><a href="https://github.com/0xc010d/mobileprovision-read">0xc010d/mobileprovision-read</a><br/>
+安装方法<br/>
+在 Terminal中键入下面的命令并回车</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>curl https://raw.githubusercontent.com/0xc010d/mobileprovision-read/master/main.m <span class="p">|</span> clang -framework Foundation -framework Security -o /usr/local/bin/mobileprovision-read -x objective-c -
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h4>mobileprovision-read 命令介绍</h4>
+
+<figure class='code'><figcaption><span>Terminal  </span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  ~ mobileprovision-read
+</span><span class='line'>mobileprovision-read -- mobileprovision files querying tool.
+</span><span class='line'>
+</span><span class='line'>USAGE
+</span><span class='line'>mobileprovision-read -f fileName <span class="o">[</span>-o option<span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>OPTIONS
+</span><span class='line'>    <span class="nb">type</span> – prints mobileprovision profile <span class="nb">type</span> <span class="o">(</span>debug, ad-hoc, enterprise, appstore<span class="o">)</span>
+</span><span class='line'>    appid – prints application identifier
+</span><span class='line'>Will print raw provision<span class="s1">&#39;s plist if option is not specified.</span>
+</span><span class='line'><span class="s1">You can also use key path as an option.</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">EXAMPLES</span>
+</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o type</span>
+</span><span class='line'><span class="s1">    Prints profile type</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o UUID</span>
+</span><span class='line'><span class="s1">    Prints profile UUID</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o ProvisionedDevices</span>
+</span><span class='line'><span class="s1">    Prints provisioned devices UDIDs</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">mobileprovision-read -f test.mobileprovision -o Entitlements.get-task-allow</span>
+</span><span class='line'><span class="s1">    Prints 0 if profile doesn&#39;</span>t allow debugging <span class="m">1</span> otherwise
+</span><span class='line'>➜  ~
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+eg:<br/>
+mobileprovision-read -f &ldquo;filepath&rdquo; -o UUID  -> 打印输出mobileprovision的UUID<br/>
+mobileprovision-read -f &ldquo;provisoning-profile-file-path&rdquo; -o ProvisionedDevices  -> 列出描述文件所包含的device UUID列表</p>
+
+<h3>3.自定义脚本</h3>
+
+<p>使用了苹果的security和PlistBuddy工具.<br/>
+<a href="https://github.com/douxinchun/MyBackupForMacOSX/blob/master/shell/mobilapp.sh">mobileapp.sh</a><br/>
+使用方法:<br/>
+./mobileapp.sh &ldquo;provisoning-profile-file-path&rdquo;<br/>
+注意,如果filepath中含有空格,请将filepath加上双引号.</p>
+
+<p>eg:</p>
+
+<figure class='code'><figcaption><span>Terminal</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>➜  Desktop ./mobilepp.sh <span class="s2">&quot;/Users/newspring/Library/MobileDevice/Provisioning Profiles/1213b96b-4ac1-4365-ae45-350eb6beadf2.mobileprovision&quot;</span>
+</span><span class='line'>security: SecPolicySetValue: One or more parameters passed to a <span class="k">function</span> were not valid.
+</span><span class='line'>UUID is:
+</span><span class='line'>1213b96b-4ac1-4365-ae45-350eb6beadf2
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>参考链接</h3>
+
+<p><a href="https://my.oschina.net/ioslighter/blog/494342">https://my.oschina.net/ioslighter/blog/494342</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Install macOS by U Disk]]></title>
     <link href="http://douxinchun.github.io/blog/20170529/install-macos-by-u-disk.html"/>
     <updated>2017-05-29T16:46:55+08:00</updated>
@@ -498,7 +1978,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#x3a;&#x72;&#x6f;&#x6f;&#116;&#x40;&#x31;&#x30;&#46;&#x32;&#46;&#x39;&#x38;&#x2e;&#56;&#x37;">&#114;&#111;&#x6f;&#116;&#64;&#x31;&#48;&#46;&#50;&#46;&#x39;&#56;&#46;&#x38;&#x37;</a><br/>
+$ ssh <a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x72;&#x6f;&#111;&#116;&#x40;&#x31;&#48;&#46;&#x32;&#46;&#57;&#x38;&#46;&#x38;&#x37;">&#x72;&#111;&#x6f;&#116;&#64;&#x31;&#48;&#x2e;&#50;&#x2e;&#x39;&#56;&#46;&#56;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -1016,1328 +2496,6 @@ Widget获取地址在这里:<br/>
 </span><span class='line'>            <span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xcode 统计项目中代码的行数]]></title>
-    <link href="http://douxinchun.github.io/blog/20150901/cloc.html"/>
-    <updated>2015-09-01T10:09:12+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150901/cloc</id>
-    <content type="html"><![CDATA[<h3>方法一:</h3>
-
-<p>终端命令进入项目目录下，命令如下</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs wc -l  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-列出每个文件的行数</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find . -name "*.m" -or -name "*.h" -or -name "*.xib" -or -name "*.c" |xargs grep -v "^$"|wc -l  </span></code></pre></td></tr></table></div></figure>
-
-
-<p>列出代码行数总和</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>grep -v "^$"是去掉空行</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>注释也统计在代码量之内</p>
-
-<h3>方法二:</h3>
-
-<p>使用CLOC,项目说明地址:<a href="http://cloc.sourceforge.net/">http://cloc.sourceforge.net/</a><br/>
-  1.64 Perl脚本下载地址,<a href="https://github.com/douxinchun/CLOC">https://github.com/douxinchun/CLOC</a></p>
-
-<p>使用方法:<br/>
-perl cloc-1.64.pl ./YourProjectName</p>
-
-<p>result:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> 200 files
-</span><span class='line'> 744 text files.
-</span><span class='line'> 630 unique files.                                          
-</span><span class='line'> 315 files ignored.
-</span><span class='line'>
-</span><span class='line'>http://cloc.sourceforge.net v 1.64  T=2.56 s (199.8 files/s, 22014.2 lines/s)
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>Language                     files          blank        comment           code
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>Objective C                    242           6916           4208          28460
-</span><span class='line'>C/C++ Header                   265           3605           8066           4870
-</span><span class='line'>JSON                             3              0              0            107
-</span><span class='line'>Bourne Shell                     1              5              0             65
-</span><span class='line'>-------------------------------------------------------------------------------
-</span><span class='line'>SUM:                           511          10526          12274          33502
-</span><span class='line'>-------------------------------------------------------------------------------</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在网页中嵌入css的三种方法]]></title>
-    <link href="http://douxinchun.github.io/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa.html"/>
-    <updated>2015-07-22T18:42:32+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150722/zai-wang-ye-zhong-qian-ru-cssde-san-chong-fang-fa</id>
-    <content type="html"><![CDATA[<p>留存备忘<br/>
-假如有一段HTML代码如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
-</span><span class='line'>&lt;head>
-</span><span class='line'>&lt;title>Hi&lt;/title>
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body>
-</span><span class='line'>  &lt;div id="myid" class="myclass">&lt;/div>
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>在HTML代码中嵌入CSS有一下三种方法：</p>
-
-<p>1.外链式CSS。编写一个.css文件并且命名为style.css,内容如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#myid{
-</span><span class='line'>     padding:5px;
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-然后在HTML代码的&lt;head>标签对,&lt;title>下面改成这样:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
-</span><span class='line'>   &lt;title>HI&lt;/title>
-</span><span class='line'>   &lt;link rel="stylesheet" type="text/css" href="style.css">
-</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-这样就OK了</p>
-
-<p>2.内嵌式CSS。直接在&lt;title>标签加成这样：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;head>
-</span><span class='line'>   &lt;title>HI&lt;/title>
-</span><span class='line'>   &lt;style type="text/css">
-</span><span class='line'>   &lt;!--
-</span><span class='line'>    #myid{
-</span><span class='line'>     padding:5px;
-</span><span class='line'>     }
-</span><span class='line'>    -->
-</span><span class='line'>   &lt;/style>
-</span><span class='line'>   &lt;/head></span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>3.直接式CSS。直接为DIV添加style属性如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div id="myid" class="myclass" style="padding:5px;">&lt;/div></span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用itms-services 协议来发布ipa文件]]></title>
-    <link href="http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services.html"/>
-    <updated>2015-07-22T16:45:35+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150722/distribute-ipa-by-itms-services</id>
-    <content type="html"><![CDATA[<p>苹果允许用itms-services协议来直接在iphone/ipad上安装应用程序，我们可以直接生成该协议需要的相关文件，这样产品经理和测试都可以直接在设备上安装新版的应用:</p>
-
-<p>需要两个文件，一个是html，另一个是plist。</p>
-
-<p>文件index.html(请自动忽略css部分,我实在不会写前端):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html>
-</span><span class='line'>&lt;head>
-</span><span class='line'>    &lt;style>
-</span><span class='line'>        body {
-</span><span class='line'>            font-size: 50px;
-</span><span class='line'>            margin-top:100px;
-</span><span class='line'>            margin-left:auto;
-</span><span class='line'>            margin-right:auto;
-</span><span class='line'>            text-align:center;
-</span><span class='line'>        }
-</span><span class='line'>    &lt;/style>
-</span><span class='line'>&lt;/head>
-</span><span class='line'>&lt;body>
-</span><span class='line'>&lt;p>iOS 7.1 and above systems use the following link to install&lt;/p>
-</span><span class='line'>&lt;p>&lt;a href="itms-services://?action=download-manifest&amp;url=https://********/**/tue_test.plist">Install TU/e App For Test&lt;/a>&lt;/p>
-</span><span class='line'>&lt;/a>&lt;/p>
-</span><span class='line'>&lt;/body>
-</span><span class='line'>&lt;/html></span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>文件plist:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;?xml version="1.0" encoding="UTF-8"?>
-</span><span class='line'>&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-</span><span class='line'>&lt;plist version="1.0">
-</span><span class='line'>&lt;dict>
-</span><span class='line'>   &lt;key>items&lt;/key>
-</span><span class='line'>   &lt;array>
-</span><span class='line'>       &lt;dict>
-</span><span class='line'>           &lt;key>assets&lt;/key>
-</span><span class='line'>           &lt;array>
-</span><span class='line'>               &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>software-package&lt;/string>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>http://****/**/tue_test.ipa(ipa文件的访问地址)&lt;/string>
-</span><span class='line'>               &lt;/dict>
-</span><span class='line'>               &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>display-image&lt;/string>
-</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
-</span><span class='line'>                   &lt;true/>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
-</span><span class='line'>               &lt;/dict>
-</span><span class='line'>      &lt;dict>
-</span><span class='line'>                   &lt;key>kind&lt;/key>
-</span><span class='line'>                   &lt;string>full-size-image&lt;/string>
-</span><span class='line'>                   &lt;key>needs-shine&lt;/key>
-</span><span class='line'>                   &lt;true/>
-</span><span class='line'>                   &lt;key>url&lt;/key>
-</span><span class='line'>                   &lt;string>图片的地址&lt;/string>
-</span><span class='line'>              &lt;/dict>
-</span><span class='line'>           &lt;/array>
-</span><span class='line'>           &lt;key>metadata&lt;/key>
-</span><span class='line'>           &lt;dict>
-</span><span class='line'>               &lt;key>bundle-identifier&lt;/key>
-</span><span class='line'>               &lt;string>com.xx.xx(bundleID需要ipa中需要保持一致)&lt;/string>
-</span><span class='line'>               &lt;key>bundle-version&lt;/key>
-</span><span class='line'>               &lt;string>1.0(CFBundleVersion需要和ipa中的保持一致)&lt;/string>
-</span><span class='line'>               &lt;key>kind&lt;/key>
-</span><span class='line'>               &lt;string>software&lt;/string>
-</span><span class='line'>               &lt;key>subtitle&lt;/key>
-</span><span class='line'>               &lt;string>&lt;/string>
-</span><span class='line'>               &lt;key>title&lt;/key>
-</span><span class='line'>               &lt;string>TU/e测试版(随便起,用于踊跃alert确认时的提示)&lt;/string>
-</span><span class='line'>           &lt;/dict>
-</span><span class='line'>       &lt;/dict>
-</span><span class='line'>   &lt;/array>
-</span><span class='line'>&lt;/dict>
-</span><span class='line'>&lt;/plist></span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h3>注意</h3>
-
-<p>在iOS7.1之前,协议地址后的url需要使用http协议,</p>
-
-<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="http://********/**/tue_test.plist">http://********/**/tue_test.plist</a></p></blockquote>
-
-<p>在iOS7.1以及以后,这里需要换成https协议,</p>
-
-<blockquote><p>itms-services://?action=download-manifest&amp;url=<a href="https://********/**/tue_test.plist">https://********/**/tue_test.plist</a></p></blockquote>
-
-<p>否则使用Safari安装的时候,会提示&#8221;无法安装应用程序，因为“xx.xx.xx” 的证书无效;无法找到主机&#8221;1.2.3.4&#8221;&ldquo;之类的错误.也就是说,原先存放plist的web服务器需要支持https协议.<br/>
-自己动手搭建一个https的web服务的话,其中证书的部分很令人头痛的.我在IIS上整了一个上午,最后的结果上自己生成的证书Safari不认.我去,果断放弃这条路,google了一个简便的方法.利用开源中国(<a href="http://git.oschina.net/">http://git.oschina.net/</a>)提供的代码托管服务,托管一下plist文件,然后ipa的安装包和index.html依旧放在自己的服务器上.itms-services协议后面的url地址,改成在plist文件在开源中国上的url(注意url结束到.plist为止,后面的那一串参数不要带,直接手动把http改为https).</p>
-
-<p>具体的流程参见这里,<a href="http://blog.csdn.net/sy_bz/article/details/33739779">http://blog.csdn.net/sy_bz/article/details/33739779</a></p>
-
-<p>同理,我觉得github也应该可以代替开源中国.</p>
-
-<h3>附</h3>
-
-<p>plist中的字段说明:</p>
-
-<table>
-<thead>
-<tr>
-<th style="text-align:left;"> key值                </th>
-<th style="text-align:left;"> 说明                   </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;"> <strong>assets</strong>           </td>
-<td style="text-align:left;">   </td>
-</tr>
-<tr>
-<td style="text-align:left;"> software-package url </td>
-<td style="text-align:left;"> 要安装的 ipa 地址  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> display-image url    </td>
-<td style="text-align:left;">   安装ipa的时候,桌面显示呃图标  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> <strong>metadata</strong>         </td>
-<td style="text-align:left;">    </td>
-</tr>
-<tr>
-<td style="text-align:left;"> bundle-identifier    </td>
-<td style="text-align:left;"> bundle ID (和ipa保持一致) </td>
-</tr>
-<tr>
-<td style="text-align:left;"> bundle-version       </td>
-<td style="text-align:left;"> CFBundleVersion(和ipa保持一致)  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> title                </td>
-<td style="text-align:left;"> 用户点击时弹框中的AppTitle提示  </td>
-</tr>
-<tr>
-<td style="text-align:left;"> subtitle             </td>
-<td style="text-align:left;"> 不明,应该 也跟弹框的内容相关 </td>
-</tr>
-</tbody>
-</table>
-
-
-<p>以备后用<br/>
-自搭https服务器,可以查看的参照:<a href="http://zengrong.net/post/2108.html">http://zengrong.net/post/2108.html</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xcode中的调试器LLDB]]></title>
-    <link href="http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html"/>
-    <updated>2015-07-20T17:40:46+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150720/xcodezhong-de-diao-shi-qi-lldb</id>
-    <content type="html"><![CDATA[<p>原文地址:<a href="http://objccn.io/issue-19-2/">http://objccn.io/issue-19-2/</a><br/>
-里面内容很多,本着实用主义,这里只记录我自己常用的命令:</p>
-
-<h3>1.查看某个变量的值</h3>
-
-<p> <em>print</em><br/>
- <img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.09.38_PM.png"><br/>
- LLDB会做前缀匹配,一把简写为p,<br/>
- 使用po可以查看NSObject的description</p>
-
-<h3>2.改变某个变量的值</h3>
-
-<p><em>expression</em><br/>
-<img src="http://img.objccn.io/issue-19/Image_2014-11-20_at_10.15.01_PM.png"><br/>
-简写为expr或者是e(还能再懒一点吗~~)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[AutoLayout 使用总结]]></title>
-    <link href="http://douxinchun.github.io/blog/20150720/autolayout-summary.html"/>
-    <updated>2015-07-20T16:55:20+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150720/autolayout-summary</id>
-    <content type="html"><![CDATA[<h3>1.如何计算UITableViewCell的高度</h3>
-
-<p>在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用<code>sizeWithFont:</code> 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予<code>heightForRow:</code>。</p>
-
-<p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
-理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
-
-<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/</a><br/>
-和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
-
-<p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
-1. UILabel以及UITextField等有<code>preferredMaxLayoutWidth</code>属性的VIew需要设置一下,不然计算出来的高度UILable的部分只有一行文字的高度<br/>
-2. 对于具有<code>intrinsicContentSize</code>的View需要在垂直方向上,将压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)设置为1000,最高级
-3. 要保证Cell在垂直方向上设置的Constraints,理论上可以计算出整个Cell的高度,可以降低某个垂直方向约束的优先级,来消除xib中的约束错误提示</p>
-
-<h3>2.AutoLayout下的动画</h3>
-
-<p>在使用Autolayout时，动画的使用和以前也不同了，以前我们是修改frame，现在我们可以通过修改Constraints, 然后在动画时layoutIfNeeded就行了。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//修改约束
-</span><span class='line'>...
-</span><span class='line'>[UIView animateWithDuration:0.2 animations:^{
-</span><span class='line'>    [view layoutIfNeeded];
-</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-Autolayout有时在动画时候会很方便，因为View之间的坐标是相互影响的，在传统frame中，如果改变一个view的frame,那么可能你要更改很多view的frame，才能让页面显得和谐。在Autolayout中可能只需要修改一个Constraint就可以了，在做动画时会很方便。</p>
-
-<h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
-
-<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a><br/>
-API中对应的是:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (UILayoutPriority)contentHuggingPriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (UILayoutPriority)contentCompressionResistancePriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayout
-</span><span class='line'>- </span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GoAgent+PHP 访问Google]]></title>
-    <link href="http://douxinchun.github.io/blog/20150701/acccess-the-real-world-through-the-gfw.html"/>
-    <updated>2015-07-01T10:53:00+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150701/acccess-the-real-world-through-the-gfw</id>
-    <content type="html"><![CDATA[<h2>前言</h2>
-
-<p>GoAgent可以使用两种方式来翻墙上网:一种是官方推荐的,申请一个Google的Email账号,然后上传服务端需要的文件到Google App Engine;另外一种就就是通过国外的没有被屏蔽的PHP的空间来代替GAE作为服务端.<br/>
-本人以前(2015年以前)一直是使用第一种方式,但后来由于国内对于GAE一直是重点的屏蔽对象,导致许多的公布的ip地址不可用,<a href="http://www.firefoxfan.com/">火狐范</a>上公布的ip也是只能用一两天,<a href="https://github.com/moonshawdo/checkgoogleip">checkgoogleip</a>上扫出来的ip,十个里面有9个都不靠谱,剩下的一个,没撑过2天也挂了.<br/>
-实在不再愿意每天折腾iplist,所以决定Google一下,在PHP空间上部署goagent服务.</p>
-
-<hr />
-
-<p>注意! 本文goagent为3.2.3版本(具体而言是3.2.3版本) 运行于Linux  内核版本：2.6.32-531.29.2.lve1.3.11.1.el6.x86_64<br/>
-客户端的系统是Mac OS X<br/>
-如果你用的是Windows系统,推荐使用<a href="https://github.com/DIYgod/EasyGoAgent">Easy GoAgent</a>,开箱即用.</p>
-
-<!--more-->
-
-
-<h2>在PHP空间上部署goagent</h2>
-
-<p>这个不难 相对于我这里gae需要每2天换一次ip PHP空间一般相对较少被屏蔽
-不过一旦PHP空间被屏蔽 那就要重新申请其他的了.<br/>
-国外的免费的PHP空间有很多,比如:<a href="http://www.vhostfull.com/">VHost Full</a>,<a href="http://cn.ecvps.com/">EcVps</a><br/>
-这里以免费空间ecvps为例</p>
-
-<ul>
-<li>进入ecvps 申请免费空间 可以切换为中文页面显示 <a href="http://www.ecvps.com/client/cart.php?gid=3">订购免费版的地址</a></li>
-<li>选择现在订购 填一些信息 注意注册信息不要写中文 最好写音译</li>
-<li>关于信息 写的不要太离谱 比如地址要和邮编要对的上之类 防止审核为欺诈订单</li>
-<li>一般申请成功 注册邮箱就会收到确认的email,如果出现提示了没有通过审核欺诈,记得回去充填一下资料,填的再靠谱一些.</li>
-<li><p>在会员中心面板上 点击 我的信件 标签 然后打开<strong>New Account Information</strong>
-里面有系统生成的 Domain Username Password
-注意如果连续7天没有访问流量 则此空间会被删除<br/>
-<img src="http://douxinchun.github.io/blog_reference_image/2015/7/ecvps_my_letter.png"><br/>
-<img src="http://douxinchun.github.io/blog_reference_image/2015/7/ecvps_newaccount.png"></p></li>
-<li><p>下载安装FileZilla 或者其他的FTP软件
-打开FileZilla 填写远程主机的一些信息 全部根据<strong>New Account Information</strong>来</p>
-
-<blockquote><p>主机(Domain)<br/>
-username.ecvps.net<br/>
-用户名(Username) 就是New Account Information中的Username 如<br/>
-username<br/>
-密码(Password) 这个也根据New Account Information中给出的 填写<br/>
-端口不用填 点快速连接<br/>
-在本地站点中 选中goagent/server/php路径下的所有文件<br/>
-上传到远程站点的 /domains/xinchun.ecvps.net/public_html目录下</p></blockquote></li>
-</ul>
-
-
-<p>如果FTP连接不上的,可以使用EcVps Control中自带的FileManager功能<br/>
-<img src="http://douxinchun.github.io/blog_reference_image/2015/7/ecvps_control.png"></p>
-
-<p>打开goagent/local/proxy.ini文件 对于其中的[php]部分
-改动两行就可以了 分别是</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[php]
-</span><span class='line'>enable = 1
-</span><span class='line'>fetchserver = http://username.ecvps.net/index.php</span></code></pre></td></tr></table></div></figure>
-
-
-<p>密码用可以用默认的
-也可以不用 则要统一修改goagent/server/php路径下所有文件内设定的默认密码
-网上一些文章用的是fetch.php 但注意新版goagent 3.2.3用的是index.php
-这里有<a href="https://github.com/goagent/goagent/blob/wiki/FAQ.md">官方说明</a>,参见第13条,不要试图在浏览器里打开这个链接:  <a href="http://username.ecvps.net/index.php">http://username.ecvps.net/index.php</a></p>
-
-<p>最后修改Chrome中的SwitchyOmega的自动切换的情景模式为GoAgent PHP</p>
-
-<h2>启动</h2>
-
-<p>用Terminal cd到goagent的local目录:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ python proxy.py</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>然后就没有然后,<br/>
-<img src="http://douxinchun.github.io/blog_reference_image/2015/7/ecvps_google.png"></p>
-
-<h2>开机启动</h2>
-
-<p>安装一个GoagentMac(Mac),然后查看包的内容,找到Info.plist ,用文件编辑器编辑,修改一下key值 GoAgentPath的value为proxy.py的路径.</p>
-
-<h2>额外内容</h2>
-
-<p>使用探针
-一般来说 到这里 启动goagent就可以上youtube也可以去下载视频了
-如果想详细了解该PHP服务器的一些信息 可以使用探针
-点击右上方的探针下载 会下载tz.zip文件 然后解压成tz.php
-再上传到/domains/saburika.ecvps.net/public_html目录下
-此时访问<a href="http://saburika.ecvps.net/tz.php">http://saburika.ecvps.net/tz.php</a> 就会出现你的php空间的详细信息了</p>
-
-<p>第二种上传方式
-不使用ftp上传 直接使用网页上传也是可以的
-这个要阅读<strong>New Account Information中</strong>给出的相关信息
-把给定的网址和端口复制到浏览器地址栏
-用系统给自己生成的Username和Password登录
-就会出现php空间的网页版操作面板了</p>
-
-<h2>附件</h2>
-
-<p><a href="https://github.com/goagent/goagent">goagent官方主页</a><br/>
-SwitchyOmega在Goagent的安装包local目录下自带,并且带有备份文件</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在多台机器上协作使用Octopress]]></title>
-    <link href="http://douxinchun.github.io/blog/20150630/use-octopress-in-different-machines.html"/>
-    <updated>2015-06-30T13:49:49+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150630/use-octopress-in-different-machines</id>
-    <content type="html"><![CDATA[<p>按照之前文章 <a href="http://douxinchun.github.io/blog/20150210/install-octopress.html">在GitHub上搭建Octopress</a> 中的步骤,就可以成功的搭建自己的Octopress框架下的博客了,但是接下来的问题是,如果这个是在公司的机器上搭建了环境,那么下班回到家后想继续更新一下自己的Blog怎么办呢.</p>
-
-<p>其实,想想原理很简单,Git是一个版本管理系统(分布式的),如果我们在下班前把自己的文件提交到Git的远程库上,然后到家的时候,把家里的PC搭建一个Ruby的环境,再把有关的文件从远程库上pull下来,OK,万事大吉,又可以继续编写自己的Blog了.</p>
-
-<h3>准备工作:</h3>
-
-<p>参照  <a href="http://douxinchun.github.io/blog/20150210/install-octopress.html">在GitHub上搭建Octopress</a>  首先要在新机器上搭建一个Ruby的环境,Simple Guide:<br/>
-*
-   * 安装Git
-   * 安装ruby,例如：Ruby 1.9.3-p125
-   * 克隆项目</p>
-
-<!--more-->
-
-
-<p>接下来我们需要把GitHub上已经建好的博客项目clone下来。</p>
-
-<p>克隆远程仓库到本地</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone git@github.com:username/username.github.com.git octopress ##octopress 为你的本地项目文件夹</span></code></pre></td></tr></table></div></figure>
-
-
-<p>切换到source分支</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress ##进入项目
-</span><span class='line'>$ git checkout source ##切换到本地的source分支</span></code></pre></td></tr></table></div></figure>
-
-
-<p>创建_deploy目录(存在的话,直接同步),并和远程库的master分支同步</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir _deploy
-</span><span class='line'>$ cd ./_deploy
-</span><span class='line'>$ git pull origin master ##同步本地的master branch</span></code></pre></td></tr></table></div></figure>
-
-
-<p>配置环境,在octopress目录下进行,</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install bundler
-</span><span class='line'>$ rbenv rehash    # If you use rbenv, rehash to be able to run the bundle command
-</span><span class='line'>$ bundle install
-</span><span class='line'>$ rake setup_github_pages</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后它会询问你的项目仓库的URL:</p>
-
-<blockquote><p>Enter the read/write url for your repository (For example, ‘git@github.com:your_username/your_username.github.com)</p></blockquote>
-
-<p>输入仓库的URL，这样你就完成了全新的一个本地博客副本。</p>
-
-<p>注意:以上操作只需要在完全没有环境的机器上执行一次,不需要每次都执行</p>
-
-<h3>更新变化（重要）</h3>
-
-<p>每次使用前，先确保拿到最新的文件(先GitHub上的远程库同步)</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress  #进入项目目录
-</span><span class='line'>$ git pull origin source  # 更新本地source branch
-</span><span class='line'>$ cd ./_deploy  #进入_deploy目录
-</span><span class='line'>$ git pull origin master  # 更新本地master branch</span></code></pre></td></tr></table></div></figure>
-
-
-<p>提交</p>
-
-<p>提交的时候，由于需要多台机器协作，需要把source分支push到origin中，这样另外一台机器才能拿到最新的源文件。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ rake generate
-</span><span class='line'>$ git add .
-</span><span class='line'>$ git commit -am "提交注释" 
-</span><span class='line'>$ git push origin source  # 将本地当前分支的更新推送到远程 source branch 
-</span><span class='line'>$ rake deploy             # 更新远程 master branch，并部署博文</span></code></pre></td></tr></table></div></figure>
-
-
-<p>另外的机器更新变化</p>
-
-<p>在另外的机器上，就可以获取到相应的变化。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ cd octopress  #进入项目目录
-</span><span class='line'>$ git pull origin source  # 更新本地source branch
-</span><span class='line'>$ cd ./_deploy  #进入_deploy目录
-</span><span class='line'>$ git pull origin master  # 更新本地master branch和远程库的 master保持同步</span></code></pre></td></tr></table></div></figure>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[冰与火之歌 守夜人誓言]]></title>
-    <link href="http://douxinchun.github.io/blog/20150612/night-watcher-swear.html"/>
-    <updated>2015-06-12T15:10:52+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150612/night-watcher-swear</id>
-    <content type="html"><![CDATA[<p>最近重温了一遍Game of Throne , 感觉守夜人的誓词太霸气了。翻译的也是信达雅.</p>
-
-<p>Night watcher swear(
-&ldquo;Night gathers, and now my watch begins. It shall not end until my death. I shall take no wife, hold no lands, father no children. I shall wear no crowns and win no glory. I shall live and die at my post. I am the sword in the darkness. I am the watcher on the walls. I am the fire that burns against the cold, the light that brings the dawn, the horn that wakes the sleepers, the shield that guards the realms of men. I pledge my life and honor to the Night&rsquo;s Watch, for this night and all the nights to come.&rdquo;)</p>
-
-<p>　守夜人誓言：「长夜将至，我从今开始守望，至死方休。我将不娶妻、不封地、不生子。我将不戴宝冠，不争荣宠。我将尽忠职守，生死於斯。我是黑暗中的利剑，长城上的守卫。我是抵御寒冷的烈焰，破晓时分的光线，唤醒眠者的号角，守护王国的坚盾。我将生命与荣耀献给守夜人，今夜如此，夜夜皆然。」<br/>
-　<br/>
-　<br/>
-　
-繁体版: <br/>
-　　永夜终至，吾辈铭记，巍巍大任，死亦无终。 <br/>
-　　无享妻爱，不履寸土，决绝子嗣，身归兄弟。 <br/>
-　　何言无冕，兄弟所望，何争俗荣，袍泽同心，尽忠职守，生死于斯，心念所归，无惧无退.<br/>
-　　铸兵利剑，暗夜无当；凝聚础石，长城屹立；腾焰熊熊，炽烈华光；耀耀破晓，璨以晨光；鸣无尽之号角，警外患之袭扰；锻坚钢之神盾，固王国之永宁.<br/>
-　　于今挺身，奉以生命，以夜为始，死亦无终。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[加快Octopress国内访问速度]]></title>
-    <link href="http://douxinchun.github.io/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html"/>
-    <updated>2015-05-11T14:13:23+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150511/accelerate-the-speed-of-access-octopress-in-china</id>
-    <content type="html"><![CDATA[<h2>Overview</h2>
-
-<p>本文最主要引自<a href="http://www.chanjar.me/blog/2014/06/29/jia-kuai-octopressguo-nei-fang-wen-su-du/">加快octopress国内访问速度</a>和<a href="http://imxylz.com/blog/2013/09/22/move-google-fonts-to-local-server/">Octopress加速Google字体渲染</a>,以下内容是在这两篇博文的指导上结合自己实践经验的总结.</p>
-
-<!--more-->
-
-
-<p>在github中搭建好了Octopress后,访问速度非常的慢,这是引文Octopress使用了Google API的CDN服务和Google Fonts.Google的CDN访问速度在国外的网络环境下是非常快的,但是在天朝,非常非常的慢,尤其是使用了https来访问.</p>
-
-<p>于是,为了加快访问速度,我们只好把Google的web fonts缓存到本地的服务器并更改jQuery的cdn服务.</p>
-
-<h3>1.把jquery的cdn服务改成microsoft的</h3>
-
-<p>编辑文件 source/_includes/head.html  找到下图注释掉的部分,替换成 <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--&lt;script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">&lt;/script>-->
-</span><span class='line'>  &lt;script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js">&lt;/script></span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2.缓存google fonts (将PT Serif和PT Sans缓存到本地)</h3>
-
-<p>打开 source/_includes/custom/head.html</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-</span><span class='line'>&lt;link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-</span><span class='line'>&lt;link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css"></span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-将 <a href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic">https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic</a>
-以及 <a href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic">https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic</a> 中的内容复制到本地,并在 source/stylesheets 下新建pt_sans.css和pt_serif.css文件,文件部分内容如下:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/* cyrillic-ext */
-</span><span class='line'>@font-face {
-</span><span class='line'>  font-family: 'PT Serif';
-</span><span class='line'>  font-style: normal;
-</span><span class='line'>  font-weight: 400;
-</span><span class='line'>  src: local('PT Serif'), local('PTSerif-Regular'), url(https://fonts.gstatic.com/s/ptserif/v8/5hX15RUpPERmeybVlLQEWBkAz4rYn47Zy2rvigWQf6w.woff2) format('woff2');
-</span><span class='line'>  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
-</span><span class='line'>}
-</span><span class='line'>/* cyrillic */
-</span><span class='line'>@font-face {
-</span><span class='line'>  font-family: 'PT Serif';
-</span><span class='line'>  font-style: normal;
-</span><span class='line'>  font-weight: 400;
-</span><span class='line'>  src: local('PT Serif'), local('PTSerif-Regular'), url(https://fonts.gstatic.com/s/ptserif/v8/fU0HAfLiPHGlZhZpY6M7dBkAz4rYn47Zy2rvigWQf6w.woff2) format('woff2');
-</span><span class='line'>  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-</span><span class='line'>}
-</span><span class='line'>/* latin-ext */
-</span><span class='line'>@font-face {
-</span><span class='line'>  font-family: 'PT Serif';
-</span><span class='line'>  font-style: normal;
-</span><span class='line'>  font-weight: 400;
-</span><span class='line'>  src: local('PT Serif'), local('PTSerif-Regular'), url(https://fonts.gstatic.com/s/ptserif/v8/CPRt--GVMETgA6YEaoGitxkAz4rYn47Zy2rvigWQf6w.woff2) format('woff2');
-</span><span class='line'>  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
-</span><span class='line'>}
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-注意,此处访问这两个链接可能需要翻墙.
-新建一个目录 source/fonts 把字体解压缩到这个目录下.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>douxinchundeiMac:fonts douxinchun$ pwd
-</span><span class='line'>/Users/douxinchun/octopress/source/fonts
-</span><span class='line'>douxinchundeiMac:fonts douxinchun$ tree
-</span><span class='line'>.
-</span><span class='line'>├── pt_sans
-</span><span class='line'>│   ├── 0XxGQsSc1g4rdRdjJKZrNAzyDMXhdD8sAj6OAJTFsBI.woff2
-</span><span class='line'>│   ├── 7dSh6BcuqDLzS2qAASIeuoX0hVgzZQUfRDuZrPvH3D8.woff2
-</span><span class='line'>│   ├── BJVWev7_auVaQ__OU8Qih1KPGs1ZzpMvnHX-7fPOuAc.woff2
-</span><span class='line'>│   ├── CWlc_g68BGYDSGdpJvpktgLUuEpTyoUstqEm5AMlJo4.woff2
-</span><span class='line'>│   ├── DVKQJxMmC9WF_oplMzlQqYX0hVgzZQUfRDuZrPvH3D8.woff2
-</span><span class='line'>│   ├── GpWpM_6S4VQLPNAQ3iWvVYX0hVgzZQUfRDuZrPvH3D8.woff2
-</span><span class='line'>│   ├── PIPMHY90P7jtyjpXuZ2cLJBw1xU1rKptJj_0jans920.woff2
-</span><span class='line'>│   ├── fhNmDCnjccoUYyU4ZASaLVKPGs1ZzpMvnHX-7fPOuAc.woff2
-</span><span class='line'>│   ├── g46X4VH_KHOWAAa-HpnGPgsYbbCjybiHxArTLjt7FRU.woff2
-</span><span class='line'>│   ├── hpORcvLZtemlH8gI-1S-7gsYbbCjybiHxArTLjt7FRU.woff2
-</span><span class='line'>│   ├── kTYfCWJhlldPf5LnG4ZnHAsYbbCjybiHxArTLjt7FRU.woff2
-</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkA7aC6SjiAOpAWOKfJDfVRY.woff2
-</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkBampu5_7CjHW5spxoeN3Vs.woff2
-</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkBdwxCXfZpKo5kWAx_74bHs.woff2
-</span><span class='line'>│   ├── lILlYDvubYemzYzN7GbLkIjoYw3YTyktCCer_ilOlhE.woff2
-</span><span class='line'>│   └── oysROHFTu1eTZ74Hcf8V-VKPGs1ZzpMvnHX-7fPOuAc.woff2
-</span><span class='line'>└── pt_serif
-</span><span class='line'>    ├── 03aPdn7fFF3H6ngCgAlQzAzyDMXhdD8sAj6OAJTFsBI.woff2
-</span><span class='line'>    ├── 3Nwg9VzlwLXPq3fNKwVRMAsYbbCjybiHxArTLjt7FRU.woff2
-</span><span class='line'>    ├── 5hX15RUpPERmeybVlLQEWBkAz4rYn47Zy2rvigWQf6w (1).woff2
-</span><span class='line'>    ├── CPRt--GVMETgA6YEaoGitxkAz4rYn47Zy2rvigWQf6w.woff2
-</span><span class='line'>    ├── Foydq9xJp--nfYIx2TBz9TrEaqfC9P2pvLXik1Kbr9s.woff2
-</span><span class='line'>    ├── Foydq9xJp--nfYIx2TBz9WaVI6zN22yiurzcBKxPjFE.woff2
-</span><span class='line'>    ├── Foydq9xJp--nfYIx2TBz9ZsnFT_2ovhuEig4Dh-CBQw.woff2
-</span><span class='line'>    ├── Foydq9xJp--nfYIx2TBz9bllaL-ufMOTUcv7jfgmuJg.woff2
-</span><span class='line'>    ├── I-OtoJZa3TeyH6D9oli3iXYhjbSpvc47ee6xR_80Hnw.woff2
-</span><span class='line'>    ├── O_WhD9hODL16N4KLHLX7xQsYbbCjybiHxArTLjt7FRU.woff2
-</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpF4sYYdJg5dU2qzJEVSuta0.woff2
-</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpIgp9Q8gbYrhqGlRav_IXfk.woff2
-</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpKE8kM4xWR1_1bYURRojRGc.woff2
-</span><span class='line'>    ├── QABk9IxT-LFTJ_dQzv7xpPZraR2Tg8w2lzm7kLNL0-w.woff2
-</span><span class='line'>    ├── b31S45a_TNgaBApZhTgE6AsYbbCjybiHxArTLjt7FRU.woff2
-</span><span class='line'>    └── fU0HAfLiPHGlZhZpY6M7dBkAz4rYn47Zy2rvigWQf6w.woff2
-</span><span class='line'>
-</span><span class='line'>2 directories, 32 files
-</span><span class='line'>douxinchundeiMac:fonts douxinchun$</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>将文件pt_sans.css和pt_serif.css的web引用修改为本地引用,文件部分内容如下:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/* cyrillic-ext */
-</span><span class='line'>@font-face {
-</span><span class='line'>  font-family: 'PT Sans';
-</span><span class='line'>  font-style: normal;
-</span><span class='line'>  font-weight: 400;
-</span><span class='line'>  src: local('PT Sans'), local('PTSans-Regular'), url(/fonts/pt_sans/fhNmDCnjccoUYyU4ZASaLVKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
-</span><span class='line'>  unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
-</span><span class='line'>}
-</span><span class='line'>/* cyrillic */
-</span><span class='line'>@font-face {
-</span><span class='line'>  font-family: 'PT Sans';
-</span><span class='line'>  font-style: normal;
-</span><span class='line'>  font-weight: 400;
-</span><span class='line'>  src: local('PT Sans'), local('PTSans-Regular'), url(/fonts/pt_sans/BJVWev7_auVaQ__OU8Qih1KPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
-</span><span class='line'>  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>编辑 source/_includes/custom/head.html 为</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-</span><span class='line'>&lt;link href="http://douxinchun.github.io/stylesheets/pt_serif.css" rel="stylesheet" type="text/css">
-</span><span class='line'>&lt;link href="http://douxinchun.github.io/stylesheets/pt_sans.css" rel="stylesheet" type="text/css"></span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>部署访问,速度果然快了很多.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[在CentOS下安装SVN Server]]></title>
-    <link href="http://douxinchun.github.io/blog/20150505/set-up-svnserver-under-centos.html"/>
-    <updated>2015-05-05T14:12:48+08:00</updated>
-    <id>http://douxinchun.github.io/blog/20150505/set-up-svnserver-under-centos</id>
-    <content type="html"><![CDATA[<h2>OverView</h2>
-
-<p>之前搭建SVN Server都是在WindowsServer下直接安装一个<a href="https://www.visualsvn.com/">Visual SVN</a>,近期在一个项目中发现对方使用的是阿里云的云服务器,而且是CentOS的操作系统.特此记录一下自己的搭建过程,以备后用.</p>
-
-<!--more-->
-
-
-<p>整个过程分为5个部分.<br/>
-1. 连接云服务器<br/>
-2. 安装SVN Server<br/>
-3. 配置SVN Server<br/>
-4. 配置防火墙开通端口 <br/>
-5. 启动SVN服务.<br/>
-最后,我会在文章的末尾总结一下自己在搭建的过程中遇到的问题汇总.</p>
-
-<h3>1.连接云服务器</h3>
-
-<p>由于需要连接的是centOS系统,所有先放弃Windows和Mac OS X上的远端桌面连接工具吧.Windows上应该是需要一个SSH的客户端工具.<br/>
-打开Terminal ,root 是username 后面跟的是ip地址</p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>localhost:~ douxinchun$ ssh -l root 182.92.178.156</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-按照提示输入密码,登录成功后显示如下:</p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Last login: Mon May  4 16:31:40 2015 from 111.203.240.200
-</span><span class='line'>
-</span><span class='line'>Welcome to aliyun Elastic Compute Service!
-</span><span class='line'>
-</span><span class='line'>[root@iZ256vx3u5fZ ~]#</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h3>2.安装SVN Server</h3>
-
-<p>检查是否安装</p>
-
-<figure class='code'><figcaption><span>Terminal </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpm -qa subversion
-</span><span class='line'>[root@iZ256vx3u5fZ /]# rpm -qa subversion
-</span><span class='line'>subversion-1.6.11-12.el6_6.x86_64
-</span><span class='line'>[root@iZ256vx3u5fZ /]#</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-卸载旧的版本</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>yum remove subversion</span></code></pre></td></tr></table></div></figure>
-
-
-<p>安装</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>yum install -y subversion</span></code></pre></td></tr></table></div></figure>
-
-
-<p>验证安装是否成功</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svnserve --version
-</span><span class='line'>[root@iZ256vx3u5fZ /]# svnserve --version
-</span><span class='line'>svnserve，版本 1.6.11 (r934486)
-</span><span class='line'>   编译于 Feb 10 2015，22:08:22
-</span><span class='line'>
-</span><span class='line'>版权所有 (C) 2000-2009 CollabNet。
-</span><span class='line'>Subversion 是开放源代码软件，请参阅 http://subversion.tigris.org/ 站点。
-</span><span class='line'>此产品包含由 CollabNet(http://www.Collab.Net/) 开发的软件。
-</span><span class='line'>
-</span><span class='line'>下列版本库后端(FS) 模块可用: 
-</span><span class='line'>
-</span><span class='line'>* fs_base : 模块只能操作BDB版本库。
-</span><span class='line'>* fs_fs : 模块与文本文件(FSFS)版本库一起工作。
-</span><span class='line'>
-</span><span class='line'>Cyrus SASL 认证可用。
-</span><span class='line'>
-</span><span class='line'>[root@iZ256vx3u5fZ /]#</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h3>3.配置SVN Server</h3>
-
-<p>首先,创建一个SVN的版本库</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[root@iZ256vx3u5fZ svn]# mkdir /home/svn/testRepo
-</span><span class='line'>[root@iZ256vx3u5fZ svn]# svnadmin create /home/svn/testRepo
-</span><span class='line'>[root@iZ256vx3u5fZ svn]# cd /home/svn/testRepo/
-</span><span class='line'>[root@iZ256vx3u5fZ testRepo]# ls -a
-</span><span class='line'>.  ..  conf  db  format  hooks  locks  README.txt</span></code></pre></td></tr></table></div></figure>
-
-
-<p> 如果创建成功,testRepo目录下会多出几个文件夹,进入到conf文件夹会有3个配置文件:<br/>
- (1). svnserve.conf:  svn服务综合配置文件. <br/>
- (2). passwd:  用户名口令文件。<br/>
- (3). authz:   权限配置文件</p>
-
-<h4>passwd文件</h4>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[users]
-</span><span class='line'># harry = harryssecret
-</span><span class='line'># sally = sallyssecret
-</span><span class='line'>svnuser=123456</span></code></pre></td></tr></table></div></figure>
-
-
-<p>svnuser为用户名.123456为密码</p>
-
-<h4>authz文件</h4>
-
-<p>添加一行这个</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[/]
-</span><span class='line'>svnuser=rw</span></code></pre></td></tr></table></div></figure>
-
-
-<p>意思是svnuser用户对所有的目录有读写权限,如果需要详细的分组,可以参照这里[<a href="http://www.blogjava.net/rockblue1988/archive/2014/11/19/420246.aspx">http://www.blogjava.net/rockblue1988/archive/2014/11/19/420246.aspx</a>]</p>
-
-<h4>svnserve.conf文件</h4>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#匿名访问者权限
-</span><span class='line'>anon-access = none
-</span><span class='line'>#验证用户权限
-</span><span class='line'>auth-access = write
-</span><span class='line'>#密码文件地址
-</span><span class='line'>password-db = /home/svn/testRepo/passwd
-</span><span class='line'>#权限文件地址
-</span><span class='line'>authz-db = /home/svn/testRepo/authz
-</span><span class='line'>#项目名称（UUID）
-</span><span class='line'>realm =testRepo</span></code></pre></td></tr></table></div></figure>
-
-
-<p>采用默认配置. 以上语句都必须顶格写, 左侧不能留空格, 否则会出错.</p>
-
-<h3>4.打开Linux下的防火墙端口</h3>
-
-<p>默认是3690端口，你也可以用别的。已开启的跳过这一步</p>
-
-<figure class='code'><figcaption><span>Terminal</span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>修改
-</span><span class='line'>iptables -I INPUT -p tcp --dport 3690 -j ACCEPT
-</span><span class='line'>保存
-</span><span class='line'>/etc/rc.d/init.d/iptables save
-</span><span class='line'>重启
-</span><span class='line'>service iptables restart
-</span><span class='line'>查看
-</span><span class='line'>/etc/init.d/iptables status</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>5.启动SVN服务</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svnserve -d -r /home/svn</span></code></pre></td></tr></table></div></figure>
-
-
-<p>-d:守护进程
--r:svn根目录
-这里注意启动时的目录一定不要再往下写一级,不然客户端再按照下面的地址访问的时候,会提示错误:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>XXXXXXX(别怪我,实在记不清了)non existent in revision 0</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-假设服务端IP为182.92.178.156，那么如下设置后testRepo的访问目录就为：
-svn://182.92.178.156:3690/testRepo</p>
-
-<p>如果端口被占用可以重新换一个端口运行,更换端口可以让一台服务器运行多个SVN Server,不要忘记按照第4步在iptable中打开相应的端口</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svnserve -d -r /home/svn  --listen-port 3391</span></code></pre></td></tr></table></div></figure>
-
-
-<p>关闭SVN服务</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ps -aux|grep svn  
-</span><span class='line'>kill 1755 进程id</span></code></pre></td></tr></table></div></figure>
-
-
-<p>启动完成后,客户端就可以成功的连接了<br/>
-<img src="http://douxinchun.github.io/blog_reference_image/2015/5/svn_client.png"></p>
-
-<hr />
-
-<h3>6.遇到的问题</h3>
-
-<p>1.端口被占用</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svnserve: 不能绑定服务器套接字: 地址已在使用</span></code></pre></td></tr></table></div></figure>
-
-
-<p>更换端口,或者关闭正在运行的SVN服务,参见第5步,启动服务</p>
-
-<p>2.导入工程</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir MyProject  
-</span><span class='line'>$ mkdir MyProject/trunk  
-</span><span class='line'>$ mkdir MyProject/branches  
-</span><span class='line'>$ mkdir MyProject/tags  
-</span><span class='line'>svn import MyProject svn://182.92.178.156/testRepo/MyProject -m "first import project"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>3.导出工程</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>svn co svn://192.168.5.228/testRepo/MyProject</span></code></pre></td></tr></table></div></figure>
-
-
-<p>4.客户端查看不到日志<br/>
-修改svnserver.conf文件里面：
-anon-access = read &ndash;>修改为 anon-access = none</p>
-
-<h3>7.添加开机启动</h3>
-
-<p>首先：编写一个启动脚本svn_startup.sh，我放在/root/svn_startup.sh</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/bash
-</span><span class='line'>/usr/bin/svnserve -d -r /home/svn/</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这里的svnserve路径保险起见，最好写绝对路径,因为启动的时候，环境变量也许没加载.
-绝对路径怎么查?</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>which svnserve</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这里还有可能碰到一个问题，如果你在windows下建立和编写的脚步，拿到linux下，用vi或者vim修改后可能会无法执行，这是文件格式的问题</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>vi svn_startup.sh
-</span><span class='line'>输入:set ff 回车
-</span><span class='line'>如果显示的结果不是fileformat=unix
-</span><span class='line'>再次输入
-</span><span class='line'>set ff=unix
-</span><span class='line'>就OK了</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后修改该脚本的执行权限</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>chmod ug+x svn_startup.sh</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或者万能的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>chmod 777 svn_startup.sh</span></code></pre></td></tr></table></div></figure>
-
-
-<p>最后：加入自动运行</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>vi /etc/rc.d/rc.local</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在末尾添加脚本的路径，如：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/root/svn_startup.sh</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在，你可以重启一下试试了。 不懂得怎么确认成功？败给你了</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ps -ef|grep svnserve</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>参考来源</h3>
-
-<p><a href="http://blog.csdn.net/shangliuyan/article/details/7351675">http://blog.csdn.net/shangliuyan/article/details/7351675</a>
-<a href="http://www.blogjava.net/rockblue1988/archive/2014/11/19/420246.aspx">http://www.blogjava.net/rockblue1988/archive/2014/11/19/420246.aspx</a>
-<a href="http://www.centoscn.com/CentosServer/ftp/2014/0306/2505.html">http://www.centoscn.com/CentosServer/ftp/2014/0306/2505.html</a>
-<a href="http://www.blogjava.net/nkjava/archive/2011/08/29/357502.html">http://www.blogjava.net/nkjava/archive/2011/08/29/357502.html</a>
-<a href="http://bbs.csdn.net/topics/390757995">http://bbs.csdn.net/topics/390757995</a></p>
 ]]></content>
   </entry>
   

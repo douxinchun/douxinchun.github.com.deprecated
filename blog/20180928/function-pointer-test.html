@@ -1,0 +1,500 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>C 语言函数指针小测试 - 冷雨之家</title>
+  <meta name="author" content="Spring">
+
+  
+  <meta name="description" content="首先看一道趣味题,来源:https://www.v2ex.com/t/492705 1
+2
+3
+4
+5
+6
+7
+#include &lt;stdio.h&gt; int main() {
+[]
+printf(&quot;%p\n&quot;, **********************p); &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20180928/function-pointer-test.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  
+  <link href="/atom.xml" rel="alternate" title="冷雨之家" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>&#8211;>
+  <!--<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script>&#8211;>
+  <!--为了添加scroll_to_top.html 提高了js的版本-->
+  <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts-->
+<link href="/stylesheets/pt_serif.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
+  
+
+  <script>
+  	function addBlankTargetForLinks () {
+  	  $('a[href^="http"]').each(function(){
+  		  $(this).attr('target', '_blank');
+  	  });
+  	}
+  	$(document).bind('DOMNodeInserted', function(event) {
+  	  addBlankTargetForLinks();
+  	});
+  </script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/"><img style="border-radius:50%" src="/images/head.png" width=60 height=60 />
+冷雨之家</a></h1>
+  
+    <h2>Dying is the day worth living for</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="douxinchun.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/aboutme">关于我</a></li>
+  
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">C 语言函数指针小测试</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-09-28T15:10:54+08:00'><span class='date'>2018 年9 月28 日</span> <span class='time'>3:10 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>首先看一道趣味题,来源:<a href="https://www.v2ex.com/t/492705">https://www.v2ex.com/t/492705</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="p">[]</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">**********************</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'><span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在 [] 标记内加入一条语句，使得：</p>
+
+<ol>
+<li>程序编译通过，无错误（警告随意）；链接通过，无错误（警告随意）</li>
+<li>程序能够运行，无崩溃和运行时错误</li>
+<li>源代码为.c 文件</li>
+<li>如果用 vs，则使用 Release 配置；用 gcc 也行</li>
+<li>加入的语句不能忽略分号</li>
+<li>printf 一句必须能够正常输出内容</li>
+</ol>
+
+
+<p>答案如下表</p>
+
+<table>
+<thead>
+<tr>
+<th> int(*p)(); </th>
+<th> 10个字符 </th>
+<th> 兼容 gcc、g++、vs        </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> int p(){}  </td>
+<td> 9个字符  </td>
+<td> 兼容 gcc，不兼容 g++、vs </td>
+</tr>
+<tr>
+<td> p();}p(){  </td>
+<td> 9个字符  </td>
+<td> 兼容 gcc、g++、vs        </td>
+</tr>
+</tbody>
+</table>
+
+
+<p>本文主要针对第一种答案来说明一下为什么函数指针可以被无线次解引用.</p>
+
+<h2>&amp; *</h2>
+
+<p>说到指针,首先就一定要介绍两个操作符.</p>
+
+<blockquote><p>&amp; 地址操作符(address operators) 单目前缀操作符,操作数为跟在后面的表达式. eg:&amp;a,表示取操作数a的地址,也可以理解为取对象a的地址,或者取变量a的地址等等.</p></blockquote>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="c1">// 在64处理器的系统模式下,地址的长度为8个字节</span>
+</span><span class='line'><span class="kt">int</span> <span class="n">a</span><span class="p">;</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sizeof(&amp;a)=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">**********</span><span class="n">result</span><span class="o">**********</span>
+</span><span class='line'><span class="k">sizeof</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">)</span><span class="o">=</span><span class="mi">8</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>* 间接操作符 (indirection operators) 单目前缀操作数,同样也是跟在后面的表达式为操作数,可以使用间接操作符通过指针对象间接地访问它所指向对象的值. eg: *a,表示取<strong>指针对象</strong>a中存的地址所指向的值. (这里的表达非常绕,下面举个例子,请自行脑补)</p></blockquote>
+
+<p><em>a的举例: 超市的储物柜,每个格子都有一个唯一对应的条形码,我们认为这就是每个格子的地址,格子本身就是实实在在的三维空间,是可以放物品的.现在有两个格子a格和b格,我们把背包放进了b格,然后把印有b格条码的纸条放进了a格, 那么,a格就相当于一个指针变量, b格就相当于一个普通的变量. </em>a的意思就是 分两步,第一步找到a格,取出a格中存放的条码,第二步,按照条码找到b格,取出b格中的背包.  最终简化一下, *a就是背包.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="kt">int</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">666</span><span class="p">;</span>
+</span><span class='line'><span class="kt">int</span> <span class="o">*</span><span class="n">a</span><span class="p">;</span>
+</span><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">;</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;*a=%d sizeof(*a)=%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">*</span><span class="n">a</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">**********</span><span class="n">result</span><span class="o">**********</span>
+</span><span class='line'><span class="o">*</span><span class="n">a</span><span class="o">=</span><span class="mi">666</span> <span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)</span><span class="o">=</span><span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>对于间接操作符,需要特别注意的有两点:</p>
+
+<p>第一,间接操作符(*)与用来声明之神类别对象的&#8221;*&ldquo;不属于同种功能,虽然它们两者确实是同一个字符,unicode码点都是 \u002a</p>
+
+<p>第二,间接操作符只作用于指针类型的对象,也就是说简介操作符的的操作数必须是一个指针类型的对象.</p></blockquote>
+
+<h2>&ldquo;取地址&#8221;与&#8221;解引用&rdquo;</h2>
+
+<p>通俗的讲,对一个变量的 &amp; 操作称为&#8221;取地址&#8221;</p>
+
+<p>对一个指针变量的 * 操作称作&#8221;解引用&#8221;.</p>
+
+<p>换一种角度去理解解引用，&#8221;*&ldquo;的作用是引用指针指向的变量值，引用其实就是引用该变量的地址，“解”就是把该地址对应的东西解开，解出来，就像打开一个包裹一样，那就是该变量的值了，所以称为“解引用”。也就是说，解引用是返回内存地址中保存的值。这个值可以是另一个地址。</p>
+
+<h2>多级指针.</h2>
+
+<p>如果一个指针变量存的是一个普通变量的地址,比如 int <em>a,只能存放一个整型变量的地址,那么这个指针叫做一级指针;如果一个指针变量存放的是另一个指针变量的地址,比如 int **, 里面存放的是一个(int </em>a)类型的指针变量的地址,那么这个指针变量叫二级指针,依次往下推,可以有三级指针,四级指针&hellip;.直到多级指针.</p>
+
+<h2>函数指针</h2>
+
+<p>简单理解就是指向函数地址的指针。比如我们声明的一个C函数</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="kt">void</span> <span class="nf">func</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span><span class='line'><span class="c1">//函数调用</span>
+</span><span class='line'><span class="n">func</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么对于函数调用表达式 func() 而言， func后缀表达式就已经表示了一个指向返回类型为void，且参数列表为空的函数的指针：</p>
+
+<blockquote><p>void (*) (void)</p></blockquote>
+
+<p>函数指针的通用表达形式为：</p>
+
+<blockquote><p>返回类型 （* cv限定符 ）（形参列表）</p></blockquote>
+
+<p>其中，cv限定符为可选项。</p>
+
+<p>直接上code</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='C'><span class='line'><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">)();</span>
+</span><span class='line'><span class="n">p</span><span class="o">=&amp;</span><span class="n">func</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sizeof(func)= %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">func</span><span class="p">));</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;sizeof(p)= %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;func</span><span class="se">\t</span><span class="s"> %p = %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">func</span><span class="p">,</span><span class="n">func</span><span class="p">);</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;p *p</span><span class="se">\t</span><span class="s"> %p = %p = %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">p</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="o">*</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;p多次解引用 %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">**********************</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">pNull</span><span class="p">)();</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;pNull *p</span><span class="se">\t</span><span class="s"> %p = %p = %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="o">&amp;</span><span class="n">pNull</span><span class="p">,</span><span class="n">pNull</span><span class="p">,</span><span class="o">*</span><span class="n">pNull</span><span class="p">);</span>
+</span><span class='line'><span class="n">printf</span><span class="p">(</span><span class="s">&quot;pNull多次解引用 %p</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="o">**********************</span><span class="n">p</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">**********</span><span class="n">result</span><span class="o">**********</span>
+</span><span class='line'><span class="k">sizeof</span><span class="p">(</span><span class="n">func</span><span class="p">)</span><span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">sizeof</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">=</span> <span class="mi">8</span>
+</span><span class='line'><span class="n">func</span>    <span class="mh">0x100000df0</span> <span class="o">=</span> <span class="mh">0x100000df0</span>
+</span><span class='line'><span class="n">p</span> <span class="o">*</span><span class="n">p</span>  <span class="mh">0x7ffeefbff568</span> <span class="o">=</span> <span class="mh">0x100000df0</span> <span class="o">=</span> <span class="mh">0x100000df0</span>
+</span><span class='line'><span class="n">p</span><span class="err">多次解引用</span> <span class="mh">0x100000df0</span>
+</span><span class='line'><span class="n">pNull</span> <span class="o">*</span><span class="n">p</span>  <span class="mh">0x7ffeefbff560</span> <span class="o">=</span> <span class="mh">0x0</span> <span class="o">=</span> <span class="mh">0x0</span>
+</span><span class='line'><span class="n">pNull</span><span class="err">多次解引用</span> <span class="mh">0x0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以看出：</p>
+
+<ol>
+<li><p>函数指针变量在64位系统下的大小是8，函数指针常量的大小是1。</p></li>
+<li><p>函数指针常量中存储的内容是自身的地址（这是为什么函数指针可以被无限次解引用的关键，因为解到最后一层以后，继续解就陷入了”自己找自己“的循环）。</p></li>
+<li><p>未赋值的函数指针变量默认指向的是地址是0x0，对存储在该地址的指针对象解引用的结果依旧是0x0，所以可以认为0x0地址的内存单元中存的是地址0x0（此处上可能有误，尚需以后讨论）。</p></li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Spring</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2018-09-28T15:10:54+08:00'><span class='date'>2018 年9 月28 日</span> <span class='time'>3:10 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/c/'>c</a>, <a class='category' href='/blog/categories/function-pointer/'>function pointer</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/20180920/tips-of-google-search.html" title="Previous Post: Chrome中使用英文关键词搜索中文结果">&laquo; Chrome中使用英文关键词搜索中文结果</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/20181129/dns-over-https.html" title="Next Post: DNS over https RFC8484">DNS over https RFC8484 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+<!--
+
+-->
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1><a href="/aboutme" >About Me</a></h1>
+  <img src="/images/head.png" width=200 height=200 style="border-radius:5%" /><br />
+  <b>Spring, 程序员</b>
+  <p>博观而约取, 厚积而薄发</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/20181129/dns-over-https.html">DNS Over Https RFC8484</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180928/function-pointer-test.html">C 语言函数指针小测试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180920/tips-of-google-search.html">Chrome中使用英文关键词搜索中文结果</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180918/tips-of-xcode.html">Xcode 使用技巧</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180725/introduction-to-lipo.html">Lipo 使用简介</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>文章分类</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
+<li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
+<li class='category'><a href='/blog/categories/der/'>der (1)</a></li>
+<li class='category'><a href='/blog/categories/dns/'>dns (1)</a></li>
+<li class='category'><a href='/blog/categories/doh/'>doh (1)</a></li>
+<li class='category'><a href='/blog/categories/function-pointer/'>function pointer (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
+<li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
+<li class='category'><a href='/blog/categories/google/'>google (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (9)</a></li>
+<li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/lipo/'>lipo (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (2)</a></li>
+<li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
+<li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
+<li class='category'><a href='/blog/categories/openssl/'>openssl (1)</a></li>
+<li class='category'><a href='/blog/categories/pem/'>pem (1)</a></li>
+<li class='category'><a href='/blog/categories/provisioning-profile/'>provisioning profile (1)</a></li>
+<li class='category'><a href='/blog/categories/rsa/'>rsa (2)</a></li>
+<li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
+<li class='category'><a href='/blog/categories/static-library/'>static library (1)</a></li>
+<li class='category'><a href='/blog/categories/terminal/'>terminal (3)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (7)</a></li>
+<li class='category'><a href='/blog/categories/xcodebuild/'>xcodebuild (1)</a></li>
+<li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>近期评论</h1>
+  <script type="text/javascript" src="http://newspringblog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+  
+</section>
+<section>
+<h1>访客地图</h1>
+<script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;m=0&amp;s=220&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=0" async="async"></script>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Spring -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'newspringblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://douxinchun.github.io/blog/20180928/function-pointer-test.html';
+        var disqus_url = 'http://douxinchun.github.io/blog/20180928/function-pointer-test.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="http://arrow.scrolltotop.com/arrow78.js"></script>
+<noscript>Not seeing a <a href="http://www.scrolltotop.com/">Scroll to Top Button</a>? Go to our FAQ page for more info.</noscript>
+
+</body>
+</html>

@@ -1,0 +1,372 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Xcode 使用技巧 - 冷雨之家</title>
+  <meta name="author" content="Spring">
+
+  
+  <meta name="description" content="Alcatraz Alcatraz是一款开源的用于Xcode7的插件管理工具.Xcode8以及以后版本需要配合下面的工具来使用. update_xcode_plugins update_xcode_plugins可以为Xcode中安装的插件添加UUID, 同时还能够 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://douxinchun.github.io/blog/20180918/tips-of-xcode.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  
+  <link href="/atom.xml" rel="alternate" title="冷雨之家" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>&#8211;>
+  <!--<script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script>&#8211;>
+  <!--为了添加scroll_to_top.html 提高了js的版本-->
+  <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts-->
+<link href="/stylesheets/pt_serif.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/pt_sans.css" rel="stylesheet" type="text/css">
+  
+
+  <script>
+  	function addBlankTargetForLinks () {
+  	  $('a[href^="http"]').each(function(){
+  		  $(this).attr('target', '_blank');
+  	  });
+  	}
+  	$(document).bind('DOMNodeInserted', function(event) {
+  	  addBlankTargetForLinks();
+  	});
+  </script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/"><img style="border-radius:50%" src="/images/head.png" width=60 height=60 />
+冷雨之家</a></h1>
+  
+    <h2>Dying is the day worth living for</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="douxinchun.github.io">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/aboutme">关于我</a></li>
+  
+</ul>
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Xcode 使用技巧</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-09-18T17:03:09+08:00'><span class='date'>2018 年9 月18 日</span> <span class='time'>5:03 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Alcatraz</h2>
+
+<p><a href="https://github.com/alcatraz/Alcatraz">Alcatraz</a>是一款开源的用于Xcode7的插件管理工具.Xcode8以及以后版本需要配合下面的工具来使用.</p>
+
+<h2>update_xcode_plugins</h2>
+
+<p><a href="https://github.com/inket/update_xcode_plugins">update_xcode_plugins</a>可以为Xcode中安装的插件添加UUID, 同时还能够 为Xcode8以及以上的版本解除签名,这样就可以随心所欲的使用各种Xcode插件了.</p>
+
+<h2>Reset Xcode’s “Load Bundles” warning</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>defaults delete com.apple.dt.Xcode DVTPlugInManagerNonApplePlugIns-Xcode-10.0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>执行该命令,重启Xcode,可以使Xcode弹出&#8221;Load Bundles&#8221;的提示,可以重新load所有的插件.注意command末尾处的Xcode的版本号.</p>
+
+<h2>添加删除行 快捷键 Opt+D</h2>
+
+<ol>
+<li><p>修改配置文件(plist)权限</p>
+
+<pre><code class="ba&#39;sh">sudo chmod 666 /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/IDETextKeyBindingSet.plist
+sudo chmod 777 /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/
+</code></pre></li>
+<li><p>打开plist文件进行修改</p>
+
+<pre><code class="bash">open /Applications/Xcode.app/Contents/Frameworks/IDEKit.framework/Resources/IDETextKeyBindingSet.plist
+</code></pre>
+
+<p>找到<strong>root</strong>下的<strong>Deletions</strong>,在<strong>Deletions</strong>下添加一个Key: <strong>Delete Current Line</strong> 值为<strong>deleteToBeginningOfLine:, moveToEndOfLine:, deleteToBeginningOfLine:, deleteBackward:, moveDown:, moveToBeginningOfLine:</strong></p></li>
+<li><p>重启Xcode,设置快捷键</p></li>
+</ol>
+
+
+<p>   <strong>Preference</strong> -> <strong>Key Bindings</strong> ,找到 <strong>Delete Current Line</strong> 选项,设置快捷键为 <strong>Opt+D</strong></p>
+
+<h2>Xcode Release Build 版本号自动增加</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="nv">$CONFIGURATION</span> <span class="o">==</span> Release <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Bumping build number...&quot;</span>
+</span><span class='line'><span class="nv">plist</span><span class="o">=</span><span class="k">${</span><span class="nv">PROJECT_DIR</span><span class="k">}</span>/<span class="k">${</span><span class="nv">INFOPLIST_FILE</span><span class="k">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">buildnum</span><span class="o">=</span><span class="k">$(</span>/usr/libexec/PlistBuddy -c <span class="s2">&quot;Print CFBundleVersion&quot;</span> <span class="s2">&quot;${plist}&quot;</span><span class="k">)</span>
+</span><span class='line'><span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;${buildnum}&quot;</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;No build number in $plist&quot;</span>
+</span><span class='line'><span class="nb">exit </span>2
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">buildnum</span><span class="o">=</span><span class="k">$(</span>expr <span class="nv">$buildnum</span> + 1<span class="k">)</span>
+</span><span class='line'>/usr/libexec/Plistbuddy -c <span class="s2">&quot;Set CFBundleVersion $buildnum&quot;</span> <span class="s2">&quot;${plist}&quot;</span>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;Bumped build number to $buildnum&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'><span class="nb">echo</span> <span class="nv">$CONFIGURATION</span> <span class="s2">&quot; build - Not bumping build number.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用方法 Xcode&ndash;>Projet&ndash;>Target&ndash;>Build Phases&ndash;>&ldquo;+&rdquo;&ndash;>New Run Script Phase. 顺序放在Target Dependencies之后即可,尽量靠前.</p>
+
+<p>过程, 查找 Info.plist 文件的位置,使用工具 /usr/libexec/PlistBuddy 读取 CFBundleVersion 的值,+1后再写会 Info.plist 文件.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Spring</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2018-09-18T17:03:09+08:00'><span class='date'>2018 年9 月18 日</span> <span class='time'>5:03 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/xcode/'>xcode</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/20180725/introduction-to-lipo.html" title="Previous Post: lipo 使用简介">&laquo; lipo 使用简介</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/20180920/tips-of-google-search.html" title="Next Post: Chrome中使用英文关键词搜索中文结果">Chrome中使用英文关键词搜索中文结果 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+<!--
+
+-->
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1><a href="/aboutme" >About Me</a></h1>
+  <img src="/images/head.png" width=200 height=200 style="border-radius:5%" /><br />
+  <b>Spring, 程序员</b>
+  <p>博观而约取, 厚积而薄发</p>
+</section>
+<section>
+  <h1>最近发布</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/20181129/dns-over-https.html">DNS Over Https RFC8484</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180928/function-pointer-test.html">C 语言函数指针小测试</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180920/tips-of-google-search.html">Chrome中使用英文关键词搜索中文结果</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180918/tips-of-xcode.html">Xcode 使用技巧</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/20180725/introduction-to-lipo.html">Lipo 使用简介</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>文章分类</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/c/'>c (1)</a></li>
+<li class='category'><a href='/blog/categories/css/'>css (1)</a></li>
+<li class='category'><a href='/blog/categories/der/'>der (1)</a></li>
+<li class='category'><a href='/blog/categories/dns/'>dns (1)</a></li>
+<li class='category'><a href='/blog/categories/doh/'>doh (1)</a></li>
+<li class='category'><a href='/blog/categories/function-pointer/'>function pointer (1)</a></li>
+<li class='category'><a href='/blog/categories/git/'>git (1)</a></li>
+<li class='category'><a href='/blog/categories/goagent/'>goagent (1)</a></li>
+<li class='category'><a href='/blog/categories/google/'>google (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>ios (9)</a></li>
+<li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/lipo/'>lipo (1)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (2)</a></li>
+<li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
+<li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
+<li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
+<li class='category'><a href='/blog/categories/octopress/'>octopress (6)</a></li>
+<li class='category'><a href='/blog/categories/openssl/'>openssl (1)</a></li>
+<li class='category'><a href='/blog/categories/pem/'>pem (1)</a></li>
+<li class='category'><a href='/blog/categories/provisioning-profile/'>provisioning profile (1)</a></li>
+<li class='category'><a href='/blog/categories/rsa/'>rsa (2)</a></li>
+<li class='category'><a href='/blog/categories/ssd/'>ssd (1)</a></li>
+<li class='category'><a href='/blog/categories/static-library/'>static library (1)</a></li>
+<li class='category'><a href='/blog/categories/terminal/'>terminal (3)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>xcode (7)</a></li>
+<li class='category'><a href='/blog/categories/xcodebuild/'>xcodebuild (1)</a></li>
+<li class='category'><a href='/blog/categories/bing-yu-huo-zhi-ge/'>冰与火之歌 (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>近期评论</h1>
+  <script type="text/javascript" src="http://newspringblog.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a href="http://disqus.com/">Powered by Disqus</a>
+  
+</section>
+<section>
+<h1>访客地图</h1>
+<script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;m=0&amp;s=220&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=0" async="async"></script>
+</section>
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Spring -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'newspringblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://douxinchun.github.io/blog/20180918/tips-of-xcode.html';
+        var disqus_url = 'http://douxinchun.github.io/blog/20180918/tips-of-xcode.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+  <script type="text/javascript" src="http://arrow.scrolltotop.com/arrow78.js"></script>
+<noscript>Not seeing a <a href="http://www.scrolltotop.com/">Scroll to Top Button</a>? Go to our FAQ page for more info.</noscript>
+
+</body>
+</html>

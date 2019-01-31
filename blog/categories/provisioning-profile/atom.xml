@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[分类：provisioning Profile | 冷雨之家]]></title>
+  <link href="http://douxinchun.github.io/blog/categories/provisioning-profile/atom.xml" rel="self"/>
+  <link href="http://douxinchun.github.io/"/>
+  <updated>2018-11-30T00:59:01+08:00</updated>
+  <id>http://douxinchun.github.io/</id>
+  <author>
+    <name><![CDATA[Spring]]></name>
+    <email><![CDATA[douxinchunlengyu@163.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[获取mobileprovision文件的UUID]]></title>
+    <link href="http://douxinchun.github.io/blog/20171202/get-mobileprovison-uuid.html"/>
+    <updated>2017-12-02T13:06:26+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20171202/get-mobileprovison-uuid</id>
+    <content type="html"><![CDATA[<hr />
+
+<h3>Provision Profile 文件在Mac OS中的默认存放位置:</h3>
+
+<blockquote><p>~/Library/MobileDevice/Provisioning Profiles</p></blockquote>
+
+<h2>Test clear cache</h2>
+
+<h3>1.通过GUI的工具查看:</h3>
+
+<p>iPhone配置实用工具</p>
+
+<h3>2.命令行工具</h3>
+
+<p><a href="https://github.com/0xc010d/mobileprovision-read">0xc010d/mobileprovision-read</a><br/>
+安装方法<br/>
+在 Terminal中键入下面的命令并回车</p>
+
+<pre><code class="bash Terminal">curl https://raw.githubusercontent.com/0xc010d/mobileprovision-read/master/main.m | clang -framework Foundation -framework Security -o /usr/local/bin/mobileprovision-read -x objective-c -
+</code></pre>
+
+<h4>mobileprovision-read 命令介绍</h4>
+
+<pre><code class="bash Terminal  ">➜  ~ mobileprovision-read 
+mobileprovision-read -- mobileprovision files querying tool.
+
+USAGE
+mobileprovision-read -f fileName [-o option]
+
+OPTIONS
+    type – prints mobileprovision profile type (debug, ad-hoc, enterprise, appstore)
+    appid – prints application identifier
+Will print raw provision's plist if option is not specified.
+You can also use key path as an option.
+
+EXAMPLES
+mobileprovision-read -f test.mobileprovision -o type
+    Prints profile type
+
+mobileprovision-read -f test.mobileprovision -o UUID
+    Prints profile UUID
+
+mobileprovision-read -f test.mobileprovision -o ProvisionedDevices
+    Prints provisioned devices UDIDs
+
+mobileprovision-read -f test.mobileprovision -o Entitlements.get-task-allow
+    Prints 0 if profile doesn't allow debugging 1 otherwise
+➜  ~ 
+</code></pre>
+
+<p>eg:<br/>
+mobileprovision-read -f &ldquo;filepath&rdquo; -o UUID  -> 打印输出mobileprovision的UUID<br/>
+mobileprovision-read -f &ldquo;provisoning-profile-file-path&rdquo; -o ProvisionedDevices  -> 列出描述文件所包含的device UUID列表</p>
+
+<h3>3.自定义脚本</h3>
+
+<p>使用了苹果的security和PlistBuddy工具.<br/>
+<a href="https://github.com/douxinchun/MyBackupForMacOSX/blob/master/shell/mobilapp.sh">mobileapp.sh</a><br/>
+使用方法:<br/>
+./mobileapp.sh &ldquo;provisoning-profile-file-path&rdquo;<br/>
+注意,如果filepath中含有空格,请将filepath加上双引号.</p>
+
+<p>eg:<br/>
+<code>bash Terminal
+➜  Desktop ./mobilepp.sh "/Users/newspring/Library/MobileDevice/Provisioning Profiles/1213b96b-4ac1-4365-ae45-350eb6beadf2.mobileprovision"
+security: SecPolicySetValue: One or more parameters passed to a function were not valid.
+UUID is:
+1213b96b-4ac1-4365-ae45-350eb6beadf2
+</code></p>
+
+<h3>参考链接</h3>
+
+<p><a href="https://my.oschina.net/ioslighter/blog/494342">https://my.oschina.net/ioslighter/blog/494342</a></p>
+]]></content>
+  </entry>
+  
+</feed>
