@@ -1,4 +1,6 @@
-
+source 'https://rubygems.org'
+# replace if above failed due to GFW
+# source 'https://gems.ruby-china.com'
 group :development do
   gem 'rake', '~> 10.0'
   gem 'jekyll', '~> 2.0'
