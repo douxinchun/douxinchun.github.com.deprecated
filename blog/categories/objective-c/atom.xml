@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[分类：objective_c | 冷雨之家]]></title>
+  <link href="http://douxinchun.github.io/blog/categories/objective-c/atom.xml" rel="self"/>
+  <link href="http://douxinchun.github.io/"/>
+  <updated>2021-03-02T23:12:26+08:00</updated>
+  <id>http://douxinchun.github.io/</id>
+  <author>
+    <name><![CDATA[Spring]]></name>
+    <email><![CDATA[douxinchunlengyu@163.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Block 声明语法 简记]]></title>
+    <link href="http://douxinchun.github.io/blog/20161110/block-sheng-ming-yu-fa-jian-ji.html"/>
+    <updated>2016-11-10T10:55:09+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20161110/block-sheng-ming-yu-fa-jian-ji</id>
+    <content type="html"><![CDATA[<h4>本地变量(Local Variable)</h4>
+
+<blockquote><p>returnType (^blockName)(parameterTypes) = ^returnType(parameters) {&hellip;};</p></blockquote>
+
+<h4>属性(Property)</h4>
+
+<blockquote><p>@property (nonatomic, copy, nullability) returnType (^blockName)(parameterTypes);</p></blockquote>
+
+<h4>方法参数(method parameter)</h4>
+
+<blockquote><ul>
+<li>(void)someMethodThatTakesABlock:(returnType (^nullability)(parameterTypes))blockName;</li>
+</ul>
+</blockquote>
+
+<h4>方法调用的时候的参数</h4>
+
+<blockquote><p>[someObject someMethodThatTakesABlock:^returnType (parameters) {&hellip;}];</p></blockquote>
+
+<h4>重定义(typedef)</h4>
+
+<blockquote><p>typedef returnType (^TypeName)(parameterTypes);
+TypeName blockName = ^returnType(parameters) {&hellip;};</p></blockquote>
+
+<h2>参考资料</h2>
+
+<p><a href="http://fuckingblocksyntax.com/">http://fuckingblocksyntax.com/</a></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[分类：shadowsocks | 冷雨之家]]></title>
+  <link href="http://douxinchun.github.io/blog/categories/shadowsocks/atom.xml" rel="self"/>
+  <link href="http://douxinchun.github.io/"/>
+  <updated>2021-03-02T23:12:26+08:00</updated>
+  <id>http://douxinchun.github.io/</id>
+  <author>
+    <name><![CDATA[Spring]]></name>
+    <email><![CDATA[douxinchunlengyu@163.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[OpenWRT下安装和配置shadowsocks]]></title>
+    <link href="http://douxinchun.github.io/blog/20210302/install-shadowsocks-on-openwrt.html"/>
+    <updated>2021-03-02T01:21:57+08:00</updated>
+    <id>http://douxinchun.github.io/blog/20210302/install-shadowsocks-on-openwrt</id>
+    <content type="html"><![CDATA[<p>本文主要记录在openWRT下安装和配置shadowsocks的简要过程，便于日后查找和备忘。成功安装后可以实现透明代理，分流和防DNS污染。</p>
+
+<h2>Environment</h2>
+
+<ul>
+<li>路由器型号：YouHua WR1200JS</li>
+<li>固件版本：OpenWrt 19.07.4 r11208-ce6496d796 / LuCI openwrt-19.07 branch git-21.054.03371-3b137b5</li>
+</ul>
+
+
+<h2>拓扑图+工作原理</h2>
+
+<p><img src="/blog_reference_image/2021/3/openwrt-shadowsocks-arch.png" alt="topology map" /></p>
+
+<ol>
+<li><p>dnsmasq是openwrt自带的一个软件，提供dns缓存，dhcp等功能。dnsmasq会将dns查询数据包转发给chinadns。</p></li>
+<li><p>chinadns的上游DNS服务器有两个，一个是<code>国内DNS</code>，一个是<code>可信DNS</code>（国外DNS）。</p>
+
+<ul>
+<li>chinadns会同时向上游的DNS发送请求</li>
+<li>如果<code>可信DNS</code>先返回, 则直接采用<code>可信DNS</code>的结果</li>
+<li>如果<code>国内DNS</code>先返回, 分两种情况: 如果返回的结果是国内IP,则采用;否则丢弃并等待采用<code>可信DNS</code>的结果</li>
+</ul>
+</li>
+</ol>
+
+
+<p>3.dns-forwarder 支持DNS TCP查询, 如果ISP的UDP不稳定, 丢包严重,可以使用dns-forwarder来代替<code>ss-tunnel</code>来进行DNS查询.</p>
+
+<p>4.shadowsocks 用于转发数据包, 科学上网. 关于shadowsocks的科普文章可查看这里: <a href="https://www.css3er.com/p/107.html">https://www.css3er.com/p/107.html</a></p>
+
+<h2>相关的ipk软件包下载地址</h2>
+
+<p>ipk软件包集合, 不同的CPU架构需要使用不同的软件包, CPU架构是<code>mipsel_24kc</code>的话, 可以集中从这里下载.<br/>
+链接: <a href="https://pan.baidu.com/s/14QDoTLqw-SEBZvQVQeVgvA">https://pan.baidu.com/s/14QDoTLqw-SEBZvQVQeVgvA</a> 提取码: ugsc<br/>
+其它的CPU架构, 可以去GitHub主页 -> Releases下载别人已经编译好的软件包, 如果没有, 只能自己下载openWRT的SDK, 自己进行编译.</p>
+
+<ul>
+<li>shadowsocks-libev_3.3.5-1_mipsel_24kc.ipk</li>
+<li>shadowsocks-libev-server_3.3.5-1_mipsel_24kc.ipk</li>
+<li>ChinaDNS_1.3.3-1_mipsel_24kc.ipk</li>
+<li>dns-forwarder_1.2.1-2_mipsel_24kc.ipk</li>
+<li>luci-compat</li>
+<li>luci-app-shadowsocks-without-ipset_1.9.1-1_all.ipk</li>
+<li>luci-app-chinadns_1.6.2-1_all.ipk</li>
+<li>luci-app-dns-forwarder_1.6.2-1_all.ipk</li>
+</ul>
+
+
+<p>链接: <a href="https://pan.baidu.com/s/14QDoTLqw-SEBZvQVQeVgvA">https://pan.baidu.com/s/14QDoTLqw-SEBZvQVQeVgvA</a> 提取码: ugsc</p>
+
+<h3>openwrt-shadowsocks</h3>
+
+<p><strong>GitHub</strong>: <a href="https://github.com/shadowsocks/openwrt-shadowsocks">https://github.com/shadowsocks/openwrt-shadowsocks</a>  <br/>
+<strong>luci-app-shadowsocks</strong>: <a href="https://github.com/shadowsocks/luci-app-shadowsocks">https://github.com/shadowsocks/luci-app-shadowsocks</a></p>
+
+<ul>
+<li><p>shadowsocks-libev</p>
+
+<pre><code class="`"> 客户端/
+ └── usr/
+     └── bin/
+         ├── ss-local       // 提供 SOCKS 正向代理, 在透明代理工作模式下用不到这个.
+         ├── ss-redir       // 提供透明代理, 从 v2.2.0 开始支持 UDP
+         └── ss-tunnel      // 提供端口转发, 可用于 DNS 查询
+</code></pre></li>
+<li><p>shadowsocks-libev-server</p>
+
+<pre><code>服务端/
+└── usr/
+    └── bin/
+        └── ss-server      // 服务端可执行文件
+</code></pre></li>
+</ul>
+
+
+<h3>ChinaDNS</h3>
+
+<p><strong>GitHub</strong>: <a href="https://github.com/aa65535/openwrt-chinadns">https://github.com/aa65535/openwrt-chinadns</a><br/>
+<strong>原版ChinaDNS地址, 被请喝茶后已不再维护</strong>:<a href="https://github.com/shadowsocks/ChinaDNS">https://github.com/shadowsocks/ChinaDNS</a><br/>
+<strong>luci-app-chinadns</strong>: <a href="https://github.com/aa65535/openwrt-dist-luci">https://github.com/aa65535/openwrt-dist-luci</a></p>
+
+<p>更新 /etc/chinadns_chnroute.txt
+<code>
+ wget -O- 'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest' | awk -F\| '/CN\|ipv4/ { printf("%s/%d\n", $4, 32-log($5)/log(2)) }' &gt; /etc/chinadns_chnroute.txt
+</code></p>
+
+<h3>dns-forwarder</h3>
+
+<p><strong>GitHub</strong>: <a href="https://github.com/aa65535/openwrt-dns-forwarder">https://github.com/aa65535/openwrt-dns-forwarder</a><br/>
+<strong>luci-app-dns-forwarder</strong>: <a href="https://github.com/aa65535/openwrt-dist-luci">https://github.com/aa65535/openwrt-dist-luci</a></p>
+
+<h3>dnsmasq</h3>
+
+<p>openWRT自带, 无需自行下载安装.<br/>
+<strong>GitHub</strong>: <a href="https://github.com/aa65535/openwrt-dnsmasq">https://github.com/aa65535/openwrt-dnsmasq</a></p>
+
+<h2>Install</h2>
+
+<p>去软件项目的GitHub主页 -> Releases下面下载编译好的ipk, 如果没有符合的自己CPU架构的包, 则需要自己下载openWRT的SDK进行编译, 具体的教程各个主页上有.<br/>
+查看CPU架构的命令 <code>opkg print-architecture</code>:<br/>
+<code>bash
+root@OpenWrt:~# opkg print-architecture
+arch all 1
+arch noarch 1
+arch mipsel_24kc 10
+root@OpenWrt:~#
+</code>
+下载完成有两种方式安装<br/>
+方式一(建议): 通过web使用luci安装:
+路径: 系统 -> Software -> Upload Package&hellip; -> Install</p>
+
+<p>方式二: 直接在线通过opkg命令来安装(注意使用方式需要提前更新好软件源, <code>opkg update</code>):
+<code>
+opkg install luci-compat
+</code></p>
+
+<h2>Config</h2>
+
+<h3>方式一, 使用luci来配置</h3>
+
+<p>登录luci.</p>
+
+<ol>
+<li>配置ss-server <br/>
+ <code>服务</code> -> <code>影梭</code> -> <code>服务器管理</code>, 添加自己的shadowsocks server</li>
+<li>配置dnsmasq
+
+<ul>
+<li><code>网络</code> -> <code>DHCP/DNS</code> -> <code>常规设置</code> -> <code>本地服务器</code>, 设置为 <code>127.0.0.1#5353</code></li>
+<li><code>网络</code> -> <code>DHCP/DNS</code> -> <code>HOSTS和解析文件</code>, 勾选: <code>忽略解析文件</code></li>
+</ul>
+</li>
+<li>配置ChinaDNS<br/>
+ <code>服务</code> -> <code>ChinaDNS</code><br/>
+ 监听端口: <code>5353</code><br/>
+ 上游服务器修改为: <code>114.114.114.114,127.0.0.1#5300</code><br/>
+ 这样<code>国内DNS</code>: <code>114.114.114.114</code>, <code>可信DNS</code>: <code>127.0.0.1#5353</code>, 勾选 <code>启用</code>, 保存设置</li>
+<li>配置dns-forwarder<br/>
+ <code>服务</code> -> <code>DNS转发</code><br/>
+ 监听端口: <code>5300</code>
+ 监听地址: <code>0.0.0.0</code><br/>
+ 上游 DNS: <code>8.8.8.8</code>
+ 勾选, <code>启用</code> 保存</li>
+<li><p>配置shadowsocks 透明代理 + 访问控制<br/>
+ <code>服务</code> -> <code>影梭</code> -> <code>常规设置</code> -> <code>透明代理</code><br/>
+ <code>主服务器</code>, 选择setp1中配置的ss-server, 保存.<br/>
+ <code>服务</code>-> <code>影梭</code> -> <code>常规设置</code> -> <code>访问控制</code>-> <code>外网区域</code> <br/>
+ <code>被忽略IP列表</code>, 选择 <code>ChinaDNS路由表</code>, 保存设置.  注意这里的优先级: (走代理IP列表 = 强制走代理IP) > (额外被忽略IP = 被忽略IP列表)</p></li>
+<li><p><code>保存并应用</code> 所有配置, reboot openWRT</p></li>
+</ol>
+
+
+<h3>方式二, 直接编辑/etc/config目录下的文件</h3>
+
+<p>课外阅读: UCI System
+<a href="https://oldwiki.archive.openwrt.org/doc/uci">UCI system</a></p>
+
+<blockquote><p>The abbreviation UCI stands for Unified Configuration Interface and is intended to centralize the configuration of OpenWrt.</p></blockquote>
+
+<h4>/etc/config/shadowsocks</h4>
+
+<pre><code>root@OpenWrt:~# cat /etc/config/shadowsocks
+
+config general
+    option startup_delay '0'
+
+config transparent_proxy
+    option udp_relay_server 'nil'
+    option local_port '1234'
+    option mtu '1492'
+    list main_server 'cfg054a8f'
+
+config socks5_proxy
+    option local_port '1080'
+    option mtu '1492'
+    list server 'nil'
+
+config port_forward
+    option local_port '5300'
+    option mtu '1492'
+    option destination '8.8.8.8:53'
+    list server 'nil'
+
+config servers
+    option fast_open '0'
+    option no_delay '0'
+    option timeout '60'
+    option server '服务器地址,注意luci下这里只能是ip'
+    option server_port '端口'
+    option password '密码'
+    option encrypt_method '加密方式'
+    option alias 'ss服务别名'
+
+config access_control
+    option self_proxy '1'
+    option lan_target 'SS_SPEC_WAN_AC'
+    option wan_bp_list '/etc/chinadns_chnroute.txt'
+</code></pre>
+
+<h4>/etc/config/dhcp</h4>
+
+<pre><code>root@OpenWrt:~# cat /etc/config/dhcp
+
+config dnsmasq
+    option domainneeded '1'
+    option localise_queries '1'
+    option rebind_protection '1'
+    option rebind_localhost '1'
+    option domain 'lan'
+    option expandhosts '1'
+    option authoritative '1'
+    option readethers '1'
+    option leasefile '/tmp/dhcp.leases'
+    option localservice '1'
+    option local '127.0.0.1#5353'
+    option noresolv '1'
+...
+</code></pre>
+
+<h4>/etc/config/chinadns</h4>
+
+<pre><code>root@OpenWrt:~# cat /etc/config/chinadns
+
+config chinadns
+    option chnroute '/etc/chinadns_chnroute.txt'
+    option addr '0.0.0.0'
+    option port '5353'
+    option bidirectional '1'
+    option server '114.114.114.114,127.0.0.1#5300'
+    option enable '1'
+</code></pre>
+
+<h4>/etc/config/dns-forwarder</h4>
+
+<pre><code>root@OpenWrt:~# cat /etc/config/dns-forwarder
+
+config dns-forwarder
+    option listen_addr '0.0.0.0'
+    option listen_port '5300'
+    option enable '1'
+    option dns_servers '8.8.8.8'
+</code></pre>
+
+<p>验证配置是否生效  <br/>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>root@OpenWrt:~# netstat -lpn <span class="p">|</span> grep ss
+</span><span class='line'>Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+</span><span class='line'>tcp        <span class="m">0</span>      <span class="m">0</span> 0.0.0.0:1234            0.0.0.0:&lt;em&gt;               LISTEN      13469/ss-redir
+</span><span class='line'>root@OpenWrt:~# netstat -lpn <span class="p">|</span> grep 5353
+</span><span class='line'>udp        <span class="m">0</span>      <span class="m">0</span> 0.0.0.0:5353            0.0.0.0:&lt;/em&gt;                           1438/chinadns
+</span><span class='line'>root@OpenWrt:~# netstat -lpn <span class="p">|</span> grep 5300
+</span><span class='line'>udp        <span class="m">0</span>      <span class="m">0</span> 0.0.0.0:5300            0.0.0.0:&lt;em&gt;                           12993/dns-forwarder
+</span><span class='line'>root@OpenWrt:~# netstat -lpn <span class="p">|</span> grep 53
+</span><span class='line'>tcp        <span class="m">0</span>      <span class="m">0</span> 127.0.0.1:53            0.0.0.0:&lt;/em&gt;               LISTEN      2254/dnsmasq
+</span><span class='line'><span class="p">&amp;</span>hellip<span class="p">;</span>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;root@OpenWrt:~# nslookup google.com 127.0.0.1#5353
+</span><span class='line'>Server:     127.0.0.1
+</span><span class='line'>Address:    127.0.0.1#5353&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;Name:      google.com
+</span><span class='line'>Address 1: 142.250.72.238
+</span><span class='line'>Address 2: 2607:f8b0:4007:80d::200e
+</span><span class='line'>root@OpenWrt:~#
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h2>Issues</h2>
+
+<ul>
+<li>luci-app-shadowsocks 不支持domain的方式配置ss-server, 需要使用IP地址</li>
+</ul>
+
+
+<h2>Link</h2>
+
+<p><a href="https://www.youtube.com/watch?v=2SPQYsMmltE&amp;t=317s">https://www.youtube.com/watch?v=2SPQYsMmltE&amp;t=317s</a> - 十年老程 openwrt shadowsocks安装配置对应的视频教程
+<a href="http://snlcw.com/305.html">http://snlcw.com/305.html</a> - 上述教程对应的blog地址.
+<a href="https://www.youtube.com/channel/UCgo7XWK6MQBgKt0gBI6x3CA/videos">https://www.youtube.com/channel/UCgo7XWK6MQBgKt0gBI6x3CA/videos</a> - 十年老程的Youtube专栏，里面有各种科学上网的视频教程.
+<a href="https://openwrt.org/docs/guide-user/base-system/dhcp_configuration">https://openwrt.org/docs/guide-user/base-system/dhcp_configuration</a></p>
+]]></content>
+  </entry>
+  
+</feed>
