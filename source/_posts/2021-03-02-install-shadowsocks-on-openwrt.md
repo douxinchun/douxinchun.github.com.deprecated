@@ -5,6 +5,7 @@ date: 2021-03-02 01:21:57 +0800
 comments: true
 categories: [openwrt, shadowsocks]
 ---  
+
 本文主要记录在openWRT下安装和配置shadowsocks的简要过程，便于日后查找和备忘。成功安装后可以实现透明代理，分流和防DNS污染。
 
 ## Environment
