@@ -192,31 +192,7 @@ config dnsmasq
 	option localservice '1'
 	option local '127.0.0.1#5353'
 	option noresolv '1'
-
-config dhcp 'lan'
-	option interface 'lan'
-	option start '100'
-	option limit '150'
-	option leasetime '12h'
-	option dhcpv6 'server'
-	option ra 'server'
-	option ra_management '1'
-
-config dhcp 'wan'
-	option interface 'wan'
-	option ignore '1'
-
-config odhcpd 'odhcpd'
-	option maindhcp '0'
-	option leasefile '/tmp/hosts/odhcpd'
-	option leasetrigger '/usr/sbin/odhcpd-update'
-	option loglevel '4'
-
-config host
-	option mac '38:1A:52:55:5A:72'
-	option name 'Printer'
-	option dns '1'
-	option ip '192.168.6.121'
+...
 ```
 
 #### /etc/config/chinadns
@@ -254,31 +230,8 @@ root@OpenWrt:~# netstat -lpn | grep 5300
 udp        0      0 0.0.0.0:5300            0.0.0.0:*                           12993/dns-forwarder
 root@OpenWrt:~# netstat -lpn | grep 53
 tcp        0      0 127.0.0.1:53            0.0.0.0:*               LISTEN      2254/dnsmasq
-tcp        0      0 192.168.6.1:53          0.0.0.0:*               LISTEN      2254/dnsmasq
-tcp        0      0 192.168.1.5:53          0.0.0.0:*               LISTEN      2254/dnsmasq
-tcp        0      0 fe80::d65f:25ff:feed:6a4e:53 :::*                    LISTEN      2254/dnsmasq
-tcp        0      0 2409:8a00:7981:d9d0:d65f:25ff:feed:6a4d:53 :::*                    LISTEN      2254/dnsmasq
-tcp        0      0 2409:8a00:7981:d9d0::1:53 :::*                    LISTEN      2254/dnsmasq
-tcp        0      0 fe80::d65f:25ff:feed:6a4c:53 :::*                    LISTEN      2254/dnsmasq
-tcp        0      0 ::1:53                  :::*                    LISTEN      2254/dnsmasq
-tcp        0      0 fe80::d65f:25ff:feed:6a4c:53 :::*                    LISTEN      2254/dnsmasq
-tcp        0      0 fd78:9374:a544::1:53    :::*                    LISTEN      2254/dnsmasq
-tcp        0      0 fe80::d65f:25ff:feed:6a4c:53 :::*                    LISTEN      2254/dnsmasq
-tcp        0      0 fe80::d65f:25ff:feed:6a4d:53 :::*                    LISTEN      2254/dnsmasq
-udp        0      0 0.0.0.0:5353            0.0.0.0:*                           1438/chinadns
-udp        0      0 127.0.0.1:53            0.0.0.0:*                           2254/dnsmasq
-udp        0      0 192.168.6.1:53          0.0.0.0:*                           2254/dnsmasq
-udp        0      0 192.168.1.5:53          0.0.0.0:*                           2254/dnsmasq
-udp        0      0 0.0.0.0:5300            0.0.0.0:*                           12993/dns-forwarder
-udp        0      0 fe80::d65f:25ff:feed:6a4e:53 :::*                                2254/dnsmasq
-udp        0      0 2409:8a00:7981:d9d0:d65f:25ff:feed:6a4d:53 :::*                                2254/dnsmasq
-udp        0      0 2409:8a00:7981:d9d0::1:53 :::*                                2254/dnsmasq
-udp        0      0 fe80::d65f:25ff:feed:6a4c:53 :::*                                2254/dnsmasq
-udp        0      0 ::1:53                  :::*                                2254/dnsmasq
-udp        0      0 fe80::d65f:25ff:feed:6a4c:53 :::*                                2254/dnsmasq
-udp        0      0 fd78:9374:a544::1:53    :::*                                2254/dnsmasq
-udp        0      0 fe80::d65f:25ff:feed:6a4c:53 :::*                                2254/dnsmasq
-udp        0      0 fe80::d65f:25ff:feed:6a4d:53 :::*                                2254/dnsmasq
+...
+
 root@OpenWrt:~# nslookup google.com 127.0.0.1#5353
 Server:		127.0.0.1
 Address:	127.0.0.1#5353
