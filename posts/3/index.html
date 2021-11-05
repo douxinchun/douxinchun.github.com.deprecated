@@ -9,10 +9,12 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="由于是私有API,再键入的时候不会有提示,注意在提交AppStore之前需要全部删除. 1.查看View的层次结构 recursiveDescription eg:查看UISearchBar的View层级,找到Cancel-Button的位置并修改该按钮的样式 1
-2
-3
-4 &hellip;">
+  <meta name="description" content="效果图我的Blog右下角那个旋转的3D地图,可以显示地域和访客的数量.
+Widget获取地址在这里:
+https://www.revolvermaps.com/?target=setupgl
+可以根据自己的喜好设定.
+分两步添加到Octopress的侧边栏中:
+1,获取code,并创建文件 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,6 +87,67 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20151013/vistormap.html">为Octopress侧边栏增加访客地图</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-10-13T13:33:13+08:00'><span class='date'>2015 年10 月13 日</span> <span class='time'>1:33 pm</span></time>
+        
+           | <a href="/blog/20151013/vistormap.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20151013/vistormap.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>效果图我的Blog右下角那个旋转的3D地图,可以显示地域和访客的数量.<br/>
+Widget获取地址在这里:<br/>
+<a href="https://www.revolvermaps.com/?target=setupgl">https://www.revolvermaps.com/?target=setupgl</a><br/>
+可以根据自己的喜好设定.
+分两步添加到Octopress的侧边栏中:<br/>
+1,获取code,并创建文件<br/>
+<code>source/_includes/custom/asides/earth.html</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;section&gt;</span>
+</span><span class='line'><span class="nt">&lt;h1&gt;</span>访客地图<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;amp;m=0&amp;amp;s=220&amp;amp;c=ff0000&amp;amp;cr1=ffffff&amp;amp;f=arial&amp;amp;l=0&quot;</span> <span class="na">async=</span><span class="s">&quot;async&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;/section&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+2,修改配置文件<br/>
+<code>_config.yml</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">default_asides</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">custom/asides/about.html</span><span class="p-Indicator">,</span><span class="nv">asides/recent_posts.html</span><span class="p-Indicator">,</span> <span class="nv">asides/github.html</span><span class="p-Indicator">,</span> <span class="nv">asides/delicious.html</span><span class="p-Indicator">,</span> <span class="nv">asides/pinboard.html</span><span class="p-Indicator">,</span> <span class="nv">asides/googleplus.html</span><span class="p-Indicator">,</span><span class="nv">asides/category_list.html</span><span class="p-Indicator">,</span><span class="nv">custom/asides/recent_comments.html</span><span class="p-Indicator">,</span><span class="nv">custom/asides/earth.html</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -932,48 +995,6 @@ API中对应的是:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html">加快Octopress国内访问速度</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-05-11T14:13:23+08:00'><span class='date'>2015 年5 月11 日</span> <span class='time'>2:13 pm</span></time>
-        
-           | <a href="/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Overview</h2>
-
-<p>本文最主要引自<a href="http://www.chanjar.me/blog/2014/06/29/jia-kuai-octopressguo-nei-fang-wen-su-du/">加快octopress国内访问速度</a>和<a href="http://imxylz.com/blog/2013/09/22/move-google-fonts-to-local-server/">Octopress加速Google字体渲染</a>,以下内容是在这两篇博文的指导上结合自己实践经验的总结.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/20150511/accelerate-the-speed-of-access-octopress-in-china.html">阅读全文</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -997,6 +1018,10 @@ API中对应的是:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20211105/move-the-iphone-backups-to-a-external-disk.html">将 iPhone 备份文件迁移到外置磁盘</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20210302/install-shadowsocks-on-openwrt.html">OpenWRT下安装和配置shadowsocks</a>
       </li>
     
@@ -1010,10 +1035,6 @@ API中对应的是:</p>
     
       <li class="post">
         <a href="/blog/20180920/tips-of-google-search.html">Chrome中使用英文关键词搜索中文结果</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20180918/tips-of-xcode.html">Xcode 使用技巧</a>
       </li>
     
   </ul>
@@ -1034,10 +1055,11 @@ API中对应的是:</p>
 <li class='category'><a href='/blog/categories/google/'>google (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (9)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
+<li class='category'><a href='/blog/categories/itunes/'>itunes (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/lipo/'>lipo (1)</a></li>
-<li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
-<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (2)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (2)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (3)</a></li>
 <li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
 <li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
 <li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>

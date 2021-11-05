@@ -9,8 +9,7 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="本文主要记录在openWRT下安装和配置shadowsocks的简要过程，便于日后查找和备忘。成功安装后可以实现透明代理，分流和防DNS污染。 Environment 路由器型号：YouHua WR1200JS
-固件版本：OpenWrt 19.07.4 r11208-ce6496d796 / &hellip;">
+  <meta name="description" content="随着iPhone的不断升级迭代，手机闪存的容量也是越来越大。最新的 iPhone13 的起步闪存更是达到了128GB。这样的话，如果使用电脑的内置硬盘来存储iPhone的备份，那么将会浪费巨大的硬盘空间。比如，我的iPhone 13 pro，备份文件占硬盘70多个G。我平时主要是使用mac电脑， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +82,146 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20211105/move-the-iphone-backups-to-a-external-disk.html">将 iPhone 备份文件迁移到外置磁盘</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2021-11-05T17:03:06+08:00'><span class='date'>2021 年11 月5 日</span> <span class='time'>5:03 pm</span></time>
+        
+           | <a href="/blog/20211105/move-the-iphone-backups-to-a-external-disk.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20211105/move-the-iphone-backups-to-a-external-disk.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>随着iPhone的不断升级迭代，手机闪存的容量也是越来越大。最新的 iPhone13 的起步闪存更是达到了128GB。这样的话，如果使用电脑的内置硬盘来存储iPhone的备份，那么将会浪费巨大的硬盘空间。比如，我的iPhone 13 pro，备份文件占硬盘70多个G。我平时主要是使用mac电脑，内置硬盘空间不可扩充，内置硬盘空间简直是寸土寸金。</p>
+
+<p>本文主要介绍几种将iPhone的备份文件位置从内置硬盘迁移到外置硬盘（移动硬盘）上的方法。</p>
+
+<h2>方法一： 使用第三方备份软件</h2>
+
+<p>有一些第三方的备份软件，提供了自定义备份文件存放路径的选项， 比如 <a href="https://imazing.com/?gclid=EAIaIQobChMIh_GI6PSA9AIVmzArCh0TyQO3EAAYASAAEgLtFvD_BwE">iMazing</a></p>
+
+<p>可以直接在 [偏好设置] → [备份] 中直接修改默认的备份位置。</p>
+
+<p><strong>优点</strong></p>
+
+<ul>
+<li>操作简单，方便</li>
+<li>iMazing的备份速度似乎比系统的快</li>
+<li>三方软件提供了一些查看备份内容的功能，不过这个基本上用处不大，因为这本来就是备份文件，主要是用来防止原始文件丢失的，不用用来查看，操作文件的。</li>
+</ul>
+
+
+<p><strong>缺点</strong>:</p>
+
+<ul>
+<li>iMazing是一款收费软件，好在单机版license 不怎么贵，大概是￥100左右。</li>
+</ul>
+
+
+<h2>方法二：使用软链接将系统默认的备份位置链接到移动硬盘下的备份目录下</h2>
+
+<p>Mac OS存放iPhone备份文件的位置是：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/Library/Application Support/MobileSync/Backup</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Backup下每个文件夹代表一台设备。文件夹的命名不具有可读性，类似：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>00008020-000D389C366A002E 00008110-001421520A2A801E</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Setps：</p>
+
+<ol>
+<li><p>将 Backup 文件夹下所有的文件移到外置硬盘上，假设外置硬盘的路径为：<code>/Volumes/EcternalDisk/ios_backups</code></p></li>
+<li><p>删除<code>~/Library/Application Support/MobileSync/Backup</code> 文件夹</p></li>
+<li><p>使用软链接关联 <code>~/Library/Application Support/MobileSync/Backup</code> ，<code>/Volumes/EcternalDisk/ios_backups</code>, 具体的命令为：</p>
+
+<pre><code>ln -s /Volumes/EcternalDisk/ios_backups ~/Library/Application\ Support/MobileSync/Backup
+</code></pre></li>
+</ol>
+
+
+<p>这样，以后每次使用 iTunes或者Finder（maxOS Big Sur 11.6 中，iTunes中的备份功能被拆分到了Finder中）备份iPhone的时候，备份文件会自动存储到外置硬盘上。 这种方法的本质就是用软链接欺骗了系统。</p>
+
+<p><strong>优点</strong></p>
+
+<ul>
+<li>使用 macOS 原生的备份工具，不需要借助第三方软件。</li>
+</ul>
+
+
+<p><strong>缺点</strong></p>
+
+<ul>
+<li>备份速度超级慢，手机闪存容量稍微大一些（>16GB），就慢到无法使用。</li>
+</ul>
+
+
+<p>实际体验这个方法之后，我终于理解了为啥Apple不在 iTunes 中提供一个改变备份文件存储路径的选项了。我实际用128GB和256GB的手机测试了下，跑了一晚上，7-8个小时，结果备份没完成&hellip;, 分析了一个可能有一下原因：</p>
+
+<ul>
+<li>内置的硬盘是固态硬盘，外置硬盘一般都是机械硬盘，在数据传输速度上，机械硬盘远远低于固态硬盘</li>
+<li>备份文件琐碎，文件体积小，数量多，总体的体积却很大，这更加加重了外置硬盘的传输负担</li>
+<li>USB接口速率限制，我有一块老硬盘是USB2.0的接口，简直是雪上加霜。</li>
+</ul>
+
+
+<h2>方法三（推荐）：打成zip文件放在外置硬盘上</h2>
+
+<p>这种方法就比较简单了，既然备份文件就放在这里。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>~/Library/Application Support/MobileSync/Backup</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么，我只需要在备份完成之后，把每个设备文件夹打个zip包，扔到外置硬盘上就行，等需要用到备份文件的时候，再迁移回来即可。</p>
+
+<p><strong>优点</strong></p>
+
+<ul>
+<li>macOS 系统原生备份</li>
+</ul>
+
+
+<p><strong>缺点</strong></p>
+
+<ul>
+<li>需要在备份的时候临时占用电脑内置硬盘的一部分空间</li>
+</ul>
+
+
+<h2>Link</h2>
+
+<p><a href="https://sspai.com/post/33524">[将你的 iOS 设备备份到外置磁盘 | 一日一技 · Mac]</a></p>
+
+<p><a href="https://www.imore.com/how-move-your-iphone-or-ipad-backups-external-hard-drive">https://www.imore.com/how-move-your-iphone-or-ipad-backups-external-hard-drive</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1910,94 +2049,6 @@ openssl pkcs12 -in for-iis.pfx -out for-iis.pem -nodes
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html">Xcodebuild 使用注意事项</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2018-05-16T11:17:34+08:00'><span class='date'>2018 年5 月16 日</span> <span class='time'>11:17 am</span></time>
-        
-           | <a href="/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>1.xcodebuild cocoapod CONFIGURATION_BUILD_DIR</h2>
-
-<h3>现象</h3>
-
-<figure class='code'><figcaption><span>xcodebuild命令用法示例</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>xcodebuild -sdk iphoneos -configuration <span class="k">${</span><span class="nv">BUILD_CONFIGURATION</span><span class="k">}</span> -derivedDataPath<span class="o">=</span><span class="s2">&quot;../build&quot;</span> -workspace <span class="s1">&#39;../SohuInk.xcworkspace&#39;</span> -scheme <span class="s1">&#39;SohuInk_Jenkins&#39;</span> -archivePath <span class="s2">&quot;../SohuInk_Jenkins.xcarchive&quot;</span> archive
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果项目中使用了cocoapod并且xcodebuild 命令参数中指定了CONFIGURATION_BUILD_DIR并且值为相对路径,此时在Xcode Tools Version 5.0下的xcodebuild构建会报如下错误:</p>
-
-<figure class='code'><figcaption><span>error_info</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ld: warning: directory not found <span class="k">for</span> option <span class="s1">&#39;-L/XXXX/XXXX/pop&#39;</span>
-</span><span class='line'>ld: library not found <span class="k">for</span> -lAFNetworking
-</span><span class='line'>clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
-</span><span class='line'>
-</span><span class='line'>** ARCHIVE FAILED **
-</span><span class='line'>
-</span><span class='line'>The following build commands failed:
-</span><span class='line'>  Ld /Users/XXXX/XXXX/Objects-normal/arm64/SohuInk normal arm64
-</span><span class='line'>  Ld /Users/XXXX/XXXX normal armv7
-</span><span class='line'><span class="o">(</span><span class="m">2</span> failures<span class="o">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<h3>解决方案</h3>
-
-<h4>方案1,不好用</h4>
-
-<p>Xcode Tools version 5.0 支持参数 derivedDataPath 可以放弃CONFIGURATION_BUILD_DIR配置指定该参数,我实际操作是发现使用相对路径的情况下,虽然可以archive success,但是build的目录没有改变,依然在xcode默认的derivedData目录下.</p>
-
-<h4>方案2,OK</h4>
-
-<p>CONFIGURATION_BUILD_DIR的值指定为绝对路径,一切OK,可成功archive.</p>
-
-<h3>结论</h3>
-
-<blockquote><p>xcodebuild中的CONFIGURATION_BUILD_DIR值需要使用绝对路径</p></blockquote>
-
-<h2>参考链接</h2>
-
-<p><a href="https://stackoverflow.com/questions/11965040/xcodebuilding-a-workspace-and-setting-a-custom-build-path/12259098#12259098">Stackoverflow上关于使用xcodebuild CONFIGURATION_BUILD_DIR最好使用绝对路径的说明 @Chilloutman</a><br/>
-<a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html">https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -2019,6 +2070,10 @@ openssl pkcs12 -in for-iis.pfx -out for-iis.pem -nodes
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20211105/move-the-iphone-backups-to-a-external-disk.html">将 iPhone 备份文件迁移到外置磁盘</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20210302/install-shadowsocks-on-openwrt.html">OpenWRT下安装和配置shadowsocks</a>
       </li>
     
@@ -2032,10 +2087,6 @@ openssl pkcs12 -in for-iis.pfx -out for-iis.pem -nodes
     
       <li class="post">
         <a href="/blog/20180920/tips-of-google-search.html">Chrome中使用英文关键词搜索中文结果</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20180918/tips-of-xcode.html">Xcode 使用技巧</a>
       </li>
     
   </ul>
@@ -2056,10 +2107,11 @@ openssl pkcs12 -in for-iis.pfx -out for-iis.pem -nodes
 <li class='category'><a href='/blog/categories/google/'>google (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (9)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
+<li class='category'><a href='/blog/categories/itunes/'>itunes (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/lipo/'>lipo (1)</a></li>
-<li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
-<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (2)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (2)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (3)</a></li>
 <li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
 <li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
 <li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>

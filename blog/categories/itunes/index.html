@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>AutoLayout 使用总结 - 冷雨之家</title>
+  <title>分类：itunes - 冷雨之家</title>
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="1.如何计算UITableViewCell的高度 在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用sizeWithFont: 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予heightForRow &hellip;">
+  <meta name="description" content="Category: itunes">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://douxinchun.github.io/blog/20150720/autolayout-summary.html">
+  <link rel="canonical" href="http://douxinchun.github.io/blog/categories/itunes/index.html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   
@@ -81,132 +81,36 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">AutoLayout 使用总结</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-07-20T16:55:20+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>4:55 pm</span></time>
-        
-           | <a href="#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
+    <h1 class="entry-title">分类：itunes</h1>
     
   </header>
-
-
-<div class="entry-content"><h3>1.如何计算UITableViewCell的高度</h3>
-
-<p>在IOS的布局中，计算和适应cell的高度是个经典的问题, 在frame时代(springs和struts方式布局时代)，我们都知道用<code>sizeWithFont:</code> 先计算出文字的高度，然后通过计算得出cell的高度，然后赋予<code>heightForRow:</code>。</p>
-
-<p>那在Autolayout时代如何计算cell的高度呢？因为<code>sizeWithFont:</code>方法已经不太实用了。其实Autolayout不但更简单，还可以不用写过多的计算代码达到自适应高度。
-理论上是可以通过已知的完整的Constraints和view的属性来计算高度的，我们可以通过<code>systemLayoutSizeFittingSize:</code>方法来获取计算出来cell的size，我们知道cell的高度需要在tableView的代理方法<code>tableView:heightForRowAtIndexPath:</code>中实现的.</p>
-
-<p>可以参照:<a href="http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/">http://blog.cnbluebox.com/blog/2015/02/02/autolayout2/</a><br/>
-和<a href="http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">http://www.ifun.cc/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/</a>  这两篇文章基本讲的比较全面了.此处不重复.</p>
-
-<p>核心的API是<code>systemLayoutSizeFittingSize:</code>,这个方法可以计算出cell在完整约束下的高度,其中使用这种方式需要注意的是:<br/>
-1. UILabel以及UITextField等有<code>preferredMaxLayoutWidth</code>属性的VIew需要设置一下,不然计算出来的高度UILable的部分只有一行文字的高度<br/>
-2. 对于具有<code>intrinsicContentSize</code>的View需要在垂直方向上,将压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)设置为1000,最高级
-3. 要保证Cell在垂直方向上设置的Constraints,理论上可以计算出整个Cell的高度,可以降低某个垂直方向约束的优先级,来消除xib中的约束错误提示</p>
-
-<h3>2.AutoLayout下的动画</h3>
-
-<p>在使用Autolayout时，动画的使用和以前也不同了，以前我们是修改frame，现在我们可以通过修改Constraints, 然后在动画时layoutIfNeeded就行了。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//修改约束
-</span><span class='line'>...
-</span><span class='line'>[UIView animateWithDuration:0.2 animations:^{
-</span><span class='line'>    [view layoutIfNeeded];
-</span><span class='line'>}];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-Autolayout有时在动画时候会很方便，因为View之间的坐标是相互影响的，在传统frame中，如果改变一个view的frame,那么可能你要更改很多view的frame，才能让页面显得和谐。在Autolayout中可能只需要修改一个Constraint就可以了，在做动画时会很方便。</p>
-
-<h3>3.压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</h3>
-
-<p>对于<code>压缩阻力 (Compression Resistance) 和 内容吸附 (Content Hugging)</code>的介绍,可以参照这里:<a href="http://objccn.io/issue-3-5/">http://objccn.io/issue-3-5/</a><br/>
-API中对应的是:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (UILayoutPriority)contentHuggingPriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (UILayoutPriority)contentCompressionResistancePriorityForAxis:(UILayoutConstraintAxis)axis NS_AVAILABLE_IOS(6_0);
-</span><span class='line'>- (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayout
-</span><span class='line'>- </span></code></pre></td></tr></table></div></figure>
-
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Spring</span></span>
-
-      
+  <div id="blog-archives" class="category">
 
 
 
-
-<time class='entry-date' datetime='2015-07-20T16:55:20+08:00'><span class='date'>2015 年7 月20 日</span> <span class='time'>4:55 pm</span></time>
-      
-
-<span class="categories">
   
-    <a class='category' href='/blog/categories/ios/'>ios</a>
+  <h2>2021</h2>
+
+<article>
   
-</span>
+<h1><a href="/blog/20211105/move-the-iphone-backups-to-a-external-disk.html">将 iPhone 备份文件迁移到外置磁盘</a></h1>
+<time datetime="2021-11-05T17:03:06+08:00" pubdate><span class='month'>Nov</span> <span class='day'>05</span> <span class='year'>2021</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/itunes/'>itunes</a>, <a class='category' href='/blog/categories/mac/'>mac</a>, <a class='category' href='/blog/categories/mac-os-x/'>mac os x</a></span>
+</footer>
 
 
-    </p>
-    
-      <div class="sharing">
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/20150701/acccess-the-real-world-through-the-gfw.html" title="Previous Post: GoAgent+PHP 访问Google">&laquo; GoAgent+PHP 访问Google</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/20150720/xcodezhong-de-diao-shi-qi-lldb.html" title="Next Post: Xcode中的调试器LLDB">Xcode中的调试器LLDB &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  </section>
+
+  
+</article>
 
 <!--
 
@@ -313,10 +217,7 @@ API中对应的是:</p>
       var disqus_shortname = 'newspringblog';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://douxinchun.github.io/blog/20150720/autolayout-summary.html';
-        var disqus_url = 'http://douxinchun.github.io/blog/20150720/autolayout-summary.html';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -9,7 +9,8 @@
   <meta name="author" content="Spring">
 
   
-  <meta name="description" content="Mac 命令行编辑快捷键的方法，对Mac的应用有所帮助。 Mac 命令行命令 Command Description history 显示命令历史列表 ↑(Ctrl+p) 显示上一条命令 ↓(Ctrl+n) 显示下一条命令 clear 清除 shell 提示屏幕 exit 注销 history &hellip;">
+  <meta name="description" content="1.xcodebuild cocoapod CONFIGURATION_BUILD_DIR 现象 xcodebuild命令用法示例1
+xcodebuild -sdk iphoneos -configuration ${BUILD_CONFIGURATION} -derivedDataPath=& &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,6 +83,94 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html">Xcodebuild 使用注意事项</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-05-16T11:17:34+08:00'><span class='date'>2018 年5 月16 日</span> <span class='time'>11:17 am</span></time>
+        
+           | <a href="/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html#disqus_thread"
+             data-disqus-identifier="http://douxinchun.github.io/blog/20180516/xcodebuild-shi-yong-zhu-yi-shi-xiang.html">Comments</a>
+        
+		<!--
+	    
+		-->
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>1.xcodebuild cocoapod CONFIGURATION_BUILD_DIR</h2>
+
+<h3>现象</h3>
+
+<figure class='code'><figcaption><span>xcodebuild命令用法示例</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>xcodebuild -sdk iphoneos -configuration <span class="k">${</span><span class="nv">BUILD_CONFIGURATION</span><span class="k">}</span> -derivedDataPath<span class="o">=</span><span class="s2">&quot;../build&quot;</span> -workspace <span class="s1">&#39;../SohuInk.xcworkspace&#39;</span> -scheme <span class="s1">&#39;SohuInk_Jenkins&#39;</span> -archivePath <span class="s2">&quot;../SohuInk_Jenkins.xcarchive&quot;</span> archive
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果项目中使用了cocoapod并且xcodebuild 命令参数中指定了CONFIGURATION_BUILD_DIR并且值为相对路径,此时在Xcode Tools Version 5.0下的xcodebuild构建会报如下错误:</p>
+
+<figure class='code'><figcaption><span>error_info</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ld: warning: directory not found <span class="k">for</span> option <span class="s1">&#39;-L/XXXX/XXXX/pop&#39;</span>
+</span><span class='line'>ld: library not found <span class="k">for</span> -lAFNetworking
+</span><span class='line'>clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code <span class="m">1</span> <span class="o">(</span>use -v to see invocation<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>** ARCHIVE FAILED **
+</span><span class='line'>
+</span><span class='line'>The following build commands failed:
+</span><span class='line'>  Ld /Users/XXXX/XXXX/Objects-normal/arm64/SohuInk normal arm64
+</span><span class='line'>  Ld /Users/XXXX/XXXX normal armv7
+</span><span class='line'><span class="o">(</span><span class="m">2</span> failures<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h3>解决方案</h3>
+
+<h4>方案1,不好用</h4>
+
+<p>Xcode Tools version 5.0 支持参数 derivedDataPath 可以放弃CONFIGURATION_BUILD_DIR配置指定该参数,我实际操作是发现使用相对路径的情况下,虽然可以archive success,但是build的目录没有改变,依然在xcode默认的derivedData目录下.</p>
+
+<h4>方案2,OK</h4>
+
+<p>CONFIGURATION_BUILD_DIR的值指定为绝对路径,一切OK,可成功archive.</p>
+
+<h3>结论</h3>
+
+<blockquote><p>xcodebuild中的CONFIGURATION_BUILD_DIR值需要使用绝对路径</p></blockquote>
+
+<h2>参考链接</h2>
+
+<p><a href="https://stackoverflow.com/questions/11965040/xcodebuilding-a-workspace-and-setting-a-custom-build-path/12259098#12259098">Stackoverflow上关于使用xcodebuild CONFIGURATION_BUILD_DIR最好使用绝对路径的说明 @Chilloutman</a><br/>
+<a href="https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html">https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/xcodebuild.1.html</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -837,7 +926,7 @@ SMS的详细介绍可以在Apple的官方文档上查看 <a href="https://suppor
 ssh 连接命令常用格式:
 `ssh [-l login_name] [-p port] [user@]hostname<br/>
 示例:<br/>
-$ ssh <a href="&#109;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x72;&#111;&#x6f;&#116;&#64;&#x31;&#x30;&#46;&#x32;&#x2e;&#x39;&#x38;&#x2e;&#56;&#55;">&#x72;&#111;&#111;&#116;&#x40;&#x31;&#x30;&#x2e;&#x32;&#46;&#x39;&#x38;&#x2e;&#x38;&#x37;</a><br/>
+$ ssh <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x72;&#111;&#x6f;&#x74;&#64;&#x31;&#48;&#46;&#50;&#x2e;&#x39;&#x38;&#x2e;&#56;&#55;">&#x72;&#x6f;&#x6f;&#x74;&#x40;&#49;&#48;&#x2e;&#50;&#x2e;&#57;&#56;&#x2e;&#x38;&#55;</a><br/>
 默认的openssh连接密码为:alpine</p>
 
 <p>一、iPhone的图片是放在：/private /var/ mobile/Media /DCIM当中的。</p>
@@ -1231,67 +1320,6 @@ $ openssl pkcs12 -nocerts -out key.pem -in key.p12
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/20151013/vistormap.html">为Octopress侧边栏增加访客地图</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-10-13T13:33:13+08:00'><span class='date'>2015 年10 月13 日</span> <span class='time'>1:33 pm</span></time>
-        
-           | <a href="/blog/20151013/vistormap.html#disqus_thread"
-             data-disqus-identifier="http://douxinchun.github.io/blog/20151013/vistormap.html">Comments</a>
-        
-		<!--
-	    
-		-->
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>效果图我的Blog右下角那个旋转的3D地图,可以显示地域和访客的数量.<br/>
-Widget获取地址在这里:<br/>
-<a href="https://www.revolvermaps.com/?target=setupgl">https://www.revolvermaps.com/?target=setupgl</a><br/>
-可以根据自己的喜好设定.
-分两步添加到Octopress的侧边栏中:<br/>
-1,获取code,并创建文件<br/>
-<code>source/_includes/custom/asides/earth.html</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;section&gt;</span>
-</span><span class='line'><span class="nt">&lt;h1&gt;</span>访客地图<span class="nt">&lt;/h1&gt;</span>
-</span><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;//ra.revolvermaps.com/0/0/6.js?i=0qld21p02br&amp;amp;m=0&amp;amp;s=220&amp;amp;c=ff0000&amp;amp;cr1=ffffff&amp;amp;f=arial&amp;amp;l=0&quot;</span> <span class="na">async=</span><span class="s">&quot;async&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
-</span><span class='line'><span class="nt">&lt;/section&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-2,修改配置文件<br/>
-<code>_config.yml</code></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">default_asides</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">custom/asides/about.html</span><span class="p-Indicator">,</span><span class="nv">asides/recent_posts.html</span><span class="p-Indicator">,</span> <span class="nv">asides/github.html</span><span class="p-Indicator">,</span> <span class="nv">asides/delicious.html</span><span class="p-Indicator">,</span> <span class="nv">asides/pinboard.html</span><span class="p-Indicator">,</span> <span class="nv">asides/googleplus.html</span><span class="p-Indicator">,</span><span class="nv">asides/category_list.html</span><span class="p-Indicator">,</span><span class="nv">custom/asides/recent_comments.html</span><span class="p-Indicator">,</span><span class="nv">custom/asides/earth.html</span><span class="p-Indicator">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -1315,6 +1343,10 @@ Widget获取地址在这里:<br/>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/20211105/move-the-iphone-backups-to-a-external-disk.html">将 iPhone 备份文件迁移到外置磁盘</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/20210302/install-shadowsocks-on-openwrt.html">OpenWRT下安装和配置shadowsocks</a>
       </li>
     
@@ -1328,10 +1360,6 @@ Widget获取地址在这里:<br/>
     
       <li class="post">
         <a href="/blog/20180920/tips-of-google-search.html">Chrome中使用英文关键词搜索中文结果</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/20180918/tips-of-xcode.html">Xcode 使用技巧</a>
       </li>
     
   </ul>
@@ -1352,10 +1380,11 @@ Widget获取地址在这里:<br/>
 <li class='category'><a href='/blog/categories/google/'>google (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>ios (9)</a></li>
 <li class='category'><a href='/blog/categories/ioskai-fa-guo-cheng-zhong-yu-dao-de-keng/'>ios开发过程中遇到的坑 (1)</a></li>
+<li class='category'><a href='/blog/categories/itunes/'>itunes (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/lipo/'>lipo (1)</a></li>
-<li class='category'><a href='/blog/categories/mac/'>mac (1)</a></li>
-<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (2)</a></li>
+<li class='category'><a href='/blog/categories/mac/'>mac (2)</a></li>
+<li class='category'><a href='/blog/categories/mac-os-x/'>mac os x (3)</a></li>
 <li class='category'><a href='/blog/categories/macbook-pro/'>macbook pro (1)</a></li>
 <li class='category'><a href='/blog/categories/macos/'>macos (1)</a></li>
 <li class='category'><a href='/blog/categories/objective-c/'>objective_c (1)</a></li>
